@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"nextUrl":"https://api.aries.com/v1/financials/short-volume?next=...","requestId":"c701bead81e94e7186f6042474b117d8","results":[{"adfShortVolume":0,"adfShortVolumeExempt":0,"date":"2024-02-06","exemptVolume":67840,"nasdaqCarteretShortVolume":5298900,"nasdaqCarteretShortVolumeExempt":63532,"nasdaqChicagoShortVolume":28784,"nasdaqChicagoShortVolumeExempt":0,"nonExemptVolume":5615873,"nyseShortVolume":356029,"nyseShortVolumeExempt":4308,"shortVolume":5683713,"shortVolumeRatio":34.95,"ticker":"AAPL","totalVolume":16264662}],"status":"OK"}

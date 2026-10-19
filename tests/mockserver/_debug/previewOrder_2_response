@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"buyingPowerImpact":"120.0975","commission":"0","estimatedCost":"240.25","estimatedMargin":"60.04875","fees":"0","numDayTrades":0,"optionFees":"0","optionPremium":"0","optionRequirement":"0","warnRuleId":"0"}

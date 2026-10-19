@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"data":[{"EPS3YearGrowthRate":17.6111,"EPS5YearGrowthRate":11.0713,"EPSDiluted":2.84,"EPSLatest12Month":18.3333,"PE":32.181,"askExchange":"BATS|BATS Trading","askPrice":268,"askSize":500,"assets":379297000,"avgVolume4Weeks":38174153,"bidExchange":"EDGX|Direct Edge X","bidPrice":267.5,"bidSize":1400,"closePrice":273.43,"dividend":0.26,"hasOptions":true,"high52WeekDate":"2025-12-03T00:00:00Z","high52WeekPrice":288.62,"highPrice":273.06,"instrumentType":"Equity","isETF":false,"lastPrice":271.06,"liabilities":291107000,"longTermDebt":905090000,"low52WeekDate":"2025-04-08","low52WeekPrice":169.2101,"lowPrice":269.65,"marketCap":30064771072,"midPrice":267.75,"name":"Apple Inc.","netChange":-3.53,"openPrice":272.78,"price":267.53,"quoteTimestamp":"2026-04-27T05:38:09.901-04:00","sharesOutstanding":14681140,"shortSaleRestricted":0,"sicCode":3663,"size":1,"spread":0.5,"symbol":"AAPL","tick":0,"totalVolume":300562,"tradeExchange":"PACF|NYSE ARCA (Pacific)","tradeSeq":1009904,"tradeTimestamp":"2026-04-27T05:38:10.674-04:00","type":"ETRADE"}]}

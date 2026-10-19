@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"data":[{"change":-57,"cusip":"023135106","name":"Worth Asset Management, LLC","putCall":"","share":1743,"symbol":"TSLA","value":197000}]}

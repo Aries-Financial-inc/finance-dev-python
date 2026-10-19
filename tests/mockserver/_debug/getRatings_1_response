@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"ratings":[{"action_company":"maintain","action_pt":"raised","analyst":"jdoe","analyst_id":"an-9001","analyst_name":"Jane Doe","currency":"USD","date":"2026-01-12","exchange":"NASDAQ","id":"rate-1001","importance":2,"name":"Apple Inc.","notes":"Services outlook improved.","pt_current":210,"pt_current_adjusted":208.5,"pt_prior":195,"pt_prior_adjusted":194,"rating_current":"Buy","rating_prior":"Hold","ratings_accuracy":{"avg_return_1m":0.021,"avg_return_1y":0.18,"avg_return_2y":0.31,"avg_return_3m":0.055,"avg_return_3y":0.42,"avg_return_9m":0.12,"gain_count_1m":8,"gain_count_1y":72,"gain_count_2y":130,"gain_count_3m":22,"gain_count_3y":180,"gain_count_9m":58,"loss_count_1m":3,"loss_count_1y":28,"loss_count_2y":48,"loss_count_3m":9,"loss_count_3y":65,"loss_count_9m":21,"smart_score":72.5,"std_dev_return_1m":0.045,"std_dev_return_1y":0.22,"std_dev_return_2y":0.28,"std_dev_return_3m":0.09,"std_dev_return_3y":0.33,"std_dev_return_9m":0.14,"success_rate":0.68,"total_ratings":140},"ticker":"AAPL","time":"09:45:00","updated":"2026-01-12T09:45:00Z"}]}

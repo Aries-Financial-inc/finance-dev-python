@@ -1,0 +1,10 @@
+GET /v1/calendars/mergers-acquisitions?dateFrom=2024-01-01&dateTo=2024-12-31&tickers=AAPL%2CMSFT&page=0&pageSize=50 HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: f6f9c2c0-6e4b-48b2-9291-1dd4081f03f5
+X-Speakeasy-Test-Name: getMergersAndAcquisitions
+

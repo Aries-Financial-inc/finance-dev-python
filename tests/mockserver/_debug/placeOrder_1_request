@@ -1,0 +1,13 @@
+POST /v1/orders HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+Content-Length: 115
+Content-Type: application/json
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: a6858cc7-8ef0-4317-8d24-1fb8f9243d28
+X-Speakeasy-Test-Name: placeOrder-equityMarket
+
+{"qty":"10","side":"BUY","symbol":"AAPL","timeInForce":"DAY","tradingAccountId":"TEST-ACCOUNT-001","type":"MARKET"}

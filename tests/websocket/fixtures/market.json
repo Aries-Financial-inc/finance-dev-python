@@ -1,0 +1,3 @@
+{"type":"event","payload":{"action":"snapshot","type":"quote","symbol":"AAPL","data":{"bidPrice":189.94,"askPrice":189.96},"id":"sub-2"}}
+{"type":"event","payload":{"action":"update","type":"quote","symbol":"AAPL","data":{"bidPrice":189.95},"id":"sub-2"}}
+{"type":"event","payload":{"action":"update","type":"level2","symbol":"AAPL","data":{"orderBook":"bid|100|189.94"}}}

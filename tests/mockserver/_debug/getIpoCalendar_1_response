@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"ipos":[{"date":"2024-07-16","exchange":"","name":"Expectation Acquisition Corp","priceFrom":0,"priceTo":0,"status":"filed","symbol":"ESPAU","totalSharesValue":69000000}]}

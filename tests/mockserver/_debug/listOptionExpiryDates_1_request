@@ -1,0 +1,10 @@
+GET /v1/options/%3Cvalue%3E/expiry-dates HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 65936deb-cbba-446b-91ec-459ba07a2d66
+X-Speakeasy-Test-Name: listOptionExpiryDates-success
+

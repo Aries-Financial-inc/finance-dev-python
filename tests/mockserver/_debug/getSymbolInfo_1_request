@@ -1,0 +1,10 @@
+GET /v1/chart/symbols?symbol=AAPL HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 8be5e757-2b02-46e1-b4c5-eb8dfb1c7cd0
+X-Speakeasy-Test-Name: getSymbolInfo
+

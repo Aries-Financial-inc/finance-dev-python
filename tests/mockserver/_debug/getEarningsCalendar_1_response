@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+[{"analystRating":{"averageReturn":"15.3%","currentRating":"Buy","priceTarget":200.5,"successRate":"72%","totalRatings":45},"date":"2024-01-16","epsActual":2.18,"epsEstimate":2.1,"epsSurprise":0.08,"hour":"amc","importance":3,"logo":{"logoDark":"https://example.com/aapl-dark.png","logoLight":"https://example.com/aapl-light.png"},"marketCap":2850000,"name":"Apple Inc.","quarter":1,"revenueActual":119580000000,"revenueEstimate":118000000000,"revenueSurprise":1580000000,"symbol":"AAPL","time":"06:45:00","year":2024}]

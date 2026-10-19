@@ -1,0 +1,10 @@
+GET /v1/economy/inflation?date=2024-01-15&dates=2024-01-15%2C2024-01-16&dateFrom=2024-01-01&dateTo=2024-01-31&dateAfter=2024-01-01&dateBefore=2024-01-31&limit=100 HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: e5030a72-71d3-41d2-9dc1-0bff3e255e11
+X-Speakeasy-Test-Name: getInflation-success
+

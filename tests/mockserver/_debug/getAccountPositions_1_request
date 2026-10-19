@@ -1,0 +1,10 @@
+GET /v1/accounts/TEST-ACCOUNT-001/positions HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 928f1f20-68b5-4351-92d2-1e6143998c20
+X-Speakeasy-Test-Name: getAccountPositions
+

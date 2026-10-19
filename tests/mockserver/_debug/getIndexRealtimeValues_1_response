@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"items":[{"identifier":"SPX.IND_CBOM","identifierType":"Symbol","index":{"currency":"USD","indexGroup":"IND_CBOM","indexName":"S\u0026P 500","symbol":"SPX","valoren":"998434"},"value":{"changeFromOpen":6.04,"changeFromPreviousClose":74.52,"close":6581,"date":"3/23/2026","high":6651.62,"high52Weeks":6978.6,"last":6581,"low":6565.55,"low52Weeks":4982.77,"open":6574.96,"percentChangeFromOpen":0.0919,"percentChangeFromPreviousClose":1.1453,"previousClose":6506.48,"previousCloseDate":"3/20/2026","time":"5:11:38 PM","utcOffset":-4,"volume":0}}]}

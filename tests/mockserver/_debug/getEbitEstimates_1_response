@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"ebitEstimates":{"data":[{"ebitAvg":36118999040,"ebitHigh":37274001408,"ebitLow":34582003712,"numberAnalysts":25,"period":"2027-09-30","quarter":4,"year":2027},{"ebitAvg":26133999616,"ebitHigh":26983999488,"ebitLow":24916000768,"numberAnalysts":25,"period":"2027-06-30","quarter":3,"year":2027},{"ebitAvg":23142000640,"ebitHigh":23946999808,"ebitLow":21992001536,"numberAnalysts":25,"period":"2027-03-31","quarter":2,"year":2027}],"freq":"quarterly","symbol":"AAPL"}}

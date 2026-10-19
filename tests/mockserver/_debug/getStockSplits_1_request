@@ -1,0 +1,10 @@
+GET /v1/stock/split?ticker=AAPL&tickersAnyOf=AAPL%2CTSLA%2CNVDA&tickerFrom=A&tickerAfter=A&tickerTo=Z&tickerBefore=Z&executionDate=2020-08-31&executionDateFrom=2020-01-01&executionDateAfter=2020-01-01&executionDateTo=2024-12-31&executionDateBefore=2024-12-31&adjustmentType=forward_split&adjustmentTypes=forward_split%2Creverse_split&limit=100 HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 6af43410-de81-466a-a1f4-d596d7c6f1dd
+X-Speakeasy-Test-Name: getStockSplits-default
+

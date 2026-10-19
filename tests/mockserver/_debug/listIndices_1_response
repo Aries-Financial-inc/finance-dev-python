@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"indices":[{"currency":"USD","indexGroup":"IND_CBOM","indexName":"S\u0026P 500","symbol":"SPX"}],"nextPage":"AFEFB09147DA3C09B6A280B0A807F239"}

@@ -1,0 +1,10 @@
+GET /v1/marketdata/equities/details?symbols=AAPL%2CMSFT HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 9b8f9e6f-24d6-4dcb-b30b-9f6dcfc8abc9
+X-Speakeasy-Test-Name: getEquityDetails
+

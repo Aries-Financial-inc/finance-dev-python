@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"data":{"technicalAnalysis":{"count":{"buy":3,"neutral":8,"sell":5},"signal":"neutral"},"trend":{"adx":25.959386825561523,"trending":true}}}

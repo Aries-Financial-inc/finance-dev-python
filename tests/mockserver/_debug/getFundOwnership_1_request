@@ -1,0 +1,10 @@
+GET /v1/ownership/fund?symbol=%3Cvalue%3E HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 08907666-5a03-463d-90d4-ad09514b3260
+X-Speakeasy-Test-Name: getFundOwnership-default
+

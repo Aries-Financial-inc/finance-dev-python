@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"afterHours":107.34,"close":107.34,"date":"2024-12-16","high":107.34,"low":107.34,"open":107.34,"preMarket":107.34,"ticker":"O:AAPL251219C00150000","volume":2}

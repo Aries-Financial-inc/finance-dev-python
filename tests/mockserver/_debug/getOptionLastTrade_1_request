@@ -1,0 +1,10 @@
+GET /v1/options/last-trade?ticker=O%3AAAPL230120C00150000 HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 81d7dfdb-6169-4833-9a8a-4894a8c4262b
+X-Speakeasy-Test-Name: getOptionLastTrade
+

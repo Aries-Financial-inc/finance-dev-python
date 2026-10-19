@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"revenueEstimates":{"data":[{"numberAnalysts":25,"period":"2027-09-30","quarter":4,"revenueAvg":136963997696,"revenueHigh":143836995584,"revenueLow":13001984,"year":2027},{"numberAnalysts":25,"period":"2027-06-30","quarter":3,"revenueAvg":100541997056,"revenueHigh":103684997120,"revenueLow":97506000000,"year":2027},{"numberAnalysts":25,"period":"2027-03-31","quarter":2,"revenueAvg":94224998400,"revenueHigh":96551002112,"revenueLow":90791997440,"year":2027}],"freq":"quarterly","symbol":"AAPL"}}

@@ -1,0 +1,13 @@
+POST /v1/stock/screener?order_direction=asc HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+Content-Length: 205
+Content-Type: application/json
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 996ebb5f-f853-4d8c-bfa4-21287aef479f
+X-Speakeasy-Test-Name: stockScreener-marketCapAndPE
+
+{"clauses":[{"field":"marketcap","operator":"gte","value":"1000000000"},{"field":"pricetoearnings","operator":"gte","value":"5"},{"field":"pricetoearnings","operator":"lte","value":"25"}],"operator":"AND"}

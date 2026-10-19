@@ -1,0 +1,11 @@
+# QuotesResponse
+
+Response body for quote requests. Use it to render current market prices for one or more symbols.
+
+
+## Fields
+
+| Field                                                                                                                | Type                                                                                                                 | Required                                                                                                             | Description                                                                                                          |
+| -------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `d`                                                                                                                  | List[[models.QuoteData](../models/quotedata.md)]                                                                     | :heavy_minus_sign:                                                                                                   | Quote records for the requested symbols. Iterate this array and use each record's `s` value to match the symbol.     |
+| `s`                                                                                                                  | [Optional[models.QuotesResponseS]](../models/quotesresponses.md)                                                     | :heavy_minus_sign:                                                                                                   | Overall quote response status. `ok` means quote data was returned; `error` means the request could not be fulfilled. |

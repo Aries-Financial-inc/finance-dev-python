@@ -1,0 +1,10 @@
+GET /v1/chart/time HTTP/1.1
+Host: localhost:18080
+Accept: text/plain
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: cf774f04-5b80-4063-97ea-77e3216d154a
+X-Speakeasy-Test-Name: getChartTime
+

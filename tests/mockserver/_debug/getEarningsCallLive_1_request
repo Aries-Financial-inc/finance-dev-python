@@ -1,0 +1,10 @@
+GET /v1/stock/earnings-call-live?symbol=AAPL HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: e571501e-13bc-440b-afc8-c298863a0083
+X-Speakeasy-Test-Name: getEarningsCallLive
+

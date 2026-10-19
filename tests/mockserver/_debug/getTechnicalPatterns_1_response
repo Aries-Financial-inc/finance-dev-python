@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"data":{"points":[{"aprice":213.58,"atime":1745971200,"bprice":0,"btime":0,"cprice":0,"ctime":0,"dprice":197.02,"dtime":1746489600,"end_price":0,"end_time":0,"entry":0,"eprice":0,"etime":0,"mature":1,"patternname":"two black gapping","patterntype":"bearish","profit1":0,"profit2":0,"sortTime":1746489600,"start_price":0,"start_time":0,"status":"complete","stoploss":0,"symbol":"AAPL.US","terminal":0}]}}

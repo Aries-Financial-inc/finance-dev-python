@@ -1,0 +1,10 @@
+GET /v1/stock/transcripts/list?symbol=AAPL HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 71538622-fc88-4924-8944-6b5e7f08d5a4
+X-Speakeasy-Test-Name: listTranscripts
+

@@ -1,0 +1,10 @@
+GET /v1/equity/top-losers?limit=10&size=10 HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 672ce505-2bc0-4229-8554-b43cb40af915
+X-Speakeasy-Test-Name: getTopLosers
+

@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"data":{"cik":"320193","data":[{"acceptedDate":"2025-05-02 06:00:46","accessNumber":"0000320193-25-000057","cik":"320193","endDate":"2025-03-29 00:00:00","filedDate":"2025-05-02 00:00:00","form":"10-Q","quarter":2,"report":{"bs":[{"concept":"us-gaap_ComprehensiveIncomeNetOfTax","label":"Total comprehensive income","unit":"usd","value":61919000000}]},"startDate":"2024-09-29 00:00:00","symbol":"AAPL","year":2025}],"symbol":"AAPL"}}

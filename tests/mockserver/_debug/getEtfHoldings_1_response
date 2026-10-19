@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"data":{"holdings":[{"assetType":"Equity","cusip":"037833100","isin":"US0378331005","name":"Apple Inc","percent":7.171259880065918,"share":1210000000,"symbol":"AAPL","value":464000000000},{"assetType":"Equity","cusip":"594918104","isin":"US5949181045","name":"Microsoft Corp","percent":6.791339874267578,"share":790000000,"symbol":"MSFT","value":439000000000},{"assetType":"Equity","cusip":"023135106","isin":"US0231351067","name":"Amazon.com Inc","percent":3.60932993888855,"share":1010000000,"symbol":"AMZN","value":233000000000}],"numberOfHoldings":504,"symbol":"SPY"}}

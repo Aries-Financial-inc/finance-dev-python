@@ -1,0 +1,19 @@
+# SupplyChainResponseData
+
+
+## Fields
+
+| Field                                                         | Type                                                          | Required                                                      | Description                                                   |
+| ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- |
+| `country`                                                     | *Optional[str]*                                               | :heavy_minus_sign:                                            | Country of the related company.                               |
+| `customer`                                                    | *Optional[bool]*                                              | :heavy_minus_sign:                                            | Whether the related company is a customer.                    |
+| `industry`                                                    | *Optional[str]*                                               | :heavy_minus_sign:                                            | Industry of the related company.                              |
+| `name`                                                        | *Optional[str]*                                               | :heavy_minus_sign:                                            | Name of the related company.                                  |
+| `one_month_correlation`                                       | *Optional[float]*                                             | :heavy_minus_sign:                                            | Price correlation with the related company over one month.    |
+| `one_year_correlation`                                        | *Optional[float]*                                             | :heavy_minus_sign:                                            | Price correlation with the related company over one year.     |
+| `six_month_correlation`                                       | *Optional[float]*                                             | :heavy_minus_sign:                                            | Price correlation with the related company over six months.   |
+| `supplier`                                                    | *Optional[bool]*                                              | :heavy_minus_sign:                                            | Whether the related company is a supplier.                    |
+| `symbol`                                                      | *Optional[str]*                                               | :heavy_minus_sign:                                            | Ticker symbol of the related company.                         |
+| `three_month_correlation`                                     | *Optional[float]*                                             | :heavy_minus_sign:                                            | Price correlation with the related company over three months. |
+| `two_week_correlation`                                        | *Optional[float]*                                             | :heavy_minus_sign:                                            | Price correlation with the related company over two weeks.    |
+| `two_year_correlation`                                        | *Optional[float]*                                             | :heavy_minus_sign:                                            | Price correlation with the related company over two years.    |

@@ -1,0 +1,10 @@
+GET /v1/company/metrics?symbol=AAPL&metric=all HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: abd09deb-2fa5-483f-8c3b-21511646a51b
+X-Speakeasy-Test-Name: getCompanyMetrics-default
+

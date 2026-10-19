@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"data":[{"askPrice":80.9,"bidPrice":78.05,"closePrice":93.5,"lastPrice":79.76,"midPrice":79.475,"symbol":"GOOG270115C00285000"}]}

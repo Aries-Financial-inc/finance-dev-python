@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"transactions":[{"change":1852,"filingDate":"2024-02-05","name":"BELL JAMES A","share":38527,"symbol":"AAPL","transactionCode":"M","transactionDate":"2024-02-01","transactionPrice":0}]}

@@ -1,0 +1,14 @@
+POST /v1/predictions/orders HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+Content-Length: 232
+Content-Type: application/json
+Idempotency-Key: 7d1c8e0a-4b8f-4e3a-9f43-2a6b1d0c9e11
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 277209bf-8d97-43a9-a0b0-1b3746f9123a
+X-Speakeasy-Test-Name: placePredictionOrder
+
+{"accountId":"ACCOUNT-0001","orderType":"limit","outcome":"YES","quantity":"10","side":"buy","symbol":"HORC_1126_Republican","timeInForce":"day","clientOrderRef":"7d1c8e0a-4b8f-4e3a-9f43-2a6b1d0c9e11","price":"0.54","stopPx":"0.50"}

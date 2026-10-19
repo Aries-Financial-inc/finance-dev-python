@@ -1,0 +1,13 @@
+POST /v1/orders/replace HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+Content-Length: 160
+Content-Type: application/json
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 89129e65-7768-4eea-aa10-7ea5c8e922ed
+X-Speakeasy-Test-Name: replaceOrder-changeQuantity
+
+{"origClOrdId":"ORDER-123456","symbol":"AAPL","tradingAccountId":"TEST-ACCOUNT-001","price":"150.00","qty":"20","side":"BUY","timeInForce":"DAY","type":"LIMIT"}

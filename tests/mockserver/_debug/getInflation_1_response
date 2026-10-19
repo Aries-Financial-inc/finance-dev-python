@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"nextUrl":"https://api.aries.com/v1/economy/inflation?next=...","requestId":"6f5e44c7321c4947a7702654d2d3e0fa","results":[{"cpi":324.368,"cpiCore":330.542,"date":"2025-09-01","pce":127.625,"pceCore":126.954,"pceSpending":21152.2},{"cpi":316.449,"cpiCore":322.619,"cpiYearOverYear":2.74938,"date":"2024-11-01","pce":124.637,"pceCore":123.962,"pceSpending":20313.6}],"status":"OK"}

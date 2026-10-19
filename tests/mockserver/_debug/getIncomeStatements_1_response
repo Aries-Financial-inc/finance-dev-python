@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"nextUrl":"https://api.aries.com/v1/financials/income-statements?limit=5\u0026next=AiYPBEFBUEwpDwlxdWFydGVybHkCAgABAQABAQUAAgEJ-_B0AQ8KMDAwMDMyMDE5Mw%3D%3D\u0026tickersAnyOf=AAPL\u0026timeframe=quarterly","requestId":"87fbffe186684ff1a4297e43d17fa8f7","results":[{"basicEarningsPerShare":0.13,"basicSharesOutstanding":25299176000,"cik":"0000320193","consolidatedNetIncomeLoss":3378000000,"costOfRevenue":9272000000,"dilutedEarningsPerShare":0.13,"dilutedSharesOutstanding":25753924000,"ebitda":4934000000,"filingDate":"2011-01-19","fiscalQuarter":1,"fiscalYear":2010,"grossProfit":6411000000,"incomeBeforeIncomeTaxes":4758000000,"incomeTaxes":1380000000,"netIncomeLossAttributableCommonShareholders":3378000000,"operatingIncome":4725000000,"otherIncomeExpense":33000000,"otherOperatingExpenses":0,"periodEnd":"2009-12-26","researchDevelopment":398000000,"revenue":15683000000,"sellingGeneralAdministrative":1288000000,"tickers":["AAPL"],"timeframe":"quarterly","totalOperatingExpenses":1686000000,"totalOtherIncomeExpense":33000000}],"status":"OK"}

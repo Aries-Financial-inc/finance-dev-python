@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"holidays":[{"atDate":"2026-12-25","eventName":"Christmas Day","tradingHour":""},{"atDate":"2026-12-24","eventName":"Christmas Day","tradingHour":"09:30-13:00"}]}

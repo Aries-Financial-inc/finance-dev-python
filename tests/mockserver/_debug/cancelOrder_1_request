@@ -1,0 +1,13 @@
+POST /v1/orders/cancel HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+Content-Length: 200
+Content-Type: application/json
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 097cb37c-c9e1-421c-a9c5-0135be654daf
+X-Speakeasy-Test-Name: cancelOrder
+
+{"accountId":"<id>","origClOrdId":"ORDER-123456","side":"BUY","symbol":"AAPL","maturity":"2025-01-17","putCall":"CALL","securityType":"CS","strikePrice":"150.00","tradingAccountId":"TEST-ACCOUNT-001"}

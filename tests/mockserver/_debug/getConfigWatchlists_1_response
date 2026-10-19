@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"user_id":98765,"watchlist":[{"id":12345,"name":"Tech Stocks","symbols":["AAPL","GOOGL","MSFT"]},{"id":12346,"name":"Finance","symbols":["JPM","BAC","GS"]}]}

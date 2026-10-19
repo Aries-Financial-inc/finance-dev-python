@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"expiryDates":["2025-01-17","2025-01-24","2025-01-31","2025-02-21"],"symbol":"AAPL"}

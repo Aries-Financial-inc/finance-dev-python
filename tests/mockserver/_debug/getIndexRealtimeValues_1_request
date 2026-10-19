@@ -1,0 +1,10 @@
+GET /v1/indices/realtime/values?identifiers=%3Cvalue%3E&identifierType=Symbol HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 7a759e1a-845b-4d2b-8789-7d25fdade20f
+X-Speakeasy-Test-Name: getIndexRealtimeValues-success
+

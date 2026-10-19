@@ -1,0 +1,9 @@
+GET /v1/predictions/events/HORC_1126/contracts HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 16c56dc5-7923-4067-8c63-4040156c9b5e
+X-Speakeasy-Test-Name: getEventContracts
+

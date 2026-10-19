@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"activities":[{"aggressorInd":"0.0","ask":"0.55","bid":"0.54","costBasis":"26352.000000000004","date":"2024-12-31","dateExpiration":"2025-01-02","description":"SPDR S\u0026P 500 Option Alert: Jan 2 $591 Calls Sweep (5) near the Bid: 488 vs 2017 OI","descriptionExtended":"SPDR S\u0026P 500 Option Alert: Jan 2 $591 Calls Sweep (5) near the Bid: 488 @ $0.54 vs 2017 OI; Ref=$586.4","exchange":"ARCA","executionEstimate":"AT_BID","id":"67745ec4c88d4e00015ce121","midpoint":"0.545","openInterest":"2017","optionActivityType":"SWEEP","optionSymbol":"SPY250102C00591000","price":"0.54","putCall":"CALL","sentiment":"BEARISH","size":"488","strikePrice":"591.00","ticker":"SPY","time":"16:14:43","tradeCount":"5","underlyingPrice":"586.4","underlyingType":"ETF","updated":1735679684,"volume":"37933"}]}

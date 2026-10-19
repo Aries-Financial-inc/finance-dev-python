@@ -1,0 +1,10 @@
+GET /v1/equity/sector-tickers?sector=TECHNOLOGY HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 33987e53-d20b-4a0b-bf62-4bc08abc922a
+X-Speakeasy-Test-Name: getSectorTickers
+

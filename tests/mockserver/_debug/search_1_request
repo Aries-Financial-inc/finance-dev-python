@@ -1,0 +1,9 @@
+GET /v1/predictions/search?type=contracts&q=unemployment+june&state=ACTIVE&baseEventId=UNR&eventId=UNR_0822&category=Elections+%3E+United+States+House&page=1&perPage=20 HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: cffc10c4-4c22-405c-9326-5c1e9e535628
+X-Speakeasy-Test-Name: search
+

@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"nextUrl":"https://api.aries.com/v1/economy/treasury-yields?next=...","requestId":"0cacd52605954a20afa995624faa46b9","results":[{"date":"2025-12-22","yield10Year":4.17,"yield1Month":3.72,"yield1Year":3.53,"yield2Year":3.44,"yield30Year":4.84,"yield3Month":3.64,"yield5Year":3.71}],"status":"OK"}

@@ -1,0 +1,1 @@
+{"type":"event","payload":{"type":"quotes","symbol":"AAPL","data":{"isDelayed":false,"quote":{"s":"ok","n":"AAPL","v":{"ch":4.77,"chp":1.8,"short_name":"AAPL","exchange":"NASDAQ","lp":269.35,"ask":269.36,"bid":269.34,"open_price":263.48,"high_price":269.43,"low_price":263.38,"prev_close_price":264.58,"volume":48234100}},"trade":{"s":"ok","t":1771871819,"lp":269.35,"v":100}}}}

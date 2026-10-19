@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+[{"category":"Employment","country":"US","dateTime":"2026-01-15T08:30:00Z","frequency":"monthly","historicalDataSymbol":"USURTOT","lastUpdate":"2026-01-15T08:30:00Z","value":3.7}]

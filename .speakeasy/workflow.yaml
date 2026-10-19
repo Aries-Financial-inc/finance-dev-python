@@ -1,0 +1,31 @@
+workflowVersion: 1.0.0
+speakeasyVersion: 1.802.0
+sources:
+    aries-prod-spec:
+        inputs:
+            - location: registry.speakeasyapi.dev/aries/aries/aries-prod-spec:latest
+        overlays:
+            - location: .speakeasy/speakeasy-modifications-overlay.yaml
+        transformations:
+            - filterOperations:
+                operations: createOAuth2Token
+                exclude: true
+            - removeUnused: true
+        output: .speakeasy/out.openapi.yaml
+        registry:
+            location: registry.speakeasyapi.dev/aries/aries/aries-prod-spec
+targets:
+    finance-dev:
+        target: python
+        source: aries-prod-spec
+        publish:
+            pypi:
+                token: $pypi_token
+        codeSamples:
+            registry:
+                location: registry.speakeasyapi.dev/aries/aries/aries-prod-spec-python-code-samples
+            labelOverride:
+                fixedValue: Python (SDK)
+            blocking: false
+        testing:
+            enabled: true

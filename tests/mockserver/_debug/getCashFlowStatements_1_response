@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"nextUrl":"https://api.aries.com/v1/financials/cash-flow-statements?limit=5\u0026next=ASYPBEFBUEwCAgABAQABAQUAAgEJ-zp0AQ8KMDAwMDMyMDE5Mw%3D%3D\u0026tickersAnyOf=AAPL","requestId":"d9ebd27856db41dc8f24f8118f9cada0","results":[{"cashFromOperatingActivitiesContinuingOperations":5781000000,"changeInCashAndEquivalents":2346000000,"changeInOtherOperatingAssetsAndLiabilitiesNet":1564000000,"cik":"0000320193","depreciationDepletionAndAmortization":209000000,"dividends":0,"filingDate":"2011-01-19","fiscalQuarter":1,"fiscalYear":2010,"longTermDebtIssuancesRepayments":0,"netCashFromFinancingActivities":523000000,"netCashFromFinancingActivitiesContinuingOperations":523000000,"netCashFromInvestingActivities":-3958000000,"netCashFromInvestingActivitiesContinuingOperations":-3958000000,"netCashFromOperatingActivities":5781000000,"netIncome":3378000000,"otherFinancingActivities":523000000,"otherInvestingActivities":-3582000000,"otherOperatingActivities":630000000,"periodEnd":"2009-12-26","purchaseOfPropertyPlantAndEquipment":-376000000,"tickers":["AAPL"],"timeframe":"quarterly"}],"status":"OK"}

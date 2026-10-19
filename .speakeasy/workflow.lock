@@ -1,0 +1,56 @@
+speakeasyVersion: 1.802.0
+sources:
+    Aries Trading Platform API:
+        sourceNamespace: aries-trading-platform-api
+        sourceRevisionDigest: sha256:39a29993f6d67b908fff211f45adae6df687332542ca6ab11a710478ae82bfeb
+        sourceBlobDigest: sha256:406a58411a4327525cc1882ff1679a53e1b55247495ef702c81433f3aab6f63c
+        tags:
+            - latest
+            - 1.0.0
+    aries-prod-spec:
+        sourceNamespace: aries-prod-spec
+        sourceRevisionDigest: sha256:eb1abd5fb62270aae877ee5936bc2211a00fc89b716da33475b2da898bf4f5d7
+        sourceBlobDigest: sha256:02d86f37d88e4eb12b2adaee7abc868961249c293617cb9bbe2a28aa5cd02291
+        tags:
+            - latest
+            - 1.0.0
+targets:
+    finance-dev:
+        source: aries-prod-spec
+        sourceNamespace: aries-prod-spec
+        sourceRevisionDigest: sha256:eb1abd5fb62270aae877ee5936bc2211a00fc89b716da33475b2da898bf4f5d7
+        sourceBlobDigest: sha256:02d86f37d88e4eb12b2adaee7abc868961249c293617cb9bbe2a28aa5cd02291
+        codeSamplesNamespace: aries-prod-spec-python-code-samples
+        codeSamplesRevisionDigest: sha256:1ef31533bd63be4b6f21c95d7293aaad47ff7322f93aaa0fc51911269ff6af45
+workflow:
+    workflowVersion: 1.0.0
+    speakeasyVersion: 1.802.0
+    sources:
+        aries-prod-spec:
+            inputs:
+                - location: registry.speakeasyapi.dev/aries/aries/aries-prod-spec:latest
+            overlays:
+                - location: .speakeasy/speakeasy-modifications-overlay.yaml
+            transformations:
+                - filterOperations:
+                    operations: createOAuth2Token
+                    exclude: true
+                - removeUnused: true
+            output: .speakeasy/out.openapi.yaml
+            registry:
+                location: registry.speakeasyapi.dev/aries/aries/aries-prod-spec
+    targets:
+        finance-dev:
+            target: python
+            source: aries-prod-spec
+            publish:
+                pypi:
+                    token: $pypi_token
+            codeSamples:
+                registry:
+                    location: registry.speakeasyapi.dev/aries/aries/aries-prod-spec-python-code-samples
+                labelOverride:
+                    fixedValue: Python (SDK)
+                blocking: false
+            testing:
+                enabled: true

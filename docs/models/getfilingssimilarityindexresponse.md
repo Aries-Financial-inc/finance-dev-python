@@ -1,0 +1,9 @@
+# GetFilingsSimilarityIndexResponse
+
+
+## Fields
+
+| Field                                                                                          | Type                                                                                           | Required                                                                                       | Description                                                                                    |
+| ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `http_meta`                                                                                    | [models.HTTPMetadata](../models/httpmetadata.md)                                               | :heavy_check_mark:                                                                             | N/A                                                                                            |
+| `filings_similarity_index_response`                                                            | [Optional[models.FilingsSimilarityIndexResponse]](../models/filingssimilarityindexresponse.md) | :heavy_minus_sign:                                                                             | Filings similarity index.                                                                      |

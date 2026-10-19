@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"requestId":"a47d1beb8c11b6ae897ab76a1b095d8d","results":[{"adjustmentType":"forward_split","executionDate":"2020-08-31","historicalAdjustmentFactor":0.25,"id":"E987D589F61E7FAE48774F7C79B0E801","splitFrom":1,"splitTo":4,"ticker":"AAPL"}],"status":"OK"}

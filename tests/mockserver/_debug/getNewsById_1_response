@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"action":"","authors":["John Author"],"body":"Full news article content here...","id":12345,"news_type":"news","symbols":["AAPL","MSFT"],"timestamp":"2024-02-16T10:30:00Z","title":"Apple Announces New Product"}

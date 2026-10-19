@@ -1,0 +1,12 @@
+# QuoteData
+
+One quote record in a quote response. Use `s` to match each record back to the requested symbol.
+
+
+## Fields
+
+| Field                                                                                                   | Type                                                                                                    | Required                                                                                                | Description                                                                                             |
+| ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| `n`                                                                                                     | *Optional[str]*                                                                                         | :heavy_minus_sign:                                                                                      | Display name returned for the quoted instrument or venue.                                               |
+| `s`                                                                                                     | *Optional[str]*                                                                                         | :heavy_minus_sign:                                                                                      | Symbol this quote record belongs to. Match this against the symbol requested in the `symbols` query.    |
+| `v`                                                                                                     | [Optional[models.QuoteValues]](../models/quotevalues.md)                                                | :heavy_minus_sign:                                                                                      | Market quote values for a symbol. Use bid/ask for trading decisions and last price for display context. |

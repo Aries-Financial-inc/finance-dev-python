@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"holdings":[{"change":-73860,"cusip":"N44821101","name":"INFLARX NV","putCall":"","share":0,"symbol":"IFRX","value":0}]}

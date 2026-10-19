@@ -1,0 +1,13 @@
+PUT /v1/config/watchlist HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+Content-Length: 2
+Content-Type: application/json
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 14d07fa1-8368-4384-b41f-3f09cd55f4dd
+X-Speakeasy-Test-Name: replaceConfigWatchlists-resetAll
+
+[]

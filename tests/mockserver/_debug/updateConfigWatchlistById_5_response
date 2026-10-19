@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"id":12345,"invalid_symbols":["NOTASYMBOL"],"name":"Growth Stocks","symbols":["AAPL","GOOGL"]}

@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"data":{"contracts":[{"baseEventId":"\u003cid\u003e","eventId":"\u003cid\u003e","lastSyncedAt":"2024-08-22T02:52:07.818Z","nonTradable":true,"state":"Pennsylvania","symbol":"\u003cvalue\u003e","symbolSubTypes":[],"tickSize":"0.01","tradable":false}],"event":{"baseEventId":"\u003cid\u003e","eventId":"\u003cid\u003e","lastSyncedAt":"2025-09-06T06:35:19.053Z","timeSpecifier":"2026.06"}},"success":true}

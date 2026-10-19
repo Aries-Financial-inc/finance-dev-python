@@ -1,0 +1,10 @@
+GET /v1/stock/ebit-estimate?symbol=AAPL&freq=quarterly HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: eb42a6e8-433c-44a5-b4f1-d67723689785
+X-Speakeasy-Test-Name: getEbitEstimates-default
+

@@ -1,0 +1,10 @@
+GET /v1/stocks/unified-snapshot?type=stocks&ticker=AAPL&tickersAnyOf=AAPL%2CTSLA%2CGOOG&tickerFrom=A&tickerAfter=A&tickerTo=Z&tickerBefore=Z&order=asc&limit=10 HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 6d9d4c3a-2ec6-4e0d-a692-9f9a1ba00ea0
+X-Speakeasy-Test-Name: getUnifiedSnapshot
+

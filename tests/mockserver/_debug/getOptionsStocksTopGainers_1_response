@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+[{"ask":3.5,"bid":3.4,"change":0.22,"changePercent":6.81,"expiry":"2024-01-19","impliedVolatility":0.28,"lastPrice":3.45,"logoUrl":"https://cdn.example.com/logos/AAPL.png","openInterest":45000,"strike":190,"symbol":"AAPL240119C00190000","type":"c","underlyingSymbol":"AAPL","volume":12500}]

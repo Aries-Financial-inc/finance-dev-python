@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"lastUpdated":"2025-12-03 00:00:00","numberAnalysts":48,"symbol":"AAPL","targetHigh":341.25,"targetLow":217.15,"targetMean":286.45,"targetMedian":286.61}

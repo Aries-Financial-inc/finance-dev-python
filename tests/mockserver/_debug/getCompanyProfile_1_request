@@ -1,0 +1,10 @@
+GET /v1/company/profile?symbol=AAPL&isin=US0378331005&cusip=037833100 HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: c25a80a8-8013-40eb-8d46-b4e3c95fd1cc
+X-Speakeasy-Test-Name: getCompanyProfile-default
+

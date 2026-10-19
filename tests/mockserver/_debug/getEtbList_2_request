@@ -1,0 +1,10 @@
+GET /v1/etb HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: afd756ae-eb1b-4717-ac99-c5919311678f
+X-Speakeasy-Test-Name: getEtbList-success
+

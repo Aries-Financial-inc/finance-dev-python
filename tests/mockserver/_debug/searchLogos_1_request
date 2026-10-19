@@ -1,0 +1,10 @@
+GET /v1/logos/search?searchKeys=AAPL%2CMSFT&fields=logo_light%2Clogo_dark%2Cmark_light%2Cmark_dark&searchKeysType=symbol&compositeAuto=false HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 0a9fc44b-e7df-4076-8e27-6eccdd00ae46
+X-Speakeasy-Test-Name: searchLogos
+

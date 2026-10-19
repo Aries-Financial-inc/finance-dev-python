@@ -1,0 +1,13 @@
+# UpgradesDowngradesResponseData
+
+
+## Fields
+
+| Field                                                                   | Type                                                                    | Required                                                                | Description                                                             |
+| ----------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| `action`                                                                | *Optional[str]*                                                         | :heavy_minus_sign:                                                      | Type of rating action, such as upgrade, downgrade, initiate or maintain |
+| `company`                                                               | *Optional[str]*                                                         | :heavy_minus_sign:                                                      | Name of the firm that issued the rating change                          |
+| `from_grade`                                                            | *Optional[str]*                                                         | :heavy_minus_sign:                                                      | Previous rating                                                         |
+| `grade_time`                                                            | *Optional[int]*                                                         | :heavy_minus_sign:                                                      | Time of the rating change as a Unix timestamp                           |
+| `symbol`                                                                | *Optional[str]*                                                         | :heavy_minus_sign:                                                      | Stock ticker symbol                                                     |
+| `to_grade`                                                              | *Optional[str]*                                                         | :heavy_minus_sign:                                                      | New rating                                                              |

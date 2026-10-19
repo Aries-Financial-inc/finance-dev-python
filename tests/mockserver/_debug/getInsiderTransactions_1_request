@@ -1,0 +1,10 @@
+GET /v1/ownership/insider-transactions?symbol=%3Cvalue%3E HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 6e4066b2-6c7a-4560-9fa3-bec0e96cf374
+X-Speakeasy-Test-Name: getInsiderTransactions-default
+

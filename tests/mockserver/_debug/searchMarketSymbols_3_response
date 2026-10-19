@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+[{"description":"Apple Inc.","symbol":"AAPL","tag":"XNAS","type":"stock"},{"description":"AAPL Jan 19 2024 190 Call","symbol":"AAPL240119C00190000","tag":"OPRA","type":"option"}]

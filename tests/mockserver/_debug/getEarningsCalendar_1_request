@@ -1,0 +1,10 @@
+GET /v1/calendars/earnings?from=2024-01-01&to=2024-01-31&symbol=AAPL HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 0d1edd6b-5b02-4fce-8fce-ce2461116a81
+X-Speakeasy-Test-Name: getEarningsCalendar-success
+

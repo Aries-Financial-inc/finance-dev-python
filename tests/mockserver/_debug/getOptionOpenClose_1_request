@@ -1,0 +1,10 @@
+GET /v1/options/open-close?ticker=%3Cvalue%3E&date=2024-10-03 HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: c080fbaa-686a-4515-a8db-a9c233449360
+X-Speakeasy-Test-Name: getOptionOpenClose-success
+

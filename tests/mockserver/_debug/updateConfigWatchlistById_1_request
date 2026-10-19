@@ -1,0 +1,13 @@
+PATCH /v1/config/watchlist/12345 HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+Content-Length: 50
+Content-Type: application/json
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 733078d6-4f91-49a9-84a5-c70378be9713
+X-Speakeasy-Test-Name: updateConfigWatchlistById-addAndRemoveSymbols
+
+{"add_symbols":["TSLA"],"remove_symbols":["MSFT"]}

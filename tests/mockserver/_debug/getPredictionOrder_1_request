@@ -1,0 +1,10 @@
+GET /v1/predictions/orders/3e3ab03f-d246-4072-b29f-8558498115de HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: d69384af-605b-4b78-91b4-15d9e1cdb883
+X-Speakeasy-Test-Name: getPredictionOrder
+

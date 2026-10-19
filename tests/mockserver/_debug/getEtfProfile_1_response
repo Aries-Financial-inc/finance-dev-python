@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"data":{"profile":{"assetClass":"Equity","aum":722624708608,"avgVolume":71473536,"cusip":"78462F103","description":"SPY was created on 1993-01-22 by SPDR. The fund's investment portfolio concentrates primarily on large cap equity. The ETF currently has 715474.27m in AUM and 504 holdings. SPY tracks a market cap-weighted index of US large- and mid-cap stocks selected by the S\u0026P Committee.","domicile":"US","etfCompany":"SPDR","expenseRatio":0.09449999779462814,"inceptionDate":"1993-01-22","investmentSegment":"Large Cap","isin":"US78462F1030","logo":"https://api.aries.com/v1/logos/image/f2/etf_logo/9115112100114451159711010011253484845101116102451161146.png","name":"SPDR S\u0026P 500 ETF Trust","nav":680.6957397460938,"navCurrency":"USD","priceToBook":5.355377197265625,"priceToEarnings":27.603900909423828,"trackingIndex":"S\u0026P 500","website":"https://www.ssga.com/us/en/intermediary/etfs/spdr-sp-500-etf-trust-spy"},"symbol":"SPY"}}

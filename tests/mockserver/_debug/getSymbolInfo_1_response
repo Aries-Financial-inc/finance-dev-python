@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"daily_multipliers":["\u003cvalue 1\u003e"],"description":"bran serialize ultimate naturally than phooey huzzah","exchange":"\u003cvalue\u003e","format":"\u003cvalue\u003e","has_daily":true,"has_intraday":true,"has_seconds":true,"has_ticks":false,"has_weekly_and_monthly":true,"intraday_multipliers":[],"listed_exchange":"\u003cvalue\u003e","minmov":8533.24,"monthly_multipliers":["\u003cvalue 1\u003e"],"name":"\u003cvalue\u003e","pricescale":5280,"session":"\u003cvalue\u003e","subsession_id":"\u003cid\u003e","subsessions":[],"supported_resolutions":["\u003cvalue 1\u003e"],"ticker":"\u003cvalue\u003e","timezone":"Pacific/Niue","type":"stock","visible_plots_set":"\u003cvalue\u003e","volume_precision":433.17,"weekly_multipliers":["\u003cvalue 1\u003e","\u003cvalue 2\u003e","\u003cvalue 3\u003e"]}

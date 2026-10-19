@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"data":[{"change":14962890,"filingDate":"2025-06-30","name":"The Vanguard Group, Inc.","percentOfShares":0,"share":1409216610,"source":""}]}

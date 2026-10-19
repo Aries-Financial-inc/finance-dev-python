@@ -1,0 +1,11 @@
+# GetHistoryRequest
+
+
+## Fields
+
+| Field                                                           | Type                                                            | Required                                                        | Description                                                     | Example                                                         |
+| --------------------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------- |
+| `symbol`                                                        | *str*                                                           | :heavy_check_mark:                                              | N/A                                                             | HORC_1126_Republican                                            |
+| `from_`                                                         | *Optional[str]*                                                 | :heavy_minus_sign:                                              | RFC3339 timestamp or Unix seconds/milliseconds.                 | 2026-04-01T00:00:00Z                                            |
+| `to`                                                            | *Optional[str]*                                                 | :heavy_minus_sign:                                              | RFC3339 timestamp or Unix seconds/milliseconds.                 | 2026-04-20T00:00:00Z                                            |
+| `limit`                                                         | *Optional[int]*                                                 | :heavy_minus_sign:                                              | 0 or omitted means 10000; values above 10000 are clamped to it. | 500                                                             |

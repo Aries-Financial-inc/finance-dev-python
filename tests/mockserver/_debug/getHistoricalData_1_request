@@ -1,0 +1,10 @@
+GET /v1/calendars/historical/USURTOT HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: f8882b28-1be4-41d5-8695-99d4311f619c
+X-Speakeasy-Test-Name: getHistoricalData
+

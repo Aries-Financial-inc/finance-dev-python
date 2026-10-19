@@ -1,0 +1,1026 @@
+overlay: 1.0.0
+x-speakeasy-jsonpath: rfc9535
+info:
+  title: Speakeasy Modifications
+  version: 0.0.6
+  x-speakeasy-metadata:
+    after: ""
+    before: ""
+    type: speakeasy-modifications
+actions:
+  - target: $.components.schemas.BasicFinancials.properties.metric.additionalProperties
+    remove: true
+  - target: $.components.schemas.BasicFinancials.properties.metric
+    update:
+      additionalProperties:
+        anyOf:
+          - type: number
+            nullable: true
+          - type: string
+            nullable: true
+      properties:
+        52WeekHighDate:
+          type: string
+          description: Date when the 52-week high was reached
+  - target: $["paths"]["/v1/stock/price-target"]["get"]
+    update:
+      x-speakeasy-group: stockEstimates
+      x-speakeasy-name-override: getPriceTarget
+    x-speakeasy-metadata:
+      after: sdk.stockEstimates.getPriceTarget()
+      before: sdk.Stock Estimates.get_/v1/stock/price-target()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/scan/technical-indicator"]["get"]
+    update:
+      x-speakeasy-group: technicalAnalysis
+      x-speakeasy-name-override: get_technical_indicator
+    x-speakeasy-metadata:
+      after: sdk.technicalAnalysis.get_technical_indicator()
+      before: sdk.Technical Analysis.get_/v1/scan/technical-indicator()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/ownership/data"]["get"]
+    update:
+      x-speakeasy-name-override: getData
+    x-speakeasy-metadata:
+      after: sdk.ownership.getData()
+      before: sdk.Ownership.get_/v1/ownership/data()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/corporate-actions/dividends"]["get"]
+    update:
+      x-speakeasy-group: corporateActions
+      x-speakeasy-name-override: getDividends
+    x-speakeasy-metadata:
+      after: sdk.corporateActions.getDividends()
+      before: sdk.Corporate Actions.get_/v1/corporate-actions/dividends()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/economy/inflation"]["get"]
+    update:
+      x-speakeasy-name-override: getInflation
+    x-speakeasy-metadata:
+      after: sdk.economy.getInflation()
+      before: sdk.Economy.get_/v1/economy/inflation()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/company/metrics"]["get"]
+    update:
+      x-speakeasy-name-override: get_financial_metrics
+    x-speakeasy-metadata:
+      after: sdk.company.get_financial_metrics()
+      before: sdk.Company.get_/v1/company/metrics()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/options/unusual_activity/{symbol}"]["get"]
+    update:
+      x-speakeasy-name-override: getUnusualActivity
+    x-speakeasy-metadata:
+      after: sdk.options.getUnusualActivity()
+      before: sdk.Options.getOptionsUnusualActivity()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/stock/upgrade-downgrade"]["get"]
+    update:
+      x-speakeasy-group: stockEstimates
+      x-speakeasy-name-override: getUpgradeDowngrade
+    x-speakeasy-metadata:
+      after: sdk.stockEstimates.getUpgradeDowngrade()
+      before: sdk.Stock Estimates.get_/v1/stock/upgrade-downgrade()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/signals/bull-bear"]["get"]
+    update:
+      x-speakeasy-name-override: getBullBear
+    x-speakeasy-metadata:
+      after: sdk.signals.getBullBear()
+      before: sdk.Signals.get_/v1/signals/bull-bear()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/indices/search"]["get"]
+    update:
+      x-speakeasy-name-override: search
+    x-speakeasy-metadata:
+      after: sdk.indices.search()
+      before: sdk.Indices.search_indices_by_name()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/logos/sync"]["get"]
+    update:
+      x-speakeasy-name-override: sync
+    x-speakeasy-metadata:
+      after: sdk.logos.sync()
+      before: sdk.Logos.sync_logos___all_fields()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/stocks/snapshot"]["get"]
+    update:
+      x-speakeasy-name-override: getSnapshot
+    x-speakeasy-metadata:
+      after: sdk.stocks.getSnapshot()
+      before: sdk.Stocks.get_/v1/stocks/snapshot()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/stock/ebitda-estimate"]["get"]
+    update:
+      x-speakeasy-group: stockEstimates
+      x-speakeasy-name-override: get_ebitda_estimate
+    x-speakeasy-metadata:
+      after: sdk.stockEstimates.get_ebitda_estimate()
+      before: sdk.Stock Estimates.get_/v1/stock/ebitda-estimate()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/indices/bar"]["get"]
+    update:
+      x-speakeasy-name-override: getBar
+    x-speakeasy-metadata:
+      after: sdk.indices.getBar()
+      before: sdk.Indices.get_index_bar()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/market/status"]["get"]
+    update:
+      x-speakeasy-name-override: getStatus
+    x-speakeasy-metadata:
+      after: sdk.market.getStatus()
+      before: sdk.Market.get_/v1/market/status()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/stocks/prev"]["get"]
+    update:
+      x-speakeasy-name-override: getPrevDay
+    x-speakeasy-metadata:
+      after: sdk.stocks.getPrevDay()
+      before: sdk.Stocks.get_/v1/stocks/prev()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/indices/groups"]["get"]
+    update:
+      x-speakeasy-name-override: getGroups
+    x-speakeasy-metadata:
+      after: sdk.indices.getGroups()
+      before: sdk.Indices.list_index_groups()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/corporate-actions/spinoffs"]["get"]
+    update:
+      x-speakeasy-group: corporateActions
+      x-speakeasy-name-override: getSpinoffs
+    x-speakeasy-metadata:
+      after: sdk.corporateActions.getSpinoffs()
+      before: sdk.Corporate Actions.get_spinoffs___ilz.xfra_symbol()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/corporate-actions/tender-offers"]["get"]
+    update:
+      x-speakeasy-group: corporateActions
+      x-speakeasy-name-override: getTenderOffers
+    x-speakeasy-metadata:
+      after: sdk.corporateActions.getTenderOffers()
+      before: sdk.Corporate Actions.get_/v1/corporate-actions/tender-offers()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/options/open-close"]["get"]
+    update:
+      x-speakeasy-name-override: getOpenCloseData
+    x-speakeasy-metadata:
+      after: sdk.options.getOpenCloseData()
+      before: sdk.Options.get_/v1/options/open-close()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/stocks/quotes"]["get"]
+    update:
+      x-speakeasy-name-override: getQuotes
+    x-speakeasy-metadata:
+      after: sdk.stocks.getQuotes()
+      before: sdk.Stocks.get_/v1/stocks/quotes()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/news/{id}"]["get"]
+    update:
+      x-speakeasy-name-override: getById
+    x-speakeasy-metadata:
+      after: sdk.news.getById()
+      before: sdk.News.GetNewsById()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/indices/list"]["get"]
+    update:
+      x-speakeasy-name-override: list
+    x-speakeasy-metadata:
+      after: sdk.indices.list()
+      before: sdk.Indices.list_indices()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/financials/revenue-breakdown"]["get"]
+    update:
+      x-speakeasy-name-override: getRevenueBreakdown
+    x-speakeasy-metadata:
+      after: sdk.financials.getRevenueBreakdown()
+      before: sdk.Financials.get_/v1/financials/revenue-breakdown()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/chart/quotes"]["get"]
+    update:
+      x-speakeasy-name-override: get_quotes
+    x-speakeasy-metadata:
+      after: sdk.chart.get_quotes()
+      before: sdk.Chart.getQuotes()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/options/{symbol}/expiry-dates"]["get"]
+    update:
+      x-speakeasy-name-override: getExpiryDates
+    x-speakeasy-metadata:
+      after: sdk.options.getExpiryDates()
+      before: sdk.Options.get_/v1/options/{symbol}/expiry-dates()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/indices/bars"]["get"]
+    update:
+      x-speakeasy-name-override: getBars
+    x-speakeasy-metadata:
+      after: sdk.indices.getBars()
+      before: sdk.Indices.get_/v1/indices/bars()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/stocks/last-quote"]["get"]
+    update:
+      x-speakeasy-name-override: get_last_quote
+    x-speakeasy-metadata:
+      after: sdk.stocks.get_last_quote()
+      before: sdk.Stocks.get_/v1/stocks/last-quote()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/company/executive"]["get"]
+    update:
+      x-speakeasy-name-override: getExecutive
+    x-speakeasy-metadata:
+      after: sdk.company.getExecutive()
+      before: sdk.Company.get_/v1/company/executive()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/options/trades"]["get"]
+    update:
+      x-speakeasy-name-override: getTrades
+    x-speakeasy-metadata:
+      after: sdk.options.getTrades()
+      before: sdk.Options.get_/v1/options/trades()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/news-sentiment"]["get"]
+    update:
+      x-speakeasy-name-override: getSentiment
+    x-speakeasy-metadata:
+      after: sdk.news.getSentiment()
+      before: sdk.News.get_/v1/news-sentiment()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/stock/revenue-estimate"]["get"]
+    update:
+      x-speakeasy-group: stockEstimates
+      x-speakeasy-name-override: getRevenueEstimate
+    x-speakeasy-metadata:
+      after: sdk.stockEstimates.getRevenueEstimate()
+      before: sdk.Stock Estimates.get_/v1/stock/revenue-estimate()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/market/holiday"]["get"]
+    update:
+      x-speakeasy-name-override: get_holidays
+    x-speakeasy-metadata:
+      after: sdk.market.get_holidays()
+      before: sdk.Market.get_/v1/market/holiday()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/analytics/net-inflow"]["get"]
+    update:
+      x-speakeasy-name-override: get_net_inflow
+    x-speakeasy-metadata:
+      after: sdk.analytics.get_net_inflow()
+      before: sdk.Analytics.getNetInflow()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/institutional/portfolio"]["get"]
+    update:
+      x-speakeasy-name-override: getPortfolio
+    x-speakeasy-metadata:
+      after: sdk.ownership.getPortfolio()
+      before: sdk.Ownership.get_/v1/institutional/portfolio()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/ownership/fund"]["get"]
+    update:
+      x-speakeasy-name-override: get_fund_data
+    x-speakeasy-metadata:
+      after: sdk.ownership.get_fund_data()
+      before: sdk.Ownership.get_/v1/ownership/fund()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/financials/ratios"]["get"]
+    update:
+      x-speakeasy-name-override: getRatios
+    x-speakeasy-metadata:
+      after: sdk.financials.getRatios()
+      before: sdk.Financials.get_/v1/financials/ratios()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/indices/realtime/values"]["get"]
+    update:
+      x-speakeasy-name-override: getRealtimeValues
+    x-speakeasy-metadata:
+      after: sdk.indices.getRealtimeValues()
+      before: sdk.Indices.get_/v1/indices/realtime/values()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/marketdata/search"]["get"]
+    update:
+      x-speakeasy-group: marketData
+      x-speakeasy-name-override: searchSymbols
+    x-speakeasy-metadata:
+      after: sdk.marketData.searchSymbols()
+      before: sdk.Market Data.searchMarketSymbols()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/calendars/conference-calls"]["get"]
+    update:
+      x-speakeasy-name-override: getConferenceCalls
+    x-speakeasy-metadata:
+      after: sdk.calendar.getConferenceCalls()
+      before: sdk.Calendar.get_/v1/calendars/conference-calls()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/orders/replace"]["post"]
+    update:
+      x-speakeasy-name-override: replace
+    x-speakeasy-metadata:
+      after: sdk.orders.replace()
+      before: sdk.Orders.replaceOrder()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/company/profile"]["get"]
+    update:
+      x-speakeasy-name-override: getProfile
+    x-speakeasy-metadata:
+      after: sdk.company.getProfile()
+      before: sdk.Company.get_/v1/company/profile()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/calendars/mergers-acquisitions"]["get"]
+    update:
+      x-speakeasy-name-override: getMergersAndAcquisitions
+    x-speakeasy-metadata:
+      after: sdk.calendar.getMergersAndAcquisitions()
+      before: sdk.Calendar.get_mergers_and_acquisitions()
+      created_at: 1773731664934
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/options/previous-day"]["get"]
+    update:
+      x-speakeasy-name-override: getPreviousDay
+    x-speakeasy-metadata:
+      after: sdk.options.getPreviousDay()
+      before: sdk.Options.get_/v1/options/previous-day()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/stock/eps-estimate"]["get"]
+    update:
+      x-speakeasy-group: stockEstimates
+      x-speakeasy-name-override: getEpsEstimate
+    x-speakeasy-metadata:
+      after: sdk.stockEstimates.getEpsEstimate()
+      before: sdk.Stock Estimates.get_/v1/stock/eps-estimate()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/equity/top-losers"]["get"]
+    update:
+      x-speakeasy-name-override: get_top_losers
+    x-speakeasy-metadata:
+      after: sdk.analytics.get_top_losers()
+      before: sdk.Analytics.getTopLosers()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/indices/by-group"]["get"]
+    update:
+      x-speakeasy-name-override: getByGroup
+    x-speakeasy-metadata:
+      after: sdk.indices.getByGroup()
+      before: sdk.Indices.get_/v1/indices/by-group()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/filings/similarity-index"]["get"]
+    update:
+      x-speakeasy-name-override: get_similarity_index
+    x-speakeasy-metadata:
+      after: sdk.filings.get_similarity_index()
+      before: sdk.Filings.get_/v1/filings/similarity-index()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/stock/ebit-estimate"]["get"]
+    update:
+      x-speakeasy-group: stockEstimates
+      x-speakeasy-name-override: getEBITEstimate
+    x-speakeasy-metadata:
+      after: sdk.stockEstimates.getEBITEstimate()
+      before: sdk.Stock Estimates.get_/v1/stock/ebit-estimate()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/options/activity"]["get"]
+    update:
+      x-speakeasy-name-override: getActivity
+    x-speakeasy-metadata:
+      after: sdk.options.getActivity()
+      before: sdk.Options.get_/v1/options/activity()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/calendars/historical/{symbol}"]["get"]
+    update:
+      x-speakeasy-name-override: get_historical_data
+    x-speakeasy-metadata:
+      after: sdk.calendar.get_historical_data()
+      before: sdk.Calendar.getHistoricalData()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/options/last-trade"]["get"]
+    update:
+      x-speakeasy-name-override: getLastTrade
+    x-speakeasy-metadata:
+      after: sdk.options.getLastTrade()
+      before: sdk.Options.get_/v1/options/last-trade()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/stock/earnings"]["get"]
+    update:
+      x-speakeasy-group: stockEstimates
+      x-speakeasy-name-override: getEarnings
+    x-speakeasy-metadata:
+      after: sdk.stockEstimates.getEarnings()
+      before: sdk.Stock Estimates.get_/v1/stock/earnings()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/stock/split"]["get"]
+    update:
+      x-speakeasy-group: corporateActions
+      x-speakeasy-name-override: getStockSplit
+    x-speakeasy-metadata:
+      after: sdk.corporateActions.getStockSplit()
+      before: sdk.Corporate Actions.get_/v1/stock/split()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/economy/treasury-yields"]["get"]
+    update:
+      x-speakeasy-name-override: getTreasuryYields
+    x-speakeasy-metadata:
+      after: sdk.economy.getTreasuryYields()
+      before: sdk.Economy.get_/v1/economy/treasury-yields()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/options/quotes"]["get"]
+    update:
+      x-speakeasy-name-override: getQuotes
+    x-speakeasy-metadata:
+      after: sdk.options.getQuotes()
+      before: sdk.Options.get_/v1/options/quotes()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/options/{symbol}/contracts/{date}"]["get"]
+    update:
+      x-speakeasy-name-override: getContracts
+    x-speakeasy-metadata:
+      after: sdk.options.getContracts()
+      before: sdk.Options.get_/v1/options/{symbol}/contracts/{date}()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/analytics/insights"]["get"]
+    update:
+      x-speakeasy-name-override: get_insights
+    x-speakeasy-metadata:
+      after: sdk.analytics.get_insights()
+      before: sdk.Analytics.get_/v1/analytics/insights()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/economy/inflation-expectations"]["get"]
+    update:
+      x-speakeasy-name-override: get_inflation_expectations
+    x-speakeasy-metadata:
+      after: sdk.economy.get_inflation_expectations()
+      before: sdk.Economy.get_/v1/economy/inflation-expectations()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/stocks/grouped"]["get"]
+    update:
+      x-speakeasy-name-override: getDailySummary
+    x-speakeasy-metadata:
+      after: sdk.stocks.getDailySummary()
+      before: sdk.Stocks.get_/v1/stocks/grouped()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/indicator"]["get"]
+    update:
+      x-speakeasy-group: technicalAnalysis
+      x-speakeasy-name-override: getIndicator
+    x-speakeasy-metadata:
+      after: sdk.technicalAnalysis.getIndicator()
+      before: sdk.Technical Analysis.get_/v1/indicator()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/etf/profile"]["get"]
+    update:
+      x-speakeasy-group: etf
+      x-speakeasy-name-override: getProfile
+    x-speakeasy-metadata:
+      after: sdk.etf.getProfile()
+      before: sdk.ETF.get_/v1/etf/profile()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/etf/sector"]["get"]
+    update:
+      x-speakeasy-group: etf
+      x-speakeasy-name-override: getSector
+    x-speakeasy-metadata:
+      after: sdk.etf.getSector()
+      before: sdk.ETF.get_/v1/etf/sector()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/stocks/unified-snapshot"]["get"]
+    update:
+      x-speakeasy-name-override: getUnifiedSnapshot
+    x-speakeasy-metadata:
+      after: sdk.stocks.getUnifiedSnapshot()
+      before: sdk.Stocks.get_/v1/stocks/unified-snapshot()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/financials/reported"]["get"]
+    update:
+      x-speakeasy-name-override: getReported
+    x-speakeasy-metadata:
+      after: sdk.financials.getReported()
+      before: sdk.Financials.get_/v1/financials/reported()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/logos/search"]["get"]
+    update:
+      x-speakeasy-name-override: search
+    x-speakeasy-metadata:
+      after: sdk.logos.search()
+      before: sdk.Logos.search_logos___all_fields()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/corporate-actions/ipo-calendar"]["get"]
+    update:
+      x-speakeasy-group: corporateActions
+      x-speakeasy-name-override: getIpoCalendar
+    x-speakeasy-metadata:
+      after: sdk.corporateActions.getIpoCalendar()
+      before: sdk.Corporate Actions.get_/v1/corporate-actions/ipo-calendar()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/ownership/insider-transactions"]["get"]
+    update:
+      x-speakeasy-name-override: getInsiderTransactions
+    x-speakeasy-metadata:
+      after: sdk.ownership.getInsiderTransactions()
+      before: sdk.Ownership.get_/v1/ownership/insider-transactions()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/institutional/ownership"]["get"]
+    update:
+      x-speakeasy-name-override: getInstitutional
+    x-speakeasy-metadata:
+      after: sdk.ownership.getInstitutional()
+      before: sdk.Ownership.get_/v1/institutional/ownership()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/stock/screener"]["post"]
+    update:
+      x-speakeasy-name-override: stock_screener
+    x-speakeasy-metadata:
+      after: sdk.analytics.stock_screener()
+      before: sdk.Analytics.stockScreener()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/financials/short-interest"]["get"]
+    update:
+      x-speakeasy-name-override: getShortInterest
+    x-speakeasy-metadata:
+      after: sdk.financials.getShortInterest()
+      before: sdk.Financials.get_/v1/financials/short-interest()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/financials/statements"]["get"]
+    update:
+      x-speakeasy-name-override: getStatements
+    x-speakeasy-metadata:
+      after: sdk.financials.getStatements()
+      before: sdk.Financials.get_/v1/financials/statements()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/scan/support-resistance"]["get"]
+    update:
+      x-speakeasy-group: technicalAnalysis
+      x-speakeasy-name-override: getSupportResistance
+    x-speakeasy-metadata:
+      after: sdk.technicalAnalysis.getSupportResistance()
+      before: sdk.Technical Analysis.get_/v1/scan/support-resistance()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/stocks/open-close"]["get"]
+    update:
+      x-speakeasy-name-override: getOpenClose
+    x-speakeasy-metadata:
+      after: sdk.stocks.getOpenClose()
+      before: sdk.Stocks.get_/v1/stocks/open-close()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/orders/cancel"]["post"]
+    update:
+      x-speakeasy-name-override: cancel
+    x-speakeasy-metadata:
+      after: sdk.orders.cancel()
+      before: sdk.Orders.cancelOrder()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/stocks/last-trade"]["get"]
+    update:
+      x-speakeasy-name-override: getLastTrade
+    x-speakeasy-metadata:
+      after: sdk.stocks.getLastTrade()
+      before: sdk.Stocks.get_/v1/stocks/last-trade()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/etf/holdings"]["get"]
+    update:
+      x-speakeasy-group: etf
+      x-speakeasy-name-override: getHoldings
+    x-speakeasy-metadata:
+      after: sdk.etf.getHoldings()
+      before: sdk.ETF.get_/v1/etf/holdings()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/scan/pattern"]["get"]
+    update:
+      x-speakeasy-group: technicalAnalysis
+      x-speakeasy-name-override: getPattern
+    x-speakeasy-metadata:
+      after: sdk.technicalAnalysis.getPattern()
+      before: sdk.Technical Analysis.get_/v1/scan/pattern()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/chart/search"]["get"]
+    update:
+      x-speakeasy-name-override: search_symbols
+    x-speakeasy-metadata:
+      after: sdk.chart.search_symbols()
+      before: sdk.Chart.searchSymbols()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/etf/country"]["get"]
+    update:
+      x-speakeasy-group: etfs
+      x-speakeasy-name-override: get_country_allocation
+    x-speakeasy-metadata:
+      after: sdk.etfs.get_country_allocation()
+      before: sdk.ETF.get_/v1/etf/country()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/stocks/aggs"]["get"]
+    update:
+      x-speakeasy-name-override: getAggregates
+    x-speakeasy-metadata:
+      after: sdk.stocks.getAggregates()
+      before: sdk.Stocks.get_/v1/stocks/aggs()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/company/peers"]["get"]
+    update:
+      x-speakeasy-name-override: getPeers
+    x-speakeasy-metadata:
+      after: sdk.company.getPeers()
+      before: sdk.Company.get_/v1/company/peers()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/filings/sec"]["get"]
+    update:
+      x-speakeasy-name-override: getSec
+    x-speakeasy-metadata:
+      after: sdk.filings.getSec()
+      before: sdk.Filings.get_/v1/filings/sec()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/stocks/trades"]["get"]
+    update:
+      x-speakeasy-name-override: getTrades
+    x-speakeasy-metadata:
+      after: sdk.stocks.getTrades()
+      before: sdk.Stocks.get_/v1/stocks/trades()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/financials/short-volume"]["get"]
+    update:
+      x-speakeasy-name-override: get_short_volume
+    x-speakeasy-metadata:
+      after: sdk.financials.get_short_volume()
+      before: sdk.Financials.get_/v1/financials/short-volume()
+      created_at: 1773731664935
+      reviewed_at: 1773731689732
+      type: method-name
+  - target: $["paths"]["/v1/indices/chart-bars"]["get"]
+    update:
+      x-speakeasy-name-override: getChartBars
+    x-speakeasy-metadata:
+      after: sdk.indices.getChartBars()
+      before: sdk.Indices.get_chart_bars()
+      created_at: 1773731704013
+      reviewed_at: 1773731725147
+      type: method-name
+  - target: $["paths"]["/v1/stock/fda-advisory-committee-calendar"]["get"]
+    update:
+      x-speakeasy-group: stockAlternative
+      x-speakeasy-name-override: getFDAAdvisoryCommitteeCalendar
+    x-speakeasy-metadata:
+      after: sdk.stockAlternative.getFDAAdvisoryCommitteeCalendar()
+      before: sdk.Stock Alternative.get_/v1/stock/fda-advisory-committee-calendar()
+      created_at: 1773918795383
+      reviewed_at: 1773918829181
+      type: method-name
+  - target: $["paths"]["/v1/stock/presentation"]["get"]
+    update:
+      x-speakeasy-group: stockAlternative
+      x-speakeasy-name-override: getPresentation
+    x-speakeasy-metadata:
+      after: sdk.stockAlternative.getPresentation()
+      before: sdk.Stock Alternative.get_/v1/stock/presentation()
+      created_at: 1773918795383
+      reviewed_at: 1773918829181
+      type: method-name
+  - target: $["paths"]["/v1/options/{symbol}/contracts/{expiryDate}"]["get"]
+    update:
+      x-speakeasy-name-override: getContracts
+    x-speakeasy-metadata:
+      after: sdk.options.getContracts()
+      before: sdk.Options.get_/v1/options/{symbol}/contracts/{expiryDate}()
+      created_at: 1773918795383
+      reviewed_at: 1773918829181
+      type: method-name
+  - target: $["paths"]["/v1/stock/covid19/us"]["get"]
+    update:
+      x-speakeasy-group: stockAlternative
+      x-speakeasy-name-override: getCovid19US
+    x-speakeasy-metadata:
+      after: sdk.stockAlternative.getCovid19US()
+      before: sdk.Stock Alternative.get_/v1/stock/covid19/us()
+      created_at: 1773918795383
+      reviewed_at: 1773918829181
+      type: method-name
+  - target: $["paths"]["/v1/stock/investment-theme"]["get"]
+    update:
+      x-speakeasy-group: stockAlternative
+      x-speakeasy-name-override: getInvestmentTheme
+    x-speakeasy-metadata:
+      after: sdk.stockAlternative.getInvestmentTheme()
+      before: sdk.Stock Alternative.get_/v1/stock/investment-theme()
+      created_at: 1773918795383
+      reviewed_at: 1773918829181
+      type: method-name
+  - target: $["paths"]["/v1/stock/visa-application"]["get"]
+    update:
+      x-speakeasy-group: stockAlternative
+      x-speakeasy-name-override: getVisaApplication
+    x-speakeasy-metadata:
+      after: sdk.stockAlternative.getVisaApplication()
+      before: sdk.Stock Alternative.get_/v1/stock/visa-application()
+      created_at: 1773918795383
+      reviewed_at: 1773918829181
+      type: method-name
+  - target: $["paths"]["/v1/stock/social-sentiment"]["get"]
+    update:
+      x-speakeasy-group: stockAlternative
+      x-speakeasy-name-override: getSocialSentiment
+    x-speakeasy-metadata:
+      after: sdk.stockAlternative.getSocialSentiment()
+      before: sdk.Stock Alternative.get_/v1/stock/social-sentiment()
+      created_at: 1773918795383
+      reviewed_at: 1773918829181
+      type: method-name
+  - target: $["paths"]["/v1/stock/historical-esg"]["get"]
+    update:
+      x-speakeasy-group: stockAlternative
+      x-speakeasy-name-override: getHistoricalESG
+    x-speakeasy-metadata:
+      after: sdk.stockAlternative.getHistoricalESG()
+      before: sdk.Stock Alternative.get_/v1/stock/historical-esg()
+      created_at: 1773918795383
+      reviewed_at: 1773918829181
+      type: method-name
+  - target: $["paths"]["/v1/stock/esg"]["get"]
+    update:
+      x-speakeasy-group: stockAlternative
+      x-speakeasy-name-override: getEsg
+    x-speakeasy-metadata:
+      after: sdk.stockAlternative.getEsg()
+      before: sdk.Stock Alternative.get_/v1/stock/esg()
+      created_at: 1773918795383
+      reviewed_at: 1773918829181
+      type: method-name
+  - target: $["paths"]["/v1/stock/earnings-quality-score"]["get"]
+    update:
+      x-speakeasy-group: stockAlternative
+      x-speakeasy-name-override: getEarningsQualityScore
+    x-speakeasy-metadata:
+      after: sdk.stockAlternative.getEarningsQualityScore()
+      before: sdk.Stock Alternative.get_/v1/stock/earnings-quality-score()
+      created_at: 1773918795383
+      reviewed_at: 1773918829181
+      type: method-name
+  - target: $["paths"]["/v1/analytics/ratings"]["get"]
+    update:
+      x-speakeasy-name-override: get
+    x-speakeasy-metadata:
+      after: sdk.analytics.get()
+      before: sdk.Analytics.getRatings()
+      created_at: 1773918795384
+      reviewed_at: 1773918829181
+      type: method-name
+  - target: $["paths"]["/v1/stock/transcripts/list"]["get"]
+    update:
+      x-speakeasy-group: stockAlternative
+      x-speakeasy-name-override: getTranscriptsList
+    x-speakeasy-metadata:
+      after: sdk.stockAlternative.getTranscriptsList()
+      before: sdk.Stock Alternative.get_/v1/stock/transcripts/list()
+      created_at: 1773918795384
+      reviewed_at: 1773918829181
+      type: method-name
+  - target: $["paths"]["/v1/stock/lobbying"]["get"]
+    update:
+      x-speakeasy-group: stockAlternatives
+      x-speakeasy-name-override: getLobbying
+    x-speakeasy-metadata:
+      after: sdk.stockAlternatives.getLobbying()
+      before: sdk.Stock Alternative.get_/v1/stock/lobbying()
+      created_at: 1773918795384
+      reviewed_at: 1773918829181
+      type: method-name
+  - target: $["paths"]["/v1/stock/usa-spending"]["get"]
+    update:
+      x-speakeasy-group: stockAlternative
+      x-speakeasy-name-override: getUsaSpending
+    x-speakeasy-metadata:
+      after: sdk.stockAlternative.getUsaSpending()
+      before: sdk.Stock Alternative.get_/v1/stock/usa-spending()
+      created_at: 1773918795384
+      reviewed_at: 1773918829181
+      type: method-name
+  - target: $["paths"]["/v1/stock/bank-branch"]["get"]
+    update:
+      x-speakeasy-group: stockAlternative
+      x-speakeasy-name-override: getBankBranch
+    x-speakeasy-metadata:
+      after: sdk.stockAlternative.getBankBranch()
+      before: sdk.Stock Alternative.get_/v1/stock/bank-branch()
+      created_at: 1773918795384
+      reviewed_at: 1773918829181
+      type: method-name
+  - target: $["paths"]["/v1/stock/supply-chain"]["get"]
+    update:
+      x-speakeasy-group: stockAlternative
+      x-speakeasy-name-override: getSupplyChain
+    x-speakeasy-metadata:
+      after: sdk.stockAlternative.getSupplyChain()
+      before: sdk.Stock Alternative.get_/v1/stock/supply-chain()
+      created_at: 1773918795384
+      reviewed_at: 1773918829181
+      type: method-name
+  - target: $["paths"]["/v1/stock/earnings-call-live"]["get"]
+    update:
+      x-speakeasy-group: stockAlternative
+      x-speakeasy-name-override: getEarningsCallLive
+    x-speakeasy-metadata:
+      after: sdk.stockAlternative.getEarningsCallLive()
+      before: sdk.Stock Alternative.get_/v1/stock/earnings-call-live()
+      created_at: 1773918795384
+      reviewed_at: 1773918829181
+      type: method-name
+  - target: $["paths"]["/v1/stock/transcripts"]["get"]
+    update:
+      x-speakeasy-group: stockAlternatives
+      x-speakeasy-name-override: getTranscripts
+    x-speakeasy-metadata:
+      after: sdk.stockAlternatives.getTranscripts()
+      before: sdk.Stock Alternative.get_/v1/stock/transcripts()
+      created_at: 1773918795384
+      reviewed_at: 1773918829181
+      type: method-name
+  - target: $["paths"]["/v1/stock/uspto-patent"]["get"]
+    update:
+      x-speakeasy-group: stockAlternative
+      x-speakeasy-name-override: getUsptoPatent
+    x-speakeasy-metadata:
+      after: sdk.stockAlternative.getUsptoPatent()
+      before: sdk.Stock Alternative.get_/v1/stock/uspto-patent()
+      created_at: 1773918795384
+      reviewed_at: 1773918829181
+      type: method-name
+  - target: $["paths"]["/v1/stock/congressional-trading"]["get"]
+    update:
+      x-speakeasy-group: stockAlternative
+      x-speakeasy-name-override: getCongressionalTrading
+    x-speakeasy-metadata:
+      after: sdk.stockAlternative.getCongressionalTrading()
+      before: sdk.Stock Alternative.get_/v1/stock/congressional-trading()
+      created_at: 1773918795384
+      reviewed_at: 1773918829181
+      type: method-name
+  - target: $.components.schemas.EconomicsCalendarEvent.properties.referenceDate
+    update:
+      example: "2026-02-21T00:00:00Z"
+  - target: $.components.schemas.GetEconomicsCalendarResponse.example.events[*]
+    update:
+      referenceDate: "2026-02-21T00:00:00Z"
+  - target: $["paths"]["/v1/calendars/economics"]["get"]["responses"]["200"]["content"]["application/json"]["example"]["events"][*]
+    update:
+      referenceDate: "2026-02-21T00:00:00Z"

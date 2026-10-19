@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"exchange":"US","isOpen":false,"session":"","timestamp":1765526940,"timezone":"America/New_York"}

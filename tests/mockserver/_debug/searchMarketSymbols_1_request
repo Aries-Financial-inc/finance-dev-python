@@ -1,0 +1,10 @@
+GET /v1/marketdata/search?query=.AAPL&limit=20 HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 7cf01c31-8542-42e7-b467-af4614b9de52
+X-Speakeasy-Test-Name: searchMarketSymbols-option
+

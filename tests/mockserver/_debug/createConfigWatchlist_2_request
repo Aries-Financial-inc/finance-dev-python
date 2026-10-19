@@ -1,0 +1,13 @@
+POST /v1/config/watchlist HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+Content-Length: 56
+Content-Type: application/json
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 5692803a-c372-4a88-8918-efd875f28def
+X-Speakeasy-Test-Name: createConfigWatchlist-createWatchlist
+
+{"name":"Tech Stocks","symbols":["AAPL","GOOGL","MSFT"]}

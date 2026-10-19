@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"close":13.75,"high":15.25,"low":13.2,"open":13.5,"ticker":"AAPL251219C00150000","timestamp":1734652800000,"transactionCount":1842,"volume":25430,"volumeWeighted":14.18}

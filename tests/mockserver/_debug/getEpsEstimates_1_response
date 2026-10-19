@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"epsEstimates":{"data":[{"epsAvg":2.1215999126434326,"epsHigh":2.309999942779541,"epsLow":1.8717999458312988,"numberAnalysts":6,"period":"2027-09-30","quarter":4,"year":2027},{"epsAvg":1.7481000423431396,"epsHigh":1.850000023841858,"epsLow":1.6100000143051147,"numberAnalysts":6,"period":"2027-06-30","quarter":3,"year":2027},{"epsAvg":1.611199975013733,"epsHigh":1.7200000286102295,"epsLow":1.4600000381469727,"numberAnalysts":6,"period":"2027-03-31","quarter":2,"year":2027}],"freq":"quarterly","symbol":"AAPL"}}

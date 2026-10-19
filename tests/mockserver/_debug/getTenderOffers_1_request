@@ -1,0 +1,10 @@
+GET /v1/corporate-actions/tender-offers?identifier=AAPL&identifierType=Symbol&startDate=2024-01-01&endDate=2024-12-31 HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: c24bc7b5-f3bd-4d13-bcc5-de0eae3d2399
+X-Speakeasy-Test-Name: getTenderOffers
+

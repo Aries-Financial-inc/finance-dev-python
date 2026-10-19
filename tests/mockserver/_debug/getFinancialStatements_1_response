@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"data":{"financials":[{"costOfGoodsSold":505.765,"dilutedAverageSharesOutstanding":13410.208,"dilutedEPS":0.01,"ebit":129.639,"grossIncome":477.004,"interestIncomeExpense":0,"netIncome":76.714,"netIncomeAfterTaxes":76.714,"nonRecurringItems":0,"period":"1983-09-30","pretaxIncome":146.122,"provisionforIncomeTaxes":69.408,"researchDevelopment":60.04,"revenue":982.769,"sgaExpense":287.325,"totalOperatingExpense":347.365,"totalOtherIncomeExpenseNet":16.483,"year":1983}],"symbol":"AAPL"}}

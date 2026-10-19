@@ -1,0 +1,10 @@
+GET /v1/corporate-actions/dividends?ticker=AAPL&tickersAnyOf=AAPL%2CMSFT%2CGOOG&tickerFrom=A&tickerAfter=A&tickerTo=Z&tickerBefore=Z&exDividendDate=2024-08-11&exDividendDateFrom=2024-01-01&exDividendDateAfter=2024-01-01&exDividendDateTo=2024-12-31&exDividendDateBefore=2024-12-31&frequency=4&frequencyMin=1&frequencyAbove=0&frequencyMax=12&frequencyBelow=13&distributionType=recurring&distributionTypes=recurring%2Cspecial&limit=100 HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: c1dd09ee-b1ab-4133-8ae1-9f0e409f554d
+X-Speakeasy-Test-Name: getDividends-default
+

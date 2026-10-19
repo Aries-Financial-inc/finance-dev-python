@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"indexGroups":[{"description":"CBOE Data Services CMSI - Crypto Fee","name":"IND_CBOC"}]}

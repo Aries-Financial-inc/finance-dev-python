@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"indices":[{"currency":"USD","indexGroup":"IND_CBOM","indexName":"S\u0026P 500","symbol":"SPX","valoren":"998434"},{"currency":"USD","indexGroup":"IND_CBOM","indexName":"NASDAQ Composite","symbol":"COMP","valoren":"1269719"}]}

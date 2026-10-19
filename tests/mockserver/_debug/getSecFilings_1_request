@@ -1,0 +1,10 @@
+GET /v1/filings/sec?symbol=AAPL&form=10-K HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 27c9636c-8f25-42ab-980d-2389c449fea7
+X-Speakeasy-Test-Name: getSecFilings-default
+

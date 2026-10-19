@@ -1,0 +1,10 @@
+GET /v1/institutional/portfolio?cik=0001067983&from=2024-01-01&to=2024-12-31 HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 57a3c784-a94e-4cd5-9bf9-ad0d3bb77b04
+X-Speakeasy-Test-Name: getInstitutionalPortfolio-default
+

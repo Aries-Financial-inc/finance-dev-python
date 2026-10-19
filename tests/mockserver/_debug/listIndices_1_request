@@ -1,0 +1,10 @@
+GET /v1/indices/list?indexGroup=IND_CBOM&pageSize=100 HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 1f445830-3a29-4108-916e-cd80b7c9429c
+X-Speakeasy-Test-Name: listIndices
+

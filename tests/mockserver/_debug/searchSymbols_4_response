@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+[{"description":"AAPL Mar 15 2024 $150 Call","symbol":"AAPL240315C00150000","type":"option"},{"description":"AAPL Mar 15 2024 $150 Put","symbol":"AAPL240315P00150000","type":"option"}]

@@ -1,0 +1,10 @@
+GET /v1/analytics/market-breadth HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: be884e84-a026-4199-bb9e-9278eb3a5a1f
+X-Speakeasy-Test-Name: getMarketBreadth
+

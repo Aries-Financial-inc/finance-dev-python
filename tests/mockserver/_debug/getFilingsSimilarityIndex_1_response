@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"data":{"cik":"789019","similarity":[{"acceptedDate":"1994-02-14 00:00:00","accessNumber":"0000950109-94-000252","cik":"789019","filedDate":"1994-02-14 00:00:00","filingUrl":"https://www.sec.gov/Archives/edgar/data/789019/000095010994000252/0000950109-94-000252-index.html","form":"10-Q","item1":0,"item1a":0,"item2":0,"item7":0,"item7a":0,"reportUrl":"https://www.sec.gov/Archives/edgar/data/789019/000095010994000252/0000950109-94-000252.txt"}],"symbol":"MSFT"}}

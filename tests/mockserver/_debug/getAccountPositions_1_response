@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"positions":[{"accountId":"TEST-ACCOUNT-001","averagePrice":"170.25","createdAt":"2026-01-10T16:00:00Z","quantity":"100","securityType":"EQUITY","symbol":"AAPL","todayPl":"125.00","todayRealizedPnL":"0","unrealizedPl":"515.00"}]}

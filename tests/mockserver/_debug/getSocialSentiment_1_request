@@ -1,0 +1,10 @@
+GET /v1/stock/social-sentiment?symbol=AAPL HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: e9343d10-43f7-41c8-89e3-b9129a0db872
+X-Speakeasy-Test-Name: getSocialSentiment
+

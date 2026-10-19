@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"clOrdId":"ORDER-20260115-002","origClOrdId":"ORDER-20260115-001","status":"CANCELED","success":true,"text":"Cancel request processed"}

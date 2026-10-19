@@ -1,0 +1,10 @@
+GET /v1/stocks/grouped?date=2024-01-15&adjusted=true&includeOtc=false HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: e50ffe92-e144-4c5b-b0d6-8a0145c09bd3
+X-Speakeasy-Test-Name: getDailyMarketSummary
+

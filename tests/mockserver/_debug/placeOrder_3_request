@@ -1,0 +1,13 @@
+POST /v1/orders HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+Content-Length: 276
+Content-Type: application/json
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 991cb0bc-cf1b-4bae-bfa3-038114ba8b62
+X-Speakeasy-Test-Name: placeOrder-singleLegCall
+
+{"qty":"1","side":"BUY","symbol":"AAPL","timeInForce":"DAY","tradingAccountId":"TEST-ACCOUNT-001","type":"LIMIT","legs":[{"positionEffect":"OPEN","ratioQty":"1","securityType":"OPT","side":"BUY","maturity":"2025-01-17","putCall":"CALL","strikePrice":"150.00"}],"price":"5.50"}

@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"executives":[{"age":64,"compensation":74294811,"currency":"USD","name":"Mr. Timothy Cook","position":"Mr. Timothy Cook","sex":"male","since":"1998"}]}

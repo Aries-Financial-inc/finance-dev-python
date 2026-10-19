@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"data":{"order":{"accountId":"ACCOUNT-0001","avgPx":"0","clientOrderRef":"7d1c8e0a-4b8f-4e3a-9f43-2a6b1d0c9e11","createdAt":"2024-05-18T17:00:40.4Z","cumQty":"0","leavesQty":"10","orderId":"0b9f3c2e-5d6a-4f1b-8e7c-9a0d1e2f3a4b","orderType":"limit","outcome":"YES","price":"0.54","quantity":"10","side":"buy","state":"pending_new","stopPx":"0.50","symbol":"HORC_1126_Republican","timeInForce":"day","updatedAt":"2026-06-01T14:19:20.151Z","workingPrice":"0.54","workingQuantity":"10"},"reports":[{"avgPx":"0.54","cumQty":"10","execId":"\u003cid\u003e","execType":"trade","lastPx":"0.54","lastQty":"10","leavesQty":"0","status":"filled","transactTime":"2025-08-27T21:08:04.489Z"}]},"success":true}

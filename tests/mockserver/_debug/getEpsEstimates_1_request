@@ -1,0 +1,10 @@
+GET /v1/stock/eps-estimate?symbol=AAPL&freq=quarterly HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 1055a0a3-da52-47ce-81e7-9b3a14e8edfb
+X-Speakeasy-Test-Name: getEpsEstimates-default
+

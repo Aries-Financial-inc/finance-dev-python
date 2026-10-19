@@ -1,0 +1,18 @@
+# Min
+
+Latest minute aggregate
+
+
+## Fields
+
+| Field                                                                        | Type                                                                         | Required                                                                     | Description                                                                  |
+| ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| `accumulated_volume`                                                         | *Optional[int]*                                                              | :heavy_minus_sign:                                                           | Accumulated volume for the trading day up to this minute bar.                |
+| `close`                                                                      | *Optional[float]*                                                            | :heavy_minus_sign:                                                           | Close price of the latest minute bar.                                        |
+| `high`                                                                       | *Optional[float]*                                                            | :heavy_minus_sign:                                                           | High price of the latest minute bar.                                         |
+| `low`                                                                        | *Optional[float]*                                                            | :heavy_minus_sign:                                                           | Low price of the latest minute bar.                                          |
+| `number_of_trades`                                                           | *Optional[int]*                                                              | :heavy_minus_sign:                                                           | Number of trades in the latest minute bar.                                   |
+| `open`                                                                       | *Optional[float]*                                                            | :heavy_minus_sign:                                                           | Open price of the latest minute bar.                                         |
+| `timestamp`                                                                  | *Optional[int]*                                                              | :heavy_minus_sign:                                                           | Timestamp of the latest minute bar as an integer from the upstream provider. |
+| `volume`                                                                     | *Optional[int]*                                                              | :heavy_minus_sign:                                                           | Trading volume in the latest minute bar.                                     |
+| `vwap`                                                                       | *Optional[float]*                                                            | :heavy_minus_sign:                                                           | Volume-weighted average price of the latest minute bar.                      |

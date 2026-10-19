@@ -1,0 +1,10 @@
+# StockScreenerRequest1
+
+
+## Fields
+
+| Field                                                                                    | Type                                                                                     | Required                                                                                 | Description                                                                              |
+| ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `clauses`                                                                                | List[[models.ScreenClause](../models/screenclause.md)]                                   | :heavy_check_mark:                                                                       | List of filter conditions (field, operator, value). Required unless groups is non-empty. |
+| `groups`                                                                                 | List[[models.ScreenGroup](../models/screengroup.md)]                                     | :heavy_minus_sign:                                                                       | Optional nested groups of clauses for complex logic                                      |
+| `operator`                                                                               | [models.StockScreenerRequestOperator1](../models/stockscreenerrequestoperator1.md)       | :heavy_check_mark:                                                                       | Logical operator for combining clauses: AND, OR, or NOT                                  |

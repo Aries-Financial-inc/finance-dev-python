@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"avgPrice":"0","clOrdId":"ORDER-20260115-001","cumQty":"0","leavesQty":"10","ordRejReason":"","qty":"10","side":"BUY","status":"NEW","success":true,"symbol":"AAPL","text":"Order accepted","transactTime":"2026-01-15T14:30:05Z"}

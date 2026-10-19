@@ -1,0 +1,10 @@
+GET /v1/corporate-actions/ipo-calendar?from=2024-01-01&to=2024-12-31 HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 55a37603-623f-4454-9bda-660da848580e
+X-Speakeasy-Test-Name: getIpoCalendar-default
+

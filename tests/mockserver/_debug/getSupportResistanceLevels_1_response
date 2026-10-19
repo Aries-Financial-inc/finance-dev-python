@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"data":{"levels":[189.8112030029297,199.2606964111328,216.22999572753906,244,288.6199951171875]}}

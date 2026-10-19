@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"nextUrl":"https://api.aries.com/v1/corporate-actions/dividends?next=...","requestId":"abdd5e0f749621028802750474bc45cc","results":[{"cashAmount":0.26,"distributionType":"recurring","exDividendDate":"2025-11-10","frequency":4,"payDate":"2025-11-13","recordDate":"2025-11-10","ticker":"AAPL"}],"status":"OK"}

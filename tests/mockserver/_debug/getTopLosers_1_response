@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+[{"change":1.25,"changePercent":0.72,"isETF":false,"lastPrice":175.43,"logoUrl":"https://cdn.example.com/logos/AAPL.png","previousClose":174.18,"sector":"Technology","sicCode":"3571","symbol":"AAPL","timestamp":1736956800,"type":"stock","volume":52000000}]

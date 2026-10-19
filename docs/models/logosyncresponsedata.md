@@ -1,0 +1,13 @@
+# LogoSyncResponseData
+
+
+## Fields
+
+| Field                                                                          | Type                                                                           | Required                                                                       | Description                                                                    |
+| ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
+| `colors`                                                                       | Dict[str, *Any*]                                                               | :heavy_minus_sign:                                                             | Key-value map; may be empty. Keys vary by record.                              |
+| `created_at`                                                                   | *Optional[str]*                                                                | :heavy_minus_sign:                                                             | Timestamp when the logo record was created                                     |
+| `files`                                                                        | [Optional[models.LogoSyncResponseFiles]](../models/logosyncresponsefiles.md)   | :heavy_minus_sign:                                                             | Available logo file variants                                                   |
+| `id`                                                                           | *Optional[str]*                                                                | :heavy_minus_sign:                                                             | Unique identifier for the logo record                                          |
+| `securities`                                                                   | List[[models.LogoSyncResponseSecurity](../models/logosyncresponsesecurity.md)] | :heavy_minus_sign:                                                             | Securities associated with the logo record                                     |
+| `updated_at`                                                                   | *Optional[str]*                                                                | :heavy_minus_sign:                                                             | Timestamp when the logo record was last updated                                |

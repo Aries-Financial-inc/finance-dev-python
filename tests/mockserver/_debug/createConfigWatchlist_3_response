@@ -1,0 +1,5 @@
+HTTP/1.1 201 Created
+Connection: close
+Content-Type: application/json
+
+{"id":12346,"invalid_symbols":["NOTASYMBOL"],"name":"Tech Stocks","symbols":["AAPL","GOOGL"]}

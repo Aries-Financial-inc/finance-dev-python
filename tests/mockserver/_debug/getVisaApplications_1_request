@@ -1,0 +1,10 @@
+GET /v1/stock/visa-application?symbol=AAPL&from=2024-01-01&to=2024-12-31 HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: dc72deef-a082-45bf-ac7a-4c3a386e6142
+X-Speakeasy-Test-Name: getVisaApplications
+

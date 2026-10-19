@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"events":[{"calendarID":"te_395222","category":"Continuing Jobless Claims","country":"United States","date":"2026-03-05","event":"Continuing Jobless Claims","forecast":"1850K","importance":1,"lastUpdate":"2026-03-03T10:49:26.58","previous":"1833K","reference":"Feb/21","referenceDate":"2026-02-21T00:00:00Z","source":"U.S. Department of Labor","sourceUrl":"http://www.dol.gov","symbol":"UNITEDSTACONJOBCLA","teForecast":"1840.0K","ticker":"UNITEDSTACONJOBCLA","time":"13:30:00","unit":"K"}]}

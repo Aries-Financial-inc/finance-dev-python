@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"nextUrl":"https://api.aries.com/v1/financials/short-interest?next=...","requestId":"7a867902c54d496b8239089f103b0fa8","results":[{"avgDailyVolume":23901107,"daysToCover":1.91,"settlementDate":"2017-12-29","shortInterest":45746430,"ticker":"AAPL"}],"status":"OK"}

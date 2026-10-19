@@ -1,0 +1,10 @@
+GET /v1/ownership/data?symbol=%3Cvalue%3E HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 0a90938a-a1cb-4299-a638-04e75d399c95
+X-Speakeasy-Test-Name: getOwnershipData-default
+

@@ -1,0 +1,10 @@
+GET /v1/options/activity HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: fd7862b6-6183-4224-8869-ed67da315d0b
+X-Speakeasy-Test-Name: getOptionsActivity-success
+

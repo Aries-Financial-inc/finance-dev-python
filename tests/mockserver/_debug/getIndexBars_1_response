@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"bars":[{"close":6863.25,"endDate":"12/22/2025","endTime":"9:31 AM","high":6865,"low":6858.5,"open":6860,"startDate":"12/22/2025","startTime":"9:30 AM","volume":0}]}

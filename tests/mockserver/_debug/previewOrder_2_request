@@ -1,0 +1,13 @@
+POST /v1/orders/preview HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+Content-Length: 356
+Content-Type: application/json
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: c54d466c-8340-4f34-a258-3581d59e8270
+X-Speakeasy-Test-Name: previewOrder-equityPreview
+
+{"qty":"10","side":"BUY","symbol":"AAPL","timeInForce":"DAY","tradingAccountId":"TEST-ACCOUNT-001","type":"LIMIT","clientId":"CLIENT-001","currency":"USD","legs":[{"positionEffect":"OPEN","ratioQty":"1","securityType":"CS","side":"BUY","maturity":"2025-01-17","putCall":"CALL","strikePrice":"150.00","symbol":"AAPL"}],"price":"150.00","stopPrice":"145.00"}

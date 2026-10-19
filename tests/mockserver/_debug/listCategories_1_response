@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"data":{"categories":[{"children":[{"name":"United States House","path":"Elections \u003e United States House"}],"name":"United States House","path":"Elections \u003e United States House"}]},"success":true}

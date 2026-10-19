@@ -1,0 +1,10 @@
+GET /v1/chart/config HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 802ed41e-1185-44c3-b011-42b4c37196db
+X-Speakeasy-Test-Name: getChartConfig
+

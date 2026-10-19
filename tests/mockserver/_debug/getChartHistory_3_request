@@ -1,0 +1,10 @@
+GET /v1/chart/history?symbol=AAPL&resolution=60&from=1672531200&to=1675209600&includeExtended=false HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 3929a7b7-6053-41ce-81be-0fdb86346311
+X-Speakeasy-Test-Name: getChartHistory-noData
+

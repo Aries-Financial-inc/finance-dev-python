@@ -1,0 +1,9 @@
+# GetCashFlowStatementsResponse
+
+
+## Fields
+
+| Field                                                                                                             | Type                                                                                                              | Required                                                                                                          | Description                                                                                                       |
+| ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `http_meta`                                                                                                       | [models.HTTPMetadata](../models/httpmetadata.md)                                                                  | :heavy_check_mark:                                                                                                | N/A                                                                                                               |
+| `cash_flow_statements_response`                                                                                   | [Optional[models.CashFlowStatementsResponse]](../models/cashflowstatementsresponse.md)                            | :heavy_minus_sign:                                                                                                | Successful response with one or more SEC cash flow rows, status, request id, and optional nextUrl for pagination. |

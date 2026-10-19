@@ -1,0 +1,10 @@
+GET /v1/chart/tick-history?symbol=AAPL&resolution=100T&countback=300&cursor=1784677563966606471 HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: cd670e62-54d4-46d9-87b2-4be5cfb317d2
+X-Speakeasy-Test-Name: getTickHistory
+

@@ -1,0 +1,10 @@
+GET /v1/indices/search?indexName=S%26P+500 HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 8146d5a9-8002-4c4c-814e-fb16d7ec1096
+X-Speakeasy-Test-Name: searchIndices
+

@@ -1,0 +1,10 @@
+GET /v1/etf/holdings?date=2024-12-01 HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 390f3a1c-afc8-496c-8818-045bf65bb508
+X-Speakeasy-Test-Name: getEtfHoldings-default
+

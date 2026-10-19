@@ -1,0 +1,10 @@
+GET /v2/accounts/TEST-ACCOUNT-001/balance HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 9d0f0c8b-ae25-48a2-b983-e5b46b001965
+X-Speakeasy-Test-Name: getAccountBalance
+

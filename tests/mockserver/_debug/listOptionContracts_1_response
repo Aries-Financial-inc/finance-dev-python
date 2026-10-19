@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"calls":[{"strikePrice":150,"symbol":"O:AAPL250117C00150000"}],"expiryDate":"2025-01-17","puts":[{"strikePrice":150,"symbol":"O:AAPL250117P00150000"}],"symbol":"AAPL"}

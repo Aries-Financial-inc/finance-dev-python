@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"conferenceCalls":[{"accessCode":"987654","date":"2024-01-16","exchange":"NASDAQ","id":"123456","importance":5,"internationalNum":"+1-212-123-4567","name":"Apple Inc.","notes":"Q1 FY2024 Earnings Call","phoneNum":"1-800-123-4567","reservationNum":"","startTime":"5:00 PM ET","ticker":"AAPL","time":"17:00:00","updated":1705401600,"webcastUrl":"https://investor.apple.com/earnings"}]}

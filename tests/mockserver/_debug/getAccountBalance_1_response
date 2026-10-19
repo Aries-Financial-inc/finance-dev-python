@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"accountId":"TEST-ACCOUNT-001","amountAvailableToWithdraw":"100000","balance":"248874.14377781","cashBalance":"105000","costOfPositions":"180000","credit":"0","creditRemaining":"0","dayOpenPnl":"512.14","dayRealizedPnl":"37.5","dayTotalPnl":"549.64","dayTradeBuyingPower":"50000","dayTradeOvernightRegTBuyingPower":"48000","fundsAvailableForWithdrawal":"98500","grossMargin":"120000","heldBackFunds":"0","intradayMarginBalance":"7000","maintReq":"75000","netBuyingPower":"125000.5","openPnl":"836.64377781","optionBuyingPower":"25000","pdt":"0","pdtCreditRemaining":"0","pendingOrdersCount":0,"pendingOrdersMarginRequirements":"0","realizedPl":"37.5","settledFunds":"100000","sma":"0","smaCreditRemaining":"0","sodFundsAvailableDate":"2026-01-14","sodGrossFundsAvailable":"100000","sodMarginTradeBalance":"-40000","sodNetFundsAvailable":"98500","sodPositionsMarketValue":"180000","sodTtlEquity":"248000","sodTtlEquityUpdatedAt":"2026-01-15T09:30:00Z","startOfDayCash":"95000","stockBuyingPower":"125000.5","unrealizedPl":"836.64377781","unsettledFunds":"5000","valueBought":"45000","valueSold":"12000"}

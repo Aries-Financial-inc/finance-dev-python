@@ -1,0 +1,10 @@
+GET /v1/options/unusual_activity/%3Cvalue%3E?source=delayed HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 3d30b79a-2289-4a1c-83ba-ba9062c92db9
+X-Speakeasy-Test-Name: getOptionsUnusualActivity
+

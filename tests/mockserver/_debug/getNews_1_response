@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"news":[{"action":"","authors":["Jane Smith"],"body":"","id":123456,"news_type":"news","symbols":["AAPL"],"timestamp":"2024-02-16T14:30:00Z","title":"Apple Announces New Product Line"},{"action":"","authors":["John Doe"],"body":"","id":123457,"news_type":"press_release","symbols":["MSFT"],"timestamp":"2024-02-16T13:15:00Z","title":"Microsoft Q4 Earnings Beat Expectations"}]}

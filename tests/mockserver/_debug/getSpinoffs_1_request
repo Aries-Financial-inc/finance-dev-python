@@ -1,0 +1,10 @@
+GET /v1/corporate-actions/spinoffs?identifier=AAPL&identifierType=Symbol&startDate=2020-01-01&endDate=2020-12-31 HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: ebab9964-4c9c-4630-a37d-edb87e164bae
+X-Speakeasy-Test-Name: getSpinoffs
+

@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"metric":{"10DayAverageTradingVolume":32.50147,"52WeekHigh":310.43,"52WeekLow":149.22,"52WeekLowDate":"2019-01-14","52WeekPriceReturnDaily":101.96334,"beta":1.2989},"metricType":"all","series":{"annual":{"currentRatio":[{"period":"2019-09-28","v":1.5401},{"period":"2018-09-29","v":1.1329}],"netMargin":[{"period":"2019-09-28","v":0.2124},{"period":"2018-09-29","v":0.2241}],"salesPerShare":[{"period":"2019-09-28","v":55.9645},{"period":"2018-09-29","v":53.1178}]}},"symbol":"AAPL"}

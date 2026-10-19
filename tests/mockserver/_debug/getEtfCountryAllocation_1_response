@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"data":{"countryExposure":[{"country":"United States","exposure":99.40734100341797},{"country":"Switzerland","exposure":0.2782300114631653},{"country":"Netherlands","exposure":0.12555000185966492}],"symbol":"SPY"}}

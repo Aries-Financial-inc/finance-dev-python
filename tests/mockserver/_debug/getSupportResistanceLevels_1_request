@@ -1,0 +1,10 @@
+GET /v1/scan/support-resistance?symbol=AAPL&resolution=15 HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 9e0f8948-5d5b-468a-8fad-280cd5f39a8f
+X-Speakeasy-Test-Name: getSupportResistanceLevels-default
+

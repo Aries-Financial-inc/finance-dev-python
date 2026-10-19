@@ -1,0 +1,4259 @@
+arazzo: 1.0.1
+info:
+  title: Test Suite
+  summary: Created from /Users/shravan/code/finance-dev-python/.speakeasy/temp/transform_kiphStyLjB.yaml
+  version: 0.0.1
+sourceDescriptions:
+  - name: /Users/shravan/code/finance-dev-python/.speakeasy/temp/transform_kiphStyLjB.yaml
+    url: https://TBD.com
+    type: openapi
+workflows:
+  - workflowId: getAccountPositions
+    steps:
+      - stepId: test
+        operationId: getAccountPositions
+        parameters:
+          - name: id
+            in: path
+            value: TEST-ACCOUNT-001
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"positions":[{"accountId":"TEST-ACCOUNT-001","averagePrice":"170.25","createdAt":"2026-01-10T16:00:00Z","quantity":"100","securityType":"EQUITY","symbol":"AAPL","todayPl":"125.00","todayRealizedPnL":"0","unrealizedPl":"515.00"}]}
+            type: simple
+    x-speakeasy-test-group: accounts
+    x-speakeasy-test-rebuild: true
+  - workflowId: getAccountBalance
+    steps:
+      - stepId: test
+        operationId: getAccountBalance
+        parameters:
+          - name: id
+            in: path
+            value: TEST-ACCOUNT-001
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"accountId":"TEST-ACCOUNT-001","amountAvailableToWithdraw":"100000","balance":"248874.14377781","cashBalance":"105000","costOfPositions":"180000","credit":"0","creditRemaining":"0","dayOpenPnl":"512.14","dayRealizedPnl":"37.5","dayTotalPnl":"549.64","dayTradeBuyingPower":"50000","dayTradeOvernightRegTBuyingPower":"48000","fundsAvailableForWithdrawal":"98500","grossMargin":"120000","heldBackFunds":"0","intradayMarginBalance":"7000","maintReq":"75000","netBuyingPower":"125000.5","openPnl":"836.64377781","optionBuyingPower":"25000","pdt":"0","pdtCreditRemaining":"0","pendingOrdersCount":0,"pendingOrdersMarginRequirements":"0","realizedPl":"37.5","settledFunds":"100000","sma":"0","smaCreditRemaining":"0","sodFundsAvailableDate":"2026-01-14","sodGrossFundsAvailable":"100000","sodMarginTradeBalance":"-40000","sodNetFundsAvailable":"98500","sodPositionsMarketValue":"180000","sodTtlEquity":"248000","sodTtlEquityUpdatedAt":"2026-01-15T09:30:00Z","startOfDayCash":"95000","stockBuyingPower":"125000.5","unrealizedPl":"836.64377781","unsettledFunds":"5000","valueBought":"45000","valueSold":"12000"}
+            type: simple
+    x-speakeasy-test-group: accounts
+    x-speakeasy-test-rebuild: true
+  - workflowId: getUserAccounts
+    steps:
+      - stepId: test
+        operationId: getUserAccounts
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"accounts":[]}
+            type: simple
+    x-speakeasy-test-group: accounts
+    x-speakeasy-test-rebuild: true
+  - workflowId: getAnalystInsights
+    steps:
+      - stepId: test
+        operationId: getAnalystInsights
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"insights":[{"action":"Upgrade","analystInsights":"Raised price target on stronger services revenue.","date":"2026-01-10","firm":"Demo Research","firmId":"firm-42","id":"insight-001","pt":"210.00","rating":"Buy","ratingId":"r-8821","security":{"cik":"0000320193","exchange":"NASDAQ","isin":"US0378331005","name":"Apple Inc.","symbol":"AAPL"},"updated":1736534400}]}
+            type: simple
+    x-speakeasy-test-group: analytics
+    x-speakeasy-test-rebuild: true
+  - workflowId: getMarketBreadth
+    steps:
+      - stepId: test
+        operationId: getMarketBreadth
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"data":{"advanceDeclineRatio":1.85,"advancers":2840,"advancersPercent":62.5,"decliners":1532,"declinersPercent":33.7,"timestamp":"2026-03-09T13:48:11.726532Z","totalSymbols":4544,"unchanged":172}}
+            type: simple
+    x-speakeasy-test-group: analytics
+    x-speakeasy-test-rebuild: true
+  - workflowId: getNetInflow
+    steps:
+      - stepId: test
+        operationId: getNetInflow
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"data":{"nasdaqNetInflow":125000000.5,"nasdaqTradeCount":8500000,"nyseNetInflow":98000000.25,"nyseTradeCount":6200000,"timestamp":"2026-03-09T13:48:11.726532Z"}}
+            type: simple
+    x-speakeasy-test-group: analytics
+    x-speakeasy-test-rebuild: true
+  - workflowId: getRatings
+    steps:
+      - stepId: test
+        operationId: getRatings
+        parameters:
+          - name: tickers
+            in: query
+            value: AAPL,GOOGL
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"ratings":[{"action_company":"maintain","action_pt":"raised","analyst":"jdoe","analyst_id":"an-9001","analyst_name":"Jane Doe","currency":"USD","date":"2026-01-12","exchange":"NASDAQ","id":"rate-1001","importance":2,"name":"Apple Inc.","notes":"Services outlook improved.","pt_current":210,"pt_current_adjusted":208.5,"pt_prior":195,"pt_prior_adjusted":194,"rating_current":"Buy","rating_prior":"Hold","ratings_accuracy":{"avg_return_1m":0.021,"avg_return_1y":0.18,"avg_return_2y":0.31,"avg_return_3m":0.055,"avg_return_3y":0.42,"avg_return_9m":0.12,"gain_count_1m":8,"gain_count_1y":72,"gain_count_2y":130,"gain_count_3m":22,"gain_count_3y":180,"gain_count_9m":58,"loss_count_1m":3,"loss_count_1y":28,"loss_count_2y":48,"loss_count_3m":9,"loss_count_3y":65,"loss_count_9m":21,"smart_score":72.5,"std_dev_return_1m":0.045,"std_dev_return_1y":0.22,"std_dev_return_2y":0.28,"std_dev_return_3m":0.09,"std_dev_return_3y":0.33,"std_dev_return_9m":0.14,"success_rate":0.68,"total_ratings":140},"ticker":"AAPL","time":"09:45:00","updated":"2026-01-12T09:45:00Z"}]}
+            type: simple
+    x-speakeasy-test-group: analytics
+    x-speakeasy-test-rebuild: true
+  - workflowId: getSectorTickers
+    steps:
+      - stepId: test
+        operationId: getSectorTickers
+        parameters:
+          - name: sector
+            in: query
+            value: TECHNOLOGY
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              [{"change":1.25,"changePercent":0.72,"isETF":false,"lastPrice":175.43,"logoUrl":"https://cdn.example.com/logos/AAPL.png","previousClose":174.18,"sector":"Technology","sicCode":"3571","symbol":"AAPL","timestamp":1736956800,"type":"stock","volume":52000000}]
+            type: simple
+    x-speakeasy-test-group: analytics
+    x-speakeasy-test-rebuild: true
+  - workflowId: getSectorWiseChange
+    steps:
+      - stepId: test
+        operationId: getSectorWiseChange
+        parameters:
+          - name: limit
+            in: query
+            value: "15"
+          - name: size
+            in: query
+            value: "15"
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              [{"avgChange":1.25,"sector":"TECHNOLOGY"}]
+            type: simple
+    x-speakeasy-test-group: analytics
+    x-speakeasy-test-rebuild: true
+  - workflowId: getTopGainers
+    steps:
+      - stepId: test
+        operationId: getTopGainers
+        parameters:
+          - name: limit
+            in: query
+            value: 10
+          - name: size
+            in: query
+            value: 10
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              [{"change":1.25,"changePercent":0.72,"isETF":false,"lastPrice":175.43,"logoUrl":"https://cdn.example.com/logos/AAPL.png","previousClose":174.18,"sector":"Technology","sicCode":"3571","symbol":"AAPL","timestamp":1736956800,"type":"stock","volume":52000000}]
+            type: simple
+    x-speakeasy-test-group: analytics
+    x-speakeasy-test-rebuild: true
+  - workflowId: getTopLosers
+    steps:
+      - stepId: test
+        operationId: getTopLosers
+        parameters:
+          - name: limit
+            in: query
+            value: 10
+          - name: size
+            in: query
+            value: 10
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              [{"change":1.25,"changePercent":0.72,"isETF":false,"lastPrice":175.43,"logoUrl":"https://cdn.example.com/logos/AAPL.png","previousClose":174.18,"sector":"Technology","sicCode":"3571","symbol":"AAPL","timestamp":1736956800,"type":"stock","volume":52000000}]
+            type: simple
+    x-speakeasy-test-group: analytics
+    x-speakeasy-test-rebuild: true
+  - workflowId: getTopMostActive
+    steps:
+      - stepId: test
+        operationId: getTopMostActive
+        parameters:
+          - name: limit
+            in: query
+            value: 10
+          - name: size
+            in: query
+            value: 10
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              [{"change":1.25,"changePercent":0.72,"isETF":false,"lastPrice":175.43,"logoUrl":"https://cdn.example.com/logos/AAPL.png","previousClose":174.18,"sector":"Technology","sicCode":"3571","symbol":"AAPL","timestamp":1736956800,"type":"stock","volume":52000000}]
+            type: simple
+    x-speakeasy-test-group: analytics
+    x-speakeasy-test-rebuild: true
+  - workflowId: getOptionsETFsTopVolume
+    steps:
+      - stepId: test
+        operationId: getOptionsETFsTopVolume
+        parameters:
+          - name: size
+            in: query
+            value: 10
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              [{"ask":3.5,"bid":3.4,"change":0.22,"changePercent":6.81,"expiry":"2024-01-19","impliedVolatility":0.28,"lastPrice":3.45,"logoUrl":"https://cdn.example.com/logos/AAPL.png","openInterest":45000,"strike":190,"symbol":"AAPL240119C00190000","type":"c","underlyingSymbol":"AAPL","volume":12500}]
+            type: simple
+    x-speakeasy-test-group: analytics
+    x-speakeasy-test-rebuild: true
+  - workflowId: getOptionsStocksTopGainers
+    steps:
+      - stepId: test
+        operationId: getOptionsStocksTopGainers
+        parameters:
+          - name: size
+            in: query
+            value: 10
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              [{"ask":3.5,"bid":3.4,"change":0.22,"changePercent":6.81,"expiry":"2024-01-19","impliedVolatility":0.28,"lastPrice":3.45,"logoUrl":"https://cdn.example.com/logos/AAPL.png","openInterest":45000,"strike":190,"symbol":"AAPL240119C00190000","type":"c","underlyingSymbol":"AAPL","volume":12500}]
+            type: simple
+    x-speakeasy-test-group: analytics
+    x-speakeasy-test-rebuild: true
+  - workflowId: getOptionsStocksTopVolume
+    steps:
+      - stepId: test
+        operationId: getOptionsStocksTopVolume
+        parameters:
+          - name: size
+            in: query
+            value: 10
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              [{"ask":3.5,"bid":3.4,"change":0.22,"changePercent":6.81,"expiry":"2024-01-19","impliedVolatility":0.28,"lastPrice":3.45,"logoUrl":"https://cdn.example.com/logos/AAPL.png","openInterest":45000,"strike":190,"symbol":"AAPL240119C00190000","type":"c","underlyingSymbol":"AAPL","volume":12500}]
+            type: simple
+    x-speakeasy-test-group: analytics
+    x-speakeasy-test-rebuild: true
+  - workflowId: stockScreener-marketCapAndPE
+    steps:
+      - stepId: test
+        operationId: stockScreener
+        parameters:
+          - name: order_direction
+            in: query
+            value: asc
+        requestBody:
+          contentType: application/json
+          payload:
+            clauses:
+              - field: marketcap
+                operator: gte
+                value: "1000000000"
+              - field: pricetoearnings
+                operator: gte
+                value: "5"
+              - field: pricetoearnings
+                operator: lte
+                value: "25"
+            operator: AND
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              [{}]
+            type: simple
+    x-speakeasy-test-group: analytics
+    x-speakeasy-test-rebuild: true
+  - workflowId: stockScreener-roeAndEps
+    steps:
+      - stepId: test
+        operationId: stockScreener
+        parameters:
+          - name: order_direction
+            in: query
+            value: asc
+        requestBody:
+          contentType: application/json
+          payload:
+            clauses:
+              - field: roe
+                operator: gte
+                value: "0.15"
+              - field: dilutedeps
+                operator: gte
+                value: "1"
+            operator: AND
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              [{}]
+            type: simple
+    x-speakeasy-test-group: analytics
+    x-speakeasy-test-rebuild: true
+  - workflowId: stockScreener
+    steps:
+      - stepId: test
+        operationId: stockScreener
+        parameters:
+          - name: order_direction
+            in: query
+            value: asc
+        requestBody:
+          contentType: application/json
+          payload:
+            groups: []
+            operator: NOT
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              [{}]
+            type: simple
+    x-speakeasy-test-group: analytics
+    x-speakeasy-test-rebuild: true
+  - workflowId: getConferenceCalls-success
+    steps:
+      - stepId: test
+        operationId: getConferenceCalls
+        parameters:
+          - name: dateFrom
+            in: query
+            value: "2024-01-15"
+          - name: dateTo
+            in: query
+            value: "2024-01-19"
+          - name: tickers
+            in: query
+            value: AAPL,MSFT,GOOGL
+          - name: page
+            in: query
+            value: 0
+          - name: pageSize
+            in: query
+            value: 100
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"conferenceCalls":[{"accessCode":"987654","date":"2024-01-16","exchange":"NASDAQ","id":"123456","importance":5,"internationalNum":"+1-212-123-4567","name":"Apple Inc.","notes":"Q1 FY2024 Earnings Call","phoneNum":"1-800-123-4567","reservationNum":"","startTime":"5:00 PM ET","ticker":"AAPL","time":"17:00:00","updated":1705401600,"webcastUrl":"https://investor.apple.com/earnings"}]}
+            type: simple
+    x-speakeasy-test-group: calendar
+    x-speakeasy-test-rebuild: true
+  - workflowId: getEarningsCalendar
+    steps:
+      - stepId: test
+        operationId: getEarningsCalendar
+        parameters:
+          - name: from
+            in: query
+            value: "2024-01-01"
+          - name: to
+            in: query
+            value: "2024-01-31"
+          - name: symbol
+            in: query
+            value: AAPL
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              [{}]
+            type: simple
+    x-speakeasy-test-group: calendar
+    x-speakeasy-test-rebuild: true
+  - workflowId: getEarningsCalendar-success
+    steps:
+      - stepId: test
+        operationId: getEarningsCalendar
+        parameters:
+          - name: from
+            in: query
+            value: "2024-01-01"
+          - name: to
+            in: query
+            value: "2024-01-31"
+          - name: symbol
+            in: query
+            value: AAPL
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              [{"analystRating":{"averageReturn":"15.3%","currentRating":"Buy","priceTarget":200.5,"successRate":"72%","totalRatings":45},"date":"2024-01-16","epsActual":2.18,"epsEstimate":2.1,"epsSurprise":0.08,"hour":"amc","importance":3,"logo":{"logoDark":"https://example.com/aapl-dark.png","logoLight":"https://example.com/aapl-light.png"},"marketCap":2850000,"name":"Apple Inc.","quarter":1,"revenueActual":119580000000,"revenueEstimate":118000000000,"revenueSurprise":1580000000,"symbol":"AAPL","time":"06:45:00","year":2024}]
+            type: simple
+    x-speakeasy-test-group: calendar
+    x-speakeasy-test-rebuild: true
+  - workflowId: getEconomicsCalendar
+    steps:
+      - stepId: test
+        operationId: getEconomicsCalendar
+        parameters:
+          - name: date
+            in: query
+            value: "2024-01-15"
+          - name: from
+            in: query
+            value: "2024-01-15"
+          - name: to
+            in: query
+            value: "2024-03-15"
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"events":[{"calendarID":"te_395222","category":"Continuing Jobless Claims","country":"United States","date":"2026-03-05","event":"Continuing Jobless Claims","forecast":"1850K","importance":1,"lastUpdate":"2026-03-03T10:49:26.58","previous":"1833K","reference":"Feb/21","referenceDate":"2026-02-21T00:00:00Z","source":"U.S. Department of Labor","sourceUrl":"http://www.dol.gov","symbol":"UNITEDSTACONJOBCLA","teForecast":"1840.0K","ticker":"UNITEDSTACONJOBCLA","time":"13:30:00","unit":"K"}]}
+            type: simple
+    x-speakeasy-test-group: calendar
+    x-speakeasy-test-rebuild: true
+  - workflowId: getHistoricalData
+    steps:
+      - stepId: test
+        operationId: getHistoricalData
+        parameters:
+          - name: symbol
+            in: path
+            value: USURTOT
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              [{"category":"Employment","country":"US","dateTime":"2026-01-15T08:30:00Z","frequency":"monthly","historicalDataSymbol":"USURTOT","lastUpdate":"2026-01-15T08:30:00Z","value":3.7}]
+            type: simple
+    x-speakeasy-test-group: calendar
+    x-speakeasy-test-rebuild: true
+  - workflowId: getMergersAndAcquisitions
+    steps:
+      - stepId: test
+        operationId: getMergersAndAcquisitions
+        parameters:
+          - name: dateFrom
+            in: query
+            value: "2024-01-01"
+          - name: dateTo
+            in: query
+            value: "2024-12-31"
+          - name: tickers
+            in: query
+            value: AAPL,MSFT
+          - name: page
+            in: query
+            value: 0
+          - name: pageSize
+            in: query
+            value: 50
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: calendar
+    x-speakeasy-test-rebuild: true
+  - workflowId: getChartConfig
+    steps:
+      - stepId: test
+        operationId: getChartConfig
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"daily_multipliers":["1"],"has_daily":true,"has_intraday":true,"has_weekly_and_monthly":true,"intraday_multipliers":["1","5","15","30","60","240"],"monthly_multipliers":["1"],"supported_resolutions":["1T","5T","10T","25T","50T","100T","250T","500T","1000T","1","3","5","15","30","45","60","120","180","240","1D","1W","1M","3M","6M","12M"],"supports_group_request":false,"supports_marks":false,"supports_search":true,"supports_time":false,"supports_timescale_marks":false,"weekly_multipliers":["1"]}
+            type: simple
+    x-speakeasy-test-group: chart
+    x-speakeasy-test-rebuild: true
+  - workflowId: getChartHistory
+    steps:
+      - stepId: test
+        operationId: getChartHistory
+        parameters:
+          - name: symbol
+            in: query
+            value: AAPL
+          - name: resolution
+            in: query
+            value: D
+          - name: from
+            in: query
+            value: 1672531200
+          - name: to
+            in: query
+            value: 1675209600
+          - name: includeExtended
+            in: query
+            value: false
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"s":"error"}
+            type: simple
+    x-speakeasy-test-group: chart
+    x-speakeasy-test-rebuild: true
+  - workflowId: getChartHistory-success
+    steps:
+      - stepId: test
+        operationId: getChartHistory
+        parameters:
+          - name: symbol
+            in: query
+            value: AAPL
+          - name: resolution
+            in: query
+            value: D
+          - name: from
+            in: query
+            value: 1672531200
+          - name: to
+            in: query
+            value: 1675209600
+          - name: includeExtended
+            in: query
+            value: false
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"c":[130.15,130.89,131.24],"h":[130.28,131.05,131.37],"l":[129.88,130.09,130.81],"nextTime":1672542000,"o":[129.93,130.15,130.89],"s":"ok","t":[1672531200,1672534800,1672538400],"v":[1234567,1345678,1456789]}
+            type: simple
+    x-speakeasy-test-group: chart
+    x-speakeasy-test-rebuild: true
+  - workflowId: getChartHistory-noData
+    steps:
+      - stepId: test
+        operationId: getChartHistory
+        parameters:
+          - name: symbol
+            in: query
+            value: AAPL
+          - name: resolution
+            in: query
+            value: "60"
+          - name: from
+            in: query
+            value: 1672531200
+          - name: to
+            in: query
+            value: 1675209600
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"s": "no_data", "errmsg": "No data available for the requested period"}
+            type: simple
+    x-speakeasy-test-group: chart
+    x-speakeasy-test-rebuild: true
+  - workflowId: getChartHistory-error
+    steps:
+      - stepId: test
+        operationId: getChartHistory
+        parameters:
+          - name: symbol
+            in: query
+            value: AAPL
+          - name: resolution
+            in: query
+            value: "60"
+          - name: from
+            in: query
+            value: 1672531200
+          - name: to
+            in: query
+            value: 1675209600
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"s": "error", "errmsg": "Failed to fetch historical data"}
+            type: simple
+    x-speakeasy-test-group: chart
+    x-speakeasy-test-rebuild: true
+  - workflowId: getQuotes
+    steps:
+      - stepId: test
+        operationId: getQuotes
+        parameters:
+          - name: symbols
+            in: query
+            value: AAPL,GOOGL,MSFT
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: chart
+    x-speakeasy-test-rebuild: true
+  - workflowId: searchSymbols-stock
+    steps:
+      - stepId: test
+        operationId: searchSymbols
+        parameters:
+          - name: query
+            in: query
+            value: AAPL
+          - name: limit
+            in: query
+            value: 20
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              [{}]
+            type: simple
+    x-speakeasy-test-group: chart
+    x-speakeasy-test-rebuild: true
+  - workflowId: searchSymbols-option
+    steps:
+      - stepId: test
+        operationId: searchSymbols
+        parameters:
+          - name: query
+            in: query
+            value: .AAPL
+          - name: limit
+            in: query
+            value: 20
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              [{}]
+            type: simple
+    x-speakeasy-test-group: chart
+    x-speakeasy-test-rebuild: true
+  - workflowId: searchSymbols-stock_results
+    steps:
+      - stepId: test
+        operationId: searchSymbols
+        parameters:
+          - name: query
+            in: query
+            value: <value>
+          - name: limit
+            in: query
+            value: 20
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              [{"symbol": "AAPL", "description": "Apple Inc.", "tag": "technology", "type": "stock"}, {"symbol": "AAPLW", "description": "Apple Inc. Warrant", "tag": "warrant", "type": "warrant"}]
+            type: simple
+    x-speakeasy-test-group: chart
+    x-speakeasy-test-rebuild: true
+  - workflowId: searchSymbols-option_results
+    steps:
+      - stepId: test
+        operationId: searchSymbols
+        parameters:
+          - name: query
+            in: query
+            value: <value>
+          - name: limit
+            in: query
+            value: 20
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              [{"symbol": "AAPL240315C00150000", "description": "AAPL Mar 15 2024 $150 Call", "tag": "option", "type": "option"}, {"symbol": "AAPL240315P00150000", "description": "AAPL Mar 15 2024 $150 Put", "tag": "option", "type": "option"}]
+            type: simple
+    x-speakeasy-test-group: chart
+    x-speakeasy-test-rebuild: true
+  - workflowId: searchSymbols
+    steps:
+      - stepId: test
+        operationId: searchSymbols
+        parameters:
+          - name: query
+            in: query
+            value: Apple
+          - name: limit
+            in: query
+            value: 20
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              [{"type":"stock"}]
+            type: simple
+    x-speakeasy-test-group: chart
+    x-speakeasy-test-rebuild: true
+  - workflowId: getSymbolInfo
+    steps:
+      - stepId: test
+        operationId: getSymbolInfo
+        parameters:
+          - name: symbol
+            in: query
+            value: AAPL
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"daily_multipliers":["<value 1>"],"description":"bran serialize ultimate naturally than phooey huzzah","exchange":"<value>","format":"<value>","has_daily":true,"has_intraday":true,"has_seconds":true,"has_ticks":false,"has_weekly_and_monthly":true,"intraday_multipliers":[],"listed_exchange":"<value>","minmov":8533.24,"monthly_multipliers":["<value 1>"],"name":"<value>","pricescale":5280,"session":"<value>","subsession_id":"<id>","subsessions":[],"supported_resolutions":["<value 1>"],"ticker":"<value>","timezone":"Pacific/Niue","type":"stock","visible_plots_set":"<value>","volume_precision":433.17,"weekly_multipliers":["<value 1>","<value 2>","<value 3>"]}
+            type: simple
+    x-speakeasy-test-group: chart
+    x-speakeasy-test-rebuild: true
+  - workflowId: getTickHistory
+    steps:
+      - stepId: test
+        operationId: getTickHistory
+        parameters:
+          - name: symbol
+            in: query
+            value: AAPL
+          - name: resolution
+            in: query
+            value: 100T
+          - name: countback
+            in: query
+            value: 300
+          - name: cursor
+            in: query
+            value: "1784677563966606471"
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"s":"no_data"}
+            type: simple
+    x-speakeasy-test-group: chart
+    x-speakeasy-test-rebuild: true
+  - workflowId: getTickHistory-success
+    steps:
+      - stepId: test
+        operationId: getTickHistory
+        parameters:
+          - name: symbol
+            in: query
+            value: AAPL
+          - name: resolution
+            in: query
+            value: 100T
+          - name: countback
+            in: query
+            value: 300
+          - name: cursor
+            in: query
+            value: "1784677563966606471"
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"c":[130.15,130.89,131.24],"h":[130.28,131.05,131.37],"l":[129.88,130.09,130.81],"nextTo":"1784677563966606471","o":[129.93,130.15,130.89],"s":"ok","t":[1784677561000,1784677562500,1784677563966],"v":[1234567,1345678,1456789]}
+            type: simple
+    x-speakeasy-test-group: chart
+    x-speakeasy-test-rebuild: true
+  - workflowId: getChartTime
+    steps:
+      - stepId: test
+        operationId: getChartTime
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == text/plain
+          - context: $response.body
+            condition: |
+              "<value>"
+            type: simple
+    x-speakeasy-test-group: chart
+    x-speakeasy-test-rebuild: true
+  - workflowId: getCompanyExecutives-default
+    steps:
+      - stepId: test
+        operationId: getCompanyExecutives
+        parameters:
+          - name: symbol
+            in: query
+            value: AAPL
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"executives":[{"age":64,"compensation":74294811,"currency":"USD","name":"Mr. Timothy Cook","position":"Mr. Timothy Cook","sex":"male","since":"1998"}]}
+            type: simple
+    x-speakeasy-test-group: company
+    x-speakeasy-test-rebuild: true
+  - workflowId: getCompanyMetrics-default
+    steps:
+      - stepId: test
+        operationId: getCompanyMetrics
+        parameters:
+          - name: symbol
+            in: query
+            value: AAPL
+          - name: metric
+            in: query
+            value: all
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"metric":{"10DayAverageTradingVolume":32.50147,"52WeekHigh":310.43,"52WeekLow":149.22,"52WeekLowDate":"2019-01-14","52WeekPriceReturnDaily":101.96334,"beta":1.2989},"metricType":"all","series":{"annual":{"currentRatio":[{"period":"2019-09-28","v":1.5401}, {"period":"2018-09-29","v":1.1329}],"netMargin":[{"period":"2019-09-28","v":0.2124}, {"period":"2018-09-29","v":0.2241}],"salesPerShare":[{"period":"2019-09-28","v":55.9645}, {"period":"2018-09-29","v":53.1178}]}},"symbol":"AAPL"}
+            type: simple
+    x-speakeasy-test-group: company
+    x-speakeasy-test-rebuild: true
+  - workflowId: getCompanyPeers-default
+    steps:
+      - stepId: test
+        operationId: getCompanyPeers
+        parameters:
+          - name: symbol
+            in: query
+            value: AAPL
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"peers":["AAPL","DELL","WDC","SNDK","HPE","PSTG","HPQ","NTAP","SMCI","IONQ","QUBT","CMPO"]}
+            type: simple
+    x-speakeasy-test-group: company
+    x-speakeasy-test-rebuild: true
+  - workflowId: getCompanyProfile-default
+    steps:
+      - stepId: test
+        operationId: getCompanyProfile
+        parameters:
+          - name: symbol
+            in: query
+            value: AAPL
+          - name: isin
+            in: query
+            value: US0378331005
+          - name: cusip
+            in: query
+            value: "037833100"
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"address":"One Apple Park Way","alias":"Apple Computer Inc, Apple Computer","city":"Cupertino","country":"US","currency":"USD","cusip":"037833100","description":"Apple Inc. designs, manufactures, and markets smartphones, personal computers, tablets, wearables, and accessories worldwide.","employeeTotal":161000,"estimateCurrency":"USD","exchange":"NASDAQ NMS - GLOBAL MARKET","ggroup":"Technology Hardware & Equipment","gind":"Technology Hardware, Storage & Peripherals","gsector":"Information Technology","gsubind":"Technology Hardware, Storage & Peripherals","ipo":"1980-12-12","irUrl":"https://investor.apple.com/","isin":"US0378331005","lei":"HWUPKR0MPOU8FGXBT394","logo":"https://api.aries.com/v1/logos/image/a/path","marketCapCurrency":"USD","marketCapitalization":4108269.25,"naics":"334220","naicsNationalIndustry":"Radio and Television Broadcasting and Wireless Communications Equipment Manufacturing","naicsSector":"Manufacturing","naicsSubsector":"Computer and Electronic Product Manufacturing","name":"Apple Inc","phone":"14089961010","sector":"Technology","sedol":"2046251","shareOutstanding":14776.349609375,"state":"CA","ticker":"AAPL","weburl":"https://www.apple.com/"}
+            type: simple
+    x-speakeasy-test-group: company
+    x-speakeasy-test-rebuild: true
+  - workflowId: getConfigWatchlists-watchlists
+    steps:
+      - stepId: test
+        operationId: getConfigWatchlists
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"user_id":98765,"watchlist":[{"id":12345,"name":"Tech Stocks","symbols":["AAPL","GOOGL","MSFT"]}, {"id":12346,"name":"Finance","symbols":["JPM","BAC","GS"]}]}
+            type: simple
+    x-speakeasy-test-group: watchlist_SDK
+    x-speakeasy-test-rebuild: true
+  - workflowId: createConfigWatchlist-createWatchlist
+    steps:
+      - stepId: test
+        operationId: createConfigWatchlist
+        requestBody:
+          contentType: application/json
+          payload:
+            name: Tech Stocks
+            symbols:
+              - AAPL
+              - GOOGL
+              - MSFT
+        successCriteria:
+          - condition: $statusCode == 201
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: watchlist_SDK
+    x-speakeasy-test-rebuild: true
+  - workflowId: createConfigWatchlist-created
+    steps:
+      - stepId: test
+        operationId: createConfigWatchlist
+        requestBody:
+          contentType: application/json
+          payload:
+            name: <value>
+            symbols:
+              - AAPL
+              - GOOGL
+              - MSFT
+        successCriteria:
+          - condition: $statusCode == 201
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"id":12345,"name":"Tech Stocks","symbols":["AAPL","GOOGL","MSFT"]}
+            type: simple
+    x-speakeasy-test-group: watchlist_SDK
+    x-speakeasy-test-rebuild: true
+  - workflowId: createConfigWatchlist-createdWithInvalidSymbols
+    steps:
+      - stepId: test
+        operationId: createConfigWatchlist
+        requestBody:
+          contentType: application/json
+          payload:
+            name: <value>
+            symbols:
+              - AAPL
+              - GOOGL
+              - MSFT
+        successCriteria:
+          - condition: $statusCode == 201
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"id":12346,"invalid_symbols":["NOTASYMBOL"],"name":"Tech Stocks","symbols":["AAPL","GOOGL"]}
+            type: simple
+    x-speakeasy-test-group: watchlist_SDK
+    x-speakeasy-test-rebuild: true
+  - workflowId: replaceConfigWatchlists-replaceAll
+    steps:
+      - stepId: test
+        operationId: replaceConfigWatchlists
+        requestBody:
+          contentType: application/json
+          payload:
+            - name: Tech Stocks
+              symbols:
+                - AAPL
+                - GOOGL
+                - MSFT
+            - name: Finance
+              symbols:
+                - JPM
+                - BAC
+                - GS
+        successCriteria:
+          - condition: $statusCode == 201
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: watchlist_SDK
+    x-speakeasy-test-rebuild: true
+  - workflowId: replaceConfigWatchlists-resetAll
+    steps:
+      - stepId: test
+        operationId: replaceConfigWatchlists
+        requestBody:
+          contentType: application/json
+          payload: []
+        successCriteria:
+          - condition: $statusCode == 201
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: watchlist_SDK
+    x-speakeasy-test-rebuild: true
+  - workflowId: replaceConfigWatchlists-replaced
+    steps:
+      - stepId: test
+        operationId: replaceConfigWatchlists
+        requestBody:
+          contentType: application/json
+          payload:
+            - name: <value>
+              symbols:
+                - AAPL
+                - GOOGL
+                - MSFT
+        successCriteria:
+          - condition: $statusCode == 201
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"user_id":98765,"watchlist":[{"id":12345,"name":"Tech Stocks","symbols":["AAPL","GOOGL","MSFT"]}, {"id":12347,"name":"Finance","symbols":["JPM","BAC","GS"]}]}
+            type: simple
+    x-speakeasy-test-group: watchlist_SDK
+    x-speakeasy-test-rebuild: true
+  - workflowId: replaceConfigWatchlists-resetToDefault
+    steps:
+      - stepId: test
+        operationId: replaceConfigWatchlists
+        requestBody:
+          contentType: application/json
+          payload:
+            - name: <value>
+              symbols:
+                - AAPL
+                - GOOGL
+                - MSFT
+        successCriteria:
+          - condition: $statusCode == 201
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"user_id":98765,"watchlist":[{"id":12348,"name":"Default","symbols":[]}]}
+            type: simple
+    x-speakeasy-test-group: watchlist_SDK
+    x-speakeasy-test-rebuild: true
+  - workflowId: deleteConfigWatchlistById-deleted
+    steps:
+      - stepId: test
+        operationId: deleteConfigWatchlistById
+        parameters:
+          - name: watchlist_id
+            in: path
+            value: 12345
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"id":12345,"name":"Tech Stocks","symbols":["AAPL","GOOGL","MSFT"]}
+            type: simple
+    x-speakeasy-test-group: watchlist_SDK
+    x-speakeasy-test-rebuild: true
+  - workflowId: deleteConfigWatchlistById-resetToDefault
+    steps:
+      - stepId: test
+        operationId: deleteConfigWatchlistById
+        parameters:
+          - name: watchlist_id
+            in: path
+            value: 12345
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"id":12345,"name":"Default","symbols":[]}
+            type: simple
+    x-speakeasy-test-group: watchlist_SDK
+    x-speakeasy-test-rebuild: true
+  - workflowId: getConfigWatchlistById-found
+    steps:
+      - stepId: test
+        operationId: getConfigWatchlistById
+        parameters:
+          - name: watchlist_id
+            in: path
+            value: 12345
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"id":12345,"name":"Tech Stocks","symbols":["AAPL","GOOGL","MSFT"]}
+            type: simple
+    x-speakeasy-test-group: watchlist_SDK
+    x-speakeasy-test-rebuild: true
+  - workflowId: updateConfigWatchlistById-addAndRemoveSymbols
+    steps:
+      - stepId: test
+        operationId: updateConfigWatchlistById
+        parameters:
+          - name: watchlist_id
+            in: path
+            value: 12345
+        requestBody:
+          contentType: application/json
+          payload:
+            add_symbols:
+              - TSLA
+            remove_symbols:
+              - MSFT
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: watchlist_SDK
+    x-speakeasy-test-rebuild: true
+  - workflowId: updateConfigWatchlistById-renameWatchlist
+    steps:
+      - stepId: test
+        operationId: updateConfigWatchlistById
+        parameters:
+          - name: watchlist_id
+            in: path
+            value: 12345
+        requestBody:
+          contentType: application/json
+          payload:
+            name: Growth Stocks
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: watchlist_SDK
+    x-speakeasy-test-rebuild: true
+  - workflowId: updateConfigWatchlistById-renamed
+    steps:
+      - stepId: test
+        operationId: updateConfigWatchlistById
+        parameters:
+          - name: watchlist_id
+            in: path
+            value: 12345
+        requestBody:
+          contentType: application/json
+          payload:
+            add_symbols:
+              - TSLA
+            remove_symbols:
+              - MSFT
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"id":12345,"name":"Growth Stocks","symbols":["AAPL","GOOGL","MSFT"]}
+            type: simple
+    x-speakeasy-test-group: watchlist_SDK
+    x-speakeasy-test-rebuild: true
+  - workflowId: updateConfigWatchlistById-symbolsUpdated
+    steps:
+      - stepId: test
+        operationId: updateConfigWatchlistById
+        parameters:
+          - name: watchlist_id
+            in: path
+            value: 12345
+        requestBody:
+          contentType: application/json
+          payload:
+            add_symbols:
+              - TSLA
+            remove_symbols:
+              - MSFT
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"id":12345,"name":"Growth Stocks","symbols":["AAPL","GOOGL","TSLA"]}
+            type: simple
+    x-speakeasy-test-group: watchlist_SDK
+    x-speakeasy-test-rebuild: true
+  - workflowId: updateConfigWatchlistById-symbolsUpdatedWithInvalid
+    steps:
+      - stepId: test
+        operationId: updateConfigWatchlistById
+        parameters:
+          - name: watchlist_id
+            in: path
+            value: 12345
+        requestBody:
+          contentType: application/json
+          payload:
+            add_symbols:
+              - TSLA
+            remove_symbols:
+              - MSFT
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"id":12345,"invalid_symbols":["NOTASYMBOL"],"name":"Growth Stocks","symbols":["AAPL","GOOGL"]}
+            type: simple
+    x-speakeasy-test-group: watchlist_SDK
+    x-speakeasy-test-rebuild: true
+  - workflowId: getDividends-default
+    steps:
+      - stepId: test
+        operationId: getDividends
+        parameters:
+          - name: ticker
+            in: query
+            value: AAPL
+          - name: tickersAnyOf
+            in: query
+            value: AAPL,MSFT,GOOG
+          - name: tickerFrom
+            in: query
+            value: A
+          - name: tickerAfter
+            in: query
+            value: A
+          - name: tickerTo
+            in: query
+            value: Z
+          - name: tickerBefore
+            in: query
+            value: Z
+          - name: exDividendDate
+            in: query
+            value: "2024-08-11"
+          - name: exDividendDateFrom
+            in: query
+            value: "2024-01-01"
+          - name: exDividendDateAfter
+            in: query
+            value: "2024-01-01"
+          - name: exDividendDateTo
+            in: query
+            value: "2024-12-31"
+          - name: exDividendDateBefore
+            in: query
+            value: "2024-12-31"
+          - name: frequency
+            in: query
+            value: 4
+          - name: frequencyMin
+            in: query
+            value: 1
+          - name: frequencyAbove
+            in: query
+            value: 0
+          - name: frequencyMax
+            in: query
+            value: 12
+          - name: frequencyBelow
+            in: query
+            value: 13
+          - name: distributionType
+            in: query
+            value: recurring
+          - name: distributionTypes
+            in: query
+            value: recurring,special
+          - name: limit
+            in: query
+            value: 100
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"nextUrl":"https://api.aries.com/v1/corporate-actions/dividends?next=...","requestId":"abdd5e0f749621028802750474bc45cc","results":[{"cashAmount":0.26,"distributionType":"recurring","exDividendDate":"2025-11-10","frequency":4,"payDate":"2025-11-13","recordDate":"2025-11-10","ticker":"AAPL"}],"status":"OK"}
+            type: simple
+    x-speakeasy-test-group: corporateActions
+    x-speakeasy-test-rebuild: true
+  - workflowId: getIpoCalendar-default
+    steps:
+      - stepId: test
+        operationId: getIpoCalendar
+        parameters:
+          - name: from
+            in: query
+            value: "2024-01-01"
+          - name: to
+            in: query
+            value: "2024-12-31"
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"ipos":[{"date":"2024-07-16","exchange":"","name":"Expectation Acquisition Corp","priceFrom":0,"priceTo":0,"status":"filed","symbol":"ESPAU","totalSharesValue":69000000}]}
+            type: simple
+    x-speakeasy-test-group: corporateActions
+    x-speakeasy-test-rebuild: true
+  - workflowId: getSpinoffs
+    steps:
+      - stepId: test
+        operationId: getSpinoffs
+        parameters:
+          - name: identifier
+            in: query
+            value: AAPL
+          - name: identifierType
+            in: query
+            value: Symbol
+          - name: startDate
+            in: query
+            value: "2020-01-01"
+          - name: endDate
+            in: query
+            value: "2020-12-31"
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: corporateActions
+    x-speakeasy-test-rebuild: true
+  - workflowId: getTenderOffers
+    steps:
+      - stepId: test
+        operationId: getTenderOffers
+        parameters:
+          - name: identifier
+            in: query
+            value: AAPL
+          - name: identifierType
+            in: query
+            value: Symbol
+          - name: startDate
+            in: query
+            value: "2024-01-01"
+          - name: endDate
+            in: query
+            value: "2024-12-31"
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"tenderOffers":[]}
+            type: simple
+    x-speakeasy-test-group: corporateActions
+    x-speakeasy-test-rebuild: true
+  - workflowId: getStockSplits-default
+    steps:
+      - stepId: test
+        operationId: getStockSplits
+        parameters:
+          - name: ticker
+            in: query
+            value: AAPL
+          - name: tickersAnyOf
+            in: query
+            value: AAPL,TSLA,NVDA
+          - name: tickerFrom
+            in: query
+            value: A
+          - name: tickerAfter
+            in: query
+            value: A
+          - name: tickerTo
+            in: query
+            value: Z
+          - name: tickerBefore
+            in: query
+            value: Z
+          - name: executionDate
+            in: query
+            value: "2020-08-31"
+          - name: executionDateFrom
+            in: query
+            value: "2020-01-01"
+          - name: executionDateAfter
+            in: query
+            value: "2020-01-01"
+          - name: executionDateTo
+            in: query
+            value: "2024-12-31"
+          - name: executionDateBefore
+            in: query
+            value: "2024-12-31"
+          - name: adjustmentType
+            in: query
+            value: forward_split
+          - name: adjustmentTypes
+            in: query
+            value: forward_split,reverse_split
+          - name: limit
+            in: query
+            value: 100
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"requestId":"a47d1beb8c11b6ae897ab76a1b095d8d","results":[{"adjustmentType":"forward_split","executionDate":"2020-08-31","historicalAdjustmentFactor":0.25,"id":"E987D589F61E7FAE48774F7C79B0E801","splitFrom":1,"splitTo":4,"ticker":"AAPL"}],"status":"OK"}
+            type: simple
+    x-speakeasy-test-group: corporateActions
+    x-speakeasy-test-rebuild: true
+  - workflowId: getInflation-success
+    steps:
+      - stepId: test
+        operationId: getInflation
+        parameters:
+          - name: date
+            in: query
+            value: "2024-01-15"
+          - name: dates
+            in: query
+            value: 2024-01-15,2024-01-16
+          - name: dateFrom
+            in: query
+            value: "2024-01-01"
+          - name: dateTo
+            in: query
+            value: "2024-01-31"
+          - name: dateAfter
+            in: query
+            value: "2024-01-01"
+          - name: dateBefore
+            in: query
+            value: "2024-01-31"
+          - name: limit
+            in: query
+            value: 100
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"nextUrl":"https://api.aries.com/v1/economy/inflation?next=...","requestId":"6f5e44c7321c4947a7702654d2d3e0fa","results":[{"cpi":324.368,"cpiCore":330.542,"date":"2025-09-01","pce":127.625,"pceCore":126.954,"pceSpending":21152.2}, {"cpi":316.449,"cpiCore":322.619,"cpiYearOverYear":2.74938,"date":"2024-11-01","pce":124.637,"pceCore":123.962,"pceSpending":20313.6}],"status":"OK"}
+            type: simple
+    x-speakeasy-test-group: economy
+    x-speakeasy-test-rebuild: true
+  - workflowId: getInflationExpectations-success
+    steps:
+      - stepId: test
+        operationId: getInflationExpectations
+        parameters:
+          - name: date
+            in: query
+            value: "2024-01-15"
+          - name: dates
+            in: query
+            value: 2024-01-15,2024-01-16
+          - name: dateFrom
+            in: query
+            value: "2024-01-01"
+          - name: dateTo
+            in: query
+            value: "2024-01-31"
+          - name: dateAfter
+            in: query
+            value: "2024-01-01"
+          - name: dateBefore
+            in: query
+            value: "2024-01-31"
+          - name: limit
+            in: query
+            value: 100
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"nextUrl":"https://api.aries.com/v1/economy/inflation-expectations?next=...","requestId":"c02d532304a9443ab43b2e4b691c8706","results":[{"date":"2025-11-01","forwardYears5To10":2.18,"market10Year":2.27,"market5Year":2.35,"model10Year":2.3071296,"model1Year":2.703875,"model30Year":2.431894,"model5Year":2.3309433}],"status":"OK"}
+            type: simple
+    x-speakeasy-test-group: economy
+    x-speakeasy-test-rebuild: true
+  - workflowId: getTreasuryYields-success
+    steps:
+      - stepId: test
+        operationId: getTreasuryYields
+        parameters:
+          - name: date
+            in: query
+            value: "2024-01-15"
+          - name: dates
+            in: query
+            value: 2024-01-15,2024-01-16
+          - name: dateFrom
+            in: query
+            value: "2024-01-01"
+          - name: dateTo
+            in: query
+            value: "2024-01-31"
+          - name: dateAfter
+            in: query
+            value: "2024-01-01"
+          - name: dateBefore
+            in: query
+            value: "2024-01-31"
+          - name: limit
+            in: query
+            value: 100
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"nextUrl":"https://api.aries.com/v1/economy/treasury-yields?next=...","requestId":"0cacd52605954a20afa995624faa46b9","results":[{"date":"2025-12-22","yield10Year":4.17,"yield1Month":3.72,"yield1Year":3.53,"yield2Year":3.44,"yield30Year":4.84,"yield3Month":3.64,"yield5Year":3.71}],"status":"OK"}
+            type: simple
+    x-speakeasy-test-group: economy
+    x-speakeasy-test-rebuild: true
+  - workflowId: getEtbList-not_loaded
+    steps:
+      - stepId: test
+        operationId: getEtbList
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"count":0,"symbols":[]}
+            type: simple
+    x-speakeasy-test-group: market
+    x-speakeasy-test-rebuild: true
+  - workflowId: getEtbList-success
+    steps:
+      - stepId: test
+        operationId: getEtbList
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"count":5,"symbols":["A","AA","AAPL","ABBRF","ACN"]}
+            type: simple
+    x-speakeasy-test-group: market
+    x-speakeasy-test-rebuild: true
+  - workflowId: searchEtbSymbols-duplicatesCollapse
+    steps:
+      - stepId: test
+        operationId: searchEtbSymbols
+        requestBody:
+          contentType: application/json
+          payload:
+            symbols:
+              - aapl
+              - ' AAPL '
+              - AAPL
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"count":1,"results":{"AAPL":true}}
+            type: simple
+    x-speakeasy-test-group: market
+    x-speakeasy-test-rebuild: true
+  - workflowId: searchEtbSymbols-mixedCase
+    steps:
+      - stepId: test
+        operationId: searchEtbSymbols
+        requestBody:
+          contentType: application/json
+          payload:
+            symbols:
+              - AAPL
+              - GME
+              - msft
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"count":3,"results":{"AAPL":true,"GME":false,"MSFT":true}}
+            type: simple
+    x-speakeasy-test-group: market
+    x-speakeasy-test-rebuild: true
+  - workflowId: getMarketHolidays-default
+    steps:
+      - stepId: test
+        operationId: getMarketHolidays
+        parameters:
+          - name: exchange
+            in: query
+            value: US
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"holidays":[{"atDate":"2026-12-25","eventName":"Christmas Day","tradingHour":""}, {"atDate":"2026-12-24","eventName":"Christmas Day","tradingHour":"09:30-13:00"}]}
+            type: simple
+    x-speakeasy-test-group: market
+    x-speakeasy-test-rebuild: true
+  - workflowId: getMarketStatus-default
+    steps:
+      - stepId: test
+        operationId: getMarketStatus
+        parameters:
+          - name: exchange
+            in: query
+            value: US
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"exchange":"US","isOpen":false,"session":"","timestamp":1765526940,"timezone":"America/New_York"}
+            type: simple
+    x-speakeasy-test-group: market
+    x-speakeasy-test-rebuild: true
+  - workflowId: getEquityDetails
+    steps:
+      - stepId: test
+        operationId: getEquityDetails
+        parameters:
+          - name: symbols
+            in: query
+            value: AAPL,MSFT
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"data":[{"EPS3YearGrowthRate":17.6111,"EPS5YearGrowthRate":11.0713,"EPSDiluted":2.84,"EPSLatest12Month":18.3333,"PE":32.181,"askExchange":"BATS|BATS Trading","askPrice":268,"askSize":500,"assets":379297000,"avgVolume4Weeks":38174153,"bidExchange":"EDGX|Direct Edge X","bidPrice":267.5,"bidSize":1400,"closePrice":273.43,"dividend":0.26,"hasOptions":true,"high52WeekDate":"2025-12-03T00:00:00Z","high52WeekPrice":288.62,"highPrice":273.06,"instrumentType":"Equity","isETF":false,"lastPrice":271.06,"liabilities":291107000,"longTermDebt":905090000,"low52WeekDate":"2025-04-08","low52WeekPrice":169.2101,"lowPrice":269.65,"marketCap":30064771072,"midPrice":267.75,"name":"Apple Inc.","netChange":-3.53,"openPrice":272.78,"price":267.53,"quoteTimestamp":"2026-04-27T05:38:09.901000-04:00","sharesOutstanding":14681140,"shortSaleRestricted":0,"sicCode":3663,"size":1,"spread":0.5,"symbol":"AAPL","tick":0,"totalVolume":300562,"tradeExchange":"PACF|NYSE ARCA (Pacific)","tradeSeq":1009904,"tradeTimestamp":"2026-04-27T05:38:10.674000-04:00","type":"ETRADE"}],"errors":[]}
+            type: simple
+    x-speakeasy-test-group: market
+    x-speakeasy-test-rebuild: true
+  - workflowId: getOptionDetails
+    steps:
+      - stepId: test
+        operationId: getOptionDetails
+        parameters:
+          - name: symbols
+            in: query
+            value: GOOG270115C00285000
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"data":[{"askPrice":80.9,"bidPrice":78.05,"closePrice":93.5,"lastPrice":79.76,"midPrice":79.475,"symbol":"GOOG270115C00285000"}],"errors":[]}
+            type: simple
+    x-speakeasy-test-group: market
+    x-speakeasy-test-rebuild: true
+  - workflowId: getEtfCountryAllocation-default
+    steps:
+      - stepId: test
+        operationId: getEtfCountryAllocation
+        parameters:
+          - name: symbol
+            in: query
+            value: <value>
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"data":{"countryExposure":[{"country":"United States","exposure":99.40734100341797}, {"country":"Switzerland","exposure":0.2782300114631653}, {"country":"Netherlands","exposure":0.12555000185966492}],"symbol":"SPY"}}
+            type: simple
+    x-speakeasy-test-group: etfs
+    x-speakeasy-test-rebuild: true
+  - workflowId: getEtfHoldings-default
+    steps:
+      - stepId: test
+        operationId: getEtfHoldings
+        parameters:
+          - name: date
+            in: query
+            value: "2024-12-01"
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"data":{"holdings":[{"assetType":"Equity","cusip":"037833100","isin":"US0378331005","name":"Apple Inc","percent":7.171259880065918,"share":1210000000,"symbol":"AAPL","value":464000000000}, {"assetType":"Equity","cusip":"594918104","isin":"US5949181045","name":"Microsoft Corp","percent":6.791339874267578,"share":790000000,"symbol":"MSFT","value":439000000000}, {"assetType":"Equity","cusip":"023135106","isin":"US0231351067","name":"Amazon.com Inc","percent":3.60932993888855,"share":1010000000,"symbol":"AMZN","value":233000000000}],"numberOfHoldings":504,"symbol":"SPY"}}
+            type: simple
+    x-speakeasy-test-group: etf
+    x-speakeasy-test-rebuild: true
+  - workflowId: getEtfProfile-default
+    steps:
+      - stepId: test
+        operationId: getEtfProfile
+        parameters:
+          - name: symbol
+            in: query
+            value: SPY
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"data":{"profile":{"assetClass":"Equity","aum":722624708608,"avgVolume":71473536,"cusip":"78462F103","description":"SPY was created on 1993-01-22 by SPDR. The fund's investment portfolio concentrates primarily on large cap equity. The ETF currently has 715474.27m in AUM and 504 holdings. SPY tracks a market cap-weighted index of US large- and mid-cap stocks selected by the S&P Committee.","domicile":"US","etfCompany":"SPDR","expenseRatio":0.09449999779462814,"inceptionDate":"1993-01-22","investmentSegment":"Large Cap","isin":"US78462F1030","logo":"https://api.aries.com/v1/logos/image/f2/etf_logo/9115112100114451159711010011253484845101116102451161146.png","name":"SPDR S&P 500 ETF Trust","nav":680.6957397460938,"navCurrency":"USD","priceToBook":5.355377197265625,"priceToEarnings":27.603900909423828,"trackingIndex":"S&P 500","website":"https://www.ssga.com/us/en/intermediary/etfs/spdr-sp-500-etf-trust-spy"},"symbol":"SPY"}}
+            type: simple
+    x-speakeasy-test-group: etf
+    x-speakeasy-test-rebuild: true
+  - workflowId: getEtfSectorAllocation-default
+    steps:
+      - stepId: test
+        operationId: getEtfSectorAllocation
+        parameters:
+          - name: symbol
+            in: query
+            value: <value>
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"data":{"sectorExposure":[{"exposure":31.219999313354492,"industry":"Technology"}, {"exposure":12.470000267028809,"industry":"Financial Services"}, {"exposure":11.529999732971191,"industry":"Healthcare"}],"symbol":"SPY"}}
+            type: simple
+    x-speakeasy-test-group: etf
+    x-speakeasy-test-rebuild: true
+  - workflowId: getSecFilings-default
+    steps:
+      - stepId: test
+        operationId: getSecFilings
+        parameters:
+          - name: symbol
+            in: query
+            value: AAPL
+          - name: form
+            in: query
+            value: 10-K
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"filings":[{"acceptedDate":"2024-01-11 16:30:29","accessNumber":"0001308179-24-000010","cik":"320193","filedDate":"2024-01-11 00:00:00","filingUrl":"https://www.sec.gov/Archives/edgar/data/320193/000130817924000010/0001308179-24-000010-index.html","form":"DEF 14A","reportUrl":"https://www.sec.gov/Archives/edgar/data/320193/000130817924000010/laapl2024_def14a.htm","symbol":"AAPL"}]}
+            type: simple
+    x-speakeasy-test-group: filings
+    x-speakeasy-test-rebuild: true
+  - workflowId: getFilingsSimilarityIndex-default
+    steps:
+      - stepId: test
+        operationId: getFilingsSimilarityIndex
+        parameters:
+          - name: symbol
+            in: query
+            value: MSFT
+          - name: freq
+            in: query
+            value: quarterly
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"data":{"cik":"789019","similarity":[{"acceptedDate":"1994-02-14 00:00:00","accessNumber":"0000950109-94-000252","cik":"789019","filedDate":"1994-02-14 00:00:00","filingUrl":"https://www.sec.gov/Archives/edgar/data/789019/000095010994000252/0000950109-94-000252-index.html","form":"10-Q","item1":0,"item1a":0,"item2":0,"item7":0,"item7a":0,"reportUrl":"https://www.sec.gov/Archives/edgar/data/789019/000095010994000252/0000950109-94-000252.txt"}],"symbol":"MSFT"}}
+            type: simple
+    x-speakeasy-test-group: filings
+    x-speakeasy-test-rebuild: true
+  - workflowId: getCashFlowStatements-default
+    steps:
+      - stepId: test
+        operationId: getCashFlowStatements
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"nextUrl":"https://api.aries.com/v1/financials/cash-flow-statements?limit=5&next=ASYPBEFBUEwCAgABAQABAQUAAgEJ-zp0AQ8KMDAwMDMyMDE5Mw%3D%3D&tickersAnyOf=AAPL","requestId":"d9ebd27856db41dc8f24f8118f9cada0","results":[{"cashFromOperatingActivitiesContinuingOperations":5781000000,"changeInCashAndEquivalents":2346000000,"changeInOtherOperatingAssetsAndLiabilitiesNet":1564000000,"cik":"0000320193","depreciationDepletionAndAmortization":209000000,"dividends":0,"filingDate":"2011-01-19","fiscalQuarter":1,"fiscalYear":2010,"longTermDebtIssuancesRepayments":0,"netCashFromFinancingActivities":523000000,"netCashFromFinancingActivitiesContinuingOperations":523000000,"netCashFromInvestingActivities":-3958000000,"netCashFromInvestingActivitiesContinuingOperations":-3958000000,"netCashFromOperatingActivities":5781000000,"netIncome":3378000000,"otherFinancingActivities":523000000,"otherInvestingActivities":-3582000000,"otherOperatingActivities":630000000,"periodEnd":"2009-12-26","purchaseOfPropertyPlantAndEquipment":-376000000,"tickers":["AAPL"],"timeframe":"quarterly"}],"status":"OK"}
+            type: simple
+    x-speakeasy-test-group: financials
+    x-speakeasy-test-rebuild: true
+  - workflowId: getIncomeStatements-default
+    steps:
+      - stepId: test
+        operationId: getIncomeStatements
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"nextUrl":"https://api.aries.com/v1/financials/income-statements?limit=5&next=AiYPBEFBUEwpDwlxdWFydGVybHkCAgABAQABAQUAAgEJ-_B0AQ8KMDAwMDMyMDE5Mw%3D%3D&tickersAnyOf=AAPL&timeframe=quarterly","requestId":"87fbffe186684ff1a4297e43d17fa8f7","results":[{"basicEarningsPerShare":0.13,"basicSharesOutstanding":25299176000,"cik":"0000320193","consolidatedNetIncomeLoss":3378000000,"costOfRevenue":9272000000,"dilutedEarningsPerShare":0.13,"dilutedSharesOutstanding":25753924000,"ebitda":4934000000,"filingDate":"2011-01-19","fiscalQuarter":1,"fiscalYear":2010,"grossProfit":6411000000,"incomeBeforeIncomeTaxes":4758000000,"incomeTaxes":1380000000,"netIncomeLossAttributableCommonShareholders":3378000000,"operatingIncome":4725000000,"otherIncomeExpense":33000000,"otherOperatingExpenses":0,"periodEnd":"2009-12-26","researchDevelopment":398000000,"revenue":15683000000,"sellingGeneralAdministrative":1288000000,"tickers":["AAPL"],"timeframe":"quarterly","totalOperatingExpenses":1686000000,"totalOtherIncomeExpense":33000000}],"status":"OK"}
+            type: simple
+    x-speakeasy-test-group: financials
+    x-speakeasy-test-rebuild: true
+  - workflowId: getFinancialRatios-success
+    steps:
+      - stepId: test
+        operationId: getFinancialRatios
+        parameters:
+          - name: ticker
+            in: query
+            value: AAPL
+          - name: tickersAnyOf
+            in: query
+            value: AAPL,MSFT,GOOG
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"requestId":"1fd04d305f74456cb3b304b705572a2c","results":[{"averageVolume":45872477,"cash":0.22,"cik":"0000320193","current":0.89,"date":"2025-12-24","debtToEquity":1.34,"dividendYield":0.0038,"earningsPerShare":7.58,"enterpriseValue":4108636214930,"evToEbitda":28.38,"evToSales":9.87,"freeCashFlow":98767000000,"marketCap":4045913214930,"price":273.81,"priceToBook":54.87,"priceToCashFlow":36.29,"priceToEarnings":36.12,"priceToFreeCashFlow":40.96,"priceToSales":9.72,"quick":0.86,"returnOnAssets":0.3118,"returnOnEquity":1.5191,"ticker":"AAPL"}],"status":"OK"}
+            type: simple
+    x-speakeasy-test-group: financials
+    x-speakeasy-test-rebuild: true
+  - workflowId: getReportedFinancials-default
+    steps:
+      - stepId: test
+        operationId: getReportedFinancials
+        parameters:
+          - name: freq
+            in: query
+            value: quarterly
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"data":{"cik":"320193","data":[{"acceptedDate":"2025-05-02 06:00:46","accessNumber":"0000320193-25-000057","cik":"320193","endDate":"2025-03-29 00:00:00","filedDate":"2025-05-02 00:00:00","form":"10-Q","quarter":2,"report":{"bs":[{"concept":"us-gaap_ComprehensiveIncomeNetOfTax","label":"Total comprehensive income","unit":"usd","value":61919000000}]},"startDate":"2024-09-29 00:00:00","symbol":"AAPL","year":2025}],"symbol":"AAPL"}}
+            type: simple
+    x-speakeasy-test-group: financials
+    x-speakeasy-test-rebuild: true
+  - workflowId: getRevenueBreakdown-default
+    steps:
+      - stepId: test
+        operationId: getRevenueBreakdown
+        parameters:
+          - name: symbol
+            in: query
+            value: AAPL
+          - name: cik
+            in: query
+            value: "320193"
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"data":{"cik":"320193","data":[{"accessNumber":"0000320193-25-000079","breakdown":{"concept":"us-gaap_RevenueFromContractWithCustomerExcludingAssessedTax","endDate":"2025-09-27","revenueBreakdown":[{"axis":"srt_ProductOrServiceAxis","data":[{"label":"Services","member":"us-gaap_ServiceMember","percentage":26.22975242754607,"unit":"usd","value":109158000000}]}, {"axis":"srt_ConsolidationItemsAxis","data":[{"label":"Operating segments","member":"us-gaap_OperatingSegmentsMember","percentage":8.09686635701087,"unit":"usd","value":33696000000}]}, {"axis":"srt_StatementGeographicalAxis","data":[{"label":"U.S.","member":"country_US","percentage":36.473864682178295,"unit":"usd","value":151790000000}]}],"startDate":"2024-09-29","unit":"usd","value":416161000000}}, {"accessNumber":"0001193125-10-162840","breakdown":{"concept":"us-gaap:SalesRevenueNet","endDate":"2010-06-26","revenueBreakdown":[{"axis":"us-gaap:SegmentReportingInformationBySegmentAxis","data":[{"label":"Europe [Member]","member":"aapl:EuropeMember","percentage":29.486208279488434,"unit":"usd","value":13234000000}],"label":"Segment Reporting Information, by Segment [Axis]"}],"startDate":"2009-09-27","unit":"usd","value":44882000000}}],"symbol":"AAPL"}}
+            type: simple
+    x-speakeasy-test-group: financials
+    x-speakeasy-test-rebuild: true
+  - workflowId: getShortInterest-success
+    steps:
+      - stepId: test
+        operationId: getShortInterest
+        parameters:
+          - name: ticker
+            in: query
+            value: AAPL
+          - name: tickersAnyOf
+            in: query
+            value: AAPL,MSFT,GOOG
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"nextUrl":"https://api.aries.com/v1/financials/short-interest?next=...","requestId":"7a867902c54d496b8239089f103b0fa8","results":[{"avgDailyVolume":23901107,"daysToCover":1.91,"settlementDate":"2017-12-29","shortInterest":45746430,"ticker":"AAPL"}],"status":"OK"}
+            type: simple
+    x-speakeasy-test-group: financials
+    x-speakeasy-test-rebuild: true
+  - workflowId: getShortVolume-success
+    steps:
+      - stepId: test
+        operationId: getShortVolume
+        parameters:
+          - name: ticker
+            in: query
+            value: AAPL
+          - name: tickersAnyOf
+            in: query
+            value: AAPL,MSFT,GOOG
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"nextUrl":"https://api.aries.com/v1/financials/short-volume?next=...","requestId":"c701bead81e94e7186f6042474b117d8","results":[{"adfShortVolume":0,"adfShortVolumeExempt":0,"date":"2024-02-06","exemptVolume":67840,"nasdaqCarteretShortVolume":5298900,"nasdaqCarteretShortVolumeExempt":63532,"nasdaqChicagoShortVolume":28784,"nasdaqChicagoShortVolumeExempt":0,"nonExemptVolume":5615873,"nyseShortVolume":356029,"nyseShortVolumeExempt":4308,"shortVolume":5683713,"shortVolumeRatio":34.95,"ticker":"AAPL","totalVolume":16264662}],"status":"OK"}
+            type: simple
+    x-speakeasy-test-group: financials
+    x-speakeasy-test-rebuild: true
+  - workflowId: getFinancialStatements-default
+    steps:
+      - stepId: test
+        operationId: getFinancialStatements
+        parameters:
+          - name: symbol
+            in: query
+            value: <value>
+          - name: statement
+            in: query
+            value: ic
+          - name: freq
+            in: query
+            value: quarterly
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"data":{"financials":[{"costOfGoodsSold":505.765,"dilutedAverageSharesOutstanding":13410.208,"dilutedEPS":0.01,"ebit":129.639,"grossIncome":477.004,"interestIncomeExpense":0,"netIncome":76.714,"netIncomeAfterTaxes":76.714,"nonRecurringItems":0,"period":"1983-09-30","pretaxIncome":146.122,"provisionforIncomeTaxes":69.408,"researchDevelopment":60.04,"revenue":982.769,"sgaExpense":287.325,"totalOperatingExpense":347.365,"totalOtherIncomeExpenseNet":16.483,"year":1983}],"symbol":"AAPL"}}
+            type: simple
+    x-speakeasy-test-group: financials
+    x-speakeasy-test-rebuild: true
+  - workflowId: getTechnicalIndicator-default
+    steps:
+      - stepId: test
+        operationId: getTechnicalIndicator
+        parameters:
+          - name: symbol
+            in: query
+            value: <value>
+          - name: resolution
+            in: query
+            value: "30"
+          - name: indicator
+            in: query
+            value: rsi
+          - name: from
+            in: query
+            value: 714124
+          - name: to
+            in: query
+            value: 669868
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"sma":[0,0,74.23916,73.74833,73.72416,70.676666,70.045,68.911,67.41666,66.802],"t":[1583107200,1583193600,1583280000,1583366400,1583452800,1583712000,1583798400,1583884800,1583971200,1584057600]}
+            type: simple
+    x-speakeasy-test-group: technicalAnalysis_SDK
+    x-speakeasy-test-rebuild: true
+  - workflowId: getTechnicalPatterns-default
+    steps:
+      - stepId: test
+        operationId: getTechnicalPatterns
+        parameters:
+          - name: symbol
+            in: query
+            value: AAPL
+          - name: resolution
+            in: query
+            value: M
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"data":{"points":[{"aprice":213.58,"atime":1745971200,"bprice":0,"btime":0,"cprice":0,"ctime":0,"dprice":197.02,"dtime":1746489600,"end_price":0,"end_time":0,"entry":0,"eprice":0,"etime":0,"mature":1,"patternname":"two black gapping","patterntype":"bearish","profit1":0,"profit2":0,"sortTime":1746489600,"start_price":0,"start_time":0,"status":"complete","stoploss":0,"symbol":"AAPL.US","terminal":0}]}}
+            type: simple
+    x-speakeasy-test-group: technicalAnalysis_SDK
+    x-speakeasy-test-rebuild: true
+  - workflowId: getSupportResistanceLevels-default
+    steps:
+      - stepId: test
+        operationId: getSupportResistanceLevels
+        parameters:
+          - name: symbol
+            in: query
+            value: AAPL
+          - name: resolution
+            in: query
+            value: "15"
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"data":{"levels":[189.8112030029297,199.2606964111328,216.22999572753906,244,288.6199951171875]}}
+            type: simple
+    x-speakeasy-test-group: technicalAnalysis_SDK
+    x-speakeasy-test-rebuild: true
+  - workflowId: getAggregateTechnicalIndicators-default
+    steps:
+      - stepId: test
+        operationId: getAggregateTechnicalIndicators
+        parameters:
+          - name: symbol
+            in: query
+            value: AAPL
+          - name: resolution
+            in: query
+            value: D
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"data":{"technicalAnalysis":{"count":{"buy":3,"neutral":8,"sell":5},"signal":"neutral"},"trend":{"adx":25.959386825561523,"trending":true}}}
+            type: simple
+    x-speakeasy-test-group: technicalAnalysis_SDK
+    x-speakeasy-test-rebuild: true
+  - workflowId: getIndexBar
+    steps:
+      - stepId: test
+        operationId: getIndexBar
+        parameters:
+          - name: identifier
+            in: query
+            value: SPX.IND_CBOM
+          - name: identifierType
+            in: query
+            value: Symbol
+          - name: endTime
+            in: query
+            value: 12/22/2025 10:30 am
+          - name: precision
+            in: query
+            value: Minutes
+          - name: period
+            in: query
+            value: 1
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: indices
+    x-speakeasy-test-rebuild: true
+  - workflowId: getIndexBars-success
+    steps:
+      - stepId: test
+        operationId: getIndexBars
+        parameters:
+          - name: identifier
+            in: query
+            value: SPX.IND_CBOM
+          - name: identifierType
+            in: query
+            value: Symbol
+          - name: startTime
+            in: query
+            value: 12/22/2025 9:30 am
+          - name: endTime
+            in: query
+            value: 12/22/2025 4:00 pm
+          - name: precision
+            in: query
+            value: Minutes
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"bars":[{"close":6863.25,"endDate":"12/22/2025","endTime":"9:31 AM","high":6865,"low":6858.5,"open":6860,"startDate":"12/22/2025","startTime":"9:30 AM","volume":0}]}
+            type: simple
+    x-speakeasy-test-group: indices
+    x-speakeasy-test-rebuild: true
+  - workflowId: listIndicesByGroup-success
+    steps:
+      - stepId: test
+        operationId: listIndicesByGroup
+        parameters:
+          - name: indexGroup
+            in: query
+            value: IND_CBOM
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"indices":[{"currency":"USD","indexGroup":"IND_CBOM","indexName":"S&P 500","symbol":"SPX","valoren":"998434"}, {"currency":"USD","indexGroup":"IND_CBOM","indexName":"NASDAQ Composite","symbol":"COMP","valoren":"1269719"}]}
+            type: simple
+    x-speakeasy-test-group: indices
+    x-speakeasy-test-rebuild: true
+  - workflowId: getIndexChartBars
+    steps:
+      - stepId: test
+        operationId: getIndexChartBars
+        parameters:
+          - name: identifier
+            in: query
+            value: SPX.IND_CBOM
+          - name: identifierType
+            in: query
+            value: Symbol
+          - name: startTime
+            in: query
+            value: 12/15/2025 9:00 am
+          - name: endTime
+            in: query
+            value: 12/15/2025 9:30 am
+          - name: precision
+            in: query
+            value: Minute
+          - name: period
+            in: query
+            value: 15
+          - name: includeExtended
+            in: query
+            value: false
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: indices
+    x-speakeasy-test-rebuild: true
+  - workflowId: listIndexGroups
+    steps:
+      - stepId: test
+        operationId: listIndexGroups
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"indexGroups":[{"description":"CBOE Data Services CMSI - Crypto Fee","name":"IND_CBOC"}]}
+            type: simple
+    x-speakeasy-test-group: indices
+    x-speakeasy-test-rebuild: true
+  - workflowId: listIndices
+    steps:
+      - stepId: test
+        operationId: listIndices
+        parameters:
+          - name: indexGroup
+            in: query
+            value: IND_CBOM
+          - name: pageSize
+            in: query
+            value: 100
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"indices":[{"currency":"USD","indexGroup":"IND_CBOM","indexName":"S&P 500","symbol":"SPX"}],"nextPage":"AFEFB09147DA3C09B6A280B0A807F239"}
+            type: simple
+    x-speakeasy-test-group: indices
+    x-speakeasy-test-rebuild: true
+  - workflowId: getIndexRealtimeValues-success
+    steps:
+      - stepId: test
+        operationId: getIndexRealtimeValues
+        parameters:
+          - name: identifiers
+            in: query
+            value: <value>
+          - name: identifierType
+            in: query
+            value: Symbol
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"items":[{"identifier":"SPX.IND_CBOM","identifierType":"Symbol","index":{"currency":"USD","indexGroup":"IND_CBOM","indexName":"S&P 500","symbol":"SPX","valoren":"998434"},"value":{"changeFromOpen":6.04,"changeFromPreviousClose":74.52,"close":6581,"date":"3/23/2026","high":6651.62,"high52Weeks":6978.6,"last":6581,"low":6565.55,"low52Weeks":4982.77,"open":6574.96,"percentChangeFromOpen":0.0919,"percentChangeFromPreviousClose":1.1453,"previousClose":6506.48,"previousCloseDate":"3/20/2026","time":"5:11:38 PM","utcOffset":-4,"volume":0}}]}
+            type: simple
+    x-speakeasy-test-group: indices
+    x-speakeasy-test-rebuild: true
+  - workflowId: searchIndices
+    steps:
+      - stepId: test
+        operationId: searchIndices
+        parameters:
+          - name: indexName
+            in: query
+            value: S&P 500
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: indices
+    x-speakeasy-test-rebuild: true
+  - workflowId: getInstitutionalOwnership-default
+    steps:
+      - stepId: test
+        operationId: getInstitutionalOwnership
+        parameters:
+          - name: cusip
+            in: query
+            value: "023135106"
+          - name: from
+            in: query
+            value: "2024-01-01"
+          - name: to
+            in: query
+            value: "2024-12-31"
+          - name: symbol
+            in: query
+            value: TSLA
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"data":[{"change":-57,"cusip":"023135106","name":"Worth Asset Management, LLC","putCall":"","share":1743,"symbol":"TSLA","value":197000}]}
+            type: simple
+    x-speakeasy-test-group: ownership
+    x-speakeasy-test-rebuild: true
+  - workflowId: getInstitutionalPortfolio-default
+    steps:
+      - stepId: test
+        operationId: getInstitutionalPortfolio
+        parameters:
+          - name: cik
+            in: query
+            value: "0001067983"
+          - name: from
+            in: query
+            value: "2024-01-01"
+          - name: to
+            in: query
+            value: "2024-12-31"
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"holdings":[{"change":-73860,"cusip":"N44821101","name":"INFLARX NV","putCall":"","share":0,"symbol":"IFRX","value":0}]}
+            type: simple
+    x-speakeasy-test-group: ownership
+    x-speakeasy-test-rebuild: true
+  - workflowId: getOwnershipData-default
+    steps:
+      - stepId: test
+        operationId: getOwnershipData
+        parameters:
+          - name: symbol
+            in: query
+            value: <value>
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"data":[{"change":14962890,"filingDate":"2025-06-30","name":"The Vanguard Group, Inc.","percentOfShares":0,"share":1409216610,"source":""}]}
+            type: simple
+    x-speakeasy-test-group: ownership
+    x-speakeasy-test-rebuild: true
+  - workflowId: getFundOwnership-default
+    steps:
+      - stepId: test
+        operationId: getFundOwnership
+        parameters:
+          - name: symbol
+            in: query
+            value: <value>
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"data":[{"change":-2711875,"filingDate":"2025-09-30","name":"Vanguard Total Stock Market Index Fund","percentOfShares":0,"share":466994523,"source":""}]}
+            type: simple
+    x-speakeasy-test-group: ownership
+    x-speakeasy-test-rebuild: true
+  - workflowId: getInsiderTransactions-default
+    steps:
+      - stepId: test
+        operationId: getInsiderTransactions
+        parameters:
+          - name: symbol
+            in: query
+            value: <value>
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"transactions":[{"change":1852,"filingDate":"2024-02-05","name":"BELL JAMES A","share":38527,"symbol":"AAPL","transactionCode":"M","transactionDate":"2024-02-01","transactionPrice":0}]}
+            type: simple
+    x-speakeasy-test-group: ownership
+    x-speakeasy-test-rebuild: true
+  - workflowId: searchLogos
+    steps:
+      - stepId: test
+        operationId: searchLogos
+        parameters:
+          - name: searchKeys
+            in: query
+            value: AAPL,MSFT
+          - name: searchKeysType
+            in: query
+            value: symbol
+          - name: fields
+            in: query
+            value: logo_light,logo_dark,mark_light,mark_dark
+          - name: compositeAuto
+            in: query
+            value: false
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: logos
+    x-speakeasy-test-rebuild: true
+  - workflowId: syncLogos
+    steps:
+      - stepId: test
+        operationId: syncLogos
+        parameters:
+          - name: fields
+            in: query
+            value: logo_light,logo_dark,mark_light,mark_dark
+          - name: compositeAuto
+            in: query
+            value: false
+          - name: page
+            in: query
+            value: 0
+          - name: pageSize
+            in: query
+            value: 10
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: logos
+    x-speakeasy-test-rebuild: true
+  - workflowId: searchMarketSymbols-option
+    steps:
+      - stepId: test
+        operationId: searchMarketSymbols
+        parameters:
+          - name: query
+            in: query
+            value: .AAPL
+          - name: limit
+            in: query
+            value: 20
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              [{"description":"Apple Inc.","symbol":"AAPL","tag":"XNAS","type":"stock"}, {"description":"AAPL Jan 19 2024 190 Call","symbol":"AAPL240119C00190000","tag":"OPRA","type":"option"}]
+            type: simple
+    x-speakeasy-test-group: marketData
+    x-speakeasy-test-rebuild: true
+  - workflowId: searchMarketSymbols-stock
+    steps:
+      - stepId: test
+        operationId: searchMarketSymbols
+        parameters:
+          - name: query
+            in: query
+            value: AAPL
+          - name: limit
+            in: query
+            value: 20
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              [{"description":"Apple Inc.","symbol":"AAPL","tag":"XNAS","type":"stock"}, {"description":"AAPL Jan 19 2024 190 Call","symbol":"AAPL240119C00190000","tag":"OPRA","type":"option"}]
+            type: simple
+    x-speakeasy-test-group: marketData
+    x-speakeasy-test-rebuild: true
+  - workflowId: searchMarketSymbols-futures
+    steps:
+      - stepId: test
+        operationId: searchMarketSymbols
+        parameters:
+          - name: query
+            in: query
+            value: /ES
+          - name: limit
+            in: query
+            value: 20
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              [{"description":"Apple Inc.","symbol":"AAPL","tag":"XNAS","type":"stock"}, {"description":"AAPL Jan 19 2024 190 Call","symbol":"AAPL240119C00190000","tag":"OPRA","type":"option"}]
+            type: simple
+    x-speakeasy-test-group: marketData
+    x-speakeasy-test-rebuild: true
+  - workflowId: searchMarketSymbols
+    steps:
+      - stepId: test
+        operationId: searchMarketSymbols
+        parameters:
+          - name: query
+            in: query
+            value: <value>
+          - name: limit
+            in: query
+            value: 20
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              [{"description":"Apple Inc.","symbol":"AAPL","tag":"XNAS","type":"stock"}, {"description":"AAPL Jan 19 2024 190 Call","symbol":"AAPL240119C00190000","tag":"OPRA","type":"option"}]
+            type: simple
+    x-speakeasy-test-group: marketData
+    x-speakeasy-test-rebuild: true
+  - workflowId: getNews-default
+    steps:
+      - stepId: test
+        operationId: getNews
+        parameters:
+          - name: symbols
+            in: query
+            value: AAPL,GOOGL,MSFT
+          - name: topics
+            in: query
+            value: earnings,guidance
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"news":[{"action":"","authors":["Jane Smith"],"body":"","id":123456,"news_type":"news","symbols":["AAPL"],"timestamp":"2024-02-16T14:30:00Z","title":"Apple Announces New Product Line"}, {"action":"","authors":["John Doe"],"body":"","id":123457,"news_type":"press_release","symbols":["MSFT"],"timestamp":"2024-02-16T13:15:00Z","title":"Microsoft Q4 Earnings Beat Expectations"}]}
+            type: simple
+    x-speakeasy-test-group: news_SDK
+    x-speakeasy-test-rebuild: true
+  - workflowId: getNewsSentiment-default
+    steps:
+      - stepId: test
+        operationId: getNewsSentiment
+        parameters:
+          - name: symbol
+            in: query
+            value: AAPL
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"buzz":{"articlesInLastWeek":20,"buzz":0.8888,"weeklyAverage":22.5},"companyNewsScore":0.9166,"sectorAverageBullishPercent":0.6482,"sectorAverageNewsScore":0.5191,"sentiment":{"bearishPercent":0,"bullishPercent":1},"symbol":"V"}
+            type: simple
+    x-speakeasy-test-group: news_SDK
+    x-speakeasy-test-rebuild: true
+  - workflowId: getNewsById-default
+    steps:
+      - stepId: test
+        operationId: getNewsById
+        parameters:
+          - name: id
+            in: path
+            value: "123456"
+          - name: newsType
+            in: query
+            value: news
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"action":"","authors":["John Author"],"body":"Full news article content here...","id":12345,"news_type":"news","symbols":["AAPL","MSFT"],"timestamp":"2024-02-16T10:30:00Z","title":"Apple Announces New Product"}
+            type: simple
+    x-speakeasy-test-group: news_SDK
+    x-speakeasy-test-rebuild: true
+  - workflowId: getOptionsActivity-success
+    steps:
+      - stepId: test
+        operationId: getOptionsActivity
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"activities":[{"aggressorInd":"0.0","ask":"0.55","bid":"0.54","costBasis":"26352.000000000004","date":"2024-12-31","dateExpiration":"2025-01-02","description":"SPDR S&P 500 Option Alert: Jan 2 $591 Calls Sweep (5) near the Bid: 488 vs 2017 OI","descriptionExtended":"SPDR S&P 500 Option Alert: Jan 2 $591 Calls Sweep (5) near the Bid: 488 @ $0.54 vs 2017 OI; Ref=$586.4","exchange":"ARCA","executionEstimate":"AT_BID","id":"67745ec4c88d4e00015ce121","midpoint":"0.545","openInterest":"2017","optionActivityType":"SWEEP","optionSymbol":"SPY250102C00591000","price":"0.54","putCall":"CALL","sentiment":"BEARISH","size":"488","strikePrice":"591.00","ticker":"SPY","time":"16:14:43","tradeCount":"5","underlyingPrice":"586.4","underlyingType":"ETF","updated":1735679684,"volume":"37933"}]}
+            type: simple
+    x-speakeasy-test-group: options
+    x-speakeasy-test-rebuild: true
+  - workflowId: getOptionLastTrade
+    steps:
+      - stepId: test
+        operationId: getOptionLastTrade
+        parameters:
+          - name: ticker
+            in: query
+            value: O:AAPL230120C00150000
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: options
+    x-speakeasy-test-rebuild: true
+  - workflowId: getOptionOpenClose-success
+    steps:
+      - stepId: test
+        operationId: getOptionOpenClose
+        parameters:
+          - name: ticker
+            in: query
+            value: <value>
+          - name: date
+            in: query
+            value: "2024-10-03"
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"afterHours":107.34,"close":107.34,"date":"2024-12-16","high":107.34,"low":107.34,"open":107.34,"preMarket":107.34,"ticker":"O:AAPL251219C00150000","volume":2}
+            type: simple
+    x-speakeasy-test-group: options
+    x-speakeasy-test-rebuild: true
+  - workflowId: getOptionPreviousDay-minimal
+    steps:
+      - stepId: test
+        operationId: getOptionPreviousDay
+        parameters:
+          - name: ticker
+            in: query
+            value: <value>
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"close":13.75,"high":15.25,"low":13.2,"open":13.5,"ticker":"AAPL251219C00150000","volume":25430}
+            type: simple
+    x-speakeasy-test-group: options
+    x-speakeasy-test-rebuild: true
+  - workflowId: getOptionPreviousDay-success
+    steps:
+      - stepId: test
+        operationId: getOptionPreviousDay
+        parameters:
+          - name: ticker
+            in: query
+            value: <value>
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"close":13.75,"high":15.25,"low":13.2,"open":13.5,"ticker":"AAPL251219C00150000","timestamp":1734652800000,"transactionCount":1842,"volume":25430,"volumeWeighted":14.18}
+            type: simple
+    x-speakeasy-test-group: options
+    x-speakeasy-test-rebuild: true
+  - workflowId: getOptionQuotes
+    steps:
+      - stepId: test
+        operationId: getOptionQuotes
+        parameters:
+          - name: ticker
+            in: query
+            value: O:AAPL230120C00150000
+          - name: timestamp
+            in: query
+            value: "2024-01-15"
+          - name: timestampFrom
+            in: query
+            value: "2024-01-01"
+          - name: timestampAfter
+            in: query
+            value: "2024-01-01"
+          - name: timestampTo
+            in: query
+            value: "2024-01-31"
+          - name: timestampBefore
+            in: query
+            value: "2024-01-31"
+          - name: order
+            in: query
+            value: desc
+          - name: limit
+            in: query
+            value: 1000
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: options
+    x-speakeasy-test-rebuild: true
+  - workflowId: getOptionChainSnapshot
+    steps:
+      - stepId: test
+        operationId: getOptionChainSnapshot
+        parameters:
+          - name: underlyingAsset
+            in: path
+            value: AAPL
+          - name: strikePrice
+            in: query
+            value: "190"
+          - name: expirationDate
+            in: query
+            value: "2024-01-19"
+          - name: contractType
+            in: query
+            value: call
+          - name: order
+            in: query
+            value: asc
+          - name: limit
+            in: query
+            value: 50
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: options
+    x-speakeasy-test-rebuild: true
+  - workflowId: getOptionContractSnapshot
+    steps:
+      - stepId: test
+        operationId: getOptionContractSnapshot
+        parameters:
+          - name: underlyingAsset
+            in: path
+            value: AAPL
+          - name: optionContract
+            in: path
+            value: O:AAPL260410C00110000
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: options
+    x-speakeasy-test-rebuild: true
+  - workflowId: getOptionTrades
+    steps:
+      - stepId: test
+        operationId: getOptionTrades
+        parameters:
+          - name: ticker
+            in: query
+            value: O:AAPL230120C00150000
+          - name: timestamp
+            in: query
+            value: "2024-01-15"
+          - name: timestampFrom
+            in: query
+            value: "2024-01-01"
+          - name: timestampAfter
+            in: query
+            value: "2024-01-01"
+          - name: timestampTo
+            in: query
+            value: "2024-01-31"
+          - name: timestampBefore
+            in: query
+            value: "2024-01-31"
+          - name: order
+            in: query
+            value: desc
+          - name: limit
+            in: query
+            value: 1000
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: options
+    x-speakeasy-test-rebuild: true
+  - workflowId: getOptionsUnusualActivity
+    steps:
+      - stepId: test
+        operationId: getOptionsUnusualActivity
+        parameters:
+          - name: symbol
+            in: path
+            value: <value>
+          - name: source
+            in: query
+            value: delayed
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"trades":[{"type":"block"}]}
+            type: simple
+    x-speakeasy-test-group: options
+    x-speakeasy-test-rebuild: true
+  - workflowId: listOptionContracts-success
+    steps:
+      - stepId: test
+        operationId: listOptionContracts
+        parameters:
+          - name: symbol
+            in: path
+            value: <value>
+          - name: expiryDate
+            in: path
+            value: "2024-11-10"
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"calls":[{"strikePrice":150,"symbol":"O:AAPL250117C00150000"}],"expiryDate":"2025-01-17","puts":[{"strikePrice":150,"symbol":"O:AAPL250117P00150000"}],"symbol":"AAPL"}
+            type: simple
+    x-speakeasy-test-group: options
+    x-speakeasy-test-rebuild: true
+  - workflowId: listOptionExpiryDates-success
+    steps:
+      - stepId: test
+        operationId: listOptionExpiryDates
+        parameters:
+          - name: symbol
+            in: path
+            value: <value>
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"expiryDates":["2025-01-17","2025-01-24","2025-01-31","2025-02-21"],"symbol":"AAPL"}
+            type: simple
+    x-speakeasy-test-group: options
+    x-speakeasy-test-rebuild: true
+  - workflowId: placeOrder
+    steps:
+      - stepId: test
+        operationId: placeOrder
+        requestBody:
+          contentType: application/json
+          payload:
+            accountId: <id>
+            clientId: CLIENT-001
+            currency: USD
+            legs:
+              - maturity: "2025-01-17"
+                positionEffect: OPEN
+                putCall: CALL
+                ratioQty: "1"
+                securityType: CS
+                side: BUY
+                strikePrice: "150.00"
+                symbol: AAPL
+            price: "150.00"
+            qty: "10"
+            side: BUY
+            stopPrice: "145.00"
+            symbol: AAPL
+            timeInForce: DAY
+            tradingAccountId: TEST-ACCOUNT-001
+            type: LIMIT
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"avgPrice":"0","clOrdId":"ORDER-20260115-001","cumQty":"0","leavesQty":"10","ordRejReason":"","qty":"10","side":"BUY","status":"NEW","success":true,"symbol":"AAPL","text":"Order accepted","transactTime":"2026-01-15T14:30:05Z"}
+            type: simple
+    x-speakeasy-test-group: orders
+    x-speakeasy-test-rebuild: true
+  - workflowId: placeOrder-equityMarket
+    steps:
+      - stepId: test
+        operationId: placeOrder
+        requestBody:
+          contentType: application/json
+          payload:
+            qty: "10"
+            side: BUY
+            symbol: AAPL
+            timeInForce: DAY
+            tradingAccountId: TEST-ACCOUNT-001
+            type: MARKET
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"avgPrice":"0","clOrdId":"ORDER-20260115-001","cumQty":"0","leavesQty":"10","ordRejReason":"","qty":"10","side":"BUY","status":"NEW","success":true,"symbol":"AAPL","text":"Order accepted","transactTime":"2026-01-15T14:30:05Z"}
+            type: simple
+    x-speakeasy-test-group: orders
+    x-speakeasy-test-rebuild: true
+  - workflowId: placeOrder-equityLimit
+    steps:
+      - stepId: test
+        operationId: placeOrder
+        requestBody:
+          contentType: application/json
+          payload:
+            price: "150.00"
+            qty: "10"
+            side: BUY
+            symbol: AAPL
+            timeInForce: DAY
+            tradingAccountId: TEST-ACCOUNT-001
+            type: LIMIT
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"avgPrice":"0","clOrdId":"ORDER-20260115-001","cumQty":"0","leavesQty":"10","ordRejReason":"","qty":"10","side":"BUY","status":"NEW","success":true,"symbol":"AAPL","text":"Order accepted","transactTime":"2026-01-15T14:30:05Z"}
+            type: simple
+    x-speakeasy-test-group: orders
+    x-speakeasy-test-rebuild: true
+  - workflowId: placeOrder-singleLegCall
+    steps:
+      - stepId: test
+        operationId: placeOrder
+        requestBody:
+          contentType: application/json
+          payload:
+            legs:
+              - maturity: "2025-01-17"
+                positionEffect: OPEN
+                putCall: CALL
+                ratioQty: "1"
+                securityType: OPT
+                side: BUY
+                strikePrice: "150.00"
+            price: "5.50"
+            qty: "1"
+            side: BUY
+            symbol: AAPL
+            timeInForce: DAY
+            tradingAccountId: TEST-ACCOUNT-001
+            type: LIMIT
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"avgPrice":"0","clOrdId":"ORDER-20260115-001","cumQty":"0","leavesQty":"10","ordRejReason":"","qty":"10","side":"BUY","status":"NEW","success":true,"symbol":"AAPL","text":"Order accepted","transactTime":"2026-01-15T14:30:05Z"}
+            type: simple
+    x-speakeasy-test-group: orders
+    x-speakeasy-test-rebuild: true
+  - workflowId: placeOrder-verticalSpread
+    steps:
+      - stepId: test
+        operationId: placeOrder
+        requestBody:
+          contentType: application/json
+          payload:
+            legs:
+              - maturity: "2025-01-17"
+                positionEffect: OPEN
+                putCall: CALL
+                ratioQty: "1"
+                securityType: OPT
+                side: BUY
+                strikePrice: "150.00"
+              - maturity: "2025-01-17"
+                positionEffect: OPEN
+                putCall: CALL
+                ratioQty: "1"
+                securityType: OPT
+                side: SELL
+                strikePrice: "155.00"
+            price: "2.50"
+            qty: "1"
+            side: BUY
+            symbol: AAPL
+            timeInForce: DAY
+            tradingAccountId: TEST-ACCOUNT-001
+            type: LIMIT
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"avgPrice":"0","clOrdId":"ORDER-20260115-001","cumQty":"0","leavesQty":"10","ordRejReason":"","qty":"10","side":"BUY","status":"NEW","success":true,"symbol":"AAPL","text":"Order accepted","transactTime":"2026-01-15T14:30:05Z"}
+            type: simple
+    x-speakeasy-test-group: orders
+    x-speakeasy-test-rebuild: true
+  - workflowId: cancelOrder
+    steps:
+      - stepId: test
+        operationId: cancelOrder
+        requestBody:
+          contentType: application/json
+          payload:
+            accountId: <id>
+            maturity: "2025-01-17"
+            origClOrdId: ORDER-123456
+            putCall: CALL
+            securityType: CS
+            side: BUY
+            strikePrice: "150.00"
+            symbol: AAPL
+            tradingAccountId: TEST-ACCOUNT-001
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"clOrdId":"ORDER-20260115-002","origClOrdId":"ORDER-20260115-001","status":"CANCELED","success":true,"text":"Cancel request processed"}
+            type: simple
+    x-speakeasy-test-group: orders
+    x-speakeasy-test-rebuild: true
+  - workflowId: cancelOrder-cancelEquity
+    steps:
+      - stepId: test
+        operationId: cancelOrder
+        requestBody:
+          contentType: application/json
+          payload:
+            origClOrdId: ORDER-123456
+            securityType: CS
+            side: BUY
+            symbol: AAPL
+            tradingAccountId: TEST-ACCOUNT-001
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"clOrdId":"ORDER-20260115-002","origClOrdId":"ORDER-20260115-001","status":"CANCELED","success":true,"text":"Cancel request processed"}
+            type: simple
+    x-speakeasy-test-group: orders
+    x-speakeasy-test-rebuild: true
+  - workflowId: cancelOrder-cancelOption
+    steps:
+      - stepId: test
+        operationId: cancelOrder
+        requestBody:
+          contentType: application/json
+          payload:
+            maturity: "2025-01-17"
+            origClOrdId: ORDER-789012
+            putCall: CALL
+            securityType: OPT
+            side: BUY
+            strikePrice: "150.00"
+            symbol: AAPL
+            tradingAccountId: TEST-ACCOUNT-001
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"clOrdId":"ORDER-20260115-002","origClOrdId":"ORDER-20260115-001","status":"CANCELED","success":true,"text":"Cancel request processed"}
+            type: simple
+    x-speakeasy-test-group: orders
+    x-speakeasy-test-rebuild: true
+  - workflowId: previewOrder
+    steps:
+      - stepId: test
+        operationId: previewOrder
+        requestBody:
+          contentType: application/json
+          payload:
+            account: "16673038"
+            orderType: <value>
+            quantity: 797002
+            symbol: <value>
+            timeInForce: <value>
+            tradeAction: <value>
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: orders
+    x-speakeasy-test-rebuild: true
+  - workflowId: previewOrder-equityMarket
+    steps:
+      - stepId: test
+        operationId: previewOrder
+        requestBody:
+          contentType: application/json
+          payload:
+            qty: "10"
+            side: BUY
+            symbol: AAPL
+            timeInForce: DAY
+            tradingAccountId: TEST-ACCOUNT-001
+            type: MARKET
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"buyingPowerImpact":"1500.01","commission":"0.00","estimatedCost":"1500.00","estimatedMargin":"0.00","fees":"0.01","numDayTrades":0,"optionFees":"0.70","optionPremium":"550.00","optionRequirement":"0.00","warnRuleId":"0"}
+            type: simple
+    x-speakeasy-test-group: orders
+    x-speakeasy-test-rebuild: true
+  - workflowId: previewOrder-equityLimit
+    steps:
+      - stepId: test
+        operationId: previewOrder
+        requestBody:
+          contentType: application/json
+          payload:
+            price: "150.00"
+            qty: "10"
+            side: BUY
+            symbol: AAPL
+            timeInForce: DAY
+            tradingAccountId: TEST-ACCOUNT-001
+            type: LIMIT
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"buyingPowerImpact":"1500.01","commission":"0.00","estimatedCost":"1500.00","estimatedMargin":"0.00","fees":"0.01","numDayTrades":0,"optionFees":"0.70","optionPremium":"550.00","optionRequirement":"0.00","warnRuleId":"0"}
+            type: simple
+    x-speakeasy-test-group: orders
+    x-speakeasy-test-rebuild: true
+  - workflowId: previewOrder-optionOrder
+    steps:
+      - stepId: test
+        operationId: previewOrder
+        requestBody:
+          contentType: application/json
+          payload:
+            legs:
+              - maturity: "2025-01-17"
+                positionEffect: OPEN
+                putCall: CALL
+                ratioQty: "1"
+                securityType: OPT
+                side: BUY
+                strikePrice: "150.00"
+            price: "5.50"
+            qty: "1"
+            side: BUY
+            symbol: AAPL
+            timeInForce: DAY
+            tradingAccountId: TEST-ACCOUNT-001
+            type: LIMIT
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"buyingPowerImpact":"1500.01","commission":"0.00","estimatedCost":"1500.00","estimatedMargin":"0.00","fees":"0.01","numDayTrades":0,"optionFees":"0.70","optionPremium":"550.00","optionRequirement":"0.00","warnRuleId":"0"}
+            type: simple
+    x-speakeasy-test-group: orders
+    x-speakeasy-test-rebuild: true
+  - workflowId: previewOrder-multiLegSpread
+    steps:
+      - stepId: test
+        operationId: previewOrder
+        requestBody:
+          contentType: application/json
+          payload:
+            legs:
+              - maturity: "2025-01-17"
+                positionEffect: OPEN
+                putCall: CALL
+                ratioQty: "1"
+                securityType: OPT
+                side: BUY
+                strikePrice: "150.00"
+              - maturity: "2025-01-17"
+                positionEffect: OPEN
+                putCall: CALL
+                ratioQty: "1"
+                securityType: OPT
+                side: SELL
+                strikePrice: "155.00"
+            price: "2.50"
+            qty: "1"
+            side: BUY
+            symbol: AAPL
+            timeInForce: DAY
+            tradingAccountId: TEST-ACCOUNT-001
+            type: LIMIT
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"buyingPowerImpact":"1500.01","commission":"0.00","estimatedCost":"1500.00","estimatedMargin":"0.00","fees":"0.01","numDayTrades":0,"optionFees":"0.70","optionPremium":"550.00","optionRequirement":"0.00","warnRuleId":"0"}
+            type: simple
+    x-speakeasy-test-group: orders
+    x-speakeasy-test-rebuild: true
+  - workflowId: previewOrder-equityPreview
+    steps:
+      - stepId: test
+        operationId: previewOrder
+        requestBody:
+          contentType: application/json
+          payload:
+            clientId: CLIENT-001
+            currency: USD
+            legs:
+              - maturity: "2025-01-17"
+                positionEffect: OPEN
+                putCall: CALL
+                ratioQty: "1"
+                securityType: CS
+                side: BUY
+                strikePrice: "150.00"
+                symbol: AAPL
+            price: "150.00"
+            qty: "10"
+            side: BUY
+            stopPrice: "145.00"
+            symbol: AAPL
+            timeInForce: DAY
+            tradingAccountId: TEST-ACCOUNT-001
+            type: LIMIT
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"buyingPowerImpact":"120.0975","commission":"0","estimatedCost":"240.25","estimatedMargin":"60.04875","fees":"0","numDayTrades":0,"optionFees":"0","optionPremium":"0","optionRequirement":"0","warnRuleId":"0"}
+            type: simple
+    x-speakeasy-test-group: orders
+    x-speakeasy-test-rebuild: true
+  - workflowId: previewOrder-optionPreview
+    steps:
+      - stepId: test
+        operationId: previewOrder
+        requestBody:
+          contentType: application/json
+          payload:
+            accountId: <id>
+            clientId: CLIENT-001
+            currency: USD
+            legs:
+              - maturity: "2025-01-17"
+                positionEffect: OPEN
+                putCall: CALL
+                ratioQty: "1"
+                securityType: CS
+                side: BUY
+                strikePrice: "150.00"
+                symbol: AAPL
+            price: "150.00"
+            qty: "10"
+            side: BUY
+            stopPrice: "145.00"
+            symbol: AAPL
+            timeInForce: DAY
+            tradingAccountId: TEST-ACCOUNT-001
+            type: LIMIT
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"buyingPowerImpact":"550.70","commission":"0.65","estimatedCost":"550.00","estimatedMargin":"0.00","fees":"0.05","numDayTrades":0,"optionFees":"0.70","optionPremium":"550.00","optionRequirement":"0.00","warnRuleId":"0"}
+            type: simple
+    x-speakeasy-test-group: orders
+    x-speakeasy-test-rebuild: true
+  - workflowId: replaceOrder-changeQuantity
+    steps:
+      - stepId: test
+        operationId: replaceOrder
+        requestBody:
+          contentType: application/json
+          payload:
+            origClOrdId: ORDER-123456
+            price: "150.00"
+            qty: "20"
+            side: BUY
+            symbol: AAPL
+            timeInForce: DAY
+            tradingAccountId: TEST-ACCOUNT-001
+            type: LIMIT
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"clOrdId":"ORDER-20260115-003","origClOrdId":"ORDER-20260115-001","price":"175.50","qty":"200","status":"REPLACED","success":true,"text":"Replace accepted","transactTime":"2026-01-15T14:31:00Z"}
+            type: simple
+    x-speakeasy-test-group: orders
+    x-speakeasy-test-rebuild: true
+  - workflowId: replaceOrder-changePrice
+    steps:
+      - stepId: test
+        operationId: replaceOrder
+        requestBody:
+          contentType: application/json
+          payload:
+            origClOrdId: ORDER-123456
+            price: "148.50"
+            qty: "10"
+            side: BUY
+            symbol: AAPL
+            timeInForce: DAY
+            tradingAccountId: TEST-ACCOUNT-001
+            type: LIMIT
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"clOrdId":"ORDER-20260115-003","origClOrdId":"ORDER-20260115-001","price":"175.50","qty":"200","status":"REPLACED","success":true,"text":"Replace accepted","transactTime":"2026-01-15T14:31:00Z"}
+            type: simple
+    x-speakeasy-test-group: orders
+    x-speakeasy-test-rebuild: true
+  - workflowId: replaceOrder
+    steps:
+      - stepId: test
+        operationId: replaceOrder
+        requestBody:
+          contentType: application/json
+          payload:
+            currency: USD
+            legs:
+              - maturity: "2025-01-17"
+                positionEffect: OPEN
+                putCall: CALL
+                ratioQty: "1"
+                securityType: CS
+                side: BUY
+                strikePrice: "150.00"
+                symbol: AAPL
+            origClOrdId: ORDER-123456
+            price: "148.50"
+            qty: "20"
+            side: BUY
+            stopPrice: "145.00"
+            symbol: AAPL
+            timeInForce: DAY
+            tradingAccountId: TEST-ACCOUNT-001
+            type: LIMIT
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"clOrdId":"ORDER-20260115-003","origClOrdId":"ORDER-20260115-001","price":"175.50","qty":"200","status":"REPLACED","success":true,"text":"Replace accepted","transactTime":"2026-01-15T14:31:00Z"}
+            type: simple
+    x-speakeasy-test-group: orders
+    x-speakeasy-test-rebuild: true
+  - workflowId: listActiveOrders
+    steps:
+      - stepId: test
+        operationId: listActiveOrders
+        parameters:
+          - name: id
+            in: path
+            value: TEST-ACCOUNT-001
+          - name: limit
+            in: query
+            value: 50
+          - name: cursor
+            in: query
+            value: 0
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"orders":[{"exDestination":"MNGD","side":"BUY","timeInForce":"DAY","type":"LIMIT"}]}
+            type: simple
+    x-speakeasy-test-group: orders
+    x-speakeasy-test-rebuild: true
+  - workflowId: listOrderHistory
+    steps:
+      - stepId: test
+        operationId: listOrderHistory
+        parameters:
+          - name: id
+            in: path
+            value: TEST-ACCOUNT-001
+          - name: from
+            in: query
+            value: "2026-01-01T00:00:00Z"
+          - name: to
+            in: query
+            value: "2026-01-31T00:00:00Z"
+          - name: order_by
+            in: query
+            value: desc
+          - name: exclude_today
+            in: query
+            value: false
+          - name: limit
+            in: query
+            value: 50
+          - name: cursor
+            in: query
+            value: 0
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"orders":[{"exDestination":"MNGD","side":"BUY","timeInForce":"DAY","type":"LIMIT"}]}
+            type: simple
+    x-speakeasy-test-group: orders
+    x-speakeasy-test-rebuild: true
+  - workflowId: getBaseEvent
+    steps:
+      - stepId: test
+        operationId: getBaseEvent
+        parameters:
+          - name: baseEventId
+            in: path
+            value: UNR
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"data":{"baseEvent":{"baseEventId":"<id>","categoryLevels":["Economic Indicators","Labor","United States"],"displayName":"US Unemployment Rate","firstSeenAt":"2024-09-06T05:59:28.906Z","lastSyncedAt":"2025-10-02T11:47:14.927Z"},"events":[]},"success":true}
+            type: simple
+    x-speakeasy-test-group: markets
+    x-speakeasy-test-rebuild: true
+  - workflowId: listCategories
+    steps:
+      - stepId: test
+        operationId: listCategories
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"data":{"categories":[{"children":[{"name":"United States House","path":"Elections > United States House"}],"name":"United States House","path":"Elections > United States House"}]},"success":true}
+            type: simple
+    x-speakeasy-test-group: markets
+    x-speakeasy-test-rebuild: true
+  - workflowId: getEventContracts
+    steps:
+      - stepId: test
+        operationId: getEventContracts
+        parameters:
+          - name: eventId
+            in: path
+            value: HORC_1126
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"data":{"contracts":[{"baseEventId":"<id>","eventId":"<id>","lastSyncedAt":"2024-08-22T02:52:07.818Z","nonTradable":true,"state":"Pennsylvania","symbol":"<value>","symbolSubTypes":[],"tickSize":"0.01","tradable":false}],"event":{"baseEventId":"<id>","eventId":"<id>","lastSyncedAt":"2025-09-06T06:35:19.053Z","timeSpecifier":"2026.06"}},"success":true}
+            type: simple
+    x-speakeasy-test-group: markets
+    x-speakeasy-test-rebuild: true
+  - workflowId: search
+    steps:
+      - stepId: test
+        operationId: search
+        parameters:
+          - name: type
+            in: query
+            value: contracts
+          - name: q
+            in: query
+            value: unemployment june
+          - name: state
+            in: query
+            value: ACTIVE
+          - name: baseEventId
+            in: query
+            value: UNR
+          - name: eventId
+            in: query
+            value: UNR_0822
+          - name: category
+            in: query
+            value: Elections > United States House
+          - name: page
+            in: query
+            value: 1
+          - name: perPage
+            in: query
+            value: 20
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"data":{"found":161806,"hits":[{"baseEventId":"<id>","contractsFound":596463,"eventId":"<id>"}],"page":337360,"perPage":440776,"type":"events"},"success":true}
+            type: simple
+    x-speakeasy-test-group: markets
+    x-speakeasy-test-rebuild: true
+  - workflowId: getHistory
+    steps:
+      - stepId: test
+        operationId: getHistory
+        parameters:
+          - name: symbol
+            in: query
+            value: HORC_1126_Republican
+          - name: from
+            in: query
+            value: "2026-04-01T00:00:00Z"
+          - name: to
+            in: query
+            value: "2026-04-20T00:00:00Z"
+          - name: limit
+            in: query
+            value: 500
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"data":{"count":584162,"symbol":"<value>","ticks":[{"noPrice":"0.46","quantity":10,"timestamp":"2026-04-18T13:45:01.234Z","yesPrice":"0.54"}]},"success":true}
+            type: simple
+    x-speakeasy-test-group: history
+    x-speakeasy-test-rebuild: true
+  - workflowId: getHistoryBatch
+    steps:
+      - stepId: test
+        operationId: getHistoryBatch
+        requestBody:
+          contentType: application/json
+          payload:
+            queries:
+              - from: "2026-04-01T00:00:00Z"
+                limit: 500
+                symbol: HORC_1126_Republican
+                to: "2026-04-20T00:00:00Z"
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"data":{"results":[]},"success":true}
+            type: simple
+    x-speakeasy-test-group: history
+    x-speakeasy-test-rebuild: true
+  - workflowId: listPredictionOrders
+    steps:
+      - stepId: test
+        operationId: listPredictionOrders
+        parameters:
+          - name: status
+            in: query
+            value: open
+          - name: limit
+            in: query
+            value: 50
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"data":{"orders":[{"accountId":"ACCOUNT-0001","avgPx":"0","clientOrderRef":"7d1c8e0a-4b8f-4e3a-9f43-2a6b1d0c9e11","createdAt":"2026-02-03T23:48:41.308Z","cumQty":"0","leavesQty":"10","orderId":"0b9f3c2e-5d6a-4f1b-8e7c-9a0d1e2f3a4b","orderType":"limit","outcome":"YES","price":"0.54","quantity":"10","side":"buy","state":"pending_new","stopPx":"0.50","symbol":"HORC_1126_Republican","timeInForce":"day","updatedAt":"2026-12-06T13:43:49.554Z","workingPrice":"0.54","workingQuantity":"10"}]},"success":true}
+            type: simple
+    x-speakeasy-test-group: predictions_orders
+    x-speakeasy-test-rebuild: true
+  - workflowId: placePredictionOrder
+    steps:
+      - stepId: test
+        operationId: placePredictionOrder
+        parameters:
+          - name: Idempotency-Key
+            in: header
+            value: 7d1c8e0a-4b8f-4e3a-9f43-2a6b1d0c9e11
+        requestBody:
+          contentType: application/json
+          payload:
+            accountId: ACCOUNT-0001
+            clientOrderRef: 7d1c8e0a-4b8f-4e3a-9f43-2a6b1d0c9e11
+            orderType: limit
+            outcome: "YES"
+            price: "0.54"
+            quantity: "10"
+            side: buy
+            stopPx: "0.50"
+            symbol: HORC_1126_Republican
+            timeInForce: day
+        successCriteria:
+          - condition: $statusCode == 202
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"data":{"accountId":"ACCOUNT-0001","avgPx":"0","clientOrderRef":"7d1c8e0a-4b8f-4e3a-9f43-2a6b1d0c9e11","createdAt":"2024-06-25T22:58:46.837Z","cumQty":"0","leavesQty":"10","orderId":"0b9f3c2e-5d6a-4f1b-8e7c-9a0d1e2f3a4b","orderType":"limit","outcome":"YES","price":"0.54","quantity":"10","side":"buy","state":"pending_new","stopPx":"0.50","symbol":"HORC_1126_Republican","timeInForce":"day","updatedAt":"2026-12-13T22:29:12.787Z","workingPrice":"0.54","workingQuantity":"10"},"success":true}
+            type: simple
+    x-speakeasy-test-group: predictions_orders
+    x-speakeasy-test-rebuild: true
+  - workflowId: getPredictionOrder
+    steps:
+      - stepId: test
+        operationId: getPredictionOrder
+        parameters:
+          - name: orderId
+            in: path
+            value: 3e3ab03f-d246-4072-b29f-8558498115de
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"data":{"order":{"accountId":"ACCOUNT-0001","avgPx":"0","clientOrderRef":"7d1c8e0a-4b8f-4e3a-9f43-2a6b1d0c9e11","createdAt":"2024-05-18T17:00:40.400Z","cumQty":"0","leavesQty":"10","orderId":"0b9f3c2e-5d6a-4f1b-8e7c-9a0d1e2f3a4b","orderType":"limit","outcome":"YES","price":"0.54","quantity":"10","side":"buy","state":"pending_new","stopPx":"0.50","symbol":"HORC_1126_Republican","timeInForce":"day","updatedAt":"2026-06-01T14:19:20.151Z","workingPrice":"0.54","workingQuantity":"10"},"reports":[{"avgPx":"0.54","cumQty":"10","execId":"<id>","execType":"trade","lastPx":"0.54","lastQty":"10","leavesQty":"0","status":"filled","transactTime":"2025-08-27T21:08:04.489Z"}]},"success":true}
+            type: simple
+    x-speakeasy-test-group: predictions_orders
+    x-speakeasy-test-rebuild: true
+  - workflowId: getBullBearAnalysis-success
+    steps:
+      - stepId: test
+        operationId: getBullBearAnalysis
+        parameters:
+          - name: symbols
+            in: query
+            value: AAPL,MSFT
+          - name: page
+            in: query
+            value: 0
+          - name: pageSize
+            in: query
+            value: 100
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"bullBearCases":[{"bearCase":"Apple's sales in China experienced a decline of 3.6% year-over-year, signaling potential challenges in one of its key markets. The company's consolidated gross margin guidance for the first fiscal quarter of 2026 remains flat year-over-year at the high end of 47%, which, coupled with higher operating expenses, may strain profitability. Concerns over iPhone sales performance and the possibility of a slowdown in growth further contribute to a negative outlook on the company's stock valuation.","bullCase":"Apple's financial performance shows robust growth, with F4Q25 sales increasing by 8% to $102.5 billion, closely aligning with estimates and reflecting strong iPhone sales anticipated to grow by double digits year-over-year in F1Q26. The services segment also displayed impressive performance, growing 15% year-over-year, which positively influences overall gross margin as the company shifts its focus toward a higher-margin services mix. Additionally, projections for sales growth of 10% to 12% for the upcoming quarter are bolstered by a strong demand for iPhone 17, particularly in the recovering Chinese market, alongside substantial investments in AI and product development indicated by a 19% increase in operating expenses.","id":"69489ba01f09b06edf352b9a","securities":[{"cik":"0000320193","exchange":"NASDAQ Global Select Consolidated","isin":"US0378331005","name":"APPLE INC","symbol":"AAPL"}],"ticker":"AAPL","updated":1766366112}]}
+            type: simple
+    x-speakeasy-test-group: signals
+    x-speakeasy-test-rebuild: true
+  - workflowId: getBankBranches
+    steps:
+      - stepId: test
+        operationId: getBankBranches
+        parameters:
+          - name: symbol
+            in: query
+            value: AAPL
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: stockAlternative
+    x-speakeasy-test-rebuild: true
+  - workflowId: getCongressionalTrading
+    steps:
+      - stepId: test
+        operationId: getCongressionalTrading
+        parameters:
+          - name: symbol
+            in: query
+            value: AAPL
+          - name: from
+            in: query
+            value: "2024-01-01"
+          - name: to
+            in: query
+            value: "2024-12-31"
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: stockAlternative
+    x-speakeasy-test-rebuild: true
+  - workflowId: getCovid19UsCases
+    steps:
+      - stepId: test
+        operationId: getCovid19UsCases
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: stockAlternative
+    x-speakeasy-test-rebuild: true
+  - workflowId: getEarningsCallLive
+    steps:
+      - stepId: test
+        operationId: getEarningsCallLive
+        parameters:
+          - name: symbol
+            in: query
+            value: AAPL
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: stockAlternative
+    x-speakeasy-test-rebuild: true
+  - workflowId: getEarningsQualityScore
+    steps:
+      - stepId: test
+        operationId: getEarningsQualityScore
+        parameters:
+          - name: symbol
+            in: query
+            value: AAPL
+          - name: freq
+            in: query
+            value: quarterly
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"freq":"quarterly"}
+            type: simple
+    x-speakeasy-test-group: stockAlternative
+    x-speakeasy-test-rebuild: true
+  - workflowId: getCompanyEsg
+    steps:
+      - stepId: test
+        operationId: getCompanyEsg
+        parameters:
+          - name: symbol
+            in: query
+            value: AAPL
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: stockAlternative
+    x-speakeasy-test-rebuild: true
+  - workflowId: getFdaAdvisoryCommitteeCalendar
+    steps:
+      - stepId: test
+        operationId: getFdaAdvisoryCommitteeCalendar
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: stockAlternative
+    x-speakeasy-test-rebuild: true
+  - workflowId: getHistoricalEsg
+    steps:
+      - stepId: test
+        operationId: getHistoricalEsg
+        parameters:
+          - name: symbol
+            in: query
+            value: AAPL
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: stockAlternative
+    x-speakeasy-test-rebuild: true
+  - workflowId: getInvestmentTheme
+    steps:
+      - stepId: test
+        operationId: getInvestmentTheme
+        parameters:
+          - name: theme
+            in: query
+            value: ai
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"theme":"ai"}
+            type: simple
+    x-speakeasy-test-group: stockAlternative
+    x-speakeasy-test-rebuild: true
+  - workflowId: getCompanyPresentation
+    steps:
+      - stepId: test
+        operationId: getCompanyPresentation
+        parameters:
+          - name: symbol
+            in: query
+            value: AAPL
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: stockAlternative
+    x-speakeasy-test-rebuild: true
+  - workflowId: getSocialSentiment
+    steps:
+      - stepId: test
+        operationId: getSocialSentiment
+        parameters:
+          - name: symbol
+            in: query
+            value: AAPL
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: stockAlternative
+    x-speakeasy-test-rebuild: true
+  - workflowId: getSupplyChain
+    steps:
+      - stepId: test
+        operationId: getSupplyChain
+        parameters:
+          - name: symbol
+            in: query
+            value: AAPL
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: stockAlternative
+    x-speakeasy-test-rebuild: true
+  - workflowId: listTranscripts
+    steps:
+      - stepId: test
+        operationId: listTranscripts
+        parameters:
+          - name: symbol
+            in: query
+            value: AAPL
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: stockAlternative
+    x-speakeasy-test-rebuild: true
+  - workflowId: getUsaSpending
+    steps:
+      - stepId: test
+        operationId: getUsaSpending
+        parameters:
+          - name: symbol
+            in: query
+            value: AAPL
+          - name: from
+            in: query
+            value: "2024-01-01"
+          - name: to
+            in: query
+            value: "2024-12-31"
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: stockAlternative
+    x-speakeasy-test-rebuild: true
+  - workflowId: getUsptoPatents
+    steps:
+      - stepId: test
+        operationId: getUsptoPatents
+        parameters:
+          - name: symbol
+            in: query
+            value: AAPL
+          - name: from
+            in: query
+            value: "2024-01-01"
+          - name: to
+            in: query
+            value: "2024-12-31"
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: stockAlternative
+    x-speakeasy-test-rebuild: true
+  - workflowId: getVisaApplications
+    steps:
+      - stepId: test
+        operationId: getVisaApplications
+        parameters:
+          - name: symbol
+            in: query
+            value: AAPL
+          - name: from
+            in: query
+            value: "2024-01-01"
+          - name: to
+            in: query
+            value: "2024-12-31"
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: stockAlternative
+    x-speakeasy-test-rebuild: true
+  - workflowId: getEarningsSurprises-default
+    steps:
+      - stepId: test
+        operationId: getEarningsSurprises
+        parameters:
+          - name: symbol
+            in: query
+            value: AAPL
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"earningSurprises":[{"actual":1.850000023841858,"estimate":1.8075000047683716,"period":"2025-09-30","quarter":4,"surprise":0.042500000447034836,"surprisePercent":2.351300001144409,"symbol":"AAPL","year":2025}]}
+            type: simple
+    x-speakeasy-test-group: stockEstimates
+    x-speakeasy-test-rebuild: true
+  - workflowId: getEbitEstimates-default
+    steps:
+      - stepId: test
+        operationId: getEbitEstimates
+        parameters:
+          - name: symbol
+            in: query
+            value: AAPL
+          - name: freq
+            in: query
+            value: quarterly
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"ebitEstimates":{"data":[{"ebitAvg":36118999040,"ebitHigh":37274001408,"ebitLow":34582003712,"numberAnalysts":25,"period":"2027-09-30","quarter":4,"year":2027}, {"ebitAvg":26133999616,"ebitHigh":26983999488,"ebitLow":24916000768,"numberAnalysts":25,"period":"2027-06-30","quarter":3,"year":2027}, {"ebitAvg":23142000640,"ebitHigh":23946999808,"ebitLow":21992001536,"numberAnalysts":25,"period":"2027-03-31","quarter":2,"year":2027}],"freq":"quarterly","symbol":"AAPL"}}
+            type: simple
+    x-speakeasy-test-group: stockEstimates
+    x-speakeasy-test-rebuild: true
+  - workflowId: getEbitdaEstimates-default
+    steps:
+      - stepId: test
+        operationId: getEbitdaEstimates
+        parameters:
+          - name: symbol
+            in: query
+            value: AAPL
+          - name: freq
+            in: query
+            value: quarterly
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"ebitdaEstimates":{"data":[{"ebitdaAvg":41837998080,"ebitdaHigh":43157000192,"ebitdaLow":39904002048,"numberAnalysts":25,"period":"2027-09-30","quarter":4,"year":2027}, {"ebitdaAvg":31958001664,"ebitdaHigh":33003999232,"ebitdaLow":30474000384,"numberAnalysts":25,"period":"2027-06-30","quarter":3,"year":2027}, {"ebitdaAvg":29007001600,"ebitdaHigh":30011000832,"ebitdaLow":27699001344,"numberAnalysts":25,"period":"2027-03-31","quarter":2,"year":2027}],"freq":"quarterly","symbol":"AAPL"}}
+            type: simple
+    x-speakeasy-test-group: stockEstimates
+    x-speakeasy-test-rebuild: true
+  - workflowId: getEpsEstimates-default
+    steps:
+      - stepId: test
+        operationId: getEpsEstimates
+        parameters:
+          - name: symbol
+            in: query
+            value: AAPL
+          - name: freq
+            in: query
+            value: quarterly
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"epsEstimates":{"data":[{"epsAvg":2.1215999126434326,"epsHigh":2.309999942779541,"epsLow":1.8717999458312988,"numberAnalysts":6,"period":"2027-09-30","quarter":4,"year":2027}, {"epsAvg":1.7481000423431396,"epsHigh":1.850000023841858,"epsLow":1.6100000143051147,"numberAnalysts":6,"period":"2027-06-30","quarter":3,"year":2027}, {"epsAvg":1.611199975013733,"epsHigh":1.7200000286102295,"epsLow":1.4600000381469727,"numberAnalysts":6,"period":"2027-03-31","quarter":2,"year":2027}],"freq":"quarterly","symbol":"AAPL"}}
+            type: simple
+    x-speakeasy-test-group: stockEstimates
+    x-speakeasy-test-rebuild: true
+  - workflowId: getPriceTarget-default
+    steps:
+      - stepId: test
+        operationId: getPriceTarget
+        parameters:
+          - name: symbol
+            in: query
+            value: AAPL
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"lastUpdated":"2025-12-03 00:00:00","numberAnalysts":48,"symbol":"AAPL","targetHigh":341.25,"targetLow":217.15,"targetMean":286.45,"targetMedian":286.61}
+            type: simple
+    x-speakeasy-test-group: stockEstimates
+    x-speakeasy-test-rebuild: true
+  - workflowId: getRevenueEstimates-default
+    steps:
+      - stepId: test
+        operationId: getRevenueEstimates
+        parameters:
+          - name: symbol
+            in: query
+            value: AAPL
+          - name: freq
+            in: query
+            value: quarterly
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"revenueEstimates":{"data":[{"numberAnalysts":25,"period":"2027-09-30","quarter":4,"revenueAvg":136963997696,"revenueHigh":143836995584,"revenueLow":13001984,"year":2027}, {"numberAnalysts":25,"period":"2027-06-30","quarter":3,"revenueAvg":100541997056,"revenueHigh":103684997120,"revenueLow":97506000000,"year":2027}, {"numberAnalysts":25,"period":"2027-03-31","quarter":2,"revenueAvg":94224998400,"revenueHigh":96551002112,"revenueLow":90791997440,"year":2027}],"freq":"quarterly","symbol":"AAPL"}}
+            type: simple
+    x-speakeasy-test-group: stockEstimates
+    x-speakeasy-test-rebuild: true
+  - workflowId: getUpgradesDowngrades-default
+    steps:
+      - stepId: test
+        operationId: getUpgradesDowngrades
+        parameters:
+          - name: from
+            in: query
+            value: "2024-01-01"
+          - name: to
+            in: query
+            value: "2024-12-31"
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"data":[{"action":"main","company":"Citigroup","fromGrade":"Buy","gradeTime":1765238400,"symbol":"AAPL","toGrade":"Buy"}, {"action":"upgrade","company":"Goldman Sachs","fromGrade":"Neutral","gradeTime":1765065600,"symbol":"AAPL","toGrade":"Buy"}, {"action":"main","company":"Morgan Stanley","fromGrade":"Overweight","gradeTime":1764547200,"symbol":"AAPL","toGrade":"Overweight"}]}
+            type: simple
+    x-speakeasy-test-group: stockEstimates
+    x-speakeasy-test-rebuild: true
+  - workflowId: getLobbying
+    steps:
+      - stepId: test
+        operationId: getLobbying
+        parameters:
+          - name: symbol
+            in: query
+            value: AAPL
+          - name: from
+            in: query
+            value: "2024-01-01"
+          - name: to
+            in: query
+            value: "2024-12-31"
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: stockAlternatives
+    x-speakeasy-test-rebuild: true
+  - workflowId: getTranscript
+    steps:
+      - stepId: test
+        operationId: getTranscript
+        parameters:
+          - name: id
+            in: query
+            value: <id>
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: stockAlternatives
+    x-speakeasy-test-rebuild: true
+  - workflowId: getStockAggregates
+    steps:
+      - stepId: test
+        operationId: getStockAggregates
+        parameters:
+          - name: ticker
+            in: query
+            value: AAPL
+          - name: multiplier
+            in: query
+            value: 1
+          - name: timespan
+            in: query
+            value: day
+          - name: from
+            in: query
+            value: "2024-01-01"
+          - name: to
+            in: query
+            value: "2024-01-31"
+          - name: adjusted
+            in: query
+            value: true
+          - name: limit
+            in: query
+            value: 1000
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: stocks
+    x-speakeasy-test-rebuild: true
+  - workflowId: getDailyMarketSummary
+    steps:
+      - stepId: test
+        operationId: getDailyMarketSummary
+        parameters:
+          - name: date
+            in: query
+            value: "2024-01-15"
+          - name: adjusted
+            in: query
+            value: true
+          - name: includeOtc
+            in: query
+            value: false
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: stocks
+    x-speakeasy-test-rebuild: true
+  - workflowId: getStockLastQuote
+    steps:
+      - stepId: test
+        operationId: getStockLastQuote
+        parameters:
+          - name: ticker
+            in: query
+            value: AAPL
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: stocks
+    x-speakeasy-test-rebuild: true
+  - workflowId: getStockLastTrade
+    steps:
+      - stepId: test
+        operationId: getStockLastTrade
+        parameters:
+          - name: ticker
+            in: query
+            value: AAPL
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: stocks
+    x-speakeasy-test-rebuild: true
+  - workflowId: getStockOpenClose
+    steps:
+      - stepId: test
+        operationId: getStockOpenClose
+        parameters:
+          - name: ticker
+            in: query
+            value: AAPL
+          - name: date
+            in: query
+            value: "2024-01-15"
+          - name: adjusted
+            in: query
+            value: true
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: stocks
+    x-speakeasy-test-rebuild: true
+  - workflowId: getStockPreviousDay
+    steps:
+      - stepId: test
+        operationId: getStockPreviousDay
+        parameters:
+          - name: ticker
+            in: query
+            value: AAPL
+          - name: adjusted
+            in: query
+            value: true
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: stocks
+    x-speakeasy-test-rebuild: true
+  - workflowId: getStockQuotes
+    steps:
+      - stepId: test
+        operationId: getStockQuotes
+        parameters:
+          - name: ticker
+            in: query
+            value: AAPL
+          - name: timestamp
+            in: query
+            value: "2024-01-15"
+          - name: timestampFrom
+            in: query
+            value: "2024-01-01"
+          - name: timestampAfter
+            in: query
+            value: "2024-01-01"
+          - name: timestampTo
+            in: query
+            value: "2024-01-31"
+          - name: timestampBefore
+            in: query
+            value: "2024-01-31"
+          - name: order
+            in: query
+            value: desc
+          - name: limit
+            in: query
+            value: 1000
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: stocks
+    x-speakeasy-test-rebuild: true
+  - workflowId: getStockSnapshots
+    steps:
+      - stepId: test
+        operationId: getStockSnapshots
+        parameters:
+          - name: tickers
+            in: query
+            value: AAPL,TSLA,GOOG
+          - name: includeOtc
+            in: query
+            value: false
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: stocks
+    x-speakeasy-test-rebuild: true
+  - workflowId: getStockTrades
+    steps:
+      - stepId: test
+        operationId: getStockTrades
+        parameters:
+          - name: ticker
+            in: query
+            value: AAPL
+          - name: timestamp
+            in: query
+            value: "2024-01-15"
+          - name: timestampFrom
+            in: query
+            value: "2024-01-01"
+          - name: timestampAfter
+            in: query
+            value: "2024-01-01"
+          - name: timestampTo
+            in: query
+            value: "2024-01-31"
+          - name: timestampBefore
+            in: query
+            value: "2024-01-31"
+          - name: order
+            in: query
+            value: desc
+          - name: limit
+            in: query
+            value: 1000
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: stocks
+    x-speakeasy-test-rebuild: true
+  - workflowId: getUnifiedSnapshot
+    steps:
+      - stepId: test
+        operationId: getUnifiedSnapshot
+        parameters:
+          - name: type
+            in: query
+            value: stocks
+          - name: ticker
+            in: query
+            value: AAPL
+          - name: tickersAnyOf
+            in: query
+            value: AAPL,TSLA,GOOG
+          - name: tickerFrom
+            in: query
+            value: A
+          - name: tickerAfter
+            in: query
+            value: A
+          - name: tickerTo
+            in: query
+            value: Z
+          - name: tickerBefore
+            in: query
+            value: Z
+          - name: order
+            in: query
+            value: asc
+          - name: limit
+            in: query
+            value: 10
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: stocks
+    x-speakeasy-test-rebuild: true

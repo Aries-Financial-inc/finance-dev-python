@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"data":[{"action":"main","company":"Citigroup","fromGrade":"Buy","gradeTime":1765238400,"symbol":"AAPL","toGrade":"Buy"},{"action":"upgrade","company":"Goldman Sachs","fromGrade":"Neutral","gradeTime":1765065600,"symbol":"AAPL","toGrade":"Buy"},{"action":"main","company":"Morgan Stanley","fromGrade":"Overweight","gradeTime":1764547200,"symbol":"AAPL","toGrade":"Overweight"}]}

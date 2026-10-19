@@ -1,0 +1,10 @@
+GET /v2/accounts/TEST-ACCOUNT-001/orders/history?from=2026-01-01T00%3A00%3A00Z&to=2026-01-31T00%3A00%3A00Z&order_by=desc&exclude_today=false&limit=50&cursor=0 HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: c312d66c-71d2-4445-8cc0-a29eb0498986
+X-Speakeasy-Test-Name: listOrderHistory
+

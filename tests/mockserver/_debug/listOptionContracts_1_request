@@ -1,0 +1,10 @@
+GET /v1/options/%3Cvalue%3E/contracts/2024-11-10 HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 6e9e98d9-783d-473f-8e72-b0d6ab17ebe9
+X-Speakeasy-Test-Name: listOptionContracts-success
+

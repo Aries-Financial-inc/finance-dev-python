@@ -1,0 +1,10 @@
+GET /v1/indicator?symbol=%3Cvalue%3E&resolution=30&indicator=rsi&from=714124&to=669868 HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 6c3fd801-d205-494d-a4fa-f65bcece9bcb
+X-Speakeasy-Test-Name: getTechnicalIndicator-default
+

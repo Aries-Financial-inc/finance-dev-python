@@ -1,0 +1,10 @@
+GET /v1/news/123456?newsType=news HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 9e7c05f0-7093-42cd-a4cb-b00c3cb54e92
+X-Speakeasy-Test-Name: getNewsById-default
+

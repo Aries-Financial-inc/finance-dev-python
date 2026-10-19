@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"data":{"baseEvent":{"baseEventId":"\u003cid\u003e","categoryLevels":["Economic Indicators","Labor","United States"],"displayName":"US Unemployment Rate","firstSeenAt":"2024-09-06T05:59:28.906Z","lastSyncedAt":"2025-10-02T11:47:14.927Z"},"events":[]},"success":true}

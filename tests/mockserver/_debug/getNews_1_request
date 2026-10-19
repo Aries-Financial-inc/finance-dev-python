@@ -1,0 +1,10 @@
+GET /v1/news?symbols=AAPL%2CGOOGL%2CMSFT&topics=earnings%2Cguidance HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 2004b984-d1a2-4bc0-b1c8-e3c38a777b8a
+X-Speakeasy-Test-Name: getNews-default
+

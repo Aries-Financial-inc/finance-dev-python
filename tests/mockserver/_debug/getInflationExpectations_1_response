@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"nextUrl":"https://api.aries.com/v1/economy/inflation-expectations?next=...","requestId":"c02d532304a9443ab43b2e4b691c8706","results":[{"date":"2025-11-01","forwardYears5To10":2.18,"market10Year":2.27,"market5Year":2.35,"model10Year":2.3071296,"model1Year":2.703875,"model30Year":2.431894,"model5Year":2.3309433}],"status":"OK"}

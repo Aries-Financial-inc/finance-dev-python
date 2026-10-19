@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"earningSurprises":[{"actual":1.850000023841858,"estimate":1.8075000047683716,"period":"2025-09-30","quarter":4,"surprise":0.042500000447034836,"surprisePercent":2.351300001144409,"symbol":"AAPL","year":2025}]}

@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"ebitdaEstimates":{"data":[{"ebitdaAvg":41837998080,"ebitdaHigh":43157000192,"ebitdaLow":39904002048,"numberAnalysts":25,"period":"2027-09-30","quarter":4,"year":2027},{"ebitdaAvg":31958001664,"ebitdaHigh":33003999232,"ebitdaLow":30474000384,"numberAnalysts":25,"period":"2027-06-30","quarter":3,"year":2027},{"ebitdaAvg":29007001600,"ebitdaHigh":30011000832,"ebitdaLow":27699001344,"numberAnalysts":25,"period":"2027-03-31","quarter":2,"year":2027}],"freq":"quarterly","symbol":"AAPL"}}

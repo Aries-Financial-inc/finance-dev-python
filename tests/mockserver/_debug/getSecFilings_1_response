@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"filings":[{"acceptedDate":"2024-01-11 16:30:29","accessNumber":"0001308179-24-000010","cik":"320193","filedDate":"2024-01-11 00:00:00","filingUrl":"https://www.sec.gov/Archives/edgar/data/320193/000130817924000010/0001308179-24-000010-index.html","form":"DEF 14A","reportUrl":"https://www.sec.gov/Archives/edgar/data/320193/000130817924000010/laapl2024_def14a.htm","symbol":"AAPL"}]}

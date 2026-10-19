@@ -1,0 +1,10 @@
+GET /v1/indices/bars?identifier=SPX.IND_CBOM&startTime=12%2F22%2F2025+9%3A30+am&endTime=12%2F22%2F2025+4%3A00+pm&identifierType=Symbol&precision=Minutes HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: d3c61e78-1116-40e0-970f-24a6381be87c
+X-Speakeasy-Test-Name: getIndexBars-success
+

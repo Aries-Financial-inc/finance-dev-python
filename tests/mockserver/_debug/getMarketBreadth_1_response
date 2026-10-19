@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"data":{"advanceDeclineRatio":1.85,"advancers":2840,"advancersPercent":62.5,"decliners":1532,"declinersPercent":33.7,"timestamp":"2026-03-09T13:48:11.726532Z","totalSymbols":4544,"unchanged":172}}

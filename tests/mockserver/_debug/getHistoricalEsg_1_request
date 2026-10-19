@@ -1,0 +1,10 @@
+GET /v1/stock/historical-esg?symbol=AAPL HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 82333d89-8299-4ce4-90cb-a6ccae11e50e
+X-Speakeasy-Test-Name: getHistoricalEsg
+

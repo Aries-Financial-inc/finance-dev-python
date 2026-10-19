@@ -1,0 +1,13 @@
+POST /v1/config/watchlist HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+Content-Length: 52
+Content-Type: application/json
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 16726fc9-fc10-4f1c-83b2-a68de8fb424c
+X-Speakeasy-Test-Name: createConfigWatchlist-createdWithInvalidSymbols
+
+{"name":"<value>","symbols":["AAPL","GOOGL","MSFT"]}

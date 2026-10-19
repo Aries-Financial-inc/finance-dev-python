@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"clOrdId":"ORDER-20260115-003","origClOrdId":"ORDER-20260115-001","price":"175.50","qty":"200","status":"REPLACED","success":true,"text":"Replace accepted","transactTime":"2026-01-15T14:31:00Z"}

@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"data":[{"change":-2711875,"filingDate":"2025-09-30","name":"Vanguard Total Stock Market Index Fund","percentOfShares":0,"share":466994523,"source":""}]}

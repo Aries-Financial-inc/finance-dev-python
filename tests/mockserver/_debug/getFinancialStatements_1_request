@@ -1,0 +1,10 @@
+GET /v1/financials/statements?symbol=%3Cvalue%3E&statement=ic&freq=quarterly HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 61fb1def-6979-4c72-9ea9-930db1073bd9
+X-Speakeasy-Test-Name: getFinancialStatements-default
+

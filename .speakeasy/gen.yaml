@@ -1,0 +1,107 @@
+configVersion: 2.0.0
+generation:
+  devContainers:
+    enabled: true
+    schemaPath: .speakeasy/out.openapi.yaml
+  sdkClassName: FinanceDev
+  maintainOpenAPIOrder: true
+  deduplicateErrors: true
+  usageSnippets:
+    optionalPropertyRendering: withExample
+    sdkInitStyle: constructor
+  useClassNamesForArrayFields: true
+  fixes:
+    nameResolutionDec2023: true
+    nameResolutionFeb2025: true
+    parameterOrderingFeb2024: true
+    requestResponseComponentNamesFeb2024: true
+    securityFeb2025: true
+    sharedErrorComponentsApr2025: true
+    sharedNestedComponentsJan2026: false
+    nameOverrideFeb2026: false
+  auth:
+    oAuth2ClientCredentialsEnabled: true
+    oAuth2PasswordEnabled: false
+    hoistGlobalSecurity: true
+  inferSSEOverload: true
+  sdkHooksConfigAccess: true
+  schemas:
+    allOfMergeStrategy: shallowMerge
+  requestBodyFieldName: ""
+  versioningStrategy: automatic
+  persistentEdits:
+    enabled: "true"
+  tests:
+    generateTests: true
+    generateNewTests: true
+    skipResponseBodyAssertions: false
+python:
+  version: 0.9.0
+  additionalDependencies:
+    dev:
+      pytest: '>=8.0.0'
+      pytest-asyncio: '>=0.24.0'
+    main:
+      websockets: '>=15.0,<18.0'
+  allowedRedefinedBuiltins:
+    - id
+    - object
+  asyncMode: both
+  authors:
+    - Speakeasy
+  baseErrorName: FinanceDevAPIError
+  bodyVariantOverloads: false
+  clientServerStatusCodesAsErrors: true
+  constFieldCasing: upper
+  defaultErrorName: APIError
+  description: Python Client SDK to interact with finance.dev.
+  durationFormat: false
+  enableCustomCodeRegions: false
+  enumFormat: enum
+  envVarPrefix: ""
+  errorSchemaValidation: true
+  eventStreamClassNames:
+    async: EventStreamAsync
+    sync: EventStream
+  fixFlags:
+    asyncPaginationSep2025: false
+    conflictResistantModelImportsFeb2026: false
+    responseRequiredSep2024: true
+  flattenGlobalSecurity: true
+  flattenRequests: true
+  flatteningOrder: parameters-first
+  forwardCompatibleEnumsByDefault: false
+  forwardCompatibleUnionsByDefault: "false"
+  httpClientLibrary: httpx
+  imports:
+    option: openapi
+    paths:
+      callbacks: ""
+      errors: errors
+      operations: ""
+      shared: ""
+      webhooks: ""
+  inferUnionDiscriminators: true
+  inputModelSuffix: input
+  inputTypedDictSuffix: TypedDict
+  license: ""
+  maxMethodParams: 999
+  methodArguments: infer-optional-args
+  methodTimeoutArgument: timeout-ms
+  methodTimeoutUnits: milliseconds
+  moduleName: ""
+  multipartArrayFormat: legacy
+  optionalDependencies: {}
+  outputModelSuffix: output
+  packageManager: uv
+  packageName: finance_dev
+  preApplyUnionDiscriminators: false
+  pytestFilterWarnings: []
+  pytestTimeout: 0
+  rawResponseHelpers: false
+  responseFormat: envelope-http
+  responseSchemaValidation: true
+  sseFlatResponse: false
+  templateVersion: v2
+  useAsyncHooks: false
+  uuidFormat: false

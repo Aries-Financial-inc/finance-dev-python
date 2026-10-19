@@ -1,0 +1,9 @@
+# GetOptionContractSnapshotResponse
+
+
+## Fields
+
+| Field                                                                                          | Type                                                                                           | Required                                                                                       | Description                                                                                    |
+| ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `http_meta`                                                                                    | [models.HTTPMetadata](../models/httpmetadata.md)                                               | :heavy_check_mark:                                                                             | N/A                                                                                            |
+| `option_contract_snapshot_response`                                                            | [Optional[models.OptionContractSnapshotResponse]](../models/optioncontractsnapshotresponse.md) | :heavy_minus_sign:                                                                             | Option contract snapshot returned successfully.                                                |

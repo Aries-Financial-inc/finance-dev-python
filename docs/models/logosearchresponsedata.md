@@ -1,0 +1,13 @@
+# LogoSearchResponseData
+
+
+## Fields
+
+| Field                                                                            | Type                                                                             | Required                                                                         | Description                                                                      |
+| -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `colors`                                                                         | Dict[str, *Any*]                                                                 | :heavy_minus_sign:                                                               | Brand color palette (if available)                                               |
+| `created_at`                                                                     | *Optional[str]*                                                                  | :heavy_minus_sign:                                                               | Timestamp when the logo was first added (ISO 8601 format)                        |
+| `files`                                                                          | [Optional[models.LogoSearchResponseFiles]](../models/logosearchresponsefiles.md) | :heavy_minus_sign:                                                               | Available logo file variants                                                     |
+| `id`                                                                             | *Optional[str]*                                                                  | :heavy_minus_sign:                                                               | Unique identifier for the logo record                                            |
+| `search_key`                                                                     | *Optional[str]*                                                                  | :heavy_minus_sign:                                                               | Search key used to identify the company (e.g., NASDAQ:TSLA)                      |
+| `updated_at`                                                                     | *Optional[str]*                                                                  | :heavy_minus_sign:                                                               | Timestamp when the logo was last updated (ISO 8601 format)                       |

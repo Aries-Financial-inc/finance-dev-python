@@ -1,0 +1,10 @@
+GET /v1/institutional/ownership?cusip=023135106&from=2024-01-01&to=2024-12-31&symbol=TSLA HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 403220ce-23de-4059-b1b8-515ef1561db4
+X-Speakeasy-Test-Name: getInstitutionalOwnership-default
+

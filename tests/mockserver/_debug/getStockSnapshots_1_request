@@ -1,0 +1,10 @@
+GET /v1/stocks/snapshot?tickers=AAPL%2CTSLA%2CGOOG&includeOtc=false HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Authorization: Bearer mock-access-token
+Connection: keep-alive
+User-Agent: speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev
+X-Speakeasy-Test-Instance-Id: 727cc4b3-7362-4ae0-b61c-b29cacfbea28
+X-Speakeasy-Test-Name: getStockSnapshots
+
