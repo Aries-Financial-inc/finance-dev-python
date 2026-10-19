@@ -2,17 +2,17 @@
 
 Developer-friendly & type-safe Python SDK specifically catered to leverage *finance-dev* API.
 
-<div align="left">
+<!-- <div align="left">
     <a href="https://www.speakeasy.com/?utm_source=finance-dev&utm_campaign=python"><img src="https://custom-icon-badges.demolab.com/badge/-Built%20By%20Speakeasy-212015?style=for-the-badge&logoColor=FBE331&logo=speakeasy&labelColor=545454" /></a>
     <a href="https://opensource.org/licenses/MIT">
         <img src="https://img.shields.io/badge/License-MIT-blue.svg" style="width: 100px; height: 28px;" />
     </a>
-</div>
+</div> -->
 
 
 <br /><br />
-> [!IMPORTANT]
-> This SDK is not yet ready for production use. To complete setup please follow the steps outlined in your [workspace](https://app.speakeasy.com/org/aries/aries). Delete this section before > publishing to a package manager.
+<!-- > [!IMPORTANT]
+> This SDK is not yet ready for production use. To complete setup please follow the steps outlined in your [workspace](https://app.speakeasy.com/org/aries/aries). Delete this section before > publishing to a package manager. -->
 
 <!-- Start Summary [summary] -->
 ## Summary
@@ -145,6 +145,7 @@ Endpoints in this spec: health, OAuth2 (authorize, confirm, mfa, token), users, 
   * [Custom HTTP Client](#custom-http-client)
   * [Resource Management](#resource-management)
   * [Debugging](#debugging)
+* [WebSocket streaming](#websocket-streaming)
 * [Development](#development)
   * [Maturity](#maturity)
   * [Contributions](#contributions)
@@ -891,6 +892,17 @@ s = FinanceDev(debug_logger=logging.getLogger("finance_dev"))
 <!-- End Debugging [debug] -->
 
 <!-- Placeholder for Future Speakeasy SDK Sections -->
+
+# WebSocket streaming
+
+`FinanceDev` exposes market, chart, and account WebSocket clients under
+`sdk.websocket`. Connections authenticate on entry and support both sync and
+async context managers. See the [WebSocket guide](docs/websocket/README.md)
+for examples, token providers, event semantics, and reconnect behavior.
+
+Market field selectors use `"*"` for all fields. To combine Time & Sales with
+quotes and trades, set `time_and_sales=True`, `quote_fields="*"`, and
+`trade_fields="*"`; Time & Sales alone selects only that stream.
 
 # Development
 
