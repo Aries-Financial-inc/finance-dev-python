@@ -1,0 +1,12 @@
+# ShortInterestResponseResult
+
+
+## Fields
+
+| Field                                                                           | Type                                                                            | Required                                                                        | Description                                                                     |
+| ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| `avg_daily_volume`                                                              | *Optional[int]*                                                                 | :heavy_minus_sign:                                                              | Average daily trading volume in shares used for the days-to-cover calculation   |
+| `days_to_cover`                                                                 | *Optional[float]*                                                               | :heavy_minus_sign:                                                              | Number of days of average volume needed to cover the short interest             |
+| `settlement_date`                                                               | *Optional[str]*                                                                 | :heavy_minus_sign:                                                              | Settlement date of the short interest report (YYYY-MM-DD)                       |
+| `short_interest`                                                                | *Optional[int]*                                                                 | :heavy_minus_sign:                                                              | Total number of shares sold short and not yet covered as of the settlement date |
+| `ticker`                                                                        | *Optional[str]*                                                                 | :heavy_minus_sign:                                                              | Stock ticker symbol                                                             |

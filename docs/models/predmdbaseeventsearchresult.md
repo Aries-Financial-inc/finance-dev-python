@@ -1,0 +1,14 @@
+# PredMdBaseEventSearchResult
+
+One page of base events. found, page and perPage count base events.
+
+
+## Fields
+
+| Field                                                                                  | Type                                                                                   | Required                                                                               | Description                                                                            |
+| -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| `found`                                                                                | *int*                                                                                  | :heavy_check_mark:                                                                     | Every match, not just this page.                                                       |
+| `hits`                                                                                 | List[[models.PredMdBaseEventHit](../models/predmdbaseeventhit.md)]                     | :heavy_check_mark:                                                                     | N/A                                                                                    |
+| `page`                                                                                 | *int*                                                                                  | :heavy_check_mark:                                                                     | N/A                                                                                    |
+| `per_page`                                                                             | *int*                                                                                  | :heavy_check_mark:                                                                     | N/A                                                                                    |
+| `type`                                                                                 | [models.PredMdBaseEventSearchResultType](../models/predmdbaseeventsearchresulttype.md) | :heavy_check_mark:                                                                     | N/A                                                                                    |

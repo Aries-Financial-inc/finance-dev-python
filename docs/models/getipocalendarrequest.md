@@ -1,0 +1,9 @@
+# GetIpoCalendarRequest
+
+
+## Fields
+
+| Field                                                                                    | Type                                                                                     | Required                                                                                 | Description                                                                              | Example                                                                                  |
+| ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `from_`                                                                                  | [datetime](https://docs.python.org/3/library/datetime.html#datetime-objects)             | :heavy_check_mark:                                                                       | Start date in YYYY-MM-DD format. Enter the first date to include in the research window. | 2024-01-01                                                                               |
+| `to`                                                                                     | [datetime](https://docs.python.org/3/library/datetime.html#datetime-objects)             | :heavy_check_mark:                                                                       | End date in YYYY-MM-DD format. Enter the last date to include in the research window.    | 2024-12-31                                                                               |

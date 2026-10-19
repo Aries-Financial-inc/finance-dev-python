@@ -1,0 +1,11 @@
+# IndexListResponse
+
+Response containing the indices in an index group.
+
+
+## Fields
+
+| Field                                                                                         | Type                                                                                          | Required                                                                                      | Description                                                                                   | Example                                                                                       |
+| --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `indices`                                                                                     | List[[models.IndexListResponseIndex](../models/indexlistresponseindex.md)]                    | :heavy_minus_sign:                                                                            | Array of indices in the specified index group                                                 |                                                                                               |
+| `next_page`                                                                                   | *Optional[str]*                                                                               | :heavy_minus_sign:                                                                            | Token for the next page. Send it as `nextPage` on the next request. Omitted on the last page. | AFEFB09147DA3C09B6A280B0A807F239                                                              |

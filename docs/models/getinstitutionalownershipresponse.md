@@ -1,0 +1,9 @@
+# GetInstitutionalOwnershipResponse
+
+
+## Fields
+
+| Field                                                                                          | Type                                                                                           | Required                                                                                       | Description                                                                                    |
+| ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `http_meta`                                                                                    | [models.HTTPMetadata](../models/httpmetadata.md)                                               | :heavy_check_mark:                                                                             | N/A                                                                                            |
+| `institutional_ownership_response`                                                             | [Optional[models.InstitutionalOwnershipResponse]](../models/institutionalownershipresponse.md) | :heavy_minus_sign:                                                                             | Institutional ownership data.                                                                  |

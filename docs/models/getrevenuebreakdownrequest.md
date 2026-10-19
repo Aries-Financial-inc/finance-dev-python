@@ -1,0 +1,9 @@
+# GetRevenueBreakdownRequest
+
+
+## Fields
+
+| Field                                                                          | Type                                                                           | Required                                                                       | Description                                                                    | Example                                                                        |
+| ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
+| `symbol`                                                                       | *Optional[str]*                                                                | :heavy_minus_sign:                                                             | Stock ticker symbol to research, such as AAPL. Required when `cik` is omitted. | AAPL                                                                           |
+| `cik`                                                                          | *Optional[str]*                                                                | :heavy_minus_sign:                                                             | SEC CIK. Optional when `symbol` is provided.                                   | 320193                                                                         |

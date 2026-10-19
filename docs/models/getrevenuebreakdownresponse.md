@@ -1,0 +1,9 @@
+# GetRevenueBreakdownResponse
+
+
+## Fields
+
+| Field                                                                                                  | Type                                                                                                   | Required                                                                                               | Description                                                                                            |
+| ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------ |
+| `http_meta`                                                                                            | [models.HTTPMetadata](../models/httpmetadata.md)                                                       | :heavy_check_mark:                                                                                     | N/A                                                                                                    |
+| `financials_revenue_breakdown_response`                                                                | [Optional[models.FinancialsRevenueBreakdownResponse]](../models/financialsrevenuebreakdownresponse.md) | :heavy_minus_sign:                                                                                     | Revenue breakdown data.                                                                                |

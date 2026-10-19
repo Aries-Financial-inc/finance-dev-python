@@ -1,0 +1,9 @@
+# GetOptionContractSnapshotRequest
+
+
+## Fields
+
+| Field                                                                       | Type                                                                        | Required                                                                    | Description                                                                 | Example                                                                     |
+| --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| `underlying_asset`                                                          | *str*                                                                       | :heavy_check_mark:                                                          | Underlying equity symbol (for example AAPL).                                | AAPL                                                                        |
+| `option_contract`                                                           | *str*                                                                       | :heavy_check_mark:                                                          | OCC-format options contract identifier (for example O:AAPL240119C00190000). | O:AAPL260410C00110000                                                       |

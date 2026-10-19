@@ -1,0 +1,19 @@
+# StockTradesResponseResult
+
+
+## Fields
+
+| Field                                                             | Type                                                              | Required                                                          | Description                                                       |
+| ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- |
+| `conditions`                                                      | List[*int*]                                                       | :heavy_minus_sign:                                                | Trade conditions                                                  |
+| `correction`                                                      | *Optional[int]*                                                   | :heavy_minus_sign:                                                | Correction indicator                                              |
+| `exchange`                                                        | *Optional[int]*                                                   | :heavy_minus_sign:                                                | Numeric exchange identifier supplied by the market data provider. |
+| `id`                                                              | *Optional[str]*                                                   | :heavy_minus_sign:                                                | Trade ID                                                          |
+| `participant_timestamp`                                           | *Optional[int]*                                                   | :heavy_minus_sign:                                                | Participant timestamp (nanoseconds)                               |
+| `price`                                                           | *Optional[float]*                                                 | :heavy_minus_sign:                                                | Trade price                                                       |
+| `sequence_number`                                                 | *Optional[int]*                                                   | :heavy_minus_sign:                                                | Sequence number                                                   |
+| `sip_timestamp`                                                   | *Optional[int]*                                                   | :heavy_minus_sign:                                                | SIP timestamp (nanoseconds)                                       |
+| `size`                                                            | *Optional[float]*                                                 | :heavy_minus_sign:                                                | Trade size (shares)                                               |
+| `tape`                                                            | *Optional[int]*                                                   | :heavy_minus_sign:                                                | Tape                                                              |
+| `trf_id`                                                          | *Optional[int]*                                                   | :heavy_minus_sign:                                                | TRF ID                                                            |
+| `trf_timestamp`                                                   | *Optional[int]*                                                   | :heavy_minus_sign:                                                | TRF timestamp                                                     |

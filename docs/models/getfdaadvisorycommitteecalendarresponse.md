@@ -1,0 +1,9 @@
+# GetFdaAdvisoryCommitteeCalendarResponse
+
+
+## Fields
+
+| Field                                                                                                      | Type                                                                                                       | Required                                                                                                   | Description                                                                                                |
+| ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `http_meta`                                                                                                | [models.HTTPMetadata](../models/httpmetadata.md)                                                           | :heavy_check_mark:                                                                                         | N/A                                                                                                        |
+| `fda_advisory_committee_calendar_response`                                                                 | [Optional[models.FdaAdvisoryCommitteeCalendarResponse]](../models/fdaadvisorycommitteecalendarresponse.md) | :heavy_minus_sign:                                                                                         | FDA advisory committee calendar.                                                                           |

@@ -1,0 +1,9 @@
+# PlacePredictionOrderResponse
+
+
+## Fields
+
+| Field                                                                                              | Type                                                                                               | Required                                                                                           | Description                                                                                        |
+| -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| `http_meta`                                                                                        | [models.HTTPMetadata](../models/httpmetadata.md)                                                   | :heavy_check_mark:                                                                                 | N/A                                                                                                |
+| `object`                                                                                           | [Optional[models.PlacePredictionOrderResponseBody]](../models/placepredictionorderresponsebody.md) | :heavy_minus_sign:                                                                                 | Order accepted for sending. `state` is normally `pending_new`.                                     |

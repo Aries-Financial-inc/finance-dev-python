@@ -1,0 +1,14 @@
+# OptionSnapshotUnderlying
+
+Underlying equity snapshot (`OptionSnapshotUnderlyingDTO`).
+
+
+## Fields
+
+| Field                                                                                         | Type                                                                                          | Required                                                                                      | Description                                                                                   |
+| --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `change_to_break_even`                                                                        | *OptionalNullable[float]*                                                                     | :heavy_minus_sign:                                                                            | Change in the underlying price needed for the contract to reach break-even                    |
+| `last_updated`                                                                                | *OptionalNullable[int]*                                                                       | :heavy_minus_sign:                                                                            | Timestamp of the last update to the underlying price, as supplied by the market data provider |
+| `price`                                                                                       | *OptionalNullable[float]*                                                                     | :heavy_minus_sign:                                                                            | Current price of the underlying asset                                                         |
+| `ticker`                                                                                      | *Optional[str]*                                                                               | :heavy_minus_sign:                                                                            | Ticker symbol of the underlying asset                                                         |
+| `timeframe`                                                                                   | *Optional[str]*                                                                               | :heavy_minus_sign:                                                                            | Data timeframe of the underlying price, as supplied by the market data provider               |

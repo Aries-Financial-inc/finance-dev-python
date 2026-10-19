@@ -1,0 +1,10 @@
+# GetEarningsCallLiveRequest
+
+
+## Fields
+
+| Field                                                                        | Type                                                                         | Required                                                                     | Description                                                                  | Example                                                                      |
+| ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| `from_`                                                                      | [datetime](https://docs.python.org/3/library/datetime.html#datetime-objects) | :heavy_minus_sign:                                                           | Start of the date window, inclusive. Format: `YYYY-MM-DD`.                   |                                                                              |
+| `to`                                                                         | [datetime](https://docs.python.org/3/library/datetime.html#datetime-objects) | :heavy_minus_sign:                                                           | End of the date window, inclusive. Format: `YYYY-MM-DD`.                     |                                                                              |
+| `symbol`                                                                     | *Optional[str]*                                                              | :heavy_minus_sign:                                                           | Stock ticker to query. Send the plain uppercase symbol, e.g. `AAPL`.         | AAPL                                                                         |
