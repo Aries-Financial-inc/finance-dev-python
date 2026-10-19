@@ -60,7 +60,7 @@ func testGetEconomicsCalendarGetEconomicsCalendar0(w http.ResponseWriter, req *h
 				LastUpdate:    types.String("2026-03-03T10:49:26.58"),
 				Previous:      types.String("1833K"),
 				Reference:     types.String("Feb/21"),
-				ReferenceDate: types.MustNewTimeFromString("2026-02-21T00:00:00"),
+				ReferenceDate: types.MustNewTimeFromString("2026-02-21T00:00:00Z"),
 				Source:        types.String("U.S. Department of Labor"),
 				SourceURL:     types.String("http://www.dol.gov"),
 				Symbol:        types.String("UNITEDSTACONJOBCLA"),

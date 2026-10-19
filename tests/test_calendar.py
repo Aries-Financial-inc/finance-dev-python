@@ -177,7 +177,7 @@ def test_calendar_get_economics_calendar():
                         last_update="2026-03-03T10:49:26.58",
                         previous="1833K",
                         reference="Feb/21",
-                        reference_date=parse_datetime("2026-02-21T00:00:00"),
+                        reference_date=parse_datetime("2026-02-21T00:00:00Z"),
                         source="U.S. Department of Labor",
                         source_url="http://www.dol.gov",
                         symbol="UNITEDSTACONJOBCLA",
