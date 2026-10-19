@@ -410,6 +410,7 @@ def test_orders_preview_order():
 
         res = fd_client.orders.preview_order(
             request={
+                "account_id": "<id>",
                 "client_id": "CLIENT-001",
                 "currency": "USD",
                 "legs": [
