@@ -4,11 +4,11 @@
 
 ### Available Operations
 
-* [get](#get) - Get Market News
+* [list](#list) - Get Market News
 * [get_sentiment](#get_sentiment) - Get News Sentiment
 * [get_by_id](#get_by_id) - Get News by ID
 
-## get
+## list
 
 Retrieve real-time market news articles and press releases. Returns combined results from both news and press releases, sorted by timestamp (newest first). Default returns news for SPY if no symbols are specified.
 
@@ -26,7 +26,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.news.get(symbols="AAPL,GOOGL,MSFT", topics="earnings,guidance")
+    res = fd_client.news.list(symbols="AAPL,GOOGL,MSFT", topics="earnings,guidance")
 
     assert res.news_list_response is not None
 

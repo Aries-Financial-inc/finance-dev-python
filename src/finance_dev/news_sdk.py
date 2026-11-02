@@ -10,7 +10,7 @@ from typing import Any, Mapping, Optional
 
 
 class NewsSDK(BaseSDK):
-    def get(
+    def list(
         self,
         *,
         symbols: Optional[str] = "SPY",
@@ -167,7 +167,7 @@ class NewsSDK(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_async(
+    async def list_async(
         self,
         *,
         symbols: Optional[str] = "SPY",

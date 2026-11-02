@@ -7,65 +7,6 @@ import os
 from tests.test_client import create_test_http_client
 
 
-def test_predictionorders_list_prediction_orders():
-    test_http_client = create_test_http_client("listPredictionOrders")
-
-    with FinanceDev(
-        server_url=os.getenv("TEST_SERVER_URL", "http://localhost:18080"),
-        client=test_http_client,
-        security=models.Security(
-            client_id="<YOUR_CLIENT_ID_HERE>",
-            client_secret="<YOUR_CLIENT_SECRET_HERE>",
-            token_url="/_mockserver/oauth2/token",
-        ),
-    ) as fd_client:
-        assert fd_client is not None
-
-        res = fd_client.prediction_orders.list(
-            account_id="ACCOUNT-0001", status="open", limit=50
-        )
-        assert res.http_meta is not None
-        assert res.http_meta.response is not None
-        assert res.http_meta.response.status_code == 200
-        assert res.object is not None
-        assert res.object == models.ListPredictionOrdersResponseBody(
-            data=models.PredOrdersOrderPage(
-                orders=[
-                    models.PredOrdersOrder(
-                        account_id="ACCOUNT-0001",
-                        avg_px="0",
-                        client_order_ref="7d1c8e0a-4b8f-4e3a-9f43-2a6b1d0c9e11",
-                        contract=models.Contract(
-                            description="Shelley Moore Capito",
-                            event_display_name="West Virginia Senate General Election November 3 2026",
-                            event_id="AXXWV_110326",
-                            question="Will Shelley Moore Capito win the West Virginia general election for US Senate in 2026?",
-                            settlement_value="1",
-                            state=models.ContractState.SETTLED,
-                        ),
-                        created_at=parse_datetime("2026-02-03T23:48:41.308Z"),
-                        cum_qty="0",
-                        leaves_qty="10",
-                        order_id="0b9f3c2e-5d6a-4f1b-8e7c-9a0d1e2f3a4b",
-                        order_type="limit",
-                        outcome=models.PredOrdersOrderOutcome.YES,
-                        price="0.54",
-                        quantity="10",
-                        side="buy",
-                        state=models.State.PENDING_NEW,
-                        stop_px="0.50",
-                        symbol="HORC_1126_Republican",
-                        time_in_force="day",
-                        updated_at=parse_datetime("2026-12-06T13:43:49.554Z"),
-                        working_price="0.54",
-                        working_quantity="10",
-                    ),
-                ],
-            ),
-            success=True,
-        )
-
-
 def test_predictionorders_place_prediction_order():
     test_http_client = create_test_http_client("placePredictionOrder")
 
@@ -80,7 +21,7 @@ def test_predictionorders_place_prediction_order():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.prediction_orders.place(
+        res = fd_client.prediction_orders.create(
             account_id="ACCOUNT-0001",
             order_type=models.OrderType.LIMIT,
             outcome=models.PredOrdersPlaceOrderRequestOutcome.YES,
@@ -145,7 +86,7 @@ def test_predictionorders_get_prediction_order():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.prediction_orders.get_order(
+        res = fd_client.prediction_orders.get(
             order_id="3e3ab03f-d246-4072-b29f-8558498115de", account_id="ACCOUNT-0001"
         )
         assert res.http_meta is not None

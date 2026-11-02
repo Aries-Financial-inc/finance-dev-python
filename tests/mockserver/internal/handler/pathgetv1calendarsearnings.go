@@ -24,14 +24,48 @@ func pathGetV1CalendarsEarnings(dir *logging.HTTPFileDirectory, rt *tracking.Req
 		count := rt.GetRequestCount(test, instanceID)
 
 		switch fmt.Sprintf("%s[%d]", test, count) {
-		case "getEarningsCalendar-success[0]":
-			dir.HandlerFunc("getEarningsCalendar", testGetEarningsCalendarGetEarningsCalendarSuccess0)(w, req)
 		case "getEarningsCalendar[0]":
 			dir.HandlerFunc("getEarningsCalendar", testGetEarningsCalendarGetEarningsCalendar0)(w, req)
+		case "getEarningsCalendar-success[0]":
+			dir.HandlerFunc("getEarningsCalendar", testGetEarningsCalendarGetEarningsCalendarSuccess0)(w, req)
 		default:
 			http.Error(w, fmt.Sprintf("Unknown test: %s[%d]", test, count), http.StatusBadRequest)
 		}
 	}
+}
+
+func testGetEarningsCalendarGetEarningsCalendar0(w http.ResponseWriter, req *http.Request) {
+	if err := assert.SecurityAuthorizationHeader(req, true, "Bearer"); err != nil {
+		log.Printf("assertion error: %s\n", err)
+		http.Error(w, err.Error(), http.StatusUnauthorized)
+		return
+	}
+	if err := assert.AcceptHeader(req, []string{"application/json"}); err != nil {
+		log.Printf("assertion error: %s\n", err)
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	if err := assert.HeaderExists(req, "User-Agent"); err != nil {
+		log.Printf("assertion error: %s\n", err)
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	var respBody []components.EarningRelease = []components.EarningRelease{
+		components.EarningRelease{},
+	}
+	respBodyBytes, err := utils.MarshalJSON(respBody, "", true)
+
+	if err != nil {
+		http.Error(
+			w,
+			"Unable to encode response body as JSON: "+err.Error(),
+			http.StatusInternalServerError,
+		)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	_, _ = w.Write(respBodyBytes)
 }
 
 func testGetEarningsCalendarGetEarningsCalendarSuccess0(w http.ResponseWriter, req *http.Request) {
@@ -79,40 +113,6 @@ func testGetEarningsCalendarGetEarningsCalendarSuccess0(w http.ResponseWriter, r
 			Time:            types.String("06:45:00"),
 			Year:            types.Int64(2024),
 		},
-	}
-	respBodyBytes, err := utils.MarshalJSON(respBody, "", true)
-
-	if err != nil {
-		http.Error(
-			w,
-			"Unable to encode response body as JSON: "+err.Error(),
-			http.StatusInternalServerError,
-		)
-		return
-	}
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	_, _ = w.Write(respBodyBytes)
-}
-
-func testGetEarningsCalendarGetEarningsCalendar0(w http.ResponseWriter, req *http.Request) {
-	if err := assert.SecurityAuthorizationHeader(req, true, "Bearer"); err != nil {
-		log.Printf("assertion error: %s\n", err)
-		http.Error(w, err.Error(), http.StatusUnauthorized)
-		return
-	}
-	if err := assert.AcceptHeader(req, []string{"application/json"}); err != nil {
-		log.Printf("assertion error: %s\n", err)
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
-	if err := assert.HeaderExists(req, "User-Agent"); err != nil {
-		log.Printf("assertion error: %s\n", err)
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
-	var respBody []components.EarningRelease = []components.EarningRelease{
-		components.EarningRelease{},
 	}
 	respBodyBytes, err := utils.MarshalJSON(respBody, "", true)
 

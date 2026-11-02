@@ -3,7 +3,6 @@
 
 from datetime import date
 from finance_dev import FinanceDev, models
-from finance_dev.utils import parse_datetime
 import os
 from tests.test_client import create_test_http_client
 
@@ -123,77 +122,4 @@ def test_market_get_market_status_default():
             session="",
             timestamp=1765526940,
             timezone="America/New_York",
-        )
-
-
-def test_market_get_equity_details():
-    test_http_client = create_test_http_client("getEquityDetails")
-
-    with FinanceDev(
-        server_url=os.getenv("TEST_SERVER_URL", "http://localhost:18080"),
-        client=test_http_client,
-        security=models.Security(
-            client_id="<YOUR_CLIENT_ID_HERE>",
-            client_secret="<YOUR_CLIENT_SECRET_HERE>",
-            token_url="/_mockserver/oauth2/token",
-        ),
-    ) as fd_client:
-        assert fd_client is not None
-
-        res = fd_client.market.get_equity_details(symbols="AAPL,MSFT")
-        assert res.http_meta is not None
-        assert res.http_meta.response is not None
-        assert res.http_meta.response.status_code == 200
-        assert res.get_equity_details_response is not None
-        assert res.get_equity_details_response == models.GetEquityDetailsResponse(
-            data=[
-                models.EquityDetailsDTO(
-                    eps3_year_growth_rate=17.6111,
-                    eps5_year_growth_rate=11.0713,
-                    eps_diluted=2.84,
-                    eps_latest12_month=18.3333,
-                    pe=32.181,
-                    ask_exchange="BATS|BATS Trading",
-                    ask_price=268.0,
-                    ask_size=500,
-                    assets=379297000.0,
-                    avg_volume4_weeks=38174153,
-                    bid_exchange="EDGX|Direct Edge X",
-                    bid_price=267.5,
-                    bid_size=1400,
-                    close_price=273.43,
-                    dividend=0.26,
-                    has_options=True,
-                    high52_week_date="2025-12-03T00:00:00Z",
-                    high52_week_price=288.62,
-                    high_price=273.06,
-                    instrument_type="Equity",
-                    is_etf=False,
-                    last_price=271.06,
-                    liabilities=291107000.0,
-                    long_term_debt=905090000.0,
-                    low52_week_date="2025-04-08",
-                    low52_week_price=169.2101,
-                    low_price=269.65,
-                    market_cap=30064771072,
-                    mid_price=267.75,
-                    name="Apple Inc.",
-                    net_change=-3.53,
-                    open_price=272.78,
-                    price=267.53,
-                    quote_timestamp=parse_datetime("2026-04-27T05:38:09.901000-04:00"),
-                    shares_outstanding=14681140,
-                    short_sale_restricted=0,
-                    sic_code=3663,
-                    size=1,
-                    spread=0.5,
-                    symbol="AAPL",
-                    tick=0,
-                    total_volume=300562,
-                    trade_exchange="PACF|NYSE ARCA (Pacific)",
-                    trade_seq=1009904,
-                    trade_timestamp=parse_datetime("2026-04-27T05:38:10.674000-04:00"),
-                    type="ETRADE",
-                ),
-            ],
         )

@@ -3,9 +3,13 @@
 
 from .basesdk import BaseSDK
 from .sdkconfiguration import SDKConfiguration
+from finance_dev import errors, models, utils
+from finance_dev._hooks import HookContext
 from finance_dev.markets import Markets
 from finance_dev.predictions_orders import PredictionsOrders
-from typing import Optional
+from finance_dev.types import OptionalNullable, UNSET
+from finance_dev.utils.unmarshal_json_response import unmarshal_json_response
+from typing import Any, Iterable, List, Mapping, Optional, Union
 
 
 class Predictions(BaseSDK):
@@ -24,3 +28,561 @@ class Predictions(BaseSDK):
         self.orders = PredictionsOrders(
             self.sdk_configuration, parent_ref=self.parent_ref
         )
+
+    def batch_get(
+        self,
+        *,
+        queries: Union[
+            Iterable[models.PredMdHistoryRequest],
+            Iterable[models.PredMdHistoryRequestTypedDict],
+        ],
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> models.GetHistoryBatchResponse:
+        r"""Batch historical ticks for up to 5 symbols
+
+        Returns historical ticks for multiple symbols in one request. Each query may carry its own optional `from`/`to`/`limit`. Maximum 5 queries per call.
+
+        :param queries:
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if timeout_ms is None:
+            timeout_ms = 30000
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = models.PredMdBatchHistoryRequest(
+            queries=utils.get_pydantic_model(
+                queries, List[models.PredMdHistoryRequest]
+            ),
+        )
+
+        req = self._build_request(
+            method="POST",
+            path="/v1/predictions/historical-data/batch",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=True,
+            request_has_path_params=False,
+            request_has_query_params=False,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request, False, False, "json", models.PredMdBatchHistoryRequest
+            ),
+            allow_empty_value=None,
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 8000, 1.5, 60000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["429", "500", "502", "503", "504"])
+
+        http_res = self.do_request(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="getHistoryBatch",
+                oauth2_scopes=None,
+                security_source=None,
+                tags=["Prediction Historical Data"],
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev\nfrom finance_dev.utils import parse_datetime\n\n\nwith FinanceDev() as fd_client:\n\n    res = fd_client.predictions.history.get_history_batch(queries=[\n        {\n            "from_": parse_datetime("2026-04-01T00:00:00Z"),\n            "limit": 500,\n            "symbol": "HORC_1126_Republican",\n            "to": parse_datetime("2026-04-20T00:00:00Z"),\n        },\n    ])\n\n    assert res.object is not None\n\n    # Handle response\n    print(res.object)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev();\n\nasync function run() {\n  const result = await financeDev.predictions.getHistoryBatch({\n    queries: [\n      {\n        from: new Date("2026-04-01T00:00:00Z"),\n        limit: 500,\n        symbol: "HORC_1126_Republican",\n        to: new Date("2026-04-20T00:00:00Z"),\n      },\n    ],\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
+            ),
+            request=req,
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return models.GetHistoryBatchResponse(
+                object=unmarshal_json_response(
+                    Optional[models.GetHistoryBatchResponseBody], http_res
+                ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
+            )
+        if utils.match_response(http_res, "400", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorEnvelopeData, http_res)
+            response_data.http_meta = models.HTTPMetadata(
+                request=req, response=http_res
+            )
+            raise errors.ErrorEnvelope(response_data, http_res)
+        if utils.match_response(http_res, "502", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorEnvelopeData, http_res)
+            response_data.http_meta = models.HTTPMetadata(
+                request=req, response=http_res
+            )
+            raise errors.ErrorEnvelope(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.APIError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.APIError("API error occurred", http_res, http_res_text)
+
+        raise errors.APIError("Unexpected response received", http_res)
+
+    async def batch_get_async(
+        self,
+        *,
+        queries: Union[
+            Iterable[models.PredMdHistoryRequest],
+            Iterable[models.PredMdHistoryRequestTypedDict],
+        ],
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> models.GetHistoryBatchResponse:
+        r"""Batch historical ticks for up to 5 symbols
+
+        Returns historical ticks for multiple symbols in one request. Each query may carry its own optional `from`/`to`/`limit`. Maximum 5 queries per call.
+
+        :param queries:
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if timeout_ms is None:
+            timeout_ms = 30000
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = models.PredMdBatchHistoryRequest(
+            queries=utils.get_pydantic_model(
+                queries, List[models.PredMdHistoryRequest]
+            ),
+        )
+
+        req = self._build_request_async(
+            method="POST",
+            path="/v1/predictions/historical-data/batch",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=True,
+            request_has_path_params=False,
+            request_has_query_params=False,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request, False, False, "json", models.PredMdBatchHistoryRequest
+            ),
+            allow_empty_value=None,
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 8000, 1.5, 60000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["429", "500", "502", "503", "504"])
+
+        http_res = await self.do_request_async(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="getHistoryBatch",
+                oauth2_scopes=None,
+                security_source=None,
+                tags=["Prediction Historical Data"],
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev\nfrom finance_dev.utils import parse_datetime\n\n\nwith FinanceDev() as fd_client:\n\n    res = fd_client.predictions.history.get_history_batch(queries=[\n        {\n            "from_": parse_datetime("2026-04-01T00:00:00Z"),\n            "limit": 500,\n            "symbol": "HORC_1126_Republican",\n            "to": parse_datetime("2026-04-20T00:00:00Z"),\n        },\n    ])\n\n    assert res.object is not None\n\n    # Handle response\n    print(res.object)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev();\n\nasync function run() {\n  const result = await financeDev.predictions.getHistoryBatch({\n    queries: [\n      {\n        from: new Date("2026-04-01T00:00:00Z"),\n        limit: 500,\n        symbol: "HORC_1126_Republican",\n        to: new Date("2026-04-20T00:00:00Z"),\n      },\n    ],\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
+            ),
+            request=req,
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return models.GetHistoryBatchResponse(
+                object=unmarshal_json_response(
+                    Optional[models.GetHistoryBatchResponseBody], http_res
+                ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
+            )
+        if utils.match_response(http_res, "400", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorEnvelopeData, http_res)
+            response_data.http_meta = models.HTTPMetadata(
+                request=req, response=http_res
+            )
+            raise errors.ErrorEnvelope(response_data, http_res)
+        if utils.match_response(http_res, "502", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorEnvelopeData, http_res)
+            response_data.http_meta = models.HTTPMetadata(
+                request=req, response=http_res
+            )
+            raise errors.ErrorEnvelope(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.APIError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.APIError("API error occurred", http_res, http_res_text)
+
+        raise errors.APIError("Unexpected response received", http_res)
+
+    def list_orders(
+        self,
+        *,
+        account_id: str,
+        status: Optional[str] = None,
+        placed_by: Optional[str] = None,
+        symbol: Optional[str] = None,
+        limit: Optional[int] = 50,
+        cursor: Optional[str] = None,
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> models.ListPredictionOrdersResponse:
+        r"""List current prediction orders
+
+        **Closed beta.** Available only to accounts enrolled in the prediction-market orders closed beta. Returns the account's current orders, newest first, one page at a time: every order still open, however old (a GTC order), plus every order created or closed since the trading day rolled over at 17:00 America/Chicago. Older orders are read with List Prediction Order History.
+
+        If set, this operation will use `client_id` from the global security.
+
+        :param account_id: The account. Every order on it is covered, whoever placed it.
+        :param status: Comma-separated order states, or `open` for every state an order can still rest or execute in (`pending_new`, `new`, `partially_filled`, `unknown`). An unknown state returns `400`.
+        :param placed_by: Only orders this user placed.
+        :param symbol: Only orders on this contract symbol.
+        :param limit: Orders per page. Values above 200 are clamped to 200. `0`, a negative value, or a non-integer returns `400`.
+        :param cursor: `nextCursor` from the previous page.
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if timeout_ms is None:
+            timeout_ms = 30000
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = models.ListPredictionOrdersRequest(
+            status=status,
+            account_id=account_id,
+            placed_by=placed_by,
+            symbol=symbol,
+            limit=limit,
+            cursor=cursor,
+        )
+
+        req = self._build_request(
+            method="GET",
+            path="/v1/predictions/orders",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=False,
+            request_has_path_params=False,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            allow_empty_value=None,
+            allowed_fields=["client_id"],
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 8000, 1.5, 60000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["429", "500", "502", "503", "504"])
+
+        http_res = self.do_request(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="listPredictionOrders",
+                oauth2_scopes=[],
+                security_source=self.sdk_configuration.security,
+                tags=["Prediction Orders"],
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.predictions.orders.list_prediction_orders(status="open", limit=50)\n\n    assert res.object is not None\n\n    # Handle response\n    print(res.object)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.predictions.listOrders({\n    status: "open",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
+            ),
+            request=req,
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return models.ListPredictionOrdersResponse(
+                object=unmarshal_json_response(
+                    Optional[models.ListPredictionOrdersResponseBody], http_res
+                ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
+            )
+        if utils.match_response(http_res, "400", "application/json"):
+            response_data = unmarshal_json_response(
+                errors.PredOrdersErrorEnvelopeData, http_res
+            )
+            response_data.http_meta = models.HTTPMetadata(
+                request=req, response=http_res
+            )
+            raise errors.PredOrdersErrorEnvelope(response_data, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.UnauthorizedUnion, http_res)
+            response_data.http_meta = models.HTTPMetadata(
+                request=req, response=http_res
+            )
+            raise errors.Unauthorized(response_data, http_res)
+        if utils.match_response(http_res, "500", "application/json"):
+            response_data = unmarshal_json_response(
+                errors.PredOrdersErrorEnvelopeData, http_res
+            )
+            response_data.http_meta = models.HTTPMetadata(
+                request=req, response=http_res
+            )
+            raise errors.PredOrdersErrorEnvelope(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.APIError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.APIError("API error occurred", http_res, http_res_text)
+
+        raise errors.APIError("Unexpected response received", http_res)
+
+    async def list_orders_async(
+        self,
+        *,
+        account_id: str,
+        status: Optional[str] = None,
+        placed_by: Optional[str] = None,
+        symbol: Optional[str] = None,
+        limit: Optional[int] = 50,
+        cursor: Optional[str] = None,
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> models.ListPredictionOrdersResponse:
+        r"""List current prediction orders
+
+        **Closed beta.** Available only to accounts enrolled in the prediction-market orders closed beta. Returns the account's current orders, newest first, one page at a time: every order still open, however old (a GTC order), plus every order created or closed since the trading day rolled over at 17:00 America/Chicago. Older orders are read with List Prediction Order History.
+
+        If set, this operation will use `client_id` from the global security.
+
+        :param account_id: The account. Every order on it is covered, whoever placed it.
+        :param status: Comma-separated order states, or `open` for every state an order can still rest or execute in (`pending_new`, `new`, `partially_filled`, `unknown`). An unknown state returns `400`.
+        :param placed_by: Only orders this user placed.
+        :param symbol: Only orders on this contract symbol.
+        :param limit: Orders per page. Values above 200 are clamped to 200. `0`, a negative value, or a non-integer returns `400`.
+        :param cursor: `nextCursor` from the previous page.
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if timeout_ms is None:
+            timeout_ms = 30000
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = models.ListPredictionOrdersRequest(
+            status=status,
+            account_id=account_id,
+            placed_by=placed_by,
+            symbol=symbol,
+            limit=limit,
+            cursor=cursor,
+        )
+
+        req = self._build_request_async(
+            method="GET",
+            path="/v1/predictions/orders",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=False,
+            request_has_path_params=False,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            allow_empty_value=None,
+            allowed_fields=["client_id"],
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 8000, 1.5, 60000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["429", "500", "502", "503", "504"])
+
+        http_res = await self.do_request_async(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="listPredictionOrders",
+                oauth2_scopes=[],
+                security_source=self.sdk_configuration.security,
+                tags=["Prediction Orders"],
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.predictions.orders.list_prediction_orders(status="open", limit=50)\n\n    assert res.object is not None\n\n    # Handle response\n    print(res.object)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.predictions.listOrders({\n    status: "open",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
+            ),
+            request=req,
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return models.ListPredictionOrdersResponse(
+                object=unmarshal_json_response(
+                    Optional[models.ListPredictionOrdersResponseBody], http_res
+                ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
+            )
+        if utils.match_response(http_res, "400", "application/json"):
+            response_data = unmarshal_json_response(
+                errors.PredOrdersErrorEnvelopeData, http_res
+            )
+            response_data.http_meta = models.HTTPMetadata(
+                request=req, response=http_res
+            )
+            raise errors.PredOrdersErrorEnvelope(response_data, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.UnauthorizedUnion, http_res)
+            response_data.http_meta = models.HTTPMetadata(
+                request=req, response=http_res
+            )
+            raise errors.Unauthorized(response_data, http_res)
+        if utils.match_response(http_res, "500", "application/json"):
+            response_data = unmarshal_json_response(
+                errors.PredOrdersErrorEnvelopeData, http_res
+            )
+            response_data.http_meta = models.HTTPMetadata(
+                request=req, response=http_res
+            )
+            raise errors.PredOrdersErrorEnvelope(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.APIError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.APIError("API error occurred", http_res, http_res_text)
+
+        raise errors.APIError("Unexpected response received", http_res)

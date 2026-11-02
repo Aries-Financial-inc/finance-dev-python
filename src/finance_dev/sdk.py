@@ -37,6 +37,7 @@ if TYPE_CHECKING:
     from finance_dev.orders import Orders
     from finance_dev.ownership import Ownership
     from finance_dev.predictionhistoricaldata import PredictionHistoricalData
+    from finance_dev.predictionmarketcategories import PredictionMarketCategories
     from finance_dev.predictionmarkets import PredictionMarkets
     from finance_dev.predictionorders import PredictionOrders
     from finance_dev.predictions import Predictions
@@ -48,7 +49,6 @@ if TYPE_CHECKING:
     from finance_dev.stocks import Stocks
     from finance_dev.technicalanalysis_sdk import TechnicalAnalysisSDK
     from finance_dev.users import Users
-    from finance_dev.watchlist_sdk import WatchlistSDK
     from finance_dev.watchlists import Watchlists
 
 
@@ -164,7 +164,6 @@ class FinanceDev(BaseSDK):
     company: "Company"
     companies: "Companies"
     watchlists: "Watchlists"
-    watchlist: "WatchlistSDK"
     corporate_actions: "CorporateActions"
     economy: "Economy"
     market: "Market"
@@ -181,6 +180,7 @@ class FinanceDev(BaseSDK):
     options: "Options"
     orders: "Orders"
     prediction_markets: "PredictionMarkets"
+    prediction_market_categories: "PredictionMarketCategories"
     predictions: "Predictions"
     prediction_historical_data: "PredictionHistoricalData"
     prediction_orders: "PredictionOrders"
@@ -200,7 +200,6 @@ class FinanceDev(BaseSDK):
         "company": ("finance_dev.company", "Company"),
         "companies": ("finance_dev.companies", "Companies"),
         "watchlists": ("finance_dev.watchlists", "Watchlists"),
-        "watchlist": ("finance_dev.watchlist_sdk", "WatchlistSDK"),
         "corporate_actions": ("finance_dev.corporateactions", "CorporateActions"),
         "economy": ("finance_dev.economy", "Economy"),
         "market": ("finance_dev.market", "Market"),
@@ -220,6 +219,10 @@ class FinanceDev(BaseSDK):
         "options": ("finance_dev.options", "Options"),
         "orders": ("finance_dev.orders", "Orders"),
         "prediction_markets": ("finance_dev.predictionmarkets", "PredictionMarkets"),
+        "prediction_market_categories": (
+            "finance_dev.predictionmarketcategories",
+            "PredictionMarketCategories",
+        ),
         "predictions": ("finance_dev.predictions", "Predictions"),
         "prediction_historical_data": (
             "finance_dev.predictionhistoricaldata",

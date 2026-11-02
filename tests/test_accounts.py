@@ -108,30 +108,6 @@ def test_accounts_get_account_balance():
         )
 
 
-def test_accounts_get_user_accounts():
-    test_http_client = create_test_http_client("getUserAccounts")
-
-    with FinanceDev(
-        server_url=os.getenv("TEST_SERVER_URL", "http://localhost:18080"),
-        client=test_http_client,
-        security=models.Security(
-            client_id="<YOUR_CLIENT_ID_HERE>",
-            client_secret="<YOUR_CLIENT_SECRET_HERE>",
-            token_url="/_mockserver/oauth2/token",
-        ),
-    ) as fd_client:
-        assert fd_client is not None
-
-        res = fd_client.accounts.get()
-        assert res.http_meta is not None
-        assert res.http_meta.response is not None
-        assert res.http_meta.response.status_code == 200
-        assert res.get_accounts_response is not None
-        assert res.get_accounts_response == models.GetAccountsResponse(
-            accounts=[],
-        )
-
-
 def test_accounts_get_account_balance_cash_account():
     test_http_client = create_test_http_client("getAccountBalance-cashAccount")
 

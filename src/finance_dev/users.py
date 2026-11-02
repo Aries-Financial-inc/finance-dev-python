@@ -2,15 +2,31 @@
 # @generated-id: 40ade9813c4b
 
 from .basesdk import BaseSDK
+from .sdkconfiguration import SDKConfiguration
 from finance_dev import errors, models, utils
 from finance_dev._hooks import HookContext
 from finance_dev.types import OptionalNullable, UNSET
+from finance_dev.users_accounts import UsersAccounts
 from finance_dev.utils.unmarshal_json_response import unmarshal_json_response
 from typing import Any, Mapping, Optional
 
 
 class Users(BaseSDK):
     r"""Basic information about the authenticated user."""
+
+    accounts: UsersAccounts
+
+    def __init__(
+        self, sdk_config: SDKConfiguration, parent_ref: Optional[object] = None
+    ) -> None:
+        BaseSDK.__init__(self, sdk_config, parent_ref=parent_ref)
+        self.sdk_configuration = sdk_config
+        self._init_sdks()
+
+    def _init_sdks(self):
+        self.accounts = UsersAccounts(
+            self.sdk_configuration, parent_ref=self.parent_ref
+        )
 
     def get_user_info(
         self,

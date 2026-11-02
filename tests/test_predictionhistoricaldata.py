@@ -42,34 +42,3 @@ def test_predictionhistoricaldata_get_history():
             ),
             success=True,
         )
-
-
-def test_predictionhistoricaldata_get_history_batch():
-    test_http_client = create_test_http_client("getHistoryBatch")
-
-    with FinanceDev(
-        server_url=os.getenv("TEST_SERVER_URL", "http://localhost:18080"),
-        client=test_http_client,
-    ) as fd_client:
-        assert fd_client is not None
-
-        res = fd_client.prediction_historical_data.batch_get(
-            queries=[
-                {
-                    "from_": parse_datetime("2026-04-01T00:00:00Z"),
-                    "limit": 500,
-                    "symbol": "HORC_1126_Republican",
-                    "to": parse_datetime("2026-04-20T00:00:00Z"),
-                },
-            ]
-        )
-        assert res.http_meta is not None
-        assert res.http_meta.response is not None
-        assert res.http_meta.response.status_code == 200
-        assert res.object is not None
-        assert res.object == models.GetHistoryBatchResponseBody(
-            data=models.PredMdBatchHistoryResponse(
-                results=[],
-            ),
-            success=True,
-        )

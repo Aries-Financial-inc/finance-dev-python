@@ -8,7 +8,7 @@
 * [get_history](#get_history) - Get Historical Chart Data
 * [get_quotes](#get_quotes) - Get Real-Time Quotes
 * [search_symbols](#search_symbols) - Search Symbols
-* [get_symbol_info](#get_symbol_info) - Get Symbol Information
+* [get_symbols](#get_symbols) - Get Symbol Information
 * [get_tick_based](#get_tick_based) - Get Tick-Based Chart Data
 * [get_time](#get_time) - Get Server Time
 
@@ -233,7 +233,7 @@ with FinanceDev(
 | errors.AuthenticationErrorEnvelope | 500                                | application/json                   |
 | errors.APIError                    | 4XX, 5XX                           | \*/\*                              |
 
-## get_symbol_info
+## get_symbols
 
 Retrieves detailed symbol information for charting: exchange, timezone, session, supported resolutions, price scale, format. Required for TradingView-style chart setup. For **futures**, symbol must start with '/' (e.g., /ES, /NQ).
 
@@ -251,7 +251,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.chart.get_symbol_info(symbol="AAPL")
+    res = fd_client.chart.get_symbols(symbol="AAPL")
 
     assert res.symbol_info is not None
 

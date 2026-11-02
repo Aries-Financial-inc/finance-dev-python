@@ -5,7 +5,6 @@
 ### Available Operations
 
 * [get](#get) - Get historical ticks for a single symbol
-* [batch_get](#batch_get) - Batch historical ticks for up to 5 symbols
 
 ## get
 
@@ -42,55 +41,6 @@ with FinanceDev() as fd_client:
 ### Response
 
 **[models.GetHistoryResponse](../../models/gethistoryresponse.md)**
-
-### Errors
-
-| Error Type           | Status Code          | Content Type         |
-| -------------------- | -------------------- | -------------------- |
-| errors.ErrorEnvelope | 400                  | application/json     |
-| errors.ErrorEnvelope | 502                  | application/json     |
-| errors.APIError      | 4XX, 5XX             | \*/\*                |
-
-## batch_get
-
-Returns historical ticks for multiple symbols in one request. Each query may carry its own optional `from`/`to`/`limit`. Maximum 5 queries per call.
-
-### Example Usage
-
-<!-- UsageSnippet language="python" operationID="getHistoryBatch" method="post" path="/v1/predictions/historical-data/batch" -->
-```python
-from finance_dev import FinanceDev
-from finance_dev.utils import parse_datetime
-
-
-with FinanceDev() as fd_client:
-
-    res = fd_client.prediction_historical_data.batch_get(queries=[
-        {
-            "from_": parse_datetime("2026-04-01T00:00:00Z"),
-            "limit": 500,
-            "symbol": "HORC_1126_Republican",
-            "to": parse_datetime("2026-04-20T00:00:00Z"),
-        },
-    ])
-
-    assert res.object is not None
-
-    # Handle response
-    print(res.object)
-
-```
-
-### Parameters
-
-| Parameter                                                                 | Type                                                                      | Required                                                                  | Description                                                               |
-| ------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
-| `queries`                                                                 | List[[models.PredMdHistoryRequest](../../models/predmdhistoryrequest.md)] | :heavy_check_mark:                                                        | N/A                                                                       |
-| `retries`                                                                 | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)          | :heavy_minus_sign:                                                        | Configuration to override the default retry behavior of the client.       |
-
-### Response
-
-**[models.GetHistoryBatchResponse](../../models/gethistorybatchresponse.md)**
 
 ### Errors
 

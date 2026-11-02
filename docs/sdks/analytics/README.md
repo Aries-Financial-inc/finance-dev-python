@@ -12,7 +12,6 @@
 * [get_sector_wise_change](#get_sector_wise_change) - Get Sector-wise Change
 * [get_top_gainers](#get_top_gainers) - Get Top Gaining Stocks
 * [get_top_losers](#get_top_losers) - Get Top Losing Stocks
-* [get_top_active](#get_top_active) - Get Most Active Stocks
 * [get_options_etfs_top_volume](#get_options_etfs_top_volume) - Get Top ETF Options by Volume
 * [get_options_stocks_top_gainers](#get_options_stocks_top_gainers) - Get Top Stock Options by Gains
 * [get_top_volume_options](#get_top_volume_options) - Get Top Stock Options by Volume
@@ -449,61 +448,6 @@ with FinanceDev(
 ### Response
 
 **[models.GetTopLosersResponse](../../models/gettoplosersresponse.md)**
-
-### Errors
-
-| Error Type                         | Status Code                        | Content Type                       |
-| ---------------------------------- | ---------------------------------- | ---------------------------------- |
-| errors.AuthenticationErrorEnvelope | 400                                | application/json                   |
-| errors.ErrorResponse               | 400                                | application/json                   |
-| errors.ErrorResponse               | 401                                | application/json                   |
-| errors.AuthenticationErrorEnvelope | 401                                | application/json                   |
-| errors.ErrorResponse               | 403                                | application/json                   |
-| errors.AuthenticationErrorEnvelope | 403                                | application/json                   |
-| errors.ErrorResponse               | 404                                | application/json                   |
-| errors.AuthenticationErrorEnvelope | 404                                | application/json                   |
-| errors.ErrorResponse               | 500                                | application/json                   |
-| errors.AuthenticationErrorEnvelope | 500                                | application/json                   |
-| errors.APIError                    | 4XX, 5XX                           | \*/\*                              |
-
-## get_top_active
-
-Retrieves stocks sorted by trading volume in descending order.
-
-### Example Usage
-
-<!-- UsageSnippet language="python" operationID="getTopMostActive" method="get" path="/v1/equity/top-most-active" -->
-```python
-from finance_dev import FinanceDev, models
-
-
-with FinanceDev(
-    security=models.Security(
-        client_id="<YOUR_CLIENT_ID_HERE>",
-        client_secret="<YOUR_CLIENT_SECRET_HERE>",
-    ),
-) as fd_client:
-
-    res = fd_client.analytics.get_top_active(limit=10, size=10)
-
-    assert res.symbol_details is not None
-
-    # Handle response
-    print(res.symbol_details)
-
-```
-
-### Parameters
-
-| Parameter                                                                                                                                    | Type                                                                                                                                         | Required                                                                                                                                     | Description                                                                                                                                  |
-| -------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| `limit`                                                                                                                                      | *Optional[int]*                                                                                                                              | :heavy_minus_sign:                                                                                                                           | Maximum number of results to return. Use smaller values for UI pages and larger values for exports within API limits. (optional, default 10) |
-| `size`                                                                                                                                       | *Optional[int]*                                                                                                                              | :heavy_minus_sign:                                                                                                                           | Alias for limit. Ignored when limit is supplied.                                                                                             |
-| `retries`                                                                                                                                    | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                             | :heavy_minus_sign:                                                                                                                           | Configuration to override the default retry behavior of the client.                                                                          |
-
-### Response
-
-**[models.GetTopMostActiveResponse](../../models/gettopmostactiveresponse.md)**
 
 ### Errors
 

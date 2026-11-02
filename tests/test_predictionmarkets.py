@@ -41,39 +41,6 @@ def test_predictionmarkets_get_base_event():
         )
 
 
-def test_predictionmarkets_list_categories():
-    test_http_client = create_test_http_client("listCategories")
-
-    with FinanceDev(
-        server_url=os.getenv("TEST_SERVER_URL", "http://localhost:18080"),
-        client=test_http_client,
-    ) as fd_client:
-        assert fd_client is not None
-
-        res = fd_client.prediction_markets.list_categories()
-        assert res.http_meta is not None
-        assert res.http_meta.response is not None
-        assert res.http_meta.response.status_code == 200
-        assert res.object is not None
-        assert res.object == models.ListCategoriesResponseBody(
-            data=models.ListCategoriesData(
-                categories=[
-                    models.PredMdCategory(
-                        children=[
-                            models.PredMdCategory(
-                                name="United States House",
-                                path="Elections > United States House",
-                            ),
-                        ],
-                        name="United States House",
-                        path="Elections > United States House",
-                    ),
-                ],
-            ),
-            success=True,
-        )
-
-
 def test_predictionmarkets_get_event_contracts():
     test_http_client = create_test_http_client("getEventContracts")
 

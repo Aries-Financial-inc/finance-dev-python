@@ -409,7 +409,7 @@ def test_chart_get_symbol_info():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.chart.get_symbol_info(symbol="AAPL")
+        res = fd_client.chart.get_symbols(symbol="AAPL")
         assert res.http_meta is not None
         assert res.http_meta.response is not None
         assert res.http_meta.response.status_code == 200

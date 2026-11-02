@@ -1192,7 +1192,7 @@ class Chart(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_symbol_info(
+    def get_symbols(
         self,
         *,
         symbol: str,
@@ -1337,7 +1337,7 @@ class Chart(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_symbol_info_async(
+    async def get_symbols_async(
         self,
         *,
         symbol: str,

@@ -10,7 +10,7 @@
 * [get_previous_day](#get_previous_day) - Get Previous Day Option Data
 * [get_quotes](#get_quotes) - Get Options Quotes
 * [get_chain_snapshot](#get_chain_snapshot) - Get option chain snapshot
-* [get_contract_snapshot](#get_contract_snapshot) - Get option contract snapshot
+* [get_snapshot](#get_snapshot) - Get option contract snapshot
 * [get_trades](#get_trades) - Get Options Trades
 * [get_unusual_activity](#get_unusual_activity) - Get Options Unusual Activity by Symbol
 * [get_contracts](#get_contracts) - Get Options Contract Symbols
@@ -393,7 +393,7 @@ with FinanceDev(
 | errors.AuthenticationErrorEnvelope | 500                                | application/json                   |
 | errors.APIError                    | 4XX, 5XX                           | \*/\*                              |
 
-## get_contract_snapshot
+## get_snapshot
 
 Returns a point-in-time snapshot for a single option contract: details, day bar, last quote, last trade, Greeks, implied volatility, and underlying context when available. This endpoint does not paginate. Responses may be cached for approximately five minutes. Uses the upstream contract snapshot data source.
 
@@ -411,7 +411,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.options.get_contract_snapshot(underlying_asset="AAPL", option_contract="O:AAPL260410C00110000")
+    res = fd_client.options.get_snapshot(underlying_asset="AAPL", option_contract="O:AAPL260410C00110000")
 
     assert res.option_contract_snapshot_response is not None
 

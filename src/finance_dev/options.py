@@ -2136,7 +2136,7 @@ class Options(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_contract_snapshot(
+    def get_snapshot(
         self,
         *,
         underlying_asset: str,
@@ -2284,7 +2284,7 @@ class Options(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_contract_snapshot_async(
+    async def get_snapshot_async(
         self,
         *,
         underlying_asset: str,

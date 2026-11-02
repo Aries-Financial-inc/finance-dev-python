@@ -254,7 +254,7 @@ def test_options_get_option_contract_snapshot():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.options.get_contract_snapshot(
+        res = fd_client.options.get_snapshot(
             underlying_asset="AAPL", option_contract="O:AAPL260410C00110000"
         )
         assert res.http_meta is not None

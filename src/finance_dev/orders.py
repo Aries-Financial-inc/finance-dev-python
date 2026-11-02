@@ -12,7 +12,7 @@ from typing import Any, Dict, List, Mapping, Optional, Union, cast
 
 
 class Orders(BaseSDK):
-    def place(
+    def create(
         self,
         *,
         request: Union[
@@ -179,7 +179,7 @@ class Orders(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def place_async(
+    async def create_async(
         self,
         *,
         request: Union[
@@ -1302,369 +1302,7 @@ class Orders(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def list_active(
-        self,
-        *,
-        id: str,
-        limit: Optional[int] = 50,
-        cursor: Optional[int] = 0,
-        retries: OptionalNullable[utils.RetryConfig] = UNSET,
-        server_url: Optional[str] = None,
-        timeout_ms: Optional[int] = None,
-        http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Optional[models.ListActiveOrdersResponse]:
-        r"""List active orders (v2)
-
-        Returns active orders (open orders plus today's terminal activity) from the orders v2 cache only. There is no database fallback.
-
-        Pagination uses an opaque int64 cursor: omit cursor or send 0 for the first page, then send nextCursor while it is present. The final page omits nextCursor. Each order uses the same domain shape as WebSocket account updates.
-
-        If set, this operation will use `client_id` from the global security.
-
-        :param id: Account ID whose active orders you want to read. Use the account identifier from the user's account list or trading setup.
-        :param limit: Maximum number of orders to return in this page. Use smaller values for UI lists and larger values for back-office exports. Default is 50; maximum is 500.
-        :param cursor: Opaque pagination cursor. Send `0` (or omit) for the first page; pass the previous response's `nextCursor` for subsequent pages. Stop when `nextCursor` is absent.
-        :param retries: Override the default retry configuration for this method
-        :param server_url: Override the default server URL for this method
-        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
-        :param http_headers: Additional headers to set or replace on requests.
-        """
-        base_url = None
-        url_variables = None
-        if timeout_ms is None:
-            timeout_ms = self.sdk_configuration.timeout_ms
-
-        if timeout_ms is None:
-            timeout_ms = 30000
-
-        if server_url is not None:
-            base_url = server_url
-        else:
-            base_url = self._get_url(base_url, url_variables)
-
-        request = models.ListActiveOrdersRequest(
-            id=id,
-            limit=limit,
-            cursor=cursor,
-        )
-
-        req = self._build_request(
-            method="GET",
-            path="/v2/accounts/{id}/orders",
-            base_url=base_url,
-            url_variables=url_variables,
-            request=request,
-            request_body_required=False,
-            request_has_path_params=True,
-            request_has_query_params=True,
-            user_agent_header="user-agent",
-            accept_header_value="application/json",
-            http_headers=http_headers,
-            security=self.sdk_configuration.security,
-            allow_empty_value=None,
-            allowed_fields=["client_id"],
-            timeout_ms=timeout_ms,
-        )
-
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
-            else:
-                retries = utils.RetryConfig(
-                    "backoff", utils.BackoffStrategy(500, 8000, 1.5, 60000), True
-                )
-
-        retry_config = None
-        if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["429", "500", "502", "503", "504"])
-
-        http_res = self.do_request(
-            hook_ctx=HookContext(
-                config=self.sdk_configuration,
-                base_url=base_url or "",
-                operation_id="listActiveOrders",
-                oauth2_scopes=["order:information"],
-                security_source=self.sdk_configuration.security,
-                tags=["Orders"],
-                extensions={
-                    "x-codeSamples": [
-                        {
-                            "label": "Python (SDK)",
-                            "lang": "python",
-                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.orders.list_active_orders(id="TEST-ACCOUNT-001", limit=50, cursor=0)\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
-                        },
-                        {
-                            "label": "Typescript (SDK)",
-                            "lang": "typescript",
-                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.accounts.orders.listActive({\n    id: "TEST-ACCOUNT-001",\n  });\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
-                        },
-                    ]
-                },
-            ),
-            request=req,
-            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
-            retry_config=retry_config,
-        )
-
-        def next_func() -> Optional[models.ListActiveOrdersResponse]:
-            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
-            next_cursor = JSONPath("$.nextCursor").parse(body)
-
-            if len(next_cursor) == 0:
-                return None
-
-            next_cursor = next_cursor[0]
-            if next_cursor is None or str(next_cursor).strip() == "":
-                return None
-            results = JSONPath("$.orders").parse(body)
-            if len(results) == 0 or len(results[0]) == 0:
-                return None
-            limit_ = request.limit if isinstance(request.limit, int) else 50
-            if len(results[0]) < limit_:
-                return None
-
-            return self.list_active(
-                id=id,
-                limit=limit,
-                cursor=next_cursor,
-                retries=retries,
-                server_url=server_url,
-                timeout_ms=timeout_ms,
-                http_headers=http_headers,
-            )
-
-        response_data: Any = None
-        if utils.match_response(http_res, "200", "application/json"):
-            return models.ListActiveOrdersResponse(
-                get_orders_v2_response=unmarshal_json_response(
-                    Optional[models.GetOrdersV2Response], http_res
-                ),
-                http_meta=models.HTTPMetadata(request=req, response=http_res),
-                next=next_func,
-            )
-        if utils.match_response(http_res, "400", "application/json"):
-            response_data = unmarshal_json_response(errors.BadRequestUnion, http_res)
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.BadRequest(response_data, http_res)
-        if utils.match_response(http_res, "401", "application/json"):
-            response_data = unmarshal_json_response(errors.UnauthorizedUnion, http_res)
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.Unauthorized(response_data, http_res)
-        if utils.match_response(http_res, "403", "application/json"):
-            response_data = unmarshal_json_response(errors.ForbiddenUnion, http_res)
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.Forbidden(response_data, http_res)
-        if utils.match_response(http_res, "404", "application/json"):
-            response_data = unmarshal_json_response(errors.NotFoundUnion, http_res)
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.NotFound(response_data, http_res)
-        if utils.match_response(http_res, "500", "application/json"):
-            response_data = unmarshal_json_response(
-                errors.InternalServerErrorUnion, http_res
-            )
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.InternalServerError(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
-            http_res_text = utils.stream_to_text(http_res)
-            raise errors.APIError("API error occurred", http_res, http_res_text)
-        if utils.match_response(http_res, "5XX", "*"):
-            http_res_text = utils.stream_to_text(http_res)
-            raise errors.APIError("API error occurred", http_res, http_res_text)
-
-        raise errors.APIError("Unexpected response received", http_res)
-
-    async def list_active_async(
-        self,
-        *,
-        id: str,
-        limit: Optional[int] = 50,
-        cursor: Optional[int] = 0,
-        retries: OptionalNullable[utils.RetryConfig] = UNSET,
-        server_url: Optional[str] = None,
-        timeout_ms: Optional[int] = None,
-        http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Optional[models.ListActiveOrdersResponse]:
-        r"""List active orders (v2)
-
-        Returns active orders (open orders plus today's terminal activity) from the orders v2 cache only. There is no database fallback.
-
-        Pagination uses an opaque int64 cursor: omit cursor or send 0 for the first page, then send nextCursor while it is present. The final page omits nextCursor. Each order uses the same domain shape as WebSocket account updates.
-
-        If set, this operation will use `client_id` from the global security.
-
-        :param id: Account ID whose active orders you want to read. Use the account identifier from the user's account list or trading setup.
-        :param limit: Maximum number of orders to return in this page. Use smaller values for UI lists and larger values for back-office exports. Default is 50; maximum is 500.
-        :param cursor: Opaque pagination cursor. Send `0` (or omit) for the first page; pass the previous response's `nextCursor` for subsequent pages. Stop when `nextCursor` is absent.
-        :param retries: Override the default retry configuration for this method
-        :param server_url: Override the default server URL for this method
-        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
-        :param http_headers: Additional headers to set or replace on requests.
-        """
-        base_url = None
-        url_variables = None
-        if timeout_ms is None:
-            timeout_ms = self.sdk_configuration.timeout_ms
-
-        if timeout_ms is None:
-            timeout_ms = 30000
-
-        if server_url is not None:
-            base_url = server_url
-        else:
-            base_url = self._get_url(base_url, url_variables)
-
-        request = models.ListActiveOrdersRequest(
-            id=id,
-            limit=limit,
-            cursor=cursor,
-        )
-
-        req = self._build_request_async(
-            method="GET",
-            path="/v2/accounts/{id}/orders",
-            base_url=base_url,
-            url_variables=url_variables,
-            request=request,
-            request_body_required=False,
-            request_has_path_params=True,
-            request_has_query_params=True,
-            user_agent_header="user-agent",
-            accept_header_value="application/json",
-            http_headers=http_headers,
-            security=self.sdk_configuration.security,
-            allow_empty_value=None,
-            allowed_fields=["client_id"],
-            timeout_ms=timeout_ms,
-        )
-
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
-            else:
-                retries = utils.RetryConfig(
-                    "backoff", utils.BackoffStrategy(500, 8000, 1.5, 60000), True
-                )
-
-        retry_config = None
-        if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["429", "500", "502", "503", "504"])
-
-        http_res = await self.do_request_async(
-            hook_ctx=HookContext(
-                config=self.sdk_configuration,
-                base_url=base_url or "",
-                operation_id="listActiveOrders",
-                oauth2_scopes=["order:information"],
-                security_source=self.sdk_configuration.security,
-                tags=["Orders"],
-                extensions={
-                    "x-codeSamples": [
-                        {
-                            "label": "Python (SDK)",
-                            "lang": "python",
-                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.orders.list_active_orders(id="TEST-ACCOUNT-001", limit=50, cursor=0)\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
-                        },
-                        {
-                            "label": "Typescript (SDK)",
-                            "lang": "typescript",
-                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.accounts.orders.listActive({\n    id: "TEST-ACCOUNT-001",\n  });\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
-                        },
-                    ]
-                },
-            ),
-            request=req,
-            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
-            retry_config=retry_config,
-        )
-
-        def next_func() -> Optional[models.ListActiveOrdersResponse]:
-            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
-            next_cursor = JSONPath("$.nextCursor").parse(body)
-
-            if len(next_cursor) == 0:
-                return None
-
-            next_cursor = next_cursor[0]
-            if next_cursor is None or str(next_cursor).strip() == "":
-                return None
-            results = JSONPath("$.orders").parse(body)
-            if len(results) == 0 or len(results[0]) == 0:
-                return None
-            limit_ = request.limit if isinstance(request.limit, int) else 50
-            if len(results[0]) < limit_:
-                return None
-
-            return self.list_active(
-                id=id,
-                limit=limit,
-                cursor=next_cursor,
-                retries=retries,
-                server_url=server_url,
-                timeout_ms=timeout_ms,
-                http_headers=http_headers,
-            )
-
-        response_data: Any = None
-        if utils.match_response(http_res, "200", "application/json"):
-            return models.ListActiveOrdersResponse(
-                get_orders_v2_response=unmarshal_json_response(
-                    Optional[models.GetOrdersV2Response], http_res
-                ),
-                http_meta=models.HTTPMetadata(request=req, response=http_res),
-                next=next_func,
-            )
-        if utils.match_response(http_res, "400", "application/json"):
-            response_data = unmarshal_json_response(errors.BadRequestUnion, http_res)
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.BadRequest(response_data, http_res)
-        if utils.match_response(http_res, "401", "application/json"):
-            response_data = unmarshal_json_response(errors.UnauthorizedUnion, http_res)
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.Unauthorized(response_data, http_res)
-        if utils.match_response(http_res, "403", "application/json"):
-            response_data = unmarshal_json_response(errors.ForbiddenUnion, http_res)
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.Forbidden(response_data, http_res)
-        if utils.match_response(http_res, "404", "application/json"):
-            response_data = unmarshal_json_response(errors.NotFoundUnion, http_res)
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.NotFound(response_data, http_res)
-        if utils.match_response(http_res, "500", "application/json"):
-            response_data = unmarshal_json_response(
-                errors.InternalServerErrorUnion, http_res
-            )
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.InternalServerError(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
-            http_res_text = await utils.stream_to_text_async(http_res)
-            raise errors.APIError("API error occurred", http_res, http_res_text)
-        if utils.match_response(http_res, "5XX", "*"):
-            http_res_text = await utils.stream_to_text_async(http_res)
-            raise errors.APIError("API error occurred", http_res, http_res_text)
-
-        raise errors.APIError("Unexpected response received", http_res)
-
-    def list_history(
+    def get_history(
         self,
         *,
         id: str,
@@ -1801,7 +1439,7 @@ class Orders(BaseSDK):
             if len(results[0]) < limit_:
                 return None
 
-            return self.list_history(
+            return self.get_history(
                 id=id,
                 from_=from_,
                 to=to,
@@ -1867,7 +1505,7 @@ class Orders(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def list_history_async(
+    async def get_history_async(
         self,
         *,
         id: str,
@@ -2004,7 +1642,7 @@ class Orders(BaseSDK):
             if len(results[0]) < limit_:
                 return None
 
-            return self.list_history(
+            return self.get_history(
                 id=id,
                 from_=from_,
                 to=to,

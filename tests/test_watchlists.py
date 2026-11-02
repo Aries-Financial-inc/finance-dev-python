@@ -157,6 +157,165 @@ def test_watchlists_create_config_watchlist_created_with_invalid_symbols():
         )
 
 
+def test_watchlists_replace_config_watchlists_replace_all():
+    test_http_client = create_test_http_client("replaceConfigWatchlists-replaceAll")
+
+    with FinanceDev(
+        server_url=os.getenv("TEST_SERVER_URL", "http://localhost:18080"),
+        client=test_http_client,
+        security=models.Security(
+            client_id="<YOUR_CLIENT_ID_HERE>",
+            client_secret="<YOUR_CLIENT_SECRET_HERE>",
+            token_url="/_mockserver/oauth2/token",
+        ),
+    ) as fd_client:
+        assert fd_client is not None
+
+        res = fd_client.watchlists.replace_all(
+            request=[
+                {
+                    "name": "Tech Stocks",
+                    "symbols": [
+                        "AAPL",
+                        "GOOGL",
+                        "MSFT",
+                    ],
+                },
+                {
+                    "name": "Finance",
+                    "symbols": [
+                        "JPM",
+                        "BAC",
+                        "GS",
+                    ],
+                },
+            ]
+        )
+        assert res.http_meta is not None
+        assert res.http_meta.response is not None
+        assert res.http_meta.response.status_code == 201
+        assert res.watchlist_response is not None
+        assert res.watchlist_response == models.WatchlistResponse()
+
+
+def test_watchlists_replace_config_watchlists_reset_all():
+    test_http_client = create_test_http_client("replaceConfigWatchlists-resetAll")
+
+    with FinanceDev(
+        server_url=os.getenv("TEST_SERVER_URL", "http://localhost:18080"),
+        client=test_http_client,
+        security=models.Security(
+            client_id="<YOUR_CLIENT_ID_HERE>",
+            client_secret="<YOUR_CLIENT_SECRET_HERE>",
+            token_url="/_mockserver/oauth2/token",
+        ),
+    ) as fd_client:
+        assert fd_client is not None
+
+        res = fd_client.watchlists.replace_all(request=[])
+        assert res.http_meta is not None
+        assert res.http_meta.response is not None
+        assert res.http_meta.response.status_code == 201
+        assert res.watchlist_response is not None
+        assert res.watchlist_response == models.WatchlistResponse()
+
+
+def test_watchlists_replace_config_watchlists_replaced():
+    test_http_client = create_test_http_client("replaceConfigWatchlists-replaced")
+
+    with FinanceDev(
+        server_url=os.getenv("TEST_SERVER_URL", "http://localhost:18080"),
+        client=test_http_client,
+        security=models.Security(
+            client_id="<YOUR_CLIENT_ID_HERE>",
+            client_secret="<YOUR_CLIENT_SECRET_HERE>",
+            token_url="/_mockserver/oauth2/token",
+        ),
+    ) as fd_client:
+        assert fd_client is not None
+
+        res = fd_client.watchlists.replace_all(
+            request=[
+                {
+                    "name": "<value>",
+                    "symbols": [
+                        "AAPL",
+                        "GOOGL",
+                        "MSFT",
+                    ],
+                },
+            ]
+        )
+        assert res.http_meta is not None
+        assert res.http_meta.response is not None
+        assert res.http_meta.response.status_code == 201
+        assert res.watchlist_response is not None
+        assert res.watchlist_response == models.WatchlistResponse(
+            user_id=98765,
+            watchlist=[
+                models.Watchlist(
+                    id=12345,
+                    name="Tech Stocks",
+                    symbols=[
+                        "AAPL",
+                        "GOOGL",
+                        "MSFT",
+                    ],
+                ),
+                models.Watchlist(
+                    id=12347,
+                    name="Finance",
+                    symbols=[
+                        "JPM",
+                        "BAC",
+                        "GS",
+                    ],
+                ),
+            ],
+        )
+
+
+def test_watchlists_replace_config_watchlists_reset_to_default():
+    test_http_client = create_test_http_client("replaceConfigWatchlists-resetToDefault")
+
+    with FinanceDev(
+        server_url=os.getenv("TEST_SERVER_URL", "http://localhost:18080"),
+        client=test_http_client,
+        security=models.Security(
+            client_id="<YOUR_CLIENT_ID_HERE>",
+            client_secret="<YOUR_CLIENT_SECRET_HERE>",
+            token_url="/_mockserver/oauth2/token",
+        ),
+    ) as fd_client:
+        assert fd_client is not None
+
+        res = fd_client.watchlists.replace_all(
+            request=[
+                {
+                    "name": "<value>",
+                    "symbols": [
+                        "AAPL",
+                        "GOOGL",
+                        "MSFT",
+                    ],
+                },
+            ]
+        )
+        assert res.http_meta is not None
+        assert res.http_meta.response is not None
+        assert res.http_meta.response.status_code == 201
+        assert res.watchlist_response is not None
+        assert res.watchlist_response == models.WatchlistResponse(
+            user_id=98765,
+            watchlist=[
+                models.Watchlist(
+                    id=12348,
+                    name="Default",
+                ),
+            ],
+        )
+
+
 def test_watchlists_delete_config_watchlist_by_id_deleted():
     test_http_client = create_test_http_client("deleteConfigWatchlistById-deleted")
 
@@ -211,4 +370,223 @@ def test_watchlists_delete_config_watchlist_by_id_reset_to_default():
         assert res.watchlist == models.Watchlist(
             id=12345,
             name="Default",
+        )
+
+
+def test_watchlists_get_config_watchlist_by_id_found():
+    test_http_client = create_test_http_client("getConfigWatchlistById-found")
+
+    with FinanceDev(
+        server_url=os.getenv("TEST_SERVER_URL", "http://localhost:18080"),
+        client=test_http_client,
+        security=models.Security(
+            client_id="<YOUR_CLIENT_ID_HERE>",
+            client_secret="<YOUR_CLIENT_SECRET_HERE>",
+            token_url="/_mockserver/oauth2/token",
+        ),
+    ) as fd_client:
+        assert fd_client is not None
+
+        res = fd_client.watchlists.get(watchlist_id=12345)
+        assert res.http_meta is not None
+        assert res.http_meta.response is not None
+        assert res.http_meta.response.status_code == 200
+        assert res.watchlist is not None
+        assert res.watchlist == models.Watchlist(
+            id=12345,
+            name="Tech Stocks",
+            symbols=[
+                "AAPL",
+                "GOOGL",
+                "MSFT",
+            ],
+        )
+
+
+def test_watchlists_update_config_watchlist_by_id_add_and_remove_symbols():
+    test_http_client = create_test_http_client(
+        "updateConfigWatchlistById-addAndRemoveSymbols"
+    )
+
+    with FinanceDev(
+        server_url=os.getenv("TEST_SERVER_URL", "http://localhost:18080"),
+        client=test_http_client,
+        security=models.Security(
+            client_id="<YOUR_CLIENT_ID_HERE>",
+            client_secret="<YOUR_CLIENT_SECRET_HERE>",
+            token_url="/_mockserver/oauth2/token",
+        ),
+    ) as fd_client:
+        assert fd_client is not None
+
+        res = fd_client.watchlists.update(
+            watchlist_id=12345,
+            update_watchlist_request={
+                "add_symbols": [
+                    "TSLA",
+                ],
+                "remove_symbols": [
+                    "MSFT",
+                ],
+            },
+        )
+        assert res.http_meta is not None
+        assert res.http_meta.response is not None
+        assert res.http_meta.response.status_code == 200
+        assert res.watchlist is not None
+        assert res.watchlist == models.Watchlist()
+
+
+def test_watchlists_update_config_watchlist_by_id_rename_watchlist():
+    test_http_client = create_test_http_client(
+        "updateConfigWatchlistById-renameWatchlist"
+    )
+
+    with FinanceDev(
+        server_url=os.getenv("TEST_SERVER_URL", "http://localhost:18080"),
+        client=test_http_client,
+        security=models.Security(
+            client_id="<YOUR_CLIENT_ID_HERE>",
+            client_secret="<YOUR_CLIENT_SECRET_HERE>",
+            token_url="/_mockserver/oauth2/token",
+        ),
+    ) as fd_client:
+        assert fd_client is not None
+
+        res = fd_client.watchlists.update(
+            watchlist_id=12345,
+            update_watchlist_request={
+                "name": "Growth Stocks",
+            },
+        )
+        assert res.http_meta is not None
+        assert res.http_meta.response is not None
+        assert res.http_meta.response.status_code == 200
+        assert res.watchlist is not None
+        assert res.watchlist == models.Watchlist()
+
+
+def test_watchlists_update_config_watchlist_by_id_renamed():
+    test_http_client = create_test_http_client("updateConfigWatchlistById-renamed")
+
+    with FinanceDev(
+        server_url=os.getenv("TEST_SERVER_URL", "http://localhost:18080"),
+        client=test_http_client,
+        security=models.Security(
+            client_id="<YOUR_CLIENT_ID_HERE>",
+            client_secret="<YOUR_CLIENT_SECRET_HERE>",
+            token_url="/_mockserver/oauth2/token",
+        ),
+    ) as fd_client:
+        assert fd_client is not None
+
+        res = fd_client.watchlists.update(
+            watchlist_id=12345,
+            update_watchlist_request={
+                "add_symbols": [
+                    "TSLA",
+                ],
+                "remove_symbols": [
+                    "MSFT",
+                ],
+            },
+        )
+        assert res.http_meta is not None
+        assert res.http_meta.response is not None
+        assert res.http_meta.response.status_code == 200
+        assert res.watchlist is not None
+        assert res.watchlist == models.Watchlist(
+            id=12345,
+            name="Growth Stocks",
+            symbols=[
+                "AAPL",
+                "GOOGL",
+                "MSFT",
+            ],
+        )
+
+
+def test_watchlists_update_config_watchlist_by_id_symbols_updated():
+    test_http_client = create_test_http_client(
+        "updateConfigWatchlistById-symbolsUpdated"
+    )
+
+    with FinanceDev(
+        server_url=os.getenv("TEST_SERVER_URL", "http://localhost:18080"),
+        client=test_http_client,
+        security=models.Security(
+            client_id="<YOUR_CLIENT_ID_HERE>",
+            client_secret="<YOUR_CLIENT_SECRET_HERE>",
+            token_url="/_mockserver/oauth2/token",
+        ),
+    ) as fd_client:
+        assert fd_client is not None
+
+        res = fd_client.watchlists.update(
+            watchlist_id=12345,
+            update_watchlist_request={
+                "add_symbols": [
+                    "TSLA",
+                ],
+                "remove_symbols": [
+                    "MSFT",
+                ],
+            },
+        )
+        assert res.http_meta is not None
+        assert res.http_meta.response is not None
+        assert res.http_meta.response.status_code == 200
+        assert res.watchlist is not None
+        assert res.watchlist == models.Watchlist(
+            id=12345,
+            name="Growth Stocks",
+            symbols=[
+                "AAPL",
+                "GOOGL",
+                "TSLA",
+            ],
+        )
+
+
+def test_watchlists_update_config_watchlist_by_id_symbols_updated_with_invalid():
+    test_http_client = create_test_http_client(
+        "updateConfigWatchlistById-symbolsUpdatedWithInvalid"
+    )
+
+    with FinanceDev(
+        server_url=os.getenv("TEST_SERVER_URL", "http://localhost:18080"),
+        client=test_http_client,
+        security=models.Security(
+            client_id="<YOUR_CLIENT_ID_HERE>",
+            client_secret="<YOUR_CLIENT_SECRET_HERE>",
+            token_url="/_mockserver/oauth2/token",
+        ),
+    ) as fd_client:
+        assert fd_client is not None
+
+        res = fd_client.watchlists.update(
+            watchlist_id=12345,
+            update_watchlist_request={
+                "add_symbols": [
+                    "TSLA",
+                ],
+                "remove_symbols": [
+                    "MSFT",
+                ],
+            },
+        )
+        assert res.http_meta is not None
+        assert res.http_meta.response is not None
+        assert res.http_meta.response.status_code == 200
+        assert res.watchlist is not None
+        assert res.watchlist == models.Watchlist(
+            id=12345,
+            invalid_symbols=[
+                "NOTASYMBOL",
+            ],
+            name="Growth Stocks",
+            symbols=[
+                "AAPL",
+                "GOOGL",
+            ],
         )
