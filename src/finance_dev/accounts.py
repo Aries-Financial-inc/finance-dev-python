@@ -10,7 +10,7 @@ from typing import Any, Mapping, Optional
 
 
 class Accounts(BaseSDK):
-    def get_account_positions(
+    def get_positions(
         self,
         *,
         id: str,
@@ -86,7 +86,20 @@ class Accounts(BaseSDK):
                 oauth2_scopes=["position:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Accounts"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.accounts.get_account_positions(id="TEST-ACCOUNT-001")\n\n    assert res.get_positions_response is not None\n\n    # Handle response\n    print(res.get_positions_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.accounts.getPositions({\n    id: "TEST-ACCOUNT-001",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -150,7 +163,7 @@ class Accounts(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_account_positions_async(
+    async def get_positions_async(
         self,
         *,
         id: str,
@@ -226,7 +239,20 @@ class Accounts(BaseSDK):
                 oauth2_scopes=["position:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Accounts"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.accounts.get_account_positions(id="TEST-ACCOUNT-001")\n\n    assert res.get_positions_response is not None\n\n    # Handle response\n    print(res.get_positions_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.accounts.getPositions({\n    id: "TEST-ACCOUNT-001",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -290,7 +316,7 @@ class Accounts(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_account_balance(
+    def get_balance(
         self,
         *,
         id: str,
@@ -302,6 +328,8 @@ class Accounts(BaseSDK):
         r"""Get Account Balance
 
         Retrieve account balance, cash, equity, and buying power for a specific account (v2). Use this before showing an order ticket or checking whether the account can support a trade. Sterling and the stored balance are read concurrently. The stored read uses Dragonfly, then PostgreSQL on a full cache miss. Sterling supplies the balance when available, enriched with stored Apex fields; otherwise the stored balance is used.
+
+        Two fields depend on the account type. `cashBalance` is returned only for cash accounts and `intradayMarginBalance` only for margin accounts; the other field is omitted from the response, not returned as `null` or `\"0\"`. Neither is returned for any other account type. Read `account_class` from `GET /v2/users/me/accounts` to know which applies.
 
         If set, this operation will use `client_id` from the global security.
 
@@ -366,7 +394,20 @@ class Accounts(BaseSDK):
                 oauth2_scopes=["account:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Accounts"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.accounts.get_account_balance(id="TEST-ACCOUNT-001")\n\n    assert res.account_balance_v2 is not None\n\n    # Handle response\n    print(res.account_balance_v2)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.accounts.getBalance({\n    id: "TEST-ACCOUNT-001",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -430,7 +471,7 @@ class Accounts(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_account_balance_async(
+    async def get_balance_async(
         self,
         *,
         id: str,
@@ -442,6 +483,8 @@ class Accounts(BaseSDK):
         r"""Get Account Balance
 
         Retrieve account balance, cash, equity, and buying power for a specific account (v2). Use this before showing an order ticket or checking whether the account can support a trade. Sterling and the stored balance are read concurrently. The stored read uses Dragonfly, then PostgreSQL on a full cache miss. Sterling supplies the balance when available, enriched with stored Apex fields; otherwise the stored balance is used.
+
+        Two fields depend on the account type. `cashBalance` is returned only for cash accounts and `intradayMarginBalance` only for margin accounts; the other field is omitted from the response, not returned as `null` or `\"0\"`. Neither is returned for any other account type. Read `account_class` from `GET /v2/users/me/accounts` to know which applies.
 
         If set, this operation will use `client_id` from the global security.
 
@@ -506,7 +549,20 @@ class Accounts(BaseSDK):
                 oauth2_scopes=["account:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Accounts"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.accounts.get_account_balance(id="TEST-ACCOUNT-001")\n\n    assert res.account_balance_v2 is not None\n\n    # Handle response\n    print(res.account_balance_v2)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.accounts.getBalance({\n    id: "TEST-ACCOUNT-001",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -570,7 +626,7 @@ class Accounts(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_user_accounts(
+    def get(
         self,
         *,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -639,7 +695,20 @@ class Accounts(BaseSDK):
                 oauth2_scopes=["account:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Accounts"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.accounts.get_user_accounts()\n\n    assert res.get_accounts_response is not None\n\n    # Handle response\n    print(res.get_accounts_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.users.accounts.list();\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -683,7 +752,7 @@ class Accounts(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_user_accounts_async(
+    async def get_async(
         self,
         *,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -752,7 +821,20 @@ class Accounts(BaseSDK):
                 oauth2_scopes=["account:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Accounts"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.accounts.get_user_accounts()\n\n    assert res.get_accounts_response is not None\n\n    # Handle response\n    print(res.get_accounts_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.users.accounts.list();\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),

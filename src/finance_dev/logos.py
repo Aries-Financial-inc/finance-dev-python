@@ -110,7 +110,20 @@ class Logos(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Logos"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.logos.search(search_keys="AAPL,MSFT", fields="logo_light,logo_dark,mark_light,mark_dark", search_keys_type=models.SearchLogosSearchKeysType.SYMBOL, composite_auto=False)\n\n    assert res.logo_search_response is not None\n\n    # Handle response\n    print(res.logo_search_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.logos.search({\n    searchKeys: "AAPL,MSFT",\n    searchKeysType: "symbol",\n    fields: "logo_light,logo_dark,mark_light,mark_dark",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -265,7 +278,20 @@ class Logos(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Logos"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.logos.search(search_keys="AAPL,MSFT", fields="logo_light,logo_dark,mark_light,mark_dark", search_keys_type=models.SearchLogosSearchKeysType.SYMBOL, composite_auto=False)\n\n    assert res.logo_search_response is not None\n\n    # Handle response\n    print(res.logo_search_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.logos.search({\n    searchKeys: "AAPL,MSFT",\n    searchKeysType: "symbol",\n    fields: "logo_light,logo_dark,mark_light,mark_dark",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -421,7 +447,20 @@ class Logos(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Logos"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.logos.sync(fields="logo_light,logo_dark,mark_light,mark_dark", composite_auto=False, page=0, page_size=10)\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.logos.sync({\n    fields: "logo_light,logo_dark,mark_light,mark_dark",\n    page: 0,\n    pageSize: 10,\n  });\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -606,7 +645,20 @@ class Logos(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Logos"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.logos.sync(fields="logo_light,logo_dark,mark_light,mark_dark", composite_auto=False, page=0, page_size=10)\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.logos.sync({\n    fields: "logo_light,logo_dark,mark_light,mark_dark",\n    page: 0,\n    pageSize: 10,\n  });\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),

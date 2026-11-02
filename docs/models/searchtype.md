@@ -1,6 +1,6 @@
 # SearchType
 
-Level hits come back at. `contracts` (default) returns matching contracts; `events` returns one hit per event and `base-events` one per base event, each ranked by its best-matching contract and carrying only its own fields and a count of matching contracts. Echoed in the response.
+Level hits come back at. `contracts` (default) returns matching contracts; `events` returns one hit per event and `base-events` one per base event, each with its own fields, a count of matching contracts and the first contractsPerHit of them in the sortBy order. Echoed in the response.
 
 ## Example Usage
 

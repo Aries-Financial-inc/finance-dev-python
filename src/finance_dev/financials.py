@@ -237,7 +237,20 @@ class Financials(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Financials"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.financials.get_cash_flow_statements()\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.financials.cashFlowStatements.get();\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -591,7 +604,20 @@ class Financials(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Financials"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.financials.get_cash_flow_statements()\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.financials.cashFlowStatements.get();\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -945,7 +971,20 @@ class Financials(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Financials"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.financials.get_income_statements()\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.financials.getIncomeStatements();\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1299,7 +1338,20 @@ class Financials(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Financials"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.financials.get_income_statements()\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.financials.getIncomeStatements();\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1668,7 +1720,20 @@ class Financials(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Financials"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.financials.get_ratios(ticker="AAPL", tickers_any_of="AAPL,MSFT,GOOG")\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.financials.getRatios({\n    ticker: "AAPL",\n    tickersAnyOf: "AAPL,MSFT,GOOG",\n  });\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -2042,7 +2107,20 @@ class Financials(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Financials"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.financials.get_ratios(ticker="AAPL", tickers_any_of="AAPL,MSFT,GOOG")\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.financials.getRatios({\n    ticker: "AAPL",\n    tickersAnyOf: "AAPL,MSFT,GOOG",\n  });\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -2269,7 +2347,20 @@ class Financials(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Financials"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.financials.get_reported(freq=models.ReportingFrequency.QUARTERLY)\n\n    assert res.financials_reported_response is not None\n\n    # Handle response\n    print(res.financials_reported_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.financials.getReported({\n    freq: "quarterly",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -2418,7 +2509,20 @@ class Financials(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Financials"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.financials.get_reported(freq=models.ReportingFrequency.QUARTERLY)\n\n    assert res.financials_reported_response is not None\n\n    # Handle response\n    print(res.financials_reported_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.financials.getReported({\n    freq: "quarterly",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -2555,7 +2659,20 @@ class Financials(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Financials"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.financials.get_revenue_breakdown(symbol="AAPL", cik="320193")\n\n    assert res.financials_revenue_breakdown_response is not None\n\n    # Handle response\n    print(res.financials_revenue_breakdown_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.financials.getRevenueBreakdown({\n    symbol: "AAPL",\n    cik: "320193",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -2692,7 +2809,20 @@ class Financials(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Financials"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.financials.get_revenue_breakdown(symbol="AAPL", cik="320193")\n\n    assert res.financials_revenue_breakdown_response is not None\n\n    # Handle response\n    print(res.financials_revenue_breakdown_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.financials.getRevenueBreakdown({\n    symbol: "AAPL",\n    cik: "320193",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -2904,7 +3034,20 @@ class Financials(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Financials"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.financials.get_short_interest(ticker="AAPL", tickers_any_of="AAPL,MSFT,GOOG")\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.financials.getShortInterest({\n    ticker: "AAPL",\n    tickersAnyOf: "AAPL,MSFT,GOOG",\n  });\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -3166,7 +3309,20 @@ class Financials(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Financials"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.financials.get_short_interest(ticker="AAPL", tickers_any_of="AAPL,MSFT,GOOG")\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.financials.getShortInterest({\n    ticker: "AAPL",\n    tickersAnyOf: "AAPL,MSFT,GOOG",\n  });\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -3428,7 +3584,20 @@ class Financials(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Financials"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.financials.get_short_volume(ticker="AAPL", tickers_any_of="AAPL,MSFT,GOOG")\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.financials.getShortVolume({\n    ticker: "AAPL",\n    tickersAnyOf: "AAPL,MSFT,GOOG",\n  });\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -3690,7 +3859,20 @@ class Financials(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Financials"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.financials.get_short_volume(ticker="AAPL", tickers_any_of="AAPL,MSFT,GOOG")\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.financials.getShortVolume({\n    ticker: "AAPL",\n    tickersAnyOf: "AAPL,MSFT,GOOG",\n  });\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -3881,7 +4063,20 @@ class Financials(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Financials"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.financials.get_statements(symbol="<value>", statement=models.FinancialStatementType.IC, freq=models.ReportingFrequency.QUARTERLY)\n\n    assert res.financials_statements_response is not None\n\n    # Handle response\n    print(res.financials_statements_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.financials.getStatements({\n    symbol: "<value>",\n    statement: "ic",\n    freq: "quarterly",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -4022,7 +4217,20 @@ class Financials(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Financials"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.financials.get_statements(symbol="<value>", statement=models.FinancialStatementType.IC, freq=models.ReportingFrequency.QUARTERLY)\n\n    assert res.financials_statements_response is not None\n\n    # Handle response\n    print(res.financials_statements_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.financials.getStatements({\n    symbol: "<value>",\n    statement: "ic",\n    freq: "quarterly",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),

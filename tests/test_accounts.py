@@ -22,7 +22,7 @@ def test_accounts_get_account_positions():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.accounts.get_account_positions(id="TEST-ACCOUNT-001")
+        res = fd_client.accounts.get_positions(id="TEST-ACCOUNT-001")
         assert res.http_meta is not None
         assert res.http_meta.response is not None
         assert res.http_meta.response.status_code == 200
@@ -58,7 +58,7 @@ def test_accounts_get_account_balance():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.accounts.get_account_balance(id="TEST-ACCOUNT-001")
+        res = fd_client.accounts.get_balance(id="TEST-ACCOUNT-001")
         assert res.http_meta is not None
         assert res.http_meta.response is not None
         assert res.http_meta.response.status_code == 200
@@ -67,7 +67,6 @@ def test_accounts_get_account_balance():
             account_id="TEST-ACCOUNT-001",
             amount_available_to_withdraw="100000",
             balance="248874.14377781",
-            cash_balance="105000",
             cost_of_positions="180000",
             credit="0",
             credit_remaining="0",
@@ -76,11 +75,12 @@ def test_accounts_get_account_balance():
             day_total_pnl="549.64",
             day_trade_buying_power="50000",
             day_trade_overnight_reg_t_buying_power="48000",
-            funds_available_for_withdrawal="98500",
+            freestock_frozen_cash="0",
             gross_margin="120000",
             held_back_funds="0",
             intraday_margin_balance="7000",
             maint_req="75000",
+            market_value="180836.64377781",
             net_buying_power="125000.5",
             open_pnl="836.64377781",
             option_buying_power="25000",
@@ -122,11 +122,139 @@ def test_accounts_get_user_accounts():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.accounts.get_user_accounts()
+        res = fd_client.accounts.get()
         assert res.http_meta is not None
         assert res.http_meta.response is not None
         assert res.http_meta.response.status_code == 200
         assert res.get_accounts_response is not None
         assert res.get_accounts_response == models.GetAccountsResponse(
             accounts=[],
+        )
+
+
+def test_accounts_get_account_balance_cash_account():
+    test_http_client = create_test_http_client("getAccountBalance-cashAccount")
+
+    with FinanceDev(
+        server_url=os.getenv("TEST_SERVER_URL", "http://localhost:18080"),
+        client=test_http_client,
+        security=models.Security(
+            client_id="<YOUR_CLIENT_ID_HERE>",
+            client_secret="<YOUR_CLIENT_SECRET_HERE>",
+            token_url="/_mockserver/oauth2/token",
+        ),
+    ) as fd_client:
+        assert fd_client is not None
+
+        res = fd_client.accounts.get_balance(id="TEST-ACCOUNT-001")
+        assert res.http_meta is not None
+        assert res.http_meta.response is not None
+        assert res.http_meta.response.status_code == 200
+        assert res.account_balance_v2 is not None
+        assert res.account_balance_v2 == models.AccountBalanceV2(
+            account_id="TEST-ACCOUNT-001",
+            amount_available_to_withdraw="266.06",
+            balance="298.5939",
+            cash_balance="266.96",
+            cost_of_positions="37.885",
+            credit="267",
+            credit_remaining="265.9",
+            day_open_pnl="-1.0061",
+            day_realized_pnl="0",
+            day_total_pnl="-1.0061",
+            day_trade_buying_power="1063.7",
+            day_trade_overnight_reg_t_buying_power="265.9",
+            freestock_frozen_cash="0",
+            gross_margin="0",
+            held_back_funds="0",
+            maint_req="0",
+            market_value="32.537",
+            net_buying_power="267",
+            open_pnl="-5.348",
+            option_buying_power="265.9",
+            pdt="0",
+            pdt_credit_remaining="0",
+            pending_orders_count=1,
+            pending_orders_margin_requirements="0",
+            realized_pl="0",
+            settled_funds="266.96",
+            sma="0",
+            sma_credit_remaining="0",
+            sod_funds_available_date=date.fromisoformat("2026-10-29"),
+            sod_gross_funds_available="266.06",
+            sod_margin_trade_balance="0.9",
+            sod_net_funds_available="266.06",
+            sod_positions_market_value="0",
+            sod_ttl_equity="299.6",
+            sod_ttl_equity_updated_at=parse_datetime("2026-10-30T11:00:02.353449Z"),
+            start_of_day_cash="0",
+            stock_buying_power="265.9",
+            unrealized_pl="-5.348",
+            unsettled_funds="0",
+            value_bought="0",
+            value_sold="0",
+        )
+
+
+def test_accounts_get_account_balance_margin_account():
+    test_http_client = create_test_http_client("getAccountBalance-marginAccount")
+
+    with FinanceDev(
+        server_url=os.getenv("TEST_SERVER_URL", "http://localhost:18080"),
+        client=test_http_client,
+        security=models.Security(
+            client_id="<YOUR_CLIENT_ID_HERE>",
+            client_secret="<YOUR_CLIENT_SECRET_HERE>",
+            token_url="/_mockserver/oauth2/token",
+        ),
+    ) as fd_client:
+        assert fd_client is not None
+
+        res = fd_client.accounts.get_balance(id="TEST-ACCOUNT-001")
+        assert res.http_meta is not None
+        assert res.http_meta.response is not None
+        assert res.http_meta.response.status_code == 200
+        assert res.account_balance_v2 is not None
+        assert res.account_balance_v2 == models.AccountBalanceV2(
+            account_id="TEST-ACCOUNT-001",
+            amount_available_to_withdraw="100000",
+            balance="248874.14377781",
+            cost_of_positions="180000",
+            credit="0",
+            credit_remaining="0",
+            day_open_pnl="512.14",
+            day_realized_pnl="37.5",
+            day_total_pnl="549.64",
+            day_trade_buying_power="50000",
+            day_trade_overnight_reg_t_buying_power="48000",
+            freestock_frozen_cash="0",
+            gross_margin="120000",
+            held_back_funds="0",
+            intraday_margin_balance="7000",
+            maint_req="75000",
+            market_value="180836.64377781",
+            net_buying_power="125000.5",
+            open_pnl="836.64377781",
+            option_buying_power="25000",
+            pdt="0",
+            pdt_credit_remaining="0",
+            pending_orders_count=0,
+            pending_orders_margin_requirements="0",
+            realized_pl="37.5",
+            settled_funds="100000",
+            sma="0",
+            sma_credit_remaining="0",
+            sod_funds_available_date=date.fromisoformat("2026-01-14"),
+            sod_gross_funds_available="100000",
+            sod_margin_trade_balance="-40000",
+            sod_net_funds_available="98500",
+            sod_positions_market_value="180000",
+            sod_ttl_equity="248000",
+            sod_ttl_equity_updated_at=parse_datetime("2026-01-15T09:30:00Z"),
+            start_of_day_cash="95000",
+            stock_buying_power="125000.5",
+            unrealized_pl="836.64377781",
+            unsettled_funds="5000",
+            value_bought="45000",
+            value_sold="12000",
         )

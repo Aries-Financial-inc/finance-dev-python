@@ -150,7 +150,20 @@ class CorporateActions(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Corporate Actions"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from datetime import date\nfrom finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.corporate_actions.get_dividends(ticker="AAPL", tickers_any_of="AAPL,MSFT,GOOG", ticker_from="A", ticker_after="A", ticker_to="Z", ticker_before="Z", ex_dividend_date=date.fromisoformat("2024-08-11"), ex_dividend_date_from=date.fromisoformat("2024-01-01"), ex_dividend_date_after=date.fromisoformat("2024-01-01"), ex_dividend_date_to=date.fromisoformat("2024-12-31"), ex_dividend_date_before=date.fromisoformat("2024-12-31"), frequency=4, frequency_min=1, frequency_above=0, frequency_max=12, frequency_below=13, distribution_type=models.DistributionType.RECURRING, distribution_types="recurring,special", limit=100)\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.corporateActions.getDividends({\n    ticker: "AAPL",\n    tickersAnyOf: "AAPL,MSFT,GOOG",\n    tickerFrom: "A",\n    tickerAfter: "A",\n    tickerTo: "Z",\n    tickerBefore: "Z",\n    exDividendDate: new Date("2024-08-11"),\n    exDividendDateFrom: new Date("2024-01-01"),\n    exDividendDateAfter: new Date("2024-01-01"),\n    exDividendDateTo: new Date("2024-12-31"),\n    exDividendDateBefore: new Date("2024-12-31"),\n    frequency: 4,\n    frequencyMin: 1,\n    frequencyAbove: 0,\n    frequencyMax: 12,\n    frequencyBelow: 13,\n    distributionType: "recurring",\n    distributionTypes: "recurring,special",\n    limit: 100,\n  });\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -388,7 +401,20 @@ class CorporateActions(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Corporate Actions"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from datetime import date\nfrom finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.corporate_actions.get_dividends(ticker="AAPL", tickers_any_of="AAPL,MSFT,GOOG", ticker_from="A", ticker_after="A", ticker_to="Z", ticker_before="Z", ex_dividend_date=date.fromisoformat("2024-08-11"), ex_dividend_date_from=date.fromisoformat("2024-01-01"), ex_dividend_date_after=date.fromisoformat("2024-01-01"), ex_dividend_date_to=date.fromisoformat("2024-12-31"), ex_dividend_date_before=date.fromisoformat("2024-12-31"), frequency=4, frequency_min=1, frequency_above=0, frequency_max=12, frequency_below=13, distribution_type=models.DistributionType.RECURRING, distribution_types="recurring,special", limit=100)\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.corporateActions.getDividends({\n    ticker: "AAPL",\n    tickersAnyOf: "AAPL,MSFT,GOOG",\n    tickerFrom: "A",\n    tickerAfter: "A",\n    tickerTo: "Z",\n    tickerBefore: "Z",\n    exDividendDate: new Date("2024-08-11"),\n    exDividendDateFrom: new Date("2024-01-01"),\n    exDividendDateAfter: new Date("2024-01-01"),\n    exDividendDateTo: new Date("2024-12-31"),\n    exDividendDateBefore: new Date("2024-12-31"),\n    frequency: 4,\n    frequencyMin: 1,\n    frequencyAbove: 0,\n    frequencyMax: 12,\n    frequencyBelow: 13,\n    distributionType: "recurring",\n    distributionTypes: "recurring,special",\n    limit: 100,\n  });\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -567,7 +593,20 @@ class CorporateActions(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Corporate Actions"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from datetime import date\nfrom finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.corporate_actions.get_ipo_calendar(from_=date.fromisoformat("2024-01-01"), to=date.fromisoformat("2024-12-31"))\n\n    assert res.ipo_calendar_response is not None\n\n    # Handle response\n    print(res.ipo_calendar_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.corporateActions.getIpoCalendar({\n    from: new Date("2024-01-01"),\n    to: new Date("2024-12-31"),\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -702,7 +741,20 @@ class CorporateActions(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Corporate Actions"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from datetime import date\nfrom finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.corporate_actions.get_ipo_calendar(from_=date.fromisoformat("2024-01-01"), to=date.fromisoformat("2024-12-31"))\n\n    assert res.ipo_calendar_response is not None\n\n    # Handle response\n    print(res.ipo_calendar_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.corporateActions.getIpoCalendar({\n    from: new Date("2024-01-01"),\n    to: new Date("2024-12-31"),\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -852,7 +904,20 @@ class CorporateActions(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Corporate Actions"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from datetime import date\nfrom finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.corporate_actions.get_spinoffs(identifier="AAPL", identifier_type=models.TenderOfferIdentifierType.SYMBOL, start_date=date.fromisoformat("2020-01-01"), end_date=date.fromisoformat("2020-12-31"))\n\n    assert res.spinoffs_response is not None\n\n    # Handle response\n    print(res.spinoffs_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.corporateActions.getSpinoffs({\n    identifier: "AAPL",\n    identifierType: "Symbol",\n    startDate: new Date("2020-01-01"),\n    endDate: new Date("2020-12-31"),\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1002,7 +1067,20 @@ class CorporateActions(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Corporate Actions"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from datetime import date\nfrom finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.corporate_actions.get_spinoffs(identifier="AAPL", identifier_type=models.TenderOfferIdentifierType.SYMBOL, start_date=date.fromisoformat("2020-01-01"), end_date=date.fromisoformat("2020-12-31"))\n\n    assert res.spinoffs_response is not None\n\n    # Handle response\n    print(res.spinoffs_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.corporateActions.getSpinoffs({\n    identifier: "AAPL",\n    identifierType: "Symbol",\n    startDate: new Date("2020-01-01"),\n    endDate: new Date("2020-12-31"),\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1152,7 +1230,20 @@ class CorporateActions(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Corporate Actions"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from datetime import date\nfrom finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.corporate_actions.get_tender_offers(identifier="AAPL", identifier_type=models.TenderOfferIdentifierType.SYMBOL, start_date=date.fromisoformat("2024-01-01"), end_date=date.fromisoformat("2024-12-31"))\n\n    assert res.tender_offers_response is not None\n\n    # Handle response\n    print(res.tender_offers_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.corporateActions.getTenderOffers({\n    identifier: "AAPL",\n    identifierType: "Symbol",\n    startDate: new Date("2024-01-01"),\n    endDate: new Date("2024-12-31"),\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1302,7 +1393,20 @@ class CorporateActions(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Corporate Actions"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from datetime import date\nfrom finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.corporate_actions.get_tender_offers(identifier="AAPL", identifier_type=models.TenderOfferIdentifierType.SYMBOL, start_date=date.fromisoformat("2024-01-01"), end_date=date.fromisoformat("2024-12-31"))\n\n    assert res.tender_offers_response is not None\n\n    # Handle response\n    print(res.tender_offers_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.corporateActions.getTenderOffers({\n    identifier: "AAPL",\n    identifierType: "Symbol",\n    startDate: new Date("2024-01-01"),\n    endDate: new Date("2024-12-31"),\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1385,12 +1489,12 @@ class CorporateActions(BaseSDK):
     ) -> Optional[models.GetStockSplitsResponse]:
         r"""Get Stock Split History
 
-        Retrieve historical stock split events including split ratios, execution dates, and pre/post-split price adjustments. `ticker` accepts a single symbol only. Use `tickersAnyOf` for multiple symbols. If `ticker` contains multiple comma-separated values, the API returns 400: \"Multiple tickers are not supported. Please provide a single ticker.\" If both `ticker` and `tickersAnyOf` are set, the API returns 400: \"Cannot specify both ticker and tickersAnyOf. Use ticker for a single symbol or tickersAnyOf for multiple.\"
+        Retrieve historical stock split events including split ratios, execution dates, and pre/post-split price adjustments.
 
         If set, this operation will use `client_id` from the global security.
 
-        :param ticker: Single ticker symbol only, such as AAPL. Do not send a comma-separated list here; if you need multiple symbols, use `tickersAnyOf` instead.
-        :param tickers_any_of: Comma-separated list of ticker symbols.
+        :param ticker: Single ticker symbol only, such as AAPL. Do not send a comma-separated list here; if you need multiple symbols, use `tickersAnyOf` instead. Multiple comma-separated values return HTTP 400: \"Multiple tickers are not supported. Please provide a single ticker.\" Cannot be combined with `tickersAnyOf`; sending both returns HTTP 400: \"Cannot specify both ticker and tickersAnyOf. Use ticker for a single symbol or tickersAnyOf for multiple.\"
+        :param tickers_any_of: Comma-separated list of ticker symbols. Cannot be combined with `ticker`; sending both returns HTTP 400: \"Cannot specify both ticker and tickersAnyOf. Use ticker for a single symbol or tickersAnyOf for multiple.\"
         :param ticker_from: Filter tickers >= this value (inclusive)
         :param ticker_after: Filter tickers > this value (exclusive)
         :param ticker_to: Filter tickers <= this value (inclusive)
@@ -1481,7 +1585,20 @@ class CorporateActions(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Corporate Actions"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from datetime import date\nfrom finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.corporate_actions.get_stock_split(ticker="AAPL", tickers_any_of="AAPL,TSLA,NVDA", ticker_from="A", ticker_after="A", ticker_to="Z", ticker_before="Z", execution_date=date.fromisoformat("2020-08-31"), execution_date_from=date.fromisoformat("2020-01-01"), execution_date_after=date.fromisoformat("2020-01-01"), execution_date_to=date.fromisoformat("2024-12-31"), execution_date_before=date.fromisoformat("2024-12-31"), adjustment_type=models.GetStockSplitsAdjustmentType.FORWARD_SPLIT, adjustment_types="forward_split,reverse_split", limit=100)\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.corporateActions.getStockSplit({\n    ticker: "AAPL",\n    tickersAnyOf: "AAPL,TSLA,NVDA",\n    tickerFrom: "A",\n    tickerAfter: "A",\n    tickerTo: "Z",\n    tickerBefore: "Z",\n    executionDate: new Date("2020-08-31"),\n    executionDateFrom: new Date("2020-01-01"),\n    executionDateAfter: new Date("2020-01-01"),\n    executionDateTo: new Date("2024-12-31"),\n    executionDateBefore: new Date("2024-12-31"),\n    adjustmentType: "forward_split",\n    adjustmentTypes: "forward_split,reverse_split",\n    limit: 100,\n  });\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1603,12 +1720,12 @@ class CorporateActions(BaseSDK):
     ) -> Optional[models.GetStockSplitsResponse]:
         r"""Get Stock Split History
 
-        Retrieve historical stock split events including split ratios, execution dates, and pre/post-split price adjustments. `ticker` accepts a single symbol only. Use `tickersAnyOf` for multiple symbols. If `ticker` contains multiple comma-separated values, the API returns 400: \"Multiple tickers are not supported. Please provide a single ticker.\" If both `ticker` and `tickersAnyOf` are set, the API returns 400: \"Cannot specify both ticker and tickersAnyOf. Use ticker for a single symbol or tickersAnyOf for multiple.\"
+        Retrieve historical stock split events including split ratios, execution dates, and pre/post-split price adjustments.
 
         If set, this operation will use `client_id` from the global security.
 
-        :param ticker: Single ticker symbol only, such as AAPL. Do not send a comma-separated list here; if you need multiple symbols, use `tickersAnyOf` instead.
-        :param tickers_any_of: Comma-separated list of ticker symbols.
+        :param ticker: Single ticker symbol only, such as AAPL. Do not send a comma-separated list here; if you need multiple symbols, use `tickersAnyOf` instead. Multiple comma-separated values return HTTP 400: \"Multiple tickers are not supported. Please provide a single ticker.\" Cannot be combined with `tickersAnyOf`; sending both returns HTTP 400: \"Cannot specify both ticker and tickersAnyOf. Use ticker for a single symbol or tickersAnyOf for multiple.\"
+        :param tickers_any_of: Comma-separated list of ticker symbols. Cannot be combined with `ticker`; sending both returns HTTP 400: \"Cannot specify both ticker and tickersAnyOf. Use ticker for a single symbol or tickersAnyOf for multiple.\"
         :param ticker_from: Filter tickers >= this value (inclusive)
         :param ticker_after: Filter tickers > this value (exclusive)
         :param ticker_to: Filter tickers <= this value (inclusive)
@@ -1699,7 +1816,20 @@ class CorporateActions(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Corporate Actions"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from datetime import date\nfrom finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.corporate_actions.get_stock_split(ticker="AAPL", tickers_any_of="AAPL,TSLA,NVDA", ticker_from="A", ticker_after="A", ticker_to="Z", ticker_before="Z", execution_date=date.fromisoformat("2020-08-31"), execution_date_from=date.fromisoformat("2020-01-01"), execution_date_after=date.fromisoformat("2020-01-01"), execution_date_to=date.fromisoformat("2024-12-31"), execution_date_before=date.fromisoformat("2024-12-31"), adjustment_type=models.GetStockSplitsAdjustmentType.FORWARD_SPLIT, adjustment_types="forward_split,reverse_split", limit=100)\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.corporateActions.getStockSplit({\n    ticker: "AAPL",\n    tickersAnyOf: "AAPL,TSLA,NVDA",\n    tickerFrom: "A",\n    tickerAfter: "A",\n    tickerTo: "Z",\n    tickerBefore: "Z",\n    executionDate: new Date("2020-08-31"),\n    executionDateFrom: new Date("2020-01-01"),\n    executionDateAfter: new Date("2020-01-01"),\n    executionDateTo: new Date("2024-12-31"),\n    executionDateBefore: new Date("2024-12-31"),\n    adjustmentType: "forward_split",\n    adjustmentTypes: "forward_split,reverse_split",\n    limit: 100,\n  });\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),

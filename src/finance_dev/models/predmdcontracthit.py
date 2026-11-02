@@ -4,6 +4,8 @@
 from __future__ import annotations
 from datetime import datetime
 from decimal import Decimal
+from enum import Enum
+from finance_dev import models, utils
 from finance_dev.types import (
     BaseModel,
     Nullable,
@@ -13,18 +15,77 @@ from finance_dev.types import (
 )
 from finance_dev.utils import serialize_decimal, validate_decimal
 import pydantic
-from pydantic import model_serializer
+from pydantic import field_serializer, model_serializer
 from pydantic.functional_serializers import PlainSerializer
 from pydantic.functional_validators import BeforeValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
+class PredMdContractHitParty(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""The candidate's party from the venue: `D` Democratic, `R` Republican, `I` independent, `O` any other. `null` on a contract that is not a candidate."""
+
+    D = "D"
+    R = "R"
+    I = "I"
+    O = "O"
+
+
+class PredMdContractHitPhotoTypedDict(TypedDict):
+    r"""The candidate's portrait, for an election contract that has one. `null` for every other contract."""
+
+    credit: str
+    license: str
+    license_url: Nullable[str]
+    source_url: str
+    url: str
+    r"""256×256 webp."""
+
+
+class PredMdContractHitPhoto(BaseModel):
+    r"""The candidate's portrait, for an election contract that has one. `null` for every other contract."""
+
+    credit: str
+
+    license: str
+
+    license_url: Annotated[Nullable[str], pydantic.Field(alias="licenseUrl")]
+
+    source_url: Annotated[str, pydantic.Field(alias="sourceUrl")]
+
+    url: str
+    r"""256×256 webp."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                m[k] = val
+
+        return m
+
+
 class PredMdContractHitTypedDict(TypedDict):
     r"""One matching contract, with its event's and base event's text flattened in. The index trails the catalogue by seconds; read the contract through /events/{eventId}/contracts when it must be current."""
 
     base_event_id: str
+    candidate_status: Nullable[str]
+    r"""FEC-style status from the venue: `I` incumbent, `C` challenger, `O` open seat, `N` not running. `null` on a contract that is not a candidate."""
     event_id: str
+    front_runner: Nullable[bool]
+    r"""`true` for a nominee, a candidate who advanced, or a significant independent; `false` for one no longer in the race, such as a primary loser. `null` on a contract that is not a candidate."""
+    incumbent: Nullable[bool]
+    r"""Whether the candidate holds the seat. `null` on a contract that is not a candidate."""
+    party: Nullable[PredMdContractHitParty]
+    r"""The candidate's party from the venue: `D` Democratic, `R` Republican, `I` independent, `O` any other. `null` on a contract that is not a candidate."""
+    photo: Nullable[PredMdContractHitPhotoTypedDict]
+    r"""The candidate's portrait, for an election contract that has one. `null` for every other contract."""
     state: str
     symbol: str
     symbol_sub_types: List[str]
@@ -38,6 +99,8 @@ class PredMdContractHitTypedDict(TypedDict):
     r"""Calendar date, at midnight UTC."""
     last_trade_date: NotRequired[Nullable[datetime]]
     r"""Calendar date, at midnight UTC."""
+    open_interest: NotRequired[int]
+    r"""Contracts held open, as of the venue's last daily prices file. Absent when the file did not name the contract; 0 is a real value. Live prices are on /v1/predictions/stream."""
     question: NotRequired[str]
     start_date: NotRequired[Nullable[datetime]]
     r"""Calendar date, at midnight UTC."""
@@ -52,7 +115,22 @@ class PredMdContractHit(BaseModel):
 
     base_event_id: Annotated[str, pydantic.Field(alias="baseEventId")]
 
+    candidate_status: Annotated[Nullable[str], pydantic.Field(alias="candidateStatus")]
+    r"""FEC-style status from the venue: `I` incumbent, `C` challenger, `O` open seat, `N` not running. `null` on a contract that is not a candidate."""
+
     event_id: Annotated[str, pydantic.Field(alias="eventId")]
+
+    front_runner: Annotated[Nullable[bool], pydantic.Field(alias="frontRunner")]
+    r"""`true` for a nominee, a candidate who advanced, or a significant independent; `false` for one no longer in the race, such as a primary loser. `null` on a contract that is not a candidate."""
+
+    incumbent: Nullable[bool]
+    r"""Whether the candidate holds the seat. `null` on a contract that is not a candidate."""
+
+    party: Nullable[PredMdContractHitParty]
+    r"""The candidate's party from the venue: `D` Democratic, `R` Republican, `I` independent, `O` any other. `null` on a contract that is not a candidate."""
+
+    photo: Nullable[PredMdContractHitPhoto]
+    r"""The candidate's portrait, for an election contract that has one. `null` for every other contract."""
 
     state: str
 
@@ -94,6 +172,9 @@ class PredMdContractHit(BaseModel):
     ] = UNSET
     r"""Calendar date, at midnight UTC."""
 
+    open_interest: Annotated[Optional[int], pydantic.Field(alias="openInterest")] = None
+    r"""Contracts held open, as of the venue's last daily prices file. Absent when the file did not name the contract; 0 is a real value. Live prices are on /v1/predictions/stream."""
+
     question: Optional[str] = None
 
     start_date: Annotated[
@@ -112,6 +193,15 @@ class PredMdContractHit(BaseModel):
         Optional[str], pydantic.Field(alias="underlyingSpec")
     ] = None
 
+    @field_serializer("party")
+    def serialize_party(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PredMdContractHitParty(value)
+            except ValueError:
+                return value
+        return value
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -121,6 +211,7 @@ class PredMdContractHit(BaseModel):
                 "eventQuestion",
                 "expirationDate",
                 "lastTradeDate",
+                "openInterest",
                 "question",
                 "startDate",
                 "strikeValue",
@@ -128,7 +219,18 @@ class PredMdContractHit(BaseModel):
                 "underlyingSpec",
             ]
         )
-        nullable_fields = set(["expirationDate", "lastTradeDate", "startDate"])
+        nullable_fields = set(
+            [
+                "candidateStatus",
+                "expirationDate",
+                "frontRunner",
+                "incumbent",
+                "lastTradeDate",
+                "party",
+                "photo",
+                "startDate",
+            ]
+        )
         serialized = handler(self)
         m = {}
 
@@ -151,6 +253,10 @@ class PredMdContractHit(BaseModel):
         return m
 
 
+try:
+    PredMdContractHitPhoto.model_rebuild()
+except NameError:
+    pass
 try:
     PredMdContractHit.model_rebuild()
 except NameError:

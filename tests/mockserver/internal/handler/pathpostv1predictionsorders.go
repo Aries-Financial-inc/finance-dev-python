@@ -55,9 +55,17 @@ func testPlacePredictionOrderPlacePredictionOrder0(w http.ResponseWriter, req *h
 	}
 	var respBody *operations.PlacePredictionOrderResponseBody = &operations.PlacePredictionOrderResponseBody{
 		Data: &components.PredOrdersOrder{
-			AccountID:       "ACCOUNT-0001",
-			AvgPx:           "0",
-			ClientOrderRef:  types.String("7d1c8e0a-4b8f-4e3a-9f43-2a6b1d0c9e11"),
+			AccountID:      "ACCOUNT-0001",
+			AvgPx:          "0",
+			ClientOrderRef: types.String("7d1c8e0a-4b8f-4e3a-9f43-2a6b1d0c9e11"),
+			Contract: &components.Contract{
+				Description:      "Shelley Moore Capito",
+				EventDisplayName: "West Virginia Senate General Election November 3 2026",
+				EventID:          "AXXWV_110326",
+				Question:         "Will Shelley Moore Capito win the West Virginia general election for US Senate in 2026?",
+				SettlementValue:  types.String("1"),
+				State:            components.ContractStateDeleted,
+			},
 			CreatedAt:       types.MustTimeFromString("2024-06-25T22:58:46.837Z"),
 			CumQty:          "0",
 			LeavesQty:       "10",

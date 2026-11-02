@@ -21,7 +21,7 @@ def test_options_get_options_activity_success():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.options.get_activity()
+        res = fd_client.options.get_activity(page=0, page_size=100)
         assert res.http_meta is not None
         assert res.http_meta.response is not None
         assert res.http_meta.response.status_code == 200
@@ -223,7 +223,7 @@ def test_options_get_option_chain_snapshot():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.options.get_option_chain_snapshot(
+        res = fd_client.options.get_chain_snapshot(
             underlying_asset="AAPL",
             strike_price="190",
             expiration_date=date.fromisoformat("2024-01-19"),
@@ -254,7 +254,7 @@ def test_options_get_option_contract_snapshot():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.options.get_option_contract_snapshot(
+        res = fd_client.options.get_contract_snapshot(
             underlying_asset="AAPL", option_contract="O:AAPL260410C00110000"
         )
         assert res.http_meta is not None

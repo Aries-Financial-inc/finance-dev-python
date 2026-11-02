@@ -16,7 +16,7 @@ class StockAggregatesResponseTypedDict(TypedDict):
     adjusted: NotRequired[bool]
     r"""Whether or not the results are adjusted for splits"""
     next_url: NotRequired[str]
-    r"""URL for next page of results"""
+    r"""URL for the next page of results, including the continuation cursor and updated time bounds. Follow this URL unchanged. Omitted when there are no more pages."""
     query_count: NotRequired[int]
     r"""Number of results returned"""
     request_id: NotRequired[str]
@@ -38,7 +38,7 @@ class StockAggregatesResponse(BaseModel):
     r"""Whether or not the results are adjusted for splits"""
 
     next_url: Annotated[Optional[str], pydantic.Field(alias="nextUrl")] = None
-    r"""URL for next page of results"""
+    r"""URL for the next page of results, including the continuation cursor and updated time bounds. Follow this URL unchanged. Omitted when there are no more pages."""
 
     query_count: Annotated[Optional[int], pydantic.Field(alias="queryCount")] = None
     r"""Number of results returned"""

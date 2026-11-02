@@ -25,9 +25,9 @@ class GetStockSplitsAdjustmentType(str, Enum, metaclass=utils.OpenEnumMeta):
 
 class GetStockSplitsRequestTypedDict(TypedDict):
     ticker: NotRequired[str]
-    r"""Single ticker symbol only, such as AAPL. Do not send a comma-separated list here; if you need multiple symbols, use `tickersAnyOf` instead."""
+    r"""Single ticker symbol only, such as AAPL. Do not send a comma-separated list here; if you need multiple symbols, use `tickersAnyOf` instead. Multiple comma-separated values return HTTP 400: \"Multiple tickers are not supported. Please provide a single ticker.\" Cannot be combined with `tickersAnyOf`; sending both returns HTTP 400: \"Cannot specify both ticker and tickersAnyOf. Use ticker for a single symbol or tickersAnyOf for multiple.\" """
     tickers_any_of: NotRequired[str]
-    r"""Comma-separated list of ticker symbols."""
+    r"""Comma-separated list of ticker symbols. Cannot be combined with `ticker`; sending both returns HTTP 400: \"Cannot specify both ticker and tickersAnyOf. Use ticker for a single symbol or tickersAnyOf for multiple.\" """
     ticker_from: NotRequired[str]
     r"""Filter tickers >= this value (inclusive)"""
     ticker_after: NotRequired[str]
@@ -63,14 +63,14 @@ class GetStockSplitsRequest(BaseModel):
         Optional[str],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Single ticker symbol only, such as AAPL. Do not send a comma-separated list here; if you need multiple symbols, use `tickersAnyOf` instead."""
+    r"""Single ticker symbol only, such as AAPL. Do not send a comma-separated list here; if you need multiple symbols, use `tickersAnyOf` instead. Multiple comma-separated values return HTTP 400: \"Multiple tickers are not supported. Please provide a single ticker.\" Cannot be combined with `tickersAnyOf`; sending both returns HTTP 400: \"Cannot specify both ticker and tickersAnyOf. Use ticker for a single symbol or tickersAnyOf for multiple.\" """
 
     tickers_any_of: Annotated[
         Optional[str],
         pydantic.Field(alias="tickersAnyOf"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Comma-separated list of ticker symbols."""
+    r"""Comma-separated list of ticker symbols. Cannot be combined with `ticker`; sending both returns HTTP 400: \"Cannot specify both ticker and tickersAnyOf. Use ticker for a single symbol or tickersAnyOf for multiple.\" """
 
     ticker_from: Annotated[
         Optional[str],

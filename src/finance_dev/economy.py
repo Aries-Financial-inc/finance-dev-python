@@ -114,7 +114,20 @@ class Economy(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Economy"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from datetime import date\nfrom finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.economy.get_inflation(date_=date.fromisoformat("2024-01-15"), dates="2024-01-15,2024-01-16", date_from=date.fromisoformat("2024-01-01"), date_to=date.fromisoformat("2024-01-31"), date_after=date.fromisoformat("2024-01-01"), date_before=date.fromisoformat("2024-01-31"), limit=100)\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.economy.getInflation({\n    date: new Date("2024-01-15"),\n    dates: "2024-01-15,2024-01-16",\n    dateFrom: new Date("2024-01-01"),\n    dateTo: new Date("2024-01-31"),\n    dateAfter: new Date("2024-01-01"),\n    dateBefore: new Date("2024-01-31"),\n    limit: 100,\n  });\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -304,7 +317,20 @@ class Economy(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Economy"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from datetime import date\nfrom finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.economy.get_inflation(date_=date.fromisoformat("2024-01-15"), dates="2024-01-15,2024-01-16", date_from=date.fromisoformat("2024-01-01"), date_to=date.fromisoformat("2024-01-31"), date_after=date.fromisoformat("2024-01-01"), date_before=date.fromisoformat("2024-01-31"), limit=100)\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.economy.getInflation({\n    date: new Date("2024-01-15"),\n    dates: "2024-01-15,2024-01-16",\n    dateFrom: new Date("2024-01-01"),\n    dateTo: new Date("2024-01-31"),\n    dateAfter: new Date("2024-01-01"),\n    dateBefore: new Date("2024-01-31"),\n    limit: 100,\n  });\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -494,7 +520,20 @@ class Economy(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Economy"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from datetime import date\nfrom finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.economy.get_inflation_expectations(date_=date.fromisoformat("2024-01-15"), dates="2024-01-15,2024-01-16", date_from=date.fromisoformat("2024-01-01"), date_to=date.fromisoformat("2024-01-31"), date_after=date.fromisoformat("2024-01-01"), date_before=date.fromisoformat("2024-01-31"), limit=100)\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.economy.getInflationExpectations({\n    date: new Date("2024-01-15"),\n    dates: "2024-01-15,2024-01-16",\n    dateFrom: new Date("2024-01-01"),\n    dateTo: new Date("2024-01-31"),\n    dateAfter: new Date("2024-01-01"),\n    dateBefore: new Date("2024-01-31"),\n    limit: 100,\n  });\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -684,7 +723,20 @@ class Economy(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Economy"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from datetime import date\nfrom finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.economy.get_inflation_expectations(date_=date.fromisoformat("2024-01-15"), dates="2024-01-15,2024-01-16", date_from=date.fromisoformat("2024-01-01"), date_to=date.fromisoformat("2024-01-31"), date_after=date.fromisoformat("2024-01-01"), date_before=date.fromisoformat("2024-01-31"), limit=100)\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.economy.getInflationExpectations({\n    date: new Date("2024-01-15"),\n    dates: "2024-01-15,2024-01-16",\n    dateFrom: new Date("2024-01-01"),\n    dateTo: new Date("2024-01-31"),\n    dateAfter: new Date("2024-01-01"),\n    dateBefore: new Date("2024-01-31"),\n    limit: 100,\n  });\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -874,7 +926,20 @@ class Economy(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Economy"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from datetime import date\nfrom finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.economy.get_treasury_yields(date_=date.fromisoformat("2024-01-15"), dates="2024-01-15,2024-01-16", date_from=date.fromisoformat("2024-01-01"), date_to=date.fromisoformat("2024-01-31"), date_after=date.fromisoformat("2024-01-01"), date_before=date.fromisoformat("2024-01-31"), limit=100)\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.economy.getTreasuryYields({\n    date: new Date("2024-01-15"),\n    dates: "2024-01-15,2024-01-16",\n    dateFrom: new Date("2024-01-01"),\n    dateTo: new Date("2024-01-31"),\n    dateAfter: new Date("2024-01-01"),\n    dateBefore: new Date("2024-01-31"),\n    limit: 100,\n  });\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1064,7 +1129,20 @@ class Economy(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Economy"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from datetime import date\nfrom finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.economy.get_treasury_yields(date_=date.fromisoformat("2024-01-15"), dates="2024-01-15,2024-01-16", date_from=date.fromisoformat("2024-01-01"), date_to=date.fromisoformat("2024-01-31"), date_after=date.fromisoformat("2024-01-01"), date_before=date.fromisoformat("2024-01-31"), limit=100)\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.economy.getTreasuryYields({\n    date: new Date("2024-01-15"),\n    dates: "2024-01-15,2024-01-16",\n    dateFrom: new Date("2024-01-01"),\n    dateTo: new Date("2024-01-31"),\n    dateAfter: new Date("2024-01-01"),\n    dateBefore: new Date("2024-01-31"),\n    limit: 100,\n  });\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),

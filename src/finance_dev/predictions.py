@@ -3,7 +3,6 @@
 
 from .basesdk import BaseSDK
 from .sdkconfiguration import SDKConfiguration
-from finance_dev.history import History
 from finance_dev.markets import Markets
 from finance_dev.predictions_orders import PredictionsOrders
 from typing import Optional
@@ -11,7 +10,6 @@ from typing import Optional
 
 class Predictions(BaseSDK):
     markets: Markets
-    history: History
     orders: PredictionsOrders
 
     def __init__(
@@ -23,7 +21,6 @@ class Predictions(BaseSDK):
 
     def _init_sdks(self):
         self.markets = Markets(self.sdk_configuration, parent_ref=self.parent_ref)
-        self.history = History(self.sdk_configuration, parent_ref=self.parent_ref)
         self.orders = PredictionsOrders(
             self.sdk_configuration, parent_ref=self.parent_ref
         )

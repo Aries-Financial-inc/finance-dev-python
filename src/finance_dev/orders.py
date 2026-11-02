@@ -12,7 +12,7 @@ from typing import Any, Dict, List, Mapping, Optional, Union, cast
 
 
 class Orders(BaseSDK):
-    def place_order(
+    def place(
         self,
         *,
         request: Union[
@@ -102,7 +102,20 @@ class Orders(BaseSDK):
                 oauth2_scopes=["order:execution"],
                 security_source=self.sdk_configuration.security,
                 tags=["Orders"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.orders.place_order(request={\n        "price": "150.00",\n        "qty": "10",\n        "side": models.OrderSideEnum.BUY,\n        "symbol": "AAPL",\n        "time_in_force": models.OrderRequestTimeInForceEnum.DAY,\n        "trading_account_id": "TEST-ACCOUNT-001",\n        "type": models.OrderTypeEnum.LIMIT,\n    })\n\n    assert res.ord_response is not None\n\n    # Handle response\n    print(res.ord_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.orders.create({\n    price: "150.00",\n    qty: "10",\n    side: "BUY",\n    symbol: "AAPL",\n    timeInForce: "DAY",\n    tradingAccountId: "TEST-ACCOUNT-001",\n    type: "LIMIT",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -166,7 +179,7 @@ class Orders(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def place_order_async(
+    async def place_async(
         self,
         *,
         request: Union[
@@ -256,7 +269,20 @@ class Orders(BaseSDK):
                 oauth2_scopes=["order:execution"],
                 security_source=self.sdk_configuration.security,
                 tags=["Orders"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.orders.place_order(request={\n        "price": "150.00",\n        "qty": "10",\n        "side": models.OrderSideEnum.BUY,\n        "symbol": "AAPL",\n        "time_in_force": models.OrderRequestTimeInForceEnum.DAY,\n        "trading_account_id": "TEST-ACCOUNT-001",\n        "type": models.OrderTypeEnum.LIMIT,\n    })\n\n    assert res.ord_response is not None\n\n    # Handle response\n    print(res.ord_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.orders.create({\n    price: "150.00",\n    qty: "10",\n    side: "BUY",\n    symbol: "AAPL",\n    timeInForce: "DAY",\n    tradingAccountId: "TEST-ACCOUNT-001",\n    type: "LIMIT",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -335,6 +361,8 @@ class Orders(BaseSDK):
 
         Cancel an existing order by original client order ID. For option cancels, you can provide the option fields directly or send an OSI option symbol in `symbol` and let the backend derive the option instrument fields.
 
+        **Order ownership:** `origClOrdId` must be an order on `accountId`. If it is not (an unknown ID, or an order on another account), the request is not sent to the broker and returns `400` with `error.code` `INVALID_ORIG_CL_ORD_ID`. An order placed or replaced moments earlier may not be recognized yet; the API waits briefly for it before rejecting. If ownership cannot be verified, the request returns `503` (`SERVICE_UNAVAILABLE`) and is not sent; retry later.
+
         If set, this operation will use `client_id` from the global security.
 
         :param request: The request object to send.
@@ -397,7 +425,20 @@ class Orders(BaseSDK):
                 oauth2_scopes=["order:execution"],
                 security_source=self.sdk_configuration.security,
                 tags=["Orders"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.orders.cancel(request={\n        "orig_cl_ord_id": "ORDER-123456",\n        "security_type": models.SecurityTypeEnum.CS,\n        "side": models.OrderSideEnum.BUY,\n        "symbol": "AAPL",\n        "trading_account_id": "TEST-ACCOUNT-001",\n    })\n\n    assert res.cancel_ord_response is not None\n\n    # Handle response\n    print(res.cancel_ord_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.orders.cancel({\n    origClOrdId: "ORDER-123456",\n    securityType: "CS",\n    side: "BUY",\n    symbol: "AAPL",\n    tradingAccountId: "TEST-ACCOUNT-001",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -476,6 +517,8 @@ class Orders(BaseSDK):
 
         Cancel an existing order by original client order ID. For option cancels, you can provide the option fields directly or send an OSI option symbol in `symbol` and let the backend derive the option instrument fields.
 
+        **Order ownership:** `origClOrdId` must be an order on `accountId`. If it is not (an unknown ID, or an order on another account), the request is not sent to the broker and returns `400` with `error.code` `INVALID_ORIG_CL_ORD_ID`. An order placed or replaced moments earlier may not be recognized yet; the API waits briefly for it before rejecting. If ownership cannot be verified, the request returns `503` (`SERVICE_UNAVAILABLE`) and is not sent; retry later.
+
         If set, this operation will use `client_id` from the global security.
 
         :param request: The request object to send.
@@ -538,7 +581,20 @@ class Orders(BaseSDK):
                 oauth2_scopes=["order:execution"],
                 security_source=self.sdk_configuration.security,
                 tags=["Orders"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.orders.cancel(request={\n        "orig_cl_ord_id": "ORDER-123456",\n        "security_type": models.SecurityTypeEnum.CS,\n        "side": models.OrderSideEnum.BUY,\n        "symbol": "AAPL",\n        "trading_account_id": "TEST-ACCOUNT-001",\n    })\n\n    assert res.cancel_ord_response is not None\n\n    # Handle response\n    print(res.cancel_ord_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.orders.cancel({\n    origClOrdId: "ORDER-123456",\n    securityType: "CS",\n    side: "BUY",\n    symbol: "AAPL",\n    tradingAccountId: "TEST-ACCOUNT-001",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -602,7 +658,7 @@ class Orders(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def preview_order(
+    def preview(
         self,
         *,
         request: Union[
@@ -683,7 +739,20 @@ class Orders(BaseSDK):
                 oauth2_scopes=["order:execution"],
                 security_source=self.sdk_configuration.security,
                 tags=["Orders"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.orders.preview_order(request={\n        "price": "150.00",\n        "qty": "10",\n        "side": models.OrderSideEnum.BUY,\n        "symbol": "AAPL",\n        "time_in_force": models.OrderRequestTimeInForceEnum.DAY,\n        "trading_account_id": "TEST-ACCOUNT-001",\n        "type": models.OrderTypeEnum.LIMIT,\n    })\n\n    assert res.preview_order_response is not None\n\n    # Handle response\n    print(res.preview_order_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.orders.preview({\n    price: "150.00",\n    qty: "10",\n    side: "BUY",\n    symbol: "AAPL",\n    timeInForce: "DAY",\n    tradingAccountId: "TEST-ACCOUNT-001",\n    type: "LIMIT",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -747,7 +816,7 @@ class Orders(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def preview_order_async(
+    async def preview_async(
         self,
         *,
         request: Union[
@@ -828,7 +897,20 @@ class Orders(BaseSDK):
                 oauth2_scopes=["order:execution"],
                 security_source=self.sdk_configuration.security,
                 tags=["Orders"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.orders.preview_order(request={\n        "price": "150.00",\n        "qty": "10",\n        "side": models.OrderSideEnum.BUY,\n        "symbol": "AAPL",\n        "time_in_force": models.OrderRequestTimeInForceEnum.DAY,\n        "trading_account_id": "TEST-ACCOUNT-001",\n        "type": models.OrderTypeEnum.LIMIT,\n    })\n\n    assert res.preview_order_response is not None\n\n    # Handle response\n    print(res.preview_order_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.orders.preview({\n    price: "150.00",\n    qty: "10",\n    side: "BUY",\n    symbol: "AAPL",\n    timeInForce: "DAY",\n    tradingAccountId: "TEST-ACCOUNT-001",\n    type: "LIMIT",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -915,6 +997,8 @@ class Orders(BaseSDK):
         - `STOP_LIMIT` validates both
         - Decimal inputs support up to 5 digits after the decimal point.
 
+        **Order ownership:** `origClOrdId` must be an order on `accountId`. If it is not (an unknown ID, or an order on another account), the request is not sent to the broker and returns `400` with `error.code` `INVALID_ORIG_CL_ORD_ID`. An order placed or replaced moments earlier may not be recognized yet; the API waits briefly for it before rejecting. If ownership cannot be verified, the request returns `503` (`SERVICE_UNAVAILABLE`) and is not sent; retry later.
+
         If set, this operation will use `client_id` from the global security.
 
         :param request: The request object to send.
@@ -977,7 +1061,20 @@ class Orders(BaseSDK):
                 oauth2_scopes=["order:execution"],
                 security_source=self.sdk_configuration.security,
                 tags=["Orders"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.orders.replace(request={\n        "orig_cl_ord_id": "ORDER-123456",\n        "price": "148.50",\n        "qty": "10",\n        "side": models.OrderSideEnum.BUY,\n        "symbol": "AAPL",\n        "time_in_force": models.OrderRequestTimeInForceEnum.DAY,\n        "trading_account_id": "TEST-ACCOUNT-001",\n        "type": models.OrderTypeEnum.LIMIT,\n    })\n\n    assert res.replace_ord_response is not None\n\n    # Handle response\n    print(res.replace_ord_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.orders.replace({\n    origClOrdId: "ORDER-123456",\n    price: "148.50",\n    qty: "10",\n    side: "BUY",\n    symbol: "AAPL",\n    timeInForce: "DAY",\n    tradingAccountId: "TEST-ACCOUNT-001",\n    type: "LIMIT",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1064,6 +1161,8 @@ class Orders(BaseSDK):
         - `STOP_LIMIT` validates both
         - Decimal inputs support up to 5 digits after the decimal point.
 
+        **Order ownership:** `origClOrdId` must be an order on `accountId`. If it is not (an unknown ID, or an order on another account), the request is not sent to the broker and returns `400` with `error.code` `INVALID_ORIG_CL_ORD_ID`. An order placed or replaced moments earlier may not be recognized yet; the API waits briefly for it before rejecting. If ownership cannot be verified, the request returns `503` (`SERVICE_UNAVAILABLE`) and is not sent; retry later.
+
         If set, this operation will use `client_id` from the global security.
 
         :param request: The request object to send.
@@ -1126,7 +1225,20 @@ class Orders(BaseSDK):
                 oauth2_scopes=["order:execution"],
                 security_source=self.sdk_configuration.security,
                 tags=["Orders"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.orders.replace(request={\n        "orig_cl_ord_id": "ORDER-123456",\n        "price": "148.50",\n        "qty": "10",\n        "side": models.OrderSideEnum.BUY,\n        "symbol": "AAPL",\n        "time_in_force": models.OrderRequestTimeInForceEnum.DAY,\n        "trading_account_id": "TEST-ACCOUNT-001",\n        "type": models.OrderTypeEnum.LIMIT,\n    })\n\n    assert res.replace_ord_response is not None\n\n    # Handle response\n    print(res.replace_ord_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.orders.replace({\n    origClOrdId: "ORDER-123456",\n    price: "148.50",\n    qty: "10",\n    side: "BUY",\n    symbol: "AAPL",\n    timeInForce: "DAY",\n    tradingAccountId: "TEST-ACCOUNT-001",\n    type: "LIMIT",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1190,7 +1302,7 @@ class Orders(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def list_active_orders(
+    def list_active(
         self,
         *,
         id: str,
@@ -1205,13 +1317,13 @@ class Orders(BaseSDK):
 
         Returns active orders (open orders plus today's terminal activity) from the orders v2 cache only. There is no database fallback.
 
-        Pagination uses an opaque int64 cursor: omit cursor or send 0 for the first page, then send nextCursor; 0 means exhausted. Each order uses the same domain shape as WebSocket account updates.
+        Pagination uses an opaque int64 cursor: omit cursor or send 0 for the first page, then send nextCursor while it is present. The final page omits nextCursor. Each order uses the same domain shape as WebSocket account updates.
 
         If set, this operation will use `client_id` from the global security.
 
         :param id: Account ID whose active orders you want to read. Use the account identifier from the user's account list or trading setup.
         :param limit: Maximum number of orders to return in this page. Use smaller values for UI lists and larger values for back-office exports. Default is 50; maximum is 500.
-        :param cursor: Opaque pagination cursor. Send `0` (or omit) for the first page; pass the previous response's `nextCursor` for subsequent pages. Stop when `nextCursor` is `0`.
+        :param cursor: Opaque pagination cursor. Send `0` (or omit) for the first page; pass the previous response's `nextCursor` for subsequent pages. Stop when `nextCursor` is absent.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1274,7 +1386,20 @@ class Orders(BaseSDK):
                 oauth2_scopes=["order:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Orders"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.orders.list_active_orders(id="TEST-ACCOUNT-001", limit=50, cursor=0)\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.accounts.orders.listActive({\n    id: "TEST-ACCOUNT-001",\n  });\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1298,7 +1423,7 @@ class Orders(BaseSDK):
             if len(results[0]) < limit_:
                 return None
 
-            return self.list_active_orders(
+            return self.list_active(
                 id=id,
                 limit=limit,
                 cursor=next_cursor,
@@ -1358,7 +1483,7 @@ class Orders(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def list_active_orders_async(
+    async def list_active_async(
         self,
         *,
         id: str,
@@ -1373,13 +1498,13 @@ class Orders(BaseSDK):
 
         Returns active orders (open orders plus today's terminal activity) from the orders v2 cache only. There is no database fallback.
 
-        Pagination uses an opaque int64 cursor: omit cursor or send 0 for the first page, then send nextCursor; 0 means exhausted. Each order uses the same domain shape as WebSocket account updates.
+        Pagination uses an opaque int64 cursor: omit cursor or send 0 for the first page, then send nextCursor while it is present. The final page omits nextCursor. Each order uses the same domain shape as WebSocket account updates.
 
         If set, this operation will use `client_id` from the global security.
 
         :param id: Account ID whose active orders you want to read. Use the account identifier from the user's account list or trading setup.
         :param limit: Maximum number of orders to return in this page. Use smaller values for UI lists and larger values for back-office exports. Default is 50; maximum is 500.
-        :param cursor: Opaque pagination cursor. Send `0` (or omit) for the first page; pass the previous response's `nextCursor` for subsequent pages. Stop when `nextCursor` is `0`.
+        :param cursor: Opaque pagination cursor. Send `0` (or omit) for the first page; pass the previous response's `nextCursor` for subsequent pages. Stop when `nextCursor` is absent.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1442,7 +1567,20 @@ class Orders(BaseSDK):
                 oauth2_scopes=["order:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Orders"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.orders.list_active_orders(id="TEST-ACCOUNT-001", limit=50, cursor=0)\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.accounts.orders.listActive({\n    id: "TEST-ACCOUNT-001",\n  });\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1466,7 +1604,7 @@ class Orders(BaseSDK):
             if len(results[0]) < limit_:
                 return None
 
-            return self.list_active_orders(
+            return self.list_active(
                 id=id,
                 limit=limit,
                 cursor=next_cursor,
@@ -1526,7 +1664,7 @@ class Orders(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def list_order_history(
+    def list_history(
         self,
         *,
         id: str,
@@ -1549,7 +1687,7 @@ class Orders(BaseSDK):
 
         Set `exclude_today=true` to narrow `to` to just before midnight **America/New_York**, omitting today's activity (already returned by **GET /v2/accounts/{id}/orders**).
 
-        **Pagination:** Same opaque `int64` cursor contract as active orders when reading from DB — `cursor=0` first, then `nextCursor`; `0` means exhausted.
+        **Pagination:** Same opaque `int64` cursor contract as active orders when reading from DB — `cursor=0` first, then `nextCursor` while it is present. The final page omits `nextCursor`.
 
         If set, this operation will use `client_id` from the global security.
 
@@ -1559,7 +1697,7 @@ class Orders(BaseSDK):
         :param order_by: Sort direction by `order_created_at`. Defaults to `desc` (newest first). Use `asc` for chronological exports.
         :param exclude_today: Set to `true` when you want historical orders only and do not want today's activity duplicated with the active-orders endpoint.
         :param limit: Maximum number of historical orders to return in this page. Default is 50; maximum is 500.
-        :param cursor: Opaque pagination cursor for the database history walk. Send `0` (or omit) for the first page; pass the previous `nextCursor` until it returns `0`.
+        :param cursor: Opaque pagination cursor for the database history walk. Send `0` (or omit) for the first page; pass the previous `nextCursor` until it is absent.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1626,7 +1764,20 @@ class Orders(BaseSDK):
                 oauth2_scopes=["order:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Orders"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\nfrom finance_dev.utils import parse_datetime\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.orders.list_order_history(id="TEST-ACCOUNT-001", from_=parse_datetime("2026-01-01T00:00:00Z"), to=parse_datetime("2026-01-31T00:00:00Z"), order_by=models.OrderBy.DESC, exclude_today=False, limit=50, cursor=0)\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.orders.getHistory({\n    id: "TEST-ACCOUNT-001",\n    from: new Date("2026-01-01T00:00:00Z"),\n    to: new Date("2026-01-31T00:00:00Z"),\n  });\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1650,7 +1801,7 @@ class Orders(BaseSDK):
             if len(results[0]) < limit_:
                 return None
 
-            return self.list_order_history(
+            return self.list_history(
                 id=id,
                 from_=from_,
                 to=to,
@@ -1716,7 +1867,7 @@ class Orders(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def list_order_history_async(
+    async def list_history_async(
         self,
         *,
         id: str,
@@ -1739,7 +1890,7 @@ class Orders(BaseSDK):
 
         Set `exclude_today=true` to narrow `to` to just before midnight **America/New_York**, omitting today's activity (already returned by **GET /v2/accounts/{id}/orders**).
 
-        **Pagination:** Same opaque `int64` cursor contract as active orders when reading from DB — `cursor=0` first, then `nextCursor`; `0` means exhausted.
+        **Pagination:** Same opaque `int64` cursor contract as active orders when reading from DB — `cursor=0` first, then `nextCursor` while it is present. The final page omits `nextCursor`.
 
         If set, this operation will use `client_id` from the global security.
 
@@ -1749,7 +1900,7 @@ class Orders(BaseSDK):
         :param order_by: Sort direction by `order_created_at`. Defaults to `desc` (newest first). Use `asc` for chronological exports.
         :param exclude_today: Set to `true` when you want historical orders only and do not want today's activity duplicated with the active-orders endpoint.
         :param limit: Maximum number of historical orders to return in this page. Default is 50; maximum is 500.
-        :param cursor: Opaque pagination cursor for the database history walk. Send `0` (or omit) for the first page; pass the previous `nextCursor` until it returns `0`.
+        :param cursor: Opaque pagination cursor for the database history walk. Send `0` (or omit) for the first page; pass the previous `nextCursor` until it is absent.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1816,7 +1967,20 @@ class Orders(BaseSDK):
                 oauth2_scopes=["order:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Orders"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\nfrom finance_dev.utils import parse_datetime\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.orders.list_order_history(id="TEST-ACCOUNT-001", from_=parse_datetime("2026-01-01T00:00:00Z"), to=parse_datetime("2026-01-31T00:00:00Z"), order_by=models.OrderBy.DESC, exclude_today=False, limit=50, cursor=0)\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.orders.getHistory({\n    id: "TEST-ACCOUNT-001",\n    from: new Date("2026-01-01T00:00:00Z"),\n    to: new Date("2026-01-31T00:00:00Z"),\n  });\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1840,7 +2004,7 @@ class Orders(BaseSDK):
             if len(results[0]) < limit_:
                 return None
 
-            return self.list_order_history(
+            return self.list_history(
                 id=id,
                 from_=from_,
                 to=to,

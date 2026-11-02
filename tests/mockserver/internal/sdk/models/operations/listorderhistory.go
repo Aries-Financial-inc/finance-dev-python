@@ -34,7 +34,7 @@ type ListOrderHistoryRequest struct {
 	ExcludeToday *bool `default:"false" queryParam:"style=form,explode=true,name=exclude_today"`
 	// Maximum number of historical orders to return in this page. Default is 50; maximum is 500.
 	Limit *int64 `default:"50" queryParam:"style=form,explode=true,name=limit"`
-	// Opaque pagination cursor for the database history walk. Send `0` (or omit) for the first page; pass the previous `nextCursor` until it returns `0`.
+	// Opaque pagination cursor for the database history walk. Send `0` (or omit) for the first page; pass the previous `nextCursor` until it is absent.
 	Cursor *int64 `default:"0" queryParam:"style=form,explode=true,name=cursor"`
 }
 

@@ -33,8 +33,8 @@ class Analytics(BaseSDK):
 
         If set, this operation will use `client_id` from the global security.
 
-        :param page: Zero-based page number. Enter 0 for the first page, 1 for the second page, and so on.
-        :param page_size: Number of results per page. Use this to control pagination size in list views. Use this to control page size; default is 10.
+        :param page: Zero-based page number (default: 0). page × pageSize must be less than 100,000; otherwise the API returns HTTP 400 with error code PAGINATION_LIMIT_EXCEEDED. Narrow the query filters and restart at page 0 to reduce the result set. Within this limit, pages beyond the available results return HTTP 200 with an empty insights array.
+        :param page_size: Number of results per page (default: 10, maximum: 1000). page × pageSize must be less than 100,000.
         :param symbols: Comma-separated ticker symbols, such as AAPL,MSFT. Use this to request or filter multiple companies in one call. (e.g. AAPL,MSFT)
         :param analyst: Comma-separated analyst IDs. Use this to limit insight results to specific analysts.
         :param rating_id: Comma-separated rating IDs. Use this to limit insight results to specific rating records.
@@ -108,7 +108,20 @@ class Analytics(BaseSDK):
                 oauth2_scopes=["analytics:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Analytics"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.analytics.get_insights()\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.analytics.getInsights();\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -214,8 +227,8 @@ class Analytics(BaseSDK):
 
         If set, this operation will use `client_id` from the global security.
 
-        :param page: Zero-based page number. Enter 0 for the first page, 1 for the second page, and so on.
-        :param page_size: Number of results per page. Use this to control pagination size in list views. Use this to control page size; default is 10.
+        :param page: Zero-based page number (default: 0). page × pageSize must be less than 100,000; otherwise the API returns HTTP 400 with error code PAGINATION_LIMIT_EXCEEDED. Narrow the query filters and restart at page 0 to reduce the result set. Within this limit, pages beyond the available results return HTTP 200 with an empty insights array.
+        :param page_size: Number of results per page (default: 10, maximum: 1000). page × pageSize must be less than 100,000.
         :param symbols: Comma-separated ticker symbols, such as AAPL,MSFT. Use this to request or filter multiple companies in one call. (e.g. AAPL,MSFT)
         :param analyst: Comma-separated analyst IDs. Use this to limit insight results to specific analysts.
         :param rating_id: Comma-separated rating IDs. Use this to limit insight results to specific rating records.
@@ -289,7 +302,20 @@ class Analytics(BaseSDK):
                 oauth2_scopes=["analytics:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Analytics"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.analytics.get_insights()\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.analytics.getInsights();\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -443,7 +469,20 @@ class Analytics(BaseSDK):
                 oauth2_scopes=["analytics:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Analytics"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.analytics.get_market_breadth()\n\n    assert res.market_breadth_response is not None\n\n    # Handle response\n    print(res.market_breadth_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.analytics.getMarketBreadth();\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -568,7 +607,20 @@ class Analytics(BaseSDK):
                 oauth2_scopes=["analytics:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Analytics"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.analytics.get_market_breadth()\n\n    assert res.market_breadth_response is not None\n\n    # Handle response\n    print(res.market_breadth_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.analytics.getMarketBreadth();\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -693,7 +745,20 @@ class Analytics(BaseSDK):
                 oauth2_scopes=["analytics:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Analytics"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.analytics.get_net_inflow()\n\n    assert res.net_inflow_response is not None\n\n    # Handle response\n    print(res.net_inflow_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.analytics.getNetInflow();\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -818,7 +883,20 @@ class Analytics(BaseSDK):
                 oauth2_scopes=["analytics:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Analytics"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.analytics.get_net_inflow()\n\n    assert res.net_inflow_response is not None\n\n    # Handle response\n    print(res.net_inflow_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.analytics.getNetInflow();\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -878,8 +956,8 @@ class Analytics(BaseSDK):
         self,
         *,
         tickers: Optional[str] = None,
-        page: Optional[int] = None,
-        page_size: Optional[int] = None,
+        page: Optional[int] = 0,
+        page_size: Optional[int] = 100,
         date_: Optional[date] = None,
         date_from: Optional[date] = None,
         date_to: Optional[date] = None,
@@ -899,8 +977,8 @@ class Analytics(BaseSDK):
         If set, this operation will use `client_id` from the global security.
 
         :param tickers: Comma-separated list of ticker symbols to filter by
-        :param page: Page number for pagination (0-based)
-        :param page_size: Number of results per page. Use this to control pagination size in list views.
+        :param page: Zero-based page number (default: 0). page × pageSize must be less than 100,000; otherwise the API returns HTTP 400 with error code PAGINATION_LIMIT_EXCEEDED. To retrieve larger histories, narrow dateFrom and dateTo and restart at page 0 for each date window.
+        :param page_size: Number of results per page (default: 100, maximum: 1000). page × pageSize must be less than 100,000.
         :param date_: Filter by specific date (YYYY-MM-DD)
         :param date_from: Start date for date range (YYYY-MM-DD)
         :param date_to: End date for date range (YYYY-MM-DD)
@@ -977,7 +1055,20 @@ class Analytics(BaseSDK):
                 oauth2_scopes=["analytics:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Analytics"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.analytics.get(tickers="AAPL,GOOGL")\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.analytics.get({\n    tickers: "AAPL,GOOGL",\n  });\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -986,7 +1077,7 @@ class Analytics(BaseSDK):
 
         def next_func() -> Optional[models.GetRatingsResponseResponse]:
             body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
-            page = request.page if isinstance(request.page, int) else 1
+            page = request.page if isinstance(request.page, int) else 0
             next_page = page + 1
 
             if not http_res.text:
@@ -994,7 +1085,7 @@ class Analytics(BaseSDK):
             results = JSONPath("$.ratings").parse(body)
             if len(results) == 0 or len(results[0]) == 0:
                 return None
-            limit_ = request.page_size if isinstance(request.page_size, int) else 0
+            limit_ = request.page_size if isinstance(request.page_size, int) else 100
             if len(results[0]) < limit_:
                 return None
 
@@ -1069,8 +1160,8 @@ class Analytics(BaseSDK):
         self,
         *,
         tickers: Optional[str] = None,
-        page: Optional[int] = None,
-        page_size: Optional[int] = None,
+        page: Optional[int] = 0,
+        page_size: Optional[int] = 100,
         date_: Optional[date] = None,
         date_from: Optional[date] = None,
         date_to: Optional[date] = None,
@@ -1090,8 +1181,8 @@ class Analytics(BaseSDK):
         If set, this operation will use `client_id` from the global security.
 
         :param tickers: Comma-separated list of ticker symbols to filter by
-        :param page: Page number for pagination (0-based)
-        :param page_size: Number of results per page. Use this to control pagination size in list views.
+        :param page: Zero-based page number (default: 0). page × pageSize must be less than 100,000; otherwise the API returns HTTP 400 with error code PAGINATION_LIMIT_EXCEEDED. To retrieve larger histories, narrow dateFrom and dateTo and restart at page 0 for each date window.
+        :param page_size: Number of results per page (default: 100, maximum: 1000). page × pageSize must be less than 100,000.
         :param date_: Filter by specific date (YYYY-MM-DD)
         :param date_from: Start date for date range (YYYY-MM-DD)
         :param date_to: End date for date range (YYYY-MM-DD)
@@ -1168,7 +1259,20 @@ class Analytics(BaseSDK):
                 oauth2_scopes=["analytics:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Analytics"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.analytics.get(tickers="AAPL,GOOGL")\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.analytics.get({\n    tickers: "AAPL,GOOGL",\n  });\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1177,7 +1281,7 @@ class Analytics(BaseSDK):
 
         def next_func() -> Optional[models.GetRatingsResponseResponse]:
             body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
-            page = request.page if isinstance(request.page, int) else 1
+            page = request.page if isinstance(request.page, int) else 0
             next_page = page + 1
 
             if not http_res.text:
@@ -1185,7 +1289,7 @@ class Analytics(BaseSDK):
             results = JSONPath("$.ratings").parse(body)
             if len(results) == 0 or len(results[0]) == 0:
                 return None
-            limit_ = request.page_size if isinstance(request.page_size, int) else 0
+            limit_ = request.page_size if isinstance(request.page_size, int) else 100
             if len(results[0]) < limit_:
                 return None
 
@@ -1345,7 +1449,20 @@ class Analytics(BaseSDK):
                 oauth2_scopes=["market:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Analytics"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.analytics.get_sector_tickers(sector=models.Sector.TECHNOLOGY)\n\n    assert res.symbol_details is not None\n\n    # Handle response\n    print(res.symbol_details)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.analytics.getSectorTickers({\n    sector: "TECHNOLOGY",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1490,7 +1607,20 @@ class Analytics(BaseSDK):
                 oauth2_scopes=["market:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Analytics"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.analytics.get_sector_tickers(sector=models.Sector.TECHNOLOGY)\n\n    assert res.symbol_details is not None\n\n    # Handle response\n    print(res.symbol_details)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.analytics.getSectorTickers({\n    sector: "TECHNOLOGY",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1627,7 +1757,20 @@ class Analytics(BaseSDK):
                 oauth2_scopes=["market:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Analytics"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.analytics.get_sector_wise_change(limit="15", size="15")\n\n    assert res.sector_avg_changes is not None\n\n    # Handle response\n    print(res.sector_avg_changes)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.analytics.getSectorWiseChange({\n    limit: "15",\n    size: "15",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1764,7 +1907,20 @@ class Analytics(BaseSDK):
                 oauth2_scopes=["market:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Analytics"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.analytics.get_sector_wise_change(limit="15", size="15")\n\n    assert res.sector_avg_changes is not None\n\n    # Handle response\n    print(res.sector_avg_changes)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.analytics.getSectorWiseChange({\n    limit: "15",\n    size: "15",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1899,7 +2055,20 @@ class Analytics(BaseSDK):
                 oauth2_scopes=["market:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Analytics"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.analytics.get_top_gainers(limit=10, size=10)\n\n    assert res.symbol_details is not None\n\n    # Handle response\n    print(res.symbol_details)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.analytics.getTopGainers({});\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -2034,7 +2203,20 @@ class Analytics(BaseSDK):
                 oauth2_scopes=["market:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Analytics"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.analytics.get_top_gainers(limit=10, size=10)\n\n    assert res.symbol_details is not None\n\n    # Handle response\n    print(res.symbol_details)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.analytics.getTopGainers({});\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -2169,7 +2351,20 @@ class Analytics(BaseSDK):
                 oauth2_scopes=["market:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Analytics"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.analytics.get_top_losers(limit=10, size=10)\n\n    assert res.symbol_details is not None\n\n    # Handle response\n    print(res.symbol_details)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.analytics.getTopLosers({});\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -2304,7 +2499,20 @@ class Analytics(BaseSDK):
                 oauth2_scopes=["market:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Analytics"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.analytics.get_top_losers(limit=10, size=10)\n\n    assert res.symbol_details is not None\n\n    # Handle response\n    print(res.symbol_details)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.analytics.getTopLosers({});\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -2360,7 +2568,7 @@ class Analytics(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_top_most_active(
+    def get_top_active(
         self,
         *,
         limit: Optional[int] = 10,
@@ -2439,7 +2647,20 @@ class Analytics(BaseSDK):
                 oauth2_scopes=["market:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Analytics"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.analytics.get_top_most_active(limit=10, size=10)\n\n    assert res.symbol_details is not None\n\n    # Handle response\n    print(res.symbol_details)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.analytics.topMostActive.list({});\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -2495,7 +2716,7 @@ class Analytics(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_top_most_active_async(
+    async def get_top_active_async(
         self,
         *,
         limit: Optional[int] = 10,
@@ -2574,7 +2795,20 @@ class Analytics(BaseSDK):
                 oauth2_scopes=["market:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Analytics"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.analytics.get_top_most_active(limit=10, size=10)\n\n    assert res.symbol_details is not None\n\n    # Handle response\n    print(res.symbol_details)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.analytics.topMostActive.list({});\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -2630,7 +2864,7 @@ class Analytics(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_options_et_fs_top_volume(
+    def get_options_etfs_top_volume(
         self,
         *,
         size: Optional[int] = 10,
@@ -2706,7 +2940,20 @@ class Analytics(BaseSDK):
                 oauth2_scopes=["options:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Analytics"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.analytics.get_options_et_fs_top_volume(size=10)\n\n    assert res.options_screener_items is not None\n\n    # Handle response\n    print(res.options_screener_items)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.analytics.getOptionsEtfsTopVolume({});\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -2762,7 +3009,7 @@ class Analytics(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_options_et_fs_top_volume_async(
+    async def get_options_etfs_top_volume_async(
         self,
         *,
         size: Optional[int] = 10,
@@ -2838,7 +3085,20 @@ class Analytics(BaseSDK):
                 oauth2_scopes=["options:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Analytics"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.analytics.get_options_et_fs_top_volume(size=10)\n\n    assert res.options_screener_items is not None\n\n    # Handle response\n    print(res.options_screener_items)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.analytics.getOptionsEtfsTopVolume({});\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -2970,7 +3230,20 @@ class Analytics(BaseSDK):
                 oauth2_scopes=["options:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Analytics"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.analytics.get_options_stocks_top_gainers(size=10)\n\n    assert res.options_screener_items is not None\n\n    # Handle response\n    print(res.options_screener_items)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.analytics.getOptionsStocksTopGainers({});\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -3102,7 +3375,20 @@ class Analytics(BaseSDK):
                 oauth2_scopes=["options:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Analytics"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.analytics.get_options_stocks_top_gainers(size=10)\n\n    assert res.options_screener_items is not None\n\n    # Handle response\n    print(res.options_screener_items)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.analytics.getOptionsStocksTopGainers({});\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -3158,7 +3444,7 @@ class Analytics(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_options_stocks_top_volume(
+    def get_top_volume_options(
         self,
         *,
         size: Optional[int] = 10,
@@ -3234,7 +3520,20 @@ class Analytics(BaseSDK):
                 oauth2_scopes=["options:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Analytics"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.analytics.get_options_stocks_top_volume(size=10)\n\n    assert res.options_screener_items is not None\n\n    # Handle response\n    print(res.options_screener_items)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.analytics.getOptionsStocksTopVolume({});\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -3290,7 +3589,7 @@ class Analytics(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_options_stocks_top_volume_async(
+    async def get_top_volume_options_async(
         self,
         *,
         size: Optional[int] = 10,
@@ -3366,7 +3665,20 @@ class Analytics(BaseSDK):
                 oauth2_scopes=["options:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Analytics"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.analytics.get_options_stocks_top_volume(size=10)\n\n    assert res.options_screener_items is not None\n\n    # Handle response\n    print(res.options_screener_items)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.analytics.getOptionsStocksTopVolume({});\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -3533,7 +3845,20 @@ class Analytics(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Analytics"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.analytics.stock_screener(stock_screener_request={\n        "clauses": [\n            {\n                "field": "marketcap",\n                "operator": models.ScreenClauseOperator.GTE,\n                "value": "1000000000",\n            },\n            {\n                "field": "pricetoearnings",\n                "operator": models.ScreenClauseOperator.GTE,\n                "value": "5",\n            },\n            {\n                "field": "pricetoearnings",\n                "operator": models.ScreenClauseOperator.LTE,\n                "value": "25",\n            },\n        ],\n        "operator": models.StockScreenerRequestOperator1.AND,\n    }, order_direction=models.SortOrderEnum.ASC)\n\n    assert res.stock_screener_response is not None\n\n    # Handle response\n    print(res.stock_screener_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.analytics.stockScreener({\n    orderDirection: "asc",\n    body: {\n      clauses: [\n        {\n          field: "marketcap",\n          operator: "gte",\n          value: "1000000000",\n        },\n        {\n          field: "pricetoearnings",\n          operator: "gte",\n          value: "5",\n        },\n        {\n          field: "pricetoearnings",\n          operator: "lte",\n          value: "25",\n        },\n      ],\n      operator: "AND",\n    },\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -3700,7 +4025,20 @@ class Analytics(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Analytics"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.analytics.stock_screener(stock_screener_request={\n        "clauses": [\n            {\n                "field": "marketcap",\n                "operator": models.ScreenClauseOperator.GTE,\n                "value": "1000000000",\n            },\n            {\n                "field": "pricetoearnings",\n                "operator": models.ScreenClauseOperator.GTE,\n                "value": "5",\n            },\n            {\n                "field": "pricetoearnings",\n                "operator": models.ScreenClauseOperator.LTE,\n                "value": "25",\n            },\n        ],\n        "operator": models.StockScreenerRequestOperator1.AND,\n    }, order_direction=models.SortOrderEnum.ASC)\n\n    assert res.stock_screener_response is not None\n\n    # Handle response\n    print(res.stock_screener_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.analytics.stockScreener({\n    orderDirection: "asc",\n    body: {\n      clauses: [\n        {\n          field: "marketcap",\n          operator: "gte",\n          value: "1000000000",\n        },\n        {\n          field: "pricetoearnings",\n          operator: "gte",\n          value: "5",\n        },\n        {\n          field: "pricetoearnings",\n          operator: "lte",\n          value: "25",\n        },\n      ],\n      operator: "AND",\n    },\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),

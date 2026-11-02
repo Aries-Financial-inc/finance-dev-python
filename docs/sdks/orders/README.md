@@ -4,14 +4,14 @@
 
 ### Available Operations
 
-* [place_order](#place_order) - Place an order
+* [place](#place) - Place an order
 * [cancel](#cancel) - Cancel an order
-* [preview_order](#preview_order) - Preview order
+* [preview](#preview) - Preview order
 * [replace](#replace) - Replace an order
-* [list_active_orders](#list_active_orders) - List active orders (v2)
-* [list_order_history](#list_order_history) - List order history (v2)
+* [list_active](#list_active) - List active orders (v2)
+* [list_history](#list_history) - List order history (v2)
 
-## place_order
+## place
 
 Place an equity or option order. The order type is automatically determined:
 - No `legs` array = Equity order
@@ -42,7 +42,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.orders.place_order(request={
+    res = fd_client.orders.place(request={
         "price": "150.00",
         "qty": "10",
         "side": models.OrderSideEnum.BUY,
@@ -72,7 +72,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.orders.place_order(request={
+    res = fd_client.orders.place(request={
         "qty": "10",
         "side": models.OrderSideEnum.BUY,
         "symbol": "AAPL",
@@ -102,7 +102,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.orders.place_order(request={
+    res = fd_client.orders.place(request={
         "client_id": "CLIENT-001",
         "currency": "USD",
         "legs": [
@@ -148,7 +148,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.orders.place_order(request={
+    res = fd_client.orders.place(request={
         "client_id": "CLIENT-001",
         "currency": "USD",
         "legs": [
@@ -194,7 +194,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.orders.place_order(request={
+    res = fd_client.orders.place(request={
         "account_id": "<id>",
         "client_id": "CLIENT-001",
         "currency": "USD",
@@ -241,7 +241,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.orders.place_order(request={
+    res = fd_client.orders.place(request={
         "account_id": "<id>",
         "client_id": "CLIENT-001",
         "currency": "USD",
@@ -288,7 +288,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.orders.place_order(request={
+    res = fd_client.orders.place(request={
         "account_id": "<id>",
         "client_id": "CLIENT-001",
         "currency": "USD",
@@ -335,7 +335,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.orders.place_order(request={
+    res = fd_client.orders.place(request={
         "account_id": "<id>",
         "client_id": "CLIENT-001",
         "currency": "USD",
@@ -382,7 +382,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.orders.place_order(request={
+    res = fd_client.orders.place(request={
         "client_id": "CLIENT-001",
         "currency": "USD",
         "legs": [
@@ -428,7 +428,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.orders.place_order(request={
+    res = fd_client.orders.place(request={
         "account_id": "<id>",
         "client_id": "CLIENT-001",
         "currency": "USD",
@@ -475,7 +475,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.orders.place_order(request={
+    res = fd_client.orders.place(request={
         "account_id": "<id>",
         "client_id": "CLIENT-001",
         "currency": "USD",
@@ -522,7 +522,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.orders.place_order(request={
+    res = fd_client.orders.place(request={
         "legs": [
             {
                 "maturity": date.fromisoformat("2025-01-17"),
@@ -564,7 +564,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.orders.place_order(request={
+    res = fd_client.orders.place(request={
         "legs": [
             {
                 "maturity": date.fromisoformat("2025-01-17"),
@@ -632,6 +632,8 @@ with FinanceDev(
 ## cancel
 
 Cancel an existing order by original client order ID. For option cancels, you can provide the option fields directly or send an OSI option symbol in `symbol` and let the backend derive the option instrument fields.
+
+**Order ownership:** `origClOrdId` must be an order on `accountId`. If it is not (an unknown ID, or an order on another account), the request is not sent to the broker and returns `400` with `error.code` `INVALID_ORIG_CL_ORD_ID`. An order placed or replaced moments earlier may not be recognized yet; the API waits briefly for it before rejecting. If ownership cannot be verified, the request returns `503` (`SERVICE_UNAVAILABLE`) and is not sent; retry later.
 
 ### Example Usage: cancelEquity
 
@@ -1015,7 +1017,7 @@ with FinanceDev(
 | errors.AuthenticationErrorEnvelope | 503, 504                           | application/json                   |
 | errors.APIError                    | 4XX, 5XX                           | \*/\*                              |
 
-## preview_order
+## preview
 
 Preview an order to calculate estimated cost, fees, buying power impact, and option requirements before placing. Uses the same request body as Place Order (PlaceOrdRequest), including the same option `timeInForce` restrictions, OSI-symbol support, and price-precision validation.
 
@@ -1033,7 +1035,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.orders.preview_order(request={
+    res = fd_client.orders.preview(request={
         "price": "150.00",
         "qty": "10",
         "side": models.OrderSideEnum.BUY,
@@ -1063,7 +1065,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.orders.preview_order(request={
+    res = fd_client.orders.preview(request={
         "qty": "10",
         "side": models.OrderSideEnum.BUY,
         "symbol": "AAPL",
@@ -1093,7 +1095,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.orders.preview_order(request={
+    res = fd_client.orders.preview(request={
         "client_id": "CLIENT-001",
         "currency": "USD",
         "legs": [
@@ -1139,7 +1141,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.orders.preview_order(request={
+    res = fd_client.orders.preview(request={
         "client_id": "CLIENT-001",
         "currency": "USD",
         "legs": [
@@ -1185,7 +1187,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.orders.preview_order(request={
+    res = fd_client.orders.preview(request={
         "client_id": "CLIENT-001",
         "currency": "USD",
         "legs": [
@@ -1231,7 +1233,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.orders.preview_order(request={
+    res = fd_client.orders.preview(request={
         "client_id": "CLIENT-001",
         "currency": "USD",
         "legs": [
@@ -1277,7 +1279,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.orders.preview_order(request={
+    res = fd_client.orders.preview(request={
         "account_id": "<id>",
         "client_id": "CLIENT-001",
         "currency": "USD",
@@ -1324,7 +1326,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.orders.preview_order(request={
+    res = fd_client.orders.preview(request={
         "legs": [
             {
                 "maturity": date.fromisoformat("2025-01-17"),
@@ -1375,7 +1377,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.orders.preview_order(request={
+    res = fd_client.orders.preview(request={
         "account_id": "<id>",
         "client_id": "CLIENT-001",
         "currency": "USD",
@@ -1422,7 +1424,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.orders.preview_order(request={
+    res = fd_client.orders.preview(request={
         "account_id": "<id>",
         "client_id": "CLIENT-001",
         "currency": "USD",
@@ -1469,7 +1471,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.orders.preview_order(request={
+    res = fd_client.orders.preview(request={
         "client_id": "CLIENT-001",
         "currency": "USD",
         "legs": [
@@ -1515,7 +1517,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.orders.preview_order(request={
+    res = fd_client.orders.preview(request={
         "account_id": "<id>",
         "client_id": "CLIENT-001",
         "currency": "USD",
@@ -1562,7 +1564,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.orders.preview_order(request={
+    res = fd_client.orders.preview(request={
         "legs": [
             {
                 "maturity": date.fromisoformat("2025-01-17"),
@@ -1604,7 +1606,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.orders.preview_order(request={
+    res = fd_client.orders.preview(request={
         "account_id": "<id>",
         "client_id": "CLIENT-001",
         "currency": "USD",
@@ -1651,7 +1653,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.orders.preview_order(request={
+    res = fd_client.orders.preview(request={
         "account_id": "<id>",
         "client_id": "CLIENT-001",
         "currency": "USD",
@@ -1723,6 +1725,8 @@ Price precision validation:
 - `STOP` validates `stopPrice`
 - `STOP_LIMIT` validates both
 - Decimal inputs support up to 5 digits after the decimal point.
+
+**Order ownership:** `origClOrdId` must be an order on `accountId`. If it is not (an unknown ID, or an order on another account), the request is not sent to the broker and returns `400` with `error.code` `INVALID_ORIG_CL_ORD_ID`. An order placed or replaced moments earlier may not be recognized yet; the API waits briefly for it before rejecting. If ownership cannot be verified, the request returns `503` (`SERVICE_UNAVAILABLE`) and is not sent; retry later.
 
 ### Example Usage: changePrice
 
@@ -2235,11 +2239,11 @@ with FinanceDev(
 | errors.AuthenticationErrorEnvelope | 503, 504                           | application/json                   |
 | errors.APIError                    | 4XX, 5XX                           | \*/\*                              |
 
-## list_active_orders
+## list_active
 
 Returns active orders (open orders plus today's terminal activity) from the orders v2 cache only. There is no database fallback.
 
-Pagination uses an opaque int64 cursor: omit cursor or send 0 for the first page, then send nextCursor; 0 means exhausted. Each order uses the same domain shape as WebSocket account updates.
+Pagination uses an opaque int64 cursor: omit cursor or send 0 for the first page, then send nextCursor while it is present. The final page omits nextCursor. Each order uses the same domain shape as WebSocket account updates.
 
 ### Example Usage
 
@@ -2255,7 +2259,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.orders.list_active_orders(id="TEST-ACCOUNT-001", limit=50, cursor=0)
+    res = fd_client.orders.list_active(id="TEST-ACCOUNT-001", limit=50, cursor=0)
 
     while res is not None:
         # Handle items
@@ -2266,12 +2270,12 @@ with FinanceDev(
 
 ### Parameters
 
-| Parameter                                                                                                                                                       | Type                                                                                                                                                            | Required                                                                                                                                                        | Description                                                                                                                                                     | Example                                                                                                                                                         |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `id`                                                                                                                                                            | *str*                                                                                                                                                           | :heavy_check_mark:                                                                                                                                              | Account ID whose active orders you want to read. Use the account identifier from the user's account list or trading setup.                                      | TEST-ACCOUNT-001                                                                                                                                                |
-| `limit`                                                                                                                                                         | *Optional[int]*                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                              | Maximum number of orders to return in this page. Use smaller values for UI lists and larger values for back-office exports. Default is 50; maximum is 500.      | 50                                                                                                                                                              |
-| `cursor`                                                                                                                                                        | *Optional[int]*                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                              | Opaque pagination cursor. Send `0` (or omit) for the first page; pass the previous response's `nextCursor` for subsequent pages. Stop when `nextCursor` is `0`. | 0                                                                                                                                                               |
-| `retries`                                                                                                                                                       | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                                | :heavy_minus_sign:                                                                                                                                              | Configuration to override the default retry behavior of the client.                                                                                             |                                                                                                                                                                 |
+| Parameter                                                                                                                                                          | Type                                                                                                                                                               | Required                                                                                                                                                           | Description                                                                                                                                                        | Example                                                                                                                                                            |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `id`                                                                                                                                                               | *str*                                                                                                                                                              | :heavy_check_mark:                                                                                                                                                 | Account ID whose active orders you want to read. Use the account identifier from the user's account list or trading setup.                                         | TEST-ACCOUNT-001                                                                                                                                                   |
+| `limit`                                                                                                                                                            | *Optional[int]*                                                                                                                                                    | :heavy_minus_sign:                                                                                                                                                 | Maximum number of orders to return in this page. Use smaller values for UI lists and larger values for back-office exports. Default is 50; maximum is 500.         | 50                                                                                                                                                                 |
+| `cursor`                                                                                                                                                           | *Optional[int]*                                                                                                                                                    | :heavy_minus_sign:                                                                                                                                                 | Opaque pagination cursor. Send `0` (or omit) for the first page; pass the previous response's `nextCursor` for subsequent pages. Stop when `nextCursor` is absent. | 0                                                                                                                                                                  |
+| `retries`                                                                                                                                                          | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                                   | :heavy_minus_sign:                                                                                                                                                 | Configuration to override the default retry behavior of the client.                                                                                                |                                                                                                                                                                    |
 
 ### Response
 
@@ -2293,7 +2297,7 @@ with FinanceDev(
 | errors.AuthenticationErrorEnvelope | 500                                | application/json                   |
 | errors.APIError                    | 4XX, 5XX                           | \*/\*                              |
 
-## list_order_history
+## list_history
 
 Date-range query against **PostgreSQL** only (no `source` parameter). `from` is required; `to` defaults to the current time truncated to the minute (UTC). The server caps the window at **90 days**.
 
@@ -2301,7 +2305,7 @@ Results are ordered and filtered by `order_created_at` (keyset pagination uses t
 
 Set `exclude_today=true` to narrow `to` to just before midnight **America/New_York**, omitting today's activity (already returned by **GET /v2/accounts/{id}/orders**).
 
-**Pagination:** Same opaque `int64` cursor contract as active orders when reading from DB — `cursor=0` first, then `nextCursor`; `0` means exhausted.
+**Pagination:** Same opaque `int64` cursor contract as active orders when reading from DB — `cursor=0` first, then `nextCursor` while it is present. The final page omits `nextCursor`.
 
 ### Example Usage
 
@@ -2318,7 +2322,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.orders.list_order_history(id="TEST-ACCOUNT-001", from_=parse_datetime("2026-01-01T00:00:00Z"), to=parse_datetime("2026-01-31T00:00:00Z"), order_by=models.OrderBy.DESC, exclude_today=False, limit=50, cursor=0)
+    res = fd_client.orders.list_history(id="TEST-ACCOUNT-001", from_=parse_datetime("2026-01-01T00:00:00Z"), to=parse_datetime("2026-01-31T00:00:00Z"), order_by=models.OrderBy.DESC, exclude_today=False, limit=50, cursor=0)
 
     while res is not None:
         # Handle items
@@ -2329,16 +2333,16 @@ with FinanceDev(
 
 ### Parameters
 
-| Parameter                                                                                                                                           | Type                                                                                                                                                | Required                                                                                                                                            | Description                                                                                                                                         | Example                                                                                                                                             |
-| --------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `id`                                                                                                                                                | *str*                                                                                                                                               | :heavy_check_mark:                                                                                                                                  | Account ID whose historical orders you want to read.                                                                                                | TEST-ACCOUNT-001                                                                                                                                    |
-| `from_`                                                                                                                                             | [date](https://docs.python.org/3/library/datetime.html#date-objects)                                                                                | :heavy_check_mark:                                                                                                                                  | Start of the history window, inclusive. Enter an RFC 3339 timestamp with timezone, for example `2026-04-01T00:00:00Z`.                              | 2026-01-01T00:00:00Z                                                                                                                                |
-| `to`                                                                                                                                                | [date](https://docs.python.org/3/library/datetime.html#date-objects)                                                                                | :heavy_minus_sign:                                                                                                                                  | End of the history window, inclusive. Omit it to use the current time. The total range from `from` cannot exceed 90 days.                           | 2026-01-31T00:00:00Z                                                                                                                                |
-| `order_by`                                                                                                                                          | [Optional[models.OrderBy]](../../models/orderby.md)                                                                                                 | :heavy_minus_sign:                                                                                                                                  | Sort direction by `order_created_at`. Defaults to `desc` (newest first). Use `asc` for chronological exports.                                       | desc                                                                                                                                                |
-| `exclude_today`                                                                                                                                     | *Optional[bool]*                                                                                                                                    | :heavy_minus_sign:                                                                                                                                  | Set to `true` when you want historical orders only and do not want today's activity duplicated with the active-orders endpoint.                     | false                                                                                                                                               |
-| `limit`                                                                                                                                             | *Optional[int]*                                                                                                                                     | :heavy_minus_sign:                                                                                                                                  | Maximum number of historical orders to return in this page. Default is 50; maximum is 500.                                                          | 50                                                                                                                                                  |
-| `cursor`                                                                                                                                            | *Optional[int]*                                                                                                                                     | :heavy_minus_sign:                                                                                                                                  | Opaque pagination cursor for the database history walk. Send `0` (or omit) for the first page; pass the previous `nextCursor` until it returns `0`. | 0                                                                                                                                                   |
-| `retries`                                                                                                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                    | :heavy_minus_sign:                                                                                                                                  | Configuration to override the default retry behavior of the client.                                                                                 |                                                                                                                                                     |
+| Parameter                                                                                                                                         | Type                                                                                                                                              | Required                                                                                                                                          | Description                                                                                                                                       | Example                                                                                                                                           |
+| ------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`                                                                                                                                              | *str*                                                                                                                                             | :heavy_check_mark:                                                                                                                                | Account ID whose historical orders you want to read.                                                                                              | TEST-ACCOUNT-001                                                                                                                                  |
+| `from_`                                                                                                                                           | [date](https://docs.python.org/3/library/datetime.html#date-objects)                                                                              | :heavy_check_mark:                                                                                                                                | Start of the history window, inclusive. Enter an RFC 3339 timestamp with timezone, for example `2026-04-01T00:00:00Z`.                            | 2026-01-01T00:00:00Z                                                                                                                              |
+| `to`                                                                                                                                              | [date](https://docs.python.org/3/library/datetime.html#date-objects)                                                                              | :heavy_minus_sign:                                                                                                                                | End of the history window, inclusive. Omit it to use the current time. The total range from `from` cannot exceed 90 days.                         | 2026-01-31T00:00:00Z                                                                                                                              |
+| `order_by`                                                                                                                                        | [Optional[models.OrderBy]](../../models/orderby.md)                                                                                               | :heavy_minus_sign:                                                                                                                                | Sort direction by `order_created_at`. Defaults to `desc` (newest first). Use `asc` for chronological exports.                                     | desc                                                                                                                                              |
+| `exclude_today`                                                                                                                                   | *Optional[bool]*                                                                                                                                  | :heavy_minus_sign:                                                                                                                                | Set to `true` when you want historical orders only and do not want today's activity duplicated with the active-orders endpoint.                   | false                                                                                                                                             |
+| `limit`                                                                                                                                           | *Optional[int]*                                                                                                                                   | :heavy_minus_sign:                                                                                                                                | Maximum number of historical orders to return in this page. Default is 50; maximum is 500.                                                        | 50                                                                                                                                                |
+| `cursor`                                                                                                                                          | *Optional[int]*                                                                                                                                   | :heavy_minus_sign:                                                                                                                                | Opaque pagination cursor for the database history walk. Send `0` (or omit) for the first page; pass the previous `nextCursor` until it is absent. | 0                                                                                                                                                 |
+| `retries`                                                                                                                                         | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                  | :heavy_minus_sign:                                                                                                                                | Configuration to override the default retry behavior of the client.                                                                               |                                                                                                                                                   |
 
 ### Response
 

@@ -18,8 +18,8 @@ class Options(BaseSDK):
         date_from: Optional[date] = None,
         date_to: Optional[date] = None,
         tickers: Optional[str] = None,
-        page: Optional[int] = None,
-        page_size: Optional[int] = None,
+        page: Optional[int] = 0,
+        page_size: Optional[int] = 100,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -34,8 +34,8 @@ class Options(BaseSDK):
         :param date_from: Start date for filtering options activity in YYYY-MM-DD format
         :param date_to: End date for filtering options activity in YYYY-MM-DD format
         :param tickers: Comma-separated list of ticker symbols to filter results
-        :param page: Page number for pagination (zero-based)
-        :param page_size: Number of results per page. Use this to control pagination size in list views. (default: 100, max: 1000)
+        :param page: Zero-based page number (default: 0). page × pageSize must be less than 100,000; otherwise the API returns HTTP 400 with error code PAGINATION_LIMIT_EXCEEDED. To retrieve larger histories, narrow dateFrom and dateTo and restart at page 0 for each date window.
+        :param page_size: Number of results per page (default: 100, maximum: 1000). page × pageSize must be less than 100,000.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -100,7 +100,20 @@ class Options(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Options"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.options.get_activity()\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.options.getActivity();\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -109,7 +122,7 @@ class Options(BaseSDK):
 
         def next_func() -> Optional[models.GetOptionsActivityResponse]:
             body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
-            page = request.page if isinstance(request.page, int) else 1
+            page = request.page if isinstance(request.page, int) else 0
             next_page = page + 1
 
             if not http_res.text:
@@ -117,7 +130,7 @@ class Options(BaseSDK):
             results = JSONPath("$.activities").parse(body)
             if len(results) == 0 or len(results[0]) == 0:
                 return None
-            limit_ = request.page_size if isinstance(request.page_size, int) else 0
+            limit_ = request.page_size if isinstance(request.page_size, int) else 100
             if len(results[0]) < limit_:
                 return None
 
@@ -189,8 +202,8 @@ class Options(BaseSDK):
         date_from: Optional[date] = None,
         date_to: Optional[date] = None,
         tickers: Optional[str] = None,
-        page: Optional[int] = None,
-        page_size: Optional[int] = None,
+        page: Optional[int] = 0,
+        page_size: Optional[int] = 100,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -205,8 +218,8 @@ class Options(BaseSDK):
         :param date_from: Start date for filtering options activity in YYYY-MM-DD format
         :param date_to: End date for filtering options activity in YYYY-MM-DD format
         :param tickers: Comma-separated list of ticker symbols to filter results
-        :param page: Page number for pagination (zero-based)
-        :param page_size: Number of results per page. Use this to control pagination size in list views. (default: 100, max: 1000)
+        :param page: Zero-based page number (default: 0). page × pageSize must be less than 100,000; otherwise the API returns HTTP 400 with error code PAGINATION_LIMIT_EXCEEDED. To retrieve larger histories, narrow dateFrom and dateTo and restart at page 0 for each date window.
+        :param page_size: Number of results per page (default: 100, maximum: 1000). page × pageSize must be less than 100,000.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -271,7 +284,20 @@ class Options(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Options"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.options.get_activity()\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.options.getActivity();\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -280,7 +306,7 @@ class Options(BaseSDK):
 
         def next_func() -> Optional[models.GetOptionsActivityResponse]:
             body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
-            page = request.page if isinstance(request.page, int) else 1
+            page = request.page if isinstance(request.page, int) else 0
             next_page = page + 1
 
             if not http_res.text:
@@ -288,7 +314,7 @@ class Options(BaseSDK):
             results = JSONPath("$.activities").parse(body)
             if len(results) == 0 or len(results[0]) == 0:
                 return None
-            limit_ = request.page_size if isinstance(request.page_size, int) else 0
+            limit_ = request.page_size if isinstance(request.page_size, int) else 100
             if len(results[0]) < limit_:
                 return None
 
@@ -430,7 +456,20 @@ class Options(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Options"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.options.get_last_trade(ticker="O:AAPL230120C00150000")\n\n    assert res.option_last_trade_response is not None\n\n    # Handle response\n    print(res.option_last_trade_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.options.getLastTrade({\n    ticker: "O:AAPL230120C00150000",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -562,7 +601,20 @@ class Options(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Options"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.options.get_last_trade(ticker="O:AAPL230120C00150000")\n\n    assert res.option_last_trade_response is not None\n\n    # Handle response\n    print(res.option_last_trade_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.options.getLastTrade({\n    ticker: "O:AAPL230120C00150000",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -697,7 +749,20 @@ class Options(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Options"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from datetime import date\nfrom finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.options.get_open_close_data(ticker="<value>", date_=date.fromisoformat("2024-10-03"))\n\n    assert res.option_open_close_response is not None\n\n    # Handle response\n    print(res.option_open_close_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.options.getOpenCloseData({\n    ticker: "<value>",\n    date: new Date("2024-10-03"),\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -832,7 +897,20 @@ class Options(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Options"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from datetime import date\nfrom finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.options.get_open_close_data(ticker="<value>", date_=date.fromisoformat("2024-10-03"))\n\n    assert res.option_open_close_response is not None\n\n    # Handle response\n    print(res.option_open_close_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.options.getOpenCloseData({\n    ticker: "<value>",\n    date: new Date("2024-10-03"),\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -964,7 +1042,20 @@ class Options(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Options"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.options.get_previous_day(ticker="<value>")\n\n    assert res.option_previous_day_response is not None\n\n    # Handle response\n    print(res.option_previous_day_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.options.getPreviousDay({\n    ticker: "<value>",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1096,7 +1187,20 @@ class Options(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Options"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.options.get_previous_day(ticker="<value>")\n\n    assert res.option_previous_day_response is not None\n\n    # Handle response\n    print(res.option_previous_day_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.options.getPreviousDay({\n    ticker: "<value>",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1257,7 +1361,20 @@ class Options(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Options"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.options.get_quotes(ticker="O:AAPL230120C00150000", timestamp="2024-01-15", timestamp_from="2024-01-01", timestamp_after="2024-01-01", timestamp_to="2024-01-31", timestamp_before="2024-01-31", order=models.GetOptionQuotesOrder.DESC, limit=1000)\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.options.getQuotes({\n    ticker: "O:AAPL230120C00150000",\n    timestamp: "2024-01-15",\n    timestampFrom: "2024-01-01",\n    timestampAfter: "2024-01-01",\n    timestampTo: "2024-01-31",\n    timestampBefore: "2024-01-31",\n    limit: 1000,\n  });\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1451,7 +1568,20 @@ class Options(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Options"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.options.get_quotes(ticker="O:AAPL230120C00150000", timestamp="2024-01-15", timestamp_from="2024-01-01", timestamp_after="2024-01-01", timestamp_to="2024-01-31", timestamp_before="2024-01-31", order=models.GetOptionQuotesOrder.DESC, limit=1000)\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.options.getQuotes({\n    ticker: "O:AAPL230120C00150000",\n    timestamp: "2024-01-15",\n    timestampFrom: "2024-01-01",\n    timestampAfter: "2024-01-01",\n    timestampTo: "2024-01-31",\n    timestampBefore: "2024-01-31",\n    limit: 1000,\n  });\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1540,7 +1670,7 @@ class Options(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_option_chain_snapshot(
+    def get_chain_snapshot(
         self,
         *,
         underlying_asset: str,
@@ -1665,7 +1795,20 @@ class Options(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Options"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from datetime import date\nfrom finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.options.get_option_chain_snapshot(underlying_asset="AAPL", strike_price="190", expiration_date=date.fromisoformat("2024-01-19"), contract_type="call", order=models.GetOptionChainSnapshotOrder.ASC, limit=50)\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.options.getChainSnapshot({\n    underlyingAsset: "AAPL",\n    strikePrice: "190",\n    expirationDate: new Date("2024-01-19"),\n    contractType: "call",\n    limit: 50,\n  });\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1686,7 +1829,7 @@ class Options(BaseSDK):
                 url = self._get_url(base_url, url_variables)
                 next_url = url + next_url
 
-            return self.get_option_chain_snapshot(
+            return self.get_chain_snapshot(
                 underlying_asset=underlying_asset,
                 strike_price=strike_price,
                 expiration_date=expiration_date,
@@ -1760,7 +1903,7 @@ class Options(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_option_chain_snapshot_async(
+    async def get_chain_snapshot_async(
         self,
         *,
         underlying_asset: str,
@@ -1885,7 +2028,20 @@ class Options(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Options"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from datetime import date\nfrom finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.options.get_option_chain_snapshot(underlying_asset="AAPL", strike_price="190", expiration_date=date.fromisoformat("2024-01-19"), contract_type="call", order=models.GetOptionChainSnapshotOrder.ASC, limit=50)\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.options.getChainSnapshot({\n    underlyingAsset: "AAPL",\n    strikePrice: "190",\n    expirationDate: new Date("2024-01-19"),\n    contractType: "call",\n    limit: 50,\n  });\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1906,7 +2062,7 @@ class Options(BaseSDK):
                 url = self._get_url(base_url, url_variables)
                 next_url = url + next_url
 
-            return self.get_option_chain_snapshot(
+            return self.get_chain_snapshot(
                 underlying_asset=underlying_asset,
                 strike_price=strike_price,
                 expiration_date=expiration_date,
@@ -1980,7 +2136,7 @@ class Options(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_option_contract_snapshot(
+    def get_contract_snapshot(
         self,
         *,
         underlying_asset: str,
@@ -1992,7 +2148,7 @@ class Options(BaseSDK):
     ) -> models.GetOptionContractSnapshotResponse:
         r"""Get option contract snapshot
 
-        Returns a point-in-time snapshot for a single option contract: details, day bar, last quote, last trade, Greeks, implied volatility, and underlying context when available. Responses may be cached for approximately five minutes. Uses the upstream contract snapshot data source.
+        Returns a point-in-time snapshot for a single option contract: details, day bar, last quote, last trade, Greeks, implied volatility, and underlying context when available. This endpoint does not paginate. Responses may be cached for approximately five minutes. Uses the upstream contract snapshot data source.
 
         If set, this operation will use `client_id` from the global security.
 
@@ -2059,7 +2215,20 @@ class Options(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Options"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.options.get_option_contract_snapshot(underlying_asset="AAPL", option_contract="O:AAPL260410C00110000")\n\n    assert res.option_contract_snapshot_response is not None\n\n    # Handle response\n    print(res.option_contract_snapshot_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.options.getSnapshot({\n    underlyingAsset: "AAPL",\n    optionContract: "O:AAPL260410C00110000",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -2115,7 +2284,7 @@ class Options(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_option_contract_snapshot_async(
+    async def get_contract_snapshot_async(
         self,
         *,
         underlying_asset: str,
@@ -2127,7 +2296,7 @@ class Options(BaseSDK):
     ) -> models.GetOptionContractSnapshotResponse:
         r"""Get option contract snapshot
 
-        Returns a point-in-time snapshot for a single option contract: details, day bar, last quote, last trade, Greeks, implied volatility, and underlying context when available. Responses may be cached for approximately five minutes. Uses the upstream contract snapshot data source.
+        Returns a point-in-time snapshot for a single option contract: details, day bar, last quote, last trade, Greeks, implied volatility, and underlying context when available. This endpoint does not paginate. Responses may be cached for approximately five minutes. Uses the upstream contract snapshot data source.
 
         If set, this operation will use `client_id` from the global security.
 
@@ -2194,7 +2363,20 @@ class Options(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Options"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.options.get_option_contract_snapshot(underlying_asset="AAPL", option_contract="O:AAPL260410C00110000")\n\n    assert res.option_contract_snapshot_response is not None\n\n    # Handle response\n    print(res.option_contract_snapshot_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.options.getSnapshot({\n    underlyingAsset: "AAPL",\n    optionContract: "O:AAPL260410C00110000",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -2355,7 +2537,20 @@ class Options(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Options"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.options.get_trades(ticker="O:AAPL230120C00150000", timestamp="2024-01-15", timestamp_from="2024-01-01", timestamp_after="2024-01-01", timestamp_to="2024-01-31", timestamp_before="2024-01-31", order=models.GetOptionTradesOrder.DESC, limit=1000)\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.options.getTrades({\n    ticker: "O:AAPL230120C00150000",\n    timestamp: "2024-01-15",\n    timestampFrom: "2024-01-01",\n    timestampAfter: "2024-01-01",\n    timestampTo: "2024-01-31",\n    timestampBefore: "2024-01-31",\n    limit: 1000,\n  });\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -2549,7 +2744,20 @@ class Options(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Options"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.options.get_trades(ticker="O:AAPL230120C00150000", timestamp="2024-01-15", timestamp_from="2024-01-01", timestamp_after="2024-01-01", timestamp_to="2024-01-31", timestamp_before="2024-01-31", order=models.GetOptionTradesOrder.DESC, limit=1000)\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.options.getTrades({\n    ticker: "O:AAPL230120C00150000",\n    timestamp: "2024-01-15",\n    timestampFrom: "2024-01-01",\n    timestampAfter: "2024-01-01",\n    timestampTo: "2024-01-31",\n    timestampBefore: "2024-01-31",\n    limit: 1000,\n  });\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -2717,7 +2925,20 @@ class Options(BaseSDK):
                 oauth2_scopes=["options:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Options"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.options.get_unusual_activity(symbol="<value>", source=models.Source.DELAYED)\n\n    assert res.options_unusual_activity_response is not None\n\n    # Handle response\n    print(res.options_unusual_activity_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.options.getUnusualActivity({\n    symbol: "<value>",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -2852,7 +3073,20 @@ class Options(BaseSDK):
                 oauth2_scopes=["options:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Options"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.options.get_unusual_activity(symbol="<value>", source=models.Source.DELAYED)\n\n    assert res.options_unusual_activity_response is not None\n\n    # Handle response\n    print(res.options_unusual_activity_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.options.getUnusualActivity({\n    symbol: "<value>",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -2987,7 +3221,20 @@ class Options(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Options"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from datetime import date\nfrom finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.options.get_contracts(symbol="<value>", expiry_date=date.fromisoformat("2024-11-10"))\n\n    assert res.option_contracts_response is not None\n\n    # Handle response\n    print(res.option_contracts_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.options.getContracts({\n    symbol: "<value>",\n    expiryDate: new Date("2024-11-10"),\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -3122,7 +3369,20 @@ class Options(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Options"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from datetime import date\nfrom finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.options.get_contracts(symbol="<value>", expiry_date=date.fromisoformat("2024-11-10"))\n\n    assert res.option_contracts_response is not None\n\n    # Handle response\n    print(res.option_contracts_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.options.getContracts({\n    symbol: "<value>",\n    expiryDate: new Date("2024-11-10"),\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -3254,7 +3514,20 @@ class Options(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Options"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.options.get_expiry_dates(symbol="<value>")\n\n    assert res.option_expiry_dates_response is not None\n\n    # Handle response\n    print(res.option_expiry_dates_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.options.getExpiryDates({\n    symbol: "<value>",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -3386,7 +3659,20 @@ class Options(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Options"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.options.get_expiry_dates(symbol="<value>")\n\n    assert res.option_expiry_dates_response is not None\n\n    # Handle response\n    print(res.option_expiry_dates_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.options.getExpiryDates({\n    symbol: "<value>",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),

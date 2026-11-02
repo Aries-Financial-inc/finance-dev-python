@@ -127,7 +127,7 @@ def test_analytics_get_ratings():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.analytics.get(tickers="AAPL,GOOGL")
+        res = fd_client.analytics.get(tickers="AAPL,GOOGL", page=0, page_size=100)
         assert res.http_meta is not None
         assert res.http_meta.response is not None
         assert res.http_meta.response.status_code == 200
@@ -342,7 +342,7 @@ def test_analytics_get_top_most_active():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.analytics.get_top_most_active(limit=10, size=10)
+        res = fd_client.analytics.get_top_active(limit=10, size=10)
         assert res.http_meta is not None
         assert res.http_meta.response is not None
         assert res.http_meta.response.status_code == 200
@@ -379,7 +379,7 @@ def test_analytics_get_options_et_fs_top_volume():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.analytics.get_options_et_fs_top_volume(size=10)
+        res = fd_client.analytics.get_options_etfs_top_volume(size=10)
         assert res.http_meta is not None
         assert res.http_meta.response is not None
         assert res.http_meta.response.status_code == 200
@@ -457,7 +457,7 @@ def test_analytics_get_options_stocks_top_volume():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.analytics.get_options_stocks_top_volume(size=10)
+        res = fd_client.analytics.get_top_volume_options(size=10)
         assert res.http_meta is not None
         assert res.http_meta.response is not None
         assert res.http_meta.response.status_code == 200

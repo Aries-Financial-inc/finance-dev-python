@@ -11,7 +11,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.accounts.get_account_positions(id="TEST-ACCOUNT-001")
+    res = fd_client.accounts.get_positions(id="TEST-ACCOUNT-001")
 
     assert res.get_positions_response is not None
 
@@ -37,7 +37,7 @@ async def main():
         ),
     ) as fd_client:
 
-        res = await fd_client.accounts.get_account_positions_async(id="TEST-ACCOUNT-001")
+        res = await fd_client.accounts.get_positions_async(id="TEST-ACCOUNT-001")
 
         assert res.get_positions_response is not None
 

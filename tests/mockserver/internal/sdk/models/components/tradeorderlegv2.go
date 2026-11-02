@@ -75,6 +75,8 @@ type TradeOrderLegV2 struct {
 	StrikePrice string `json:"strikePrice"`
 	// Symbol for this leg. For options, use the exact contract symbol from search or the order response.
 	Symbol string `json:"symbol"`
+	// Full OCC contract symbol for an option leg (for example `AAPL261023C00340000`). Equity legs carry the plain symbol. Omitted on orders stored before this field existed.
+	TickerSymbol *string `json:"tickerSymbol,omitempty"`
 }
 
 func (o *TradeOrderLegV2) GetAvgPrice() *string {
@@ -138,4 +140,11 @@ func (o *TradeOrderLegV2) GetSymbol() string {
 		return ""
 	}
 	return o.Symbol
+}
+
+func (o *TradeOrderLegV2) GetTickerSymbol() *string {
+	if o == nil {
+		return nil
+	}
+	return o.TickerSymbol
 }

@@ -13,10 +13,10 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OrderType(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""ForecastEx does not support `stop` or `market_to_limit` orders."""
+
     LIMIT = "limit"
-    STOP = "stop"
     STOP_LIMIT = "stop_limit"
-    MARKET_TO_LIMIT = "market_to_limit"
 
 
 class PredOrdersPlaceOrderRequestOutcome(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -31,7 +31,7 @@ class PredOrdersPlaceOrderRequestSide(str, Enum, metaclass=utils.OpenEnumMeta):
     SELL = "sell"
 
 
-class TimeInForce(str, Enum, metaclass=utils.OpenEnumMeta):
+class PredOrdersPlaceOrderRequestTimeInForce(str, Enum, metaclass=utils.OpenEnumMeta):
     DAY = "day"
     GTC = "gtc"
     IOC = "ioc"
@@ -45,6 +45,7 @@ class PredOrdersPlaceOrderRequestTypedDict(TypedDict):
     account_id: str
     r"""The account to place the order on."""
     order_type: OrderType
+    r"""ForecastEx does not support `stop` or `market_to_limit` orders."""
     outcome: PredOrdersPlaceOrderRequestOutcome
     r"""The binary outcome the order trades. It is never inferred from `side`."""
     quantity: str
@@ -52,7 +53,7 @@ class PredOrdersPlaceOrderRequestTypedDict(TypedDict):
     side: PredOrdersPlaceOrderRequestSide
     symbol: str
     r"""Prediction-market contract symbol, as returned by search or Get Event Contracts."""
-    time_in_force: TimeInForce
+    time_in_force: PredOrdersPlaceOrderRequestTimeInForce
     client_order_ref: NotRequired[str]
     r"""Your own reference for the order, unique per account. Reusing one returns `409` `CLIENT_ORDER_REF_IN_USE`; it is not a retry key. To retry safely, use the `Idempotency-Key` header."""
     expire_time: NotRequired[datetime]
@@ -60,7 +61,7 @@ class PredOrdersPlaceOrderRequestTypedDict(TypedDict):
     price: NotRequired[str]
     r"""Limit price as an exact decimal string. Required for `limit` and `stop_limit`."""
     stop_px: NotRequired[str]
-    r"""Stop price as an exact decimal string. Required for `stop` and `stop_limit`."""
+    r"""Stop price as an exact decimal string. Required for `stop_limit`."""
 
 
 class PredOrdersPlaceOrderRequest(BaseModel):
@@ -70,6 +71,7 @@ class PredOrdersPlaceOrderRequest(BaseModel):
     r"""The account to place the order on."""
 
     order_type: Annotated[OrderType, pydantic.Field(alias="orderType")]
+    r"""ForecastEx does not support `stop` or `market_to_limit` orders."""
 
     outcome: PredOrdersPlaceOrderRequestOutcome
     r"""The binary outcome the order trades. It is never inferred from `side`."""
@@ -82,7 +84,9 @@ class PredOrdersPlaceOrderRequest(BaseModel):
     symbol: str
     r"""Prediction-market contract symbol, as returned by search or Get Event Contracts."""
 
-    time_in_force: Annotated[TimeInForce, pydantic.Field(alias="timeInForce")]
+    time_in_force: Annotated[
+        PredOrdersPlaceOrderRequestTimeInForce, pydantic.Field(alias="timeInForce")
+    ]
 
     client_order_ref: Annotated[
         Optional[str], pydantic.Field(alias="clientOrderRef")
@@ -98,7 +102,7 @@ class PredOrdersPlaceOrderRequest(BaseModel):
     r"""Limit price as an exact decimal string. Required for `limit` and `stop_limit`."""
 
     stop_px: Annotated[Optional[str], pydantic.Field(alias="stopPx")] = None
-    r"""Stop price as an exact decimal string. Required for `stop` and `stop_limit`."""
+    r"""Stop price as an exact decimal string. Required for `stop_limit`."""
 
     @field_serializer("order_type")
     def serialize_order_type(self, value):
@@ -131,7 +135,7 @@ class PredOrdersPlaceOrderRequest(BaseModel):
     def serialize_time_in_force(self, value):
         if isinstance(value, str):
             try:
-                return models.TimeInForce(value)
+                return models.PredOrdersPlaceOrderRequestTimeInForce(value)
             except ValueError:
                 return value
         return value

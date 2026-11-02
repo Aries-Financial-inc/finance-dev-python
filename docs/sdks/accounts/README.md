@@ -4,11 +4,11 @@
 
 ### Available Operations
 
-* [get_account_positions](#get_account_positions) - Get Account Positions
-* [get_account_balance](#get_account_balance) - Get Account Balance
-* [get_user_accounts](#get_user_accounts) - Get User Accounts
+* [get_positions](#get_positions) - Get Account Positions
+* [get_balance](#get_balance) - Get Account Balance
+* [get](#get) - Get User Accounts
 
-## get_account_positions
+## get_positions
 
 Retrieve all open positions for a specific account. Use this for portfolio screens and pre-trade checks before selling or closing a position. Positions come only from the position-state MemoryDB read model; there is no Sterling or database fallback. An unavailable read model returns 503. Authorization accepts either the `account:information` or the `position:information` scope.
 
@@ -26,7 +26,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.accounts.get_account_positions(id="TEST-ACCOUNT-001")
+    res = fd_client.accounts.get_positions(id="TEST-ACCOUNT-001")
 
     assert res.get_positions_response is not None
 
@@ -63,13 +63,15 @@ with FinanceDev(
 | errors.AuthenticationErrorEnvelope | 503                                | application/json                   |
 | errors.APIError                    | 4XX, 5XX                           | \*/\*                              |
 
-## get_account_balance
+## get_balance
 
 Retrieve account balance, cash, equity, and buying power for a specific account (v2). Use this before showing an order ticket or checking whether the account can support a trade. Sterling and the stored balance are read concurrently. The stored read uses Dragonfly, then PostgreSQL on a full cache miss. Sterling supplies the balance when available, enriched with stored Apex fields; otherwise the stored balance is used.
 
-### Example Usage
+Two fields depend on the account type. `cashBalance` is returned only for cash accounts and `intradayMarginBalance` only for margin accounts; the other field is omitted from the response, not returned as `null` or `"0"`. Neither is returned for any other account type. Read `account_class` from `GET /v2/users/me/accounts` to know which applies.
 
-<!-- UsageSnippet language="python" operationID="getAccountBalance" method="get" path="/v2/accounts/{id}/balance" -->
+### Example Usage: cashAccount
+
+<!-- UsageSnippet language="python" operationID="getAccountBalance" method="get" path="/v2/accounts/{id}/balance" example="cashAccount" -->
 ```python
 from finance_dev import FinanceDev, models
 
@@ -81,7 +83,29 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.accounts.get_account_balance(id="TEST-ACCOUNT-001")
+    res = fd_client.accounts.get_balance(id="TEST-ACCOUNT-001")
+
+    assert res.account_balance_v2 is not None
+
+    # Handle response
+    print(res.account_balance_v2)
+
+```
+### Example Usage: marginAccount
+
+<!-- UsageSnippet language="python" operationID="getAccountBalance" method="get" path="/v2/accounts/{id}/balance" example="marginAccount" -->
+```python
+from finance_dev import FinanceDev, models
+
+
+with FinanceDev(
+    security=models.Security(
+        client_id="<YOUR_CLIENT_ID_HERE>",
+        client_secret="<YOUR_CLIENT_SECRET_HERE>",
+    ),
+) as fd_client:
+
+    res = fd_client.accounts.get_balance(id="TEST-ACCOUNT-001")
 
     assert res.account_balance_v2 is not None
 
@@ -118,7 +142,7 @@ with FinanceDev(
 | errors.AuthenticationErrorEnvelope | 503                                | application/json                   |
 | errors.APIError                    | 4XX, 5XX                           | \*/\*                              |
 
-## get_user_accounts
+## get
 
 Retrieve all trading accounts for the currently authenticated user. Returns a list of accounts with trading account ID, broker account ID, status, simulation flag, and account type and class. Users may have multiple accounts (for example a live account and a simulation account). Requires bearer token authentication.
 
@@ -136,7 +160,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.accounts.get_user_accounts()
+    res = fd_client.accounts.get()
 
     assert res.get_accounts_response is not None
 

@@ -3,16 +3,12 @@
 
 package components
 
-import (
-	"mockserver/internal/sdk/optionalnullable"
-)
-
-// GetOrdersV2Response - Paginated v2 orders response from **GET /v2/accounts/{id}/orders** and **GET /v2/accounts/{id}/orders/history**. Both fields are always present.
+// GetOrdersV2Response - Paginated v2 orders response from **GET /v2/accounts/{id}/orders** and **GET /v2/accounts/{id}/orders/history**. `orders` is always present; `nextCursor` is present only when another page exists.
 type GetOrdersV2Response struct {
-	// Opaque pagination cursor. Pass as `cursor` on the next request. Value `0` means the walk is exhausted.
+	// Opaque pagination cursor. Pass as `cursor` on the next request. This field is omitted on the final page.
 	NextCursor *int64 `json:"nextCursor,omitempty"`
 	// Page of orders in v2 domain shape (`TradeOrderV2`). `null` from **GET /v2/accounts/{id}/orders** when the account has no active orders; an empty array from the history endpoint when there are no matches.
-	Orders optionalnullable.OptionalNullable[[]TradeOrderV2] `json:"orders,omitempty"`
+	Orders []TradeOrderV2 `json:"orders"`
 }
 
 func (o *GetOrdersV2Response) GetNextCursor() *int64 {
@@ -22,7 +18,7 @@ func (o *GetOrdersV2Response) GetNextCursor() *int64 {
 	return o.NextCursor
 }
 
-func (o *GetOrdersV2Response) GetOrders() optionalnullable.OptionalNullable[[]TradeOrderV2] {
+func (o *GetOrdersV2Response) GetOrders() []TradeOrderV2 {
 	if o == nil {
 		return nil
 	}

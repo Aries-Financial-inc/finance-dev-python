@@ -2,29 +2,40 @@
 # @generated-id: 45847caa6537
 
 from __future__ import annotations
+from .predmdcontracthit import PredMdContractHit, PredMdContractHitTypedDict
 from finance_dev.types import BaseModel, UNSET_SENTINEL
 import pydantic
 from pydantic import model_serializer
-from typing import Optional
+from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PredMdBaseEventHitTypedDict(TypedDict):
-    r"""One base event with at least one matching contract. The index carries no display name; read it through /base-events/{baseEventId}."""
+    r"""One base event with at least one matching contract. The index carries no display name; read it through /base-events/{baseEventId}. With sortBy=openInterest, ranked by its total open interest."""
 
     base_event_id: str
+    contracts: List[PredMdContractHitTypedDict]
+    r"""This base event's first matching contracts in the sortBy order, up to contractsPerHit. Empty, never null. Prices are not included; stream them from /v1/predictions/stream."""
     contracts_found: int
-    r"""Every matching contract under this hit. Read them with type=contracts and eventId or baseEventId."""
+    r"""Every matching contract under this hit. contracts holds the first contractsPerHit of them; read the rest with type=contracts and eventId or baseEventId."""
+    open_interest: NotRequired[int]
+    r"""Sum of open interest over all of the base event's active contracts, matching or not, as of the venue's last daily prices file. Absent when the file named none of them."""
     underlying_spec: NotRequired[str]
 
 
 class PredMdBaseEventHit(BaseModel):
-    r"""One base event with at least one matching contract. The index carries no display name; read it through /base-events/{baseEventId}."""
+    r"""One base event with at least one matching contract. The index carries no display name; read it through /base-events/{baseEventId}. With sortBy=openInterest, ranked by its total open interest."""
 
     base_event_id: Annotated[str, pydantic.Field(alias="baseEventId")]
 
+    contracts: List[PredMdContractHit]
+    r"""This base event's first matching contracts in the sortBy order, up to contractsPerHit. Empty, never null. Prices are not included; stream them from /v1/predictions/stream."""
+
     contracts_found: Annotated[int, pydantic.Field(alias="contractsFound")]
-    r"""Every matching contract under this hit. Read them with type=contracts and eventId or baseEventId."""
+    r"""Every matching contract under this hit. contracts holds the first contractsPerHit of them; read the rest with type=contracts and eventId or baseEventId."""
+
+    open_interest: Annotated[Optional[int], pydantic.Field(alias="openInterest")] = None
+    r"""Sum of open interest over all of the base event's active contracts, matching or not, as of the venue's last daily prices file. Absent when the file named none of them."""
 
     underlying_spec: Annotated[
         Optional[str], pydantic.Field(alias="underlyingSpec")
@@ -32,7 +43,7 @@ class PredMdBaseEventHit(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["underlyingSpec"])
+        optional_fields = set(["openInterest", "underlyingSpec"])
         serialized = handler(self)
         m = {}
 

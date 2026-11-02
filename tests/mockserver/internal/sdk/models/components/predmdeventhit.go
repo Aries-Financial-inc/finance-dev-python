@@ -7,16 +7,20 @@ import (
 	"mockserver/internal/sdk/utils"
 )
 
-// PredMdEventHit - One event with at least one matching contract.
+// PredMdEventHit - One event with at least one matching contract. With sortBy=openInterest, ranked by its total open interest.
 type PredMdEventHit struct {
 	BaseEventID string `json:"baseEventId"`
-	// Every matching contract under this hit. Read them with type=contracts and eventId or baseEventId.
+	// This event's first matching contracts in the sortBy order, up to contractsPerHit. Empty, never null. Prices are not included; stream them from /v1/predictions/stream.
+	Contracts []PredMdContractHit `json:"contracts"`
+	// Every matching contract under this hit. contracts holds the first contractsPerHit of them; read the rest with type=contracts and eventId or baseEventId.
 	ContractsFound   int64   `json:"contractsFound"`
 	EventDisplayName *string `json:"eventDisplayName,omitempty"`
 	EventID          string  `json:"eventId"`
 	EventQuestion    *string `json:"eventQuestion,omitempty"`
-	TimeSpecifier    *string `json:"timeSpecifier,omitempty"`
-	UnderlyingSpec   *string `json:"underlyingSpec,omitempty"`
+	// Sum of open interest over the event's active contracts, matching or not, as of the venue's last daily prices file. Absent when the file named none of them.
+	OpenInterest   *int64  `json:"openInterest,omitempty"`
+	TimeSpecifier  *string `json:"timeSpecifier,omitempty"`
+	UnderlyingSpec *string `json:"underlyingSpec,omitempty"`
 }
 
 func (p PredMdEventHit) MarshalJSON() ([]byte, error) {
@@ -24,7 +28,7 @@ func (p PredMdEventHit) MarshalJSON() ([]byte, error) {
 }
 
 func (p *PredMdEventHit) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &p, "", false, []string{"baseEventId", "contractsFound", "eventId"}); err != nil {
+	if err := utils.UnmarshalJSON(data, &p, "", false, []string{"baseEventId", "contracts", "contractsFound", "eventId"}); err != nil {
 		return err
 	}
 	return nil
@@ -35,6 +39,13 @@ func (o *PredMdEventHit) GetBaseEventID() string {
 		return ""
 	}
 	return o.BaseEventID
+}
+
+func (o *PredMdEventHit) GetContracts() []PredMdContractHit {
+	if o == nil {
+		return []PredMdContractHit{}
+	}
+	return o.Contracts
 }
 
 func (o *PredMdEventHit) GetContractsFound() int64 {
@@ -63,6 +74,13 @@ func (o *PredMdEventHit) GetEventQuestion() *string {
 		return nil
 	}
 	return o.EventQuestion
+}
+
+func (o *PredMdEventHit) GetOpenInterest() *int64 {
+	if o == nil {
+		return nil
+	}
+	return o.OpenInterest
 }
 
 func (o *PredMdEventHit) GetTimeSpecifier() *string {

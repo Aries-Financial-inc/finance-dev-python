@@ -5,7 +5,7 @@ from __future__ import annotations
 from datetime import datetime
 from enum import Enum
 from finance_dev import models, utils
-from finance_dev.types import BaseModel, UNSET_SENTINEL
+from finance_dev.types import BaseModel, Nullable, UNSET_SENTINEL
 import pydantic
 from pydantic import field_serializer, model_serializer
 from typing import Optional
@@ -19,6 +19,109 @@ class Certainty(str, Enum, metaclass=utils.OpenEnumMeta):
     UNKNOWN_UNACKED = "unknown_unacked"
     UNKNOWN_GAP = "unknown_gap"
     UNKNOWN_STORE_LOST = "unknown_store_lost"
+
+
+class ResultOutcome(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""The winning outcome, when `settlementValue` is `1` or `0`. Only when `SETTLED`."""
+
+    YES = "YES"
+    NO = "NO"
+
+
+class ContractState(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""`ACTIVE` while it trades, `CLOSED` once trading has ended and the result is not yet known, `SETTLED` once it is, and `DELETED` if the venue withdrew it. `CLOSED` and `SETTLED` are never left."""
+
+    ACTIVE = "ACTIVE"
+    CLOSED = "CLOSED"
+    SETTLED = "SETTLED"
+    DELETED = "DELETED"
+
+
+class ContractTypedDict(TypedDict):
+    r"""The contract's event, label, question and lifecycle. `null` when the event catalogue does not know `symbol`, or cannot be read; it never fails the request."""
+
+    description: str
+    r"""The contract's short readable label: its display name, else the venue's strike description, else its strike."""
+    event_display_name: str
+    r"""The event's readable title, for cards and position details."""
+    event_id: str
+    r"""The event the contract belongs to, for navigation and grouping."""
+    question: str
+    r"""The contract's full question."""
+    state: ContractState
+    r"""`ACTIVE` while it trades, `CLOSED` once trading has ended and the result is not yet known, `SETTLED` once it is, and `DELETED` if the venue withdrew it. `CLOSED` and `SETTLED` are never left."""
+    result_outcome: NotRequired[ResultOutcome]
+    r"""The winning outcome, when `settlementValue` is `1` or `0`. Only when `SETTLED`."""
+    settled_at: NotRequired[datetime]
+    r"""When the contract settled. Only when `SETTLED`."""
+    settlement_value: NotRequired[str]
+    r"""What one YES contract pays, from 0 to 1, as an exact decimal string. One NO pays 1 less it. Only when `SETTLED`."""
+
+
+class Contract(BaseModel):
+    r"""The contract's event, label, question and lifecycle. `null` when the event catalogue does not know `symbol`, or cannot be read; it never fails the request."""
+
+    description: str
+    r"""The contract's short readable label: its display name, else the venue's strike description, else its strike."""
+
+    event_display_name: Annotated[str, pydantic.Field(alias="eventDisplayName")]
+    r"""The event's readable title, for cards and position details."""
+
+    event_id: Annotated[str, pydantic.Field(alias="eventId")]
+    r"""The event the contract belongs to, for navigation and grouping."""
+
+    question: str
+    r"""The contract's full question."""
+
+    state: ContractState
+    r"""`ACTIVE` while it trades, `CLOSED` once trading has ended and the result is not yet known, `SETTLED` once it is, and `DELETED` if the venue withdrew it. `CLOSED` and `SETTLED` are never left."""
+
+    result_outcome: Annotated[
+        Optional[ResultOutcome], pydantic.Field(alias="resultOutcome")
+    ] = None
+    r"""The winning outcome, when `settlementValue` is `1` or `0`. Only when `SETTLED`."""
+
+    settled_at: Annotated[Optional[datetime], pydantic.Field(alias="settledAt")] = None
+    r"""When the contract settled. Only when `SETTLED`."""
+
+    settlement_value: Annotated[
+        Optional[str], pydantic.Field(alias="settlementValue")
+    ] = None
+    r"""What one YES contract pays, from 0 to 1, as an exact decimal string. One NO pays 1 less it. Only when `SETTLED`."""
+
+    @field_serializer("result_outcome")
+    def serialize_result_outcome(self, value):
+        if isinstance(value, str):
+            try:
+                return models.ResultOutcome(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("state")
+    def serialize_state(self, value):
+        if isinstance(value, str):
+            try:
+                return models.ContractState(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["resultOutcome", "settledAt", "settlementValue"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class PredOrdersOrderOutcome(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -52,6 +155,8 @@ class PredOrdersOrderTypedDict(TypedDict):
     account_id: str
     avg_px: str
     r"""Average fill price. Exact decimal as a string."""
+    contract: Nullable[ContractTypedDict]
+    r"""The contract's event, label, question and lifecycle. `null` when the event catalogue does not know `symbol`, or cannot be read; it never fails the request."""
     created_at: datetime
     cum_qty: str
     r"""Quantity filled so far. Exact decimal as a string."""
@@ -81,6 +186,8 @@ class PredOrdersOrderTypedDict(TypedDict):
     first_ack_at: NotRequired[datetime]
     r"""When the venue first acknowledged the order."""
     pending_action: NotRequired[PendingAction]
+    placed_by: NotRequired[str]
+    r"""The user who placed the order."""
     price: NotRequired[str]
     r"""Exact decimal as a string."""
     reject_reason: NotRequired[str]
@@ -91,6 +198,8 @@ class PredOrdersOrderTypedDict(TypedDict):
     r"""Exact decimal as a string."""
     venue_order_id: NotRequired[str]
     r"""Assigned by the venue on acknowledgement."""
+    version: NotRequired[int]
+    r"""Rises with every change to the order. On the order stream, keep the highest version seen per orderId and ignore anything at or below it."""
     working_order_type: NotRequired[str]
     working_price: NotRequired[str]
     r"""Exact decimal as a string."""
@@ -103,6 +212,9 @@ class PredOrdersOrder(BaseModel):
 
     avg_px: Annotated[str, pydantic.Field(alias="avgPx")]
     r"""Average fill price. Exact decimal as a string."""
+
+    contract: Nullable[Contract]
+    r"""The contract's event, label, question and lifecycle. `null` when the event catalogue does not know `symbol`, or cannot be read; it never fails the request."""
 
     created_at: Annotated[datetime, pydantic.Field(alias="createdAt")]
 
@@ -164,6 +276,9 @@ class PredOrdersOrder(BaseModel):
         Optional[PendingAction], pydantic.Field(alias="pendingAction")
     ] = None
 
+    placed_by: Annotated[Optional[str], pydantic.Field(alias="placedBy")] = None
+    r"""The user who placed the order."""
+
     price: Optional[str] = None
     r"""Exact decimal as a string."""
 
@@ -181,6 +296,9 @@ class PredOrdersOrder(BaseModel):
         None
     )
     r"""Assigned by the venue on acknowledgement."""
+
+    version: Optional[int] = None
+    r"""Rises with every change to the order. On the order stream, keep the highest version seen per orderId and ignore anything at or below it."""
 
     working_order_type: Annotated[
         Optional[str], pydantic.Field(alias="workingOrderType")
@@ -237,30 +355,45 @@ class PredOrdersOrder(BaseModel):
                 "expireTime",
                 "firstAckAt",
                 "pendingAction",
+                "placedBy",
                 "price",
                 "rejectReason",
                 "rejectText",
                 "sentAt",
                 "stopPx",
                 "venueOrderId",
+                "version",
                 "workingOrderType",
                 "workingPrice",
             ]
         )
+        nullable_fields = set(["contract"])
         serialized = handler(self)
         m = {}
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k, serialized.get(n))
+            is_nullable_and_explicitly_set = (
+                k in nullable_fields
+                and (self.__pydantic_fields_set__.intersection({n}))  # pylint: disable=no-member
+            )
 
             if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
+                if (
+                    val is not None
+                    or k not in optional_fields
+                    or is_nullable_and_explicitly_set
+                ):
                     m[k] = val
 
         return m
 
 
+try:
+    Contract.model_rebuild()
+except NameError:
+    pass
 try:
     PredOrdersOrder.model_rebuild()
 except NameError:

@@ -8,17 +8,17 @@ import (
 	"mockserver/internal/sdk/utils"
 )
 
-// GetIndexChartBarsPrecision - How long each chart bar covers. Pair with `period` to set the exact size. Note the singular form (different from `/v1/indices/bar` and `/v1/indices/bars`). Allowed values:
-// - `Minute` — minute bars (intraday).
-// - `Hour` — hour bars.
-type GetIndexChartBarsPrecision string
+// Precision - How long each chart bar covers. Pair with `period` to set the exact size. Allowed values: `Minute` or `Minutes` for minute bars; `Hour` or `Hours` for hour bars. Other nonempty values, including `Daily`, `Day`, `Days`, and `Week`, return HTTP 400 with code `VALIDATION_ERROR` and precision error: "field 'precision' must be one of: Minute Minutes Hour Hours".
+type Precision string
 
 const (
-	GetIndexChartBarsPrecisionMinute GetIndexChartBarsPrecision = "Minute"
-	GetIndexChartBarsPrecisionHour   GetIndexChartBarsPrecision = "Hour"
+	PrecisionMinute  Precision = "Minute"
+	PrecisionMinutes Precision = "Minutes"
+	PrecisionHour    Precision = "Hour"
+	PrecisionHours   Precision = "Hours"
 )
 
-func (e GetIndexChartBarsPrecision) ToPointer() *GetIndexChartBarsPrecision {
+func (e Precision) ToPointer() *Precision {
 	return &e
 }
 
@@ -31,10 +31,8 @@ type GetIndexChartBarsRequest struct {
 	StartTime string `queryParam:"style=form,explode=true,name=startTime"`
 	// End of the chart range, inclusive. Format: `MM/DD/YYYY hh:mm am/pm` in the index's native timezone (e.g. `12/15/2025 9:30 am`).
 	EndTime string `queryParam:"style=form,explode=true,name=endTime"`
-	// How long each chart bar covers. Pair with `period` to set the exact size. Note the singular form (different from `/v1/indices/bar` and `/v1/indices/bars`). Allowed values:
-	// - `Minute` — minute bars (intraday).
-	// - `Hour` — hour bars.
-	Precision *GetIndexChartBarsPrecision `queryParam:"style=form,explode=true,name=precision"`
+	// How long each chart bar covers. Pair with `period` to set the exact size. Allowed values: `Minute` or `Minutes` for minute bars; `Hour` or `Hours` for hour bars. Other nonempty values, including `Daily`, `Day`, `Days`, and `Week`, return HTTP 400 with code `VALIDATION_ERROR` and precision error: "field 'precision' must be one of: Minute Minutes Hour Hours".
+	Precision *Precision `queryParam:"style=form,explode=true,name=precision"`
 	// Multiplier on `precision` to set the bar size. Defaults to `1`. Example: `precision=Minute` + `period=15` = 15-minute bars.
 	Period *int64 `queryParam:"style=form,explode=true,name=period"`
 	// How to adjust historical prices for corporate actions like dividends and splits. Pass the literal value supported by the upstream data provider. Omit to leave prices unadjusted.
@@ -82,7 +80,7 @@ func (o *GetIndexChartBarsRequest) GetEndTime() string {
 	return o.EndTime
 }
 
-func (o *GetIndexChartBarsRequest) GetPrecision() *GetIndexChartBarsPrecision {
+func (o *GetIndexChartBarsRequest) GetPrecision() *Precision {
 	if o == nil {
 		return nil
 	}
