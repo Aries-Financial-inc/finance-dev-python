@@ -2,7 +2,7 @@
 name = "finance_dev"
 version = "0.10.0"
 description = "Python Client SDK to interact with finance.dev."
-authors = [{ name = "Speakeasy" },]
+authors = [{ name = "Aries Financial" },]
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
