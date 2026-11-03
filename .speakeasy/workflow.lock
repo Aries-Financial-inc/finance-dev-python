@@ -9,8 +9,8 @@ sources:
             - 1.0.0
     aries-prod-spec:
         sourceNamespace: aries-prod-spec
-        sourceRevisionDigest: sha256:eb1abd5fb62270aae877ee5936bc2211a00fc89b716da33475b2da898bf4f5d7
-        sourceBlobDigest: sha256:02d86f37d88e4eb12b2adaee7abc868961249c293617cb9bbe2a28aa5cd02291
+        sourceRevisionDigest: sha256:f90f6ce2daf5c1a315348b4d3a332cf42fe17a2af71a7dc75cf8d8d8fd76da31
+        sourceBlobDigest: sha256:25b2e04f6c577c6f9daca6318dd59a36303a57df7808ebb8d415e31cf0417644
         tags:
             - latest
             - 1.0.0
@@ -18,10 +18,10 @@ targets:
     finance-dev:
         source: aries-prod-spec
         sourceNamespace: aries-prod-spec
-        sourceRevisionDigest: sha256:eb1abd5fb62270aae877ee5936bc2211a00fc89b716da33475b2da898bf4f5d7
-        sourceBlobDigest: sha256:02d86f37d88e4eb12b2adaee7abc868961249c293617cb9bbe2a28aa5cd02291
+        sourceRevisionDigest: sha256:f90f6ce2daf5c1a315348b4d3a332cf42fe17a2af71a7dc75cf8d8d8fd76da31
+        sourceBlobDigest: sha256:25b2e04f6c577c6f9daca6318dd59a36303a57df7808ebb8d415e31cf0417644
         codeSamplesNamespace: aries-prod-spec-python-code-samples
-        codeSamplesRevisionDigest: sha256:1ef31533bd63be4b6f21c95d7293aaad47ff7322f93aaa0fc51911269ff6af45
+        codeSamplesRevisionDigest: sha256:dfccf321ea4d1126326adfc9a140f0730b68596712fac0af72efc9ffe2f77726
 workflow:
     workflowVersion: 1.0.0
     speakeasyVersion: 1.802.0

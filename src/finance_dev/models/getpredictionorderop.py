@@ -5,7 +5,7 @@ from __future__ import annotations
 from .httpmetadata import HTTPMetadata, HTTPMetadataTypedDict
 from .predordersorderdetail import PredOrdersOrderDetail, PredOrdersOrderDetailTypedDict
 from finance_dev.types import BaseModel, UNSET_SENTINEL
-from finance_dev.utils import FieldMetadata, PathParamMetadata
+from finance_dev.utils import FieldMetadata, PathParamMetadata, QueryParamMetadata
 import pydantic
 from pydantic import model_serializer
 from typing import Optional
@@ -15,6 +15,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 class GetPredictionOrderRequestTypedDict(TypedDict):
     order_id: str
     r"""`orderId` returned by Place Prediction Order or List Prediction Orders."""
+    account_id: str
+    r"""The account the order is on."""
 
 
 class GetPredictionOrderRequest(BaseModel):
@@ -24,6 +26,13 @@ class GetPredictionOrderRequest(BaseModel):
         FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
     ]
     r"""`orderId` returned by Place Prediction Order or List Prediction Orders."""
+
+    account_id: Annotated[
+        str,
+        pydantic.Field(alias="accountId"),
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ]
+    r"""The account the order is on."""
 
 
 class GetPredictionOrderResponseBodyTypedDict(TypedDict):

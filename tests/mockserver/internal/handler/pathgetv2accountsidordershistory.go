@@ -9,8 +9,6 @@ import (
 	"mockserver/internal/handler/assert"
 	"mockserver/internal/logging"
 	"mockserver/internal/sdk/models/components"
-	"mockserver/internal/sdk/optionalnullable"
-	"mockserver/internal/sdk/types"
 	"mockserver/internal/sdk/utils"
 	"mockserver/internal/tracking"
 	"net/http"
@@ -49,14 +47,14 @@ func testListOrderHistoryListOrderHistory0(w http.ResponseWriter, req *http.Requ
 		return
 	}
 	var respBody *components.GetOrdersV2Response = &components.GetOrdersV2Response{
-		Orders: optionalnullable.From(types.Pointer([]components.TradeOrderV2{
+		Orders: []components.TradeOrderV2{
 			components.TradeOrderV2{
 				ExDestination: components.ExDestinationMngd.ToPointer(),
 				Side:          components.OrderSideEnumBuy.ToPointer(),
 				TimeInForce:   components.TimeInForceEnumDay.ToPointer(),
 				Type:          components.OrderTypeEnumLimit.ToPointer(),
 			},
-		})),
+		},
 	}
 	respBodyBytes, err := utils.MarshalJSON(respBody, "", true)
 

@@ -13,7 +13,7 @@ type ListActiveOrdersRequest struct {
 	ID string `pathParam:"style=simple,explode=false,name=id"`
 	// Maximum number of orders to return in this page. Use smaller values for UI lists and larger values for back-office exports. Default is 50; maximum is 500.
 	Limit *int64 `default:"50" queryParam:"style=form,explode=true,name=limit"`
-	// Opaque pagination cursor. Send `0` (or omit) for the first page; pass the previous response's `nextCursor` for subsequent pages. Stop when `nextCursor` is `0`.
+	// Opaque pagination cursor. Send `0` (or omit) for the first page; pass the previous response's `nextCursor` for subsequent pages. Stop when `nextCursor` is absent.
 	Cursor *int64 `default:"0" queryParam:"style=form,explode=true,name=cursor"`
 }
 

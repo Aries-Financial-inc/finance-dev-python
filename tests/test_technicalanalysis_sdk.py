@@ -22,7 +22,7 @@ def test_technicalanalysis_sdk_get_technical_indicator_default():
 
         res = fd_client.technical_analysis.get_indicator(
             symbol="<value>",
-            resolution=models.GetTechnicalIndicatorResolution.THIRTY,
+            resolution=models.BarResolution.THIRTY,
             indicator=models.TechnicalIndicatorType.RSI,
             from_=714124,
             to=669868,
@@ -74,7 +74,7 @@ def test_technicalanalysis_sdk_get_technical_patterns_default():
         assert fd_client is not None
 
         res = fd_client.technical_analysis.get_pattern(
-            symbol="AAPL", resolution=models.GetTechnicalPatternsResolution.M
+            symbol="AAPL", resolution=models.BarResolution.M
         )
         assert res.http_meta is not None
         assert res.http_meta.response is not None
@@ -130,8 +130,7 @@ def test_technicalanalysis_sdk_get_support_resistance_levels_default():
         assert fd_client is not None
 
         res = fd_client.technical_analysis.get_support_resistance(
-            symbol="AAPL",
-            resolution=models.GetSupportResistanceLevelsResolution.FIFTEEN,
+            symbol="AAPL", resolution=models.BarResolution.FIFTEEN
         )
         assert res.http_meta is not None
         assert res.http_meta.response is not None
@@ -170,7 +169,7 @@ def test_technicalanalysis_sdk_get_aggregate_technical_indicators_default():
         assert fd_client is not None
 
         res = fd_client.technical_analysis.get_technical_indicator(
-            symbol="AAPL", resolution=models.GetAggregateTechnicalIndicatorsResolution.D
+            symbol="AAPL", resolution=models.BarResolution.D
         )
         assert res.http_meta is not None
         assert res.http_meta.response is not None

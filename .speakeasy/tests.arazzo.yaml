@@ -38,7 +38,7 @@ workflows:
           - condition: $response.header.Content-Type == application/json
           - context: $response.body
             condition: |
-              {"accountId":"TEST-ACCOUNT-001","amountAvailableToWithdraw":"100000","balance":"248874.14377781","cashBalance":"105000","costOfPositions":"180000","credit":"0","creditRemaining":"0","dayOpenPnl":"512.14","dayRealizedPnl":"37.5","dayTotalPnl":"549.64","dayTradeBuyingPower":"50000","dayTradeOvernightRegTBuyingPower":"48000","fundsAvailableForWithdrawal":"98500","grossMargin":"120000","heldBackFunds":"0","intradayMarginBalance":"7000","maintReq":"75000","netBuyingPower":"125000.5","openPnl":"836.64377781","optionBuyingPower":"25000","pdt":"0","pdtCreditRemaining":"0","pendingOrdersCount":0,"pendingOrdersMarginRequirements":"0","realizedPl":"37.5","settledFunds":"100000","sma":"0","smaCreditRemaining":"0","sodFundsAvailableDate":"2026-01-14","sodGrossFundsAvailable":"100000","sodMarginTradeBalance":"-40000","sodNetFundsAvailable":"98500","sodPositionsMarketValue":"180000","sodTtlEquity":"248000","sodTtlEquityUpdatedAt":"2026-01-15T09:30:00Z","startOfDayCash":"95000","stockBuyingPower":"125000.5","unrealizedPl":"836.64377781","unsettledFunds":"5000","valueBought":"45000","valueSold":"12000"}
+              {"accountId":"TEST-ACCOUNT-001","amountAvailableToWithdraw":"100000","balance":"248874.14377781","costOfPositions":"180000","credit":"0","creditRemaining":"0","dayOpenPnl":"512.14","dayRealizedPnl":"37.5","dayTotalPnl":"549.64","dayTradeBuyingPower":"50000","dayTradeOvernightRegTBuyingPower":"48000","freestockFrozenCash":"0","grossMargin":"120000","heldBackFunds":"0","intradayMarginBalance":"7000","maintReq":"75000","marketValue":"180836.64377781","netBuyingPower":"125000.5","openPnl":"836.64377781","optionBuyingPower":"25000","pdt":"0","pdtCreditRemaining":"0","pendingOrdersCount":0,"pendingOrdersMarginRequirements":"0","realizedPl":"37.5","settledFunds":"100000","sma":"0","smaCreditRemaining":"0","sodFundsAvailableDate":"2026-01-14","sodGrossFundsAvailable":"100000","sodMarginTradeBalance":"-40000","sodNetFundsAvailable":"98500","sodPositionsMarketValue":"180000","sodTtlEquity":"248000","sodTtlEquityUpdatedAt":"2026-01-15T09:30:00Z","startOfDayCash":"95000","stockBuyingPower":"125000.5","unrealizedPl":"836.64377781","unsettledFunds":"5000","valueBought":"45000","valueSold":"12000"}
             type: simple
     x-speakeasy-test-group: accounts
     x-speakeasy-test-rebuild: true
@@ -53,7 +53,7 @@ workflows:
             condition: |
               {"accounts":[]}
             type: simple
-    x-speakeasy-test-group: accounts
+    x-speakeasy-test-group: Users_accounts
     x-speakeasy-test-rebuild: true
   - workflowId: getAnalystInsights
     steps:
@@ -102,6 +102,12 @@ workflows:
           - name: tickers
             in: query
             value: AAPL,GOOGL
+          - name: page
+            in: query
+            value: 0
+          - name: pageSize
+            in: query
+            value: 100
         successCriteria:
           - condition: $statusCode == 200
           - condition: $response.header.Content-Type == application/json
@@ -206,7 +212,7 @@ workflows:
             condition: |
               [{"change":1.25,"changePercent":0.72,"isETF":false,"lastPrice":175.43,"logoUrl":"https://cdn.example.com/logos/AAPL.png","previousClose":174.18,"sector":"Technology","sicCode":"3571","symbol":"AAPL","timestamp":1736956800,"type":"stock","volume":52000000}]
             type: simple
-    x-speakeasy-test-group: analytics
+    x-speakeasy-test-group: topMostActive
     x-speakeasy-test-rebuild: true
   - workflowId: getOptionsETFsTopVolume
     steps:
@@ -367,7 +373,7 @@ workflows:
             condition: |
               {"conferenceCalls":[{"accessCode":"987654","date":"2024-01-16","exchange":"NASDAQ","id":"123456","importance":5,"internationalNum":"+1-212-123-4567","name":"Apple Inc.","notes":"Q1 FY2024 Earnings Call","phoneNum":"1-800-123-4567","reservationNum":"","startTime":"5:00 PM ET","ticker":"AAPL","time":"17:00:00","updated":1705401600,"webcastUrl":"https://investor.apple.com/earnings"}]}
             type: simple
-    x-speakeasy-test-group: calendar
+    x-speakeasy-test-group: calendars
     x-speakeasy-test-rebuild: true
   - workflowId: getEarningsCalendar
     steps:
@@ -413,7 +419,7 @@ workflows:
             condition: |
               [{"analystRating":{"averageReturn":"15.3%","currentRating":"Buy","priceTarget":200.5,"successRate":"72%","totalRatings":45},"date":"2024-01-16","epsActual":2.18,"epsEstimate":2.1,"epsSurprise":0.08,"hour":"amc","importance":3,"logo":{"logoDark":"https://example.com/aapl-dark.png","logoLight":"https://example.com/aapl-light.png"},"marketCap":2850000,"name":"Apple Inc.","quarter":1,"revenueActual":119580000000,"revenueEstimate":118000000000,"revenueSurprise":1580000000,"symbol":"AAPL","time":"06:45:00","year":2024}]
             type: simple
-    x-speakeasy-test-group: calendar
+    x-speakeasy-test-group: calendars
     x-speakeasy-test-rebuild: true
   - workflowId: getEconomicsCalendar
     steps:
@@ -436,7 +442,7 @@ workflows:
             condition: |
               {"events":[{"calendarID":"te_395222","category":"Continuing Jobless Claims","country":"United States","date":"2026-03-05","event":"Continuing Jobless Claims","forecast":"1850K","importance":1,"lastUpdate":"2026-03-03T10:49:26.58","previous":"1833K","reference":"Feb/21","referenceDate":"2026-02-21T00:00:00Z","source":"U.S. Department of Labor","sourceUrl":"http://www.dol.gov","symbol":"UNITEDSTACONJOBCLA","teForecast":"1840.0K","ticker":"UNITEDSTACONJOBCLA","time":"13:30:00","unit":"K"}]}
             type: simple
-    x-speakeasy-test-group: calendar
+    x-speakeasy-test-group: calendars
     x-speakeasy-test-rebuild: true
   - workflowId: getHistoricalData
     steps:
@@ -453,7 +459,7 @@ workflows:
             condition: |
               [{"category":"Employment","country":"US","dateTime":"2026-01-15T08:30:00Z","frequency":"monthly","historicalDataSymbol":"USURTOT","lastUpdate":"2026-01-15T08:30:00Z","value":3.7}]
             type: simple
-    x-speakeasy-test-group: calendar
+    x-speakeasy-test-group: calendars
     x-speakeasy-test-rebuild: true
   - workflowId: getMergersAndAcquisitions
     steps:
@@ -482,7 +488,7 @@ workflows:
             condition: |
               {}
             type: simple
-    x-speakeasy-test-group: calendar
+    x-speakeasy-test-group: calendars
     x-speakeasy-test-rebuild: true
   - workflowId: getChartConfig
     steps:
@@ -858,7 +864,7 @@ workflows:
             condition: |
               {"peers":["AAPL","DELL","WDC","SNDK","HPE","PSTG","HPQ","NTAP","SMCI","IONQ","QUBT","CMPO"]}
             type: simple
-    x-speakeasy-test-group: company
+    x-speakeasy-test-group: companies
     x-speakeasy-test-rebuild: true
   - workflowId: getCompanyProfile-default
     steps:
@@ -894,7 +900,7 @@ workflows:
             condition: |
               {"user_id":98765,"watchlist":[{"id":12345,"name":"Tech Stocks","symbols":["AAPL","GOOGL","MSFT"]}, {"id":12346,"name":"Finance","symbols":["JPM","BAC","GS"]}]}
             type: simple
-    x-speakeasy-test-group: watchlist_SDK
+    x-speakeasy-test-group: watchlists
     x-speakeasy-test-rebuild: true
   - workflowId: createConfigWatchlist-createWatchlist
     steps:
@@ -915,7 +921,7 @@ workflows:
             condition: |
               {}
             type: simple
-    x-speakeasy-test-group: watchlist_SDK
+    x-speakeasy-test-group: watchlists
     x-speakeasy-test-rebuild: true
   - workflowId: createConfigWatchlist-created
     steps:
@@ -936,7 +942,7 @@ workflows:
             condition: |
               {"id":12345,"name":"Tech Stocks","symbols":["AAPL","GOOGL","MSFT"]}
             type: simple
-    x-speakeasy-test-group: watchlist_SDK
+    x-speakeasy-test-group: watchlists
     x-speakeasy-test-rebuild: true
   - workflowId: createConfigWatchlist-createdWithInvalidSymbols
     steps:
@@ -957,7 +963,7 @@ workflows:
             condition: |
               {"id":12346,"invalid_symbols":["NOTASYMBOL"],"name":"Tech Stocks","symbols":["AAPL","GOOGL"]}
             type: simple
-    x-speakeasy-test-group: watchlist_SDK
+    x-speakeasy-test-group: watchlists
     x-speakeasy-test-rebuild: true
   - workflowId: replaceConfigWatchlists-replaceAll
     steps:
@@ -983,7 +989,7 @@ workflows:
             condition: |
               {}
             type: simple
-    x-speakeasy-test-group: watchlist_SDK
+    x-speakeasy-test-group: watchlists
     x-speakeasy-test-rebuild: true
   - workflowId: replaceConfigWatchlists-resetAll
     steps:
@@ -999,7 +1005,7 @@ workflows:
             condition: |
               {}
             type: simple
-    x-speakeasy-test-group: watchlist_SDK
+    x-speakeasy-test-group: watchlists
     x-speakeasy-test-rebuild: true
   - workflowId: replaceConfigWatchlists-replaced
     steps:
@@ -1020,7 +1026,7 @@ workflows:
             condition: |
               {"user_id":98765,"watchlist":[{"id":12345,"name":"Tech Stocks","symbols":["AAPL","GOOGL","MSFT"]}, {"id":12347,"name":"Finance","symbols":["JPM","BAC","GS"]}]}
             type: simple
-    x-speakeasy-test-group: watchlist_SDK
+    x-speakeasy-test-group: watchlists
     x-speakeasy-test-rebuild: true
   - workflowId: replaceConfigWatchlists-resetToDefault
     steps:
@@ -1041,7 +1047,7 @@ workflows:
             condition: |
               {"user_id":98765,"watchlist":[{"id":12348,"name":"Default","symbols":[]}]}
             type: simple
-    x-speakeasy-test-group: watchlist_SDK
+    x-speakeasy-test-group: watchlists
     x-speakeasy-test-rebuild: true
   - workflowId: deleteConfigWatchlistById-deleted
     steps:
@@ -1058,7 +1064,7 @@ workflows:
             condition: |
               {"id":12345,"name":"Tech Stocks","symbols":["AAPL","GOOGL","MSFT"]}
             type: simple
-    x-speakeasy-test-group: watchlist_SDK
+    x-speakeasy-test-group: watchlists
     x-speakeasy-test-rebuild: true
   - workflowId: deleteConfigWatchlistById-resetToDefault
     steps:
@@ -1075,7 +1081,7 @@ workflows:
             condition: |
               {"id":12345,"name":"Default","symbols":[]}
             type: simple
-    x-speakeasy-test-group: watchlist_SDK
+    x-speakeasy-test-group: watchlists
     x-speakeasy-test-rebuild: true
   - workflowId: getConfigWatchlistById-found
     steps:
@@ -1092,7 +1098,7 @@ workflows:
             condition: |
               {"id":12345,"name":"Tech Stocks","symbols":["AAPL","GOOGL","MSFT"]}
             type: simple
-    x-speakeasy-test-group: watchlist_SDK
+    x-speakeasy-test-group: watchlists
     x-speakeasy-test-rebuild: true
   - workflowId: updateConfigWatchlistById-addAndRemoveSymbols
     steps:
@@ -1116,7 +1122,7 @@ workflows:
             condition: |
               {}
             type: simple
-    x-speakeasy-test-group: watchlist_SDK
+    x-speakeasy-test-group: watchlists
     x-speakeasy-test-rebuild: true
   - workflowId: updateConfigWatchlistById-renameWatchlist
     steps:
@@ -1137,7 +1143,7 @@ workflows:
             condition: |
               {}
             type: simple
-    x-speakeasy-test-group: watchlist_SDK
+    x-speakeasy-test-group: watchlists
     x-speakeasy-test-rebuild: true
   - workflowId: updateConfigWatchlistById-renamed
     steps:
@@ -1161,7 +1167,7 @@ workflows:
             condition: |
               {"id":12345,"name":"Growth Stocks","symbols":["AAPL","GOOGL","MSFT"]}
             type: simple
-    x-speakeasy-test-group: watchlist_SDK
+    x-speakeasy-test-group: watchlists
     x-speakeasy-test-rebuild: true
   - workflowId: updateConfigWatchlistById-symbolsUpdated
     steps:
@@ -1185,7 +1191,7 @@ workflows:
             condition: |
               {"id":12345,"name":"Growth Stocks","symbols":["AAPL","GOOGL","TSLA"]}
             type: simple
-    x-speakeasy-test-group: watchlist_SDK
+    x-speakeasy-test-group: watchlists
     x-speakeasy-test-rebuild: true
   - workflowId: updateConfigWatchlistById-symbolsUpdatedWithInvalid
     steps:
@@ -1209,7 +1215,7 @@ workflows:
             condition: |
               {"id":12345,"invalid_symbols":["NOTASYMBOL"],"name":"Growth Stocks","symbols":["AAPL","GOOGL"]}
             type: simple
-    x-speakeasy-test-group: watchlist_SDK
+    x-speakeasy-test-group: watchlists
     x-speakeasy-test-rebuild: true
   - workflowId: getDividends-default
     steps:
@@ -1559,7 +1565,7 @@ workflows:
             condition: |
               {"count":1,"results":{"AAPL":true}}
             type: simple
-    x-speakeasy-test-group: market
+    x-speakeasy-test-group: marketData
     x-speakeasy-test-rebuild: true
   - workflowId: searchEtbSymbols-mixedCase
     steps:
@@ -1579,7 +1585,7 @@ workflows:
             condition: |
               {"count":3,"results":{"AAPL":true,"GME":false,"MSFT":true}}
             type: simple
-    x-speakeasy-test-group: market
+    x-speakeasy-test-group: marketData
     x-speakeasy-test-rebuild: true
   - workflowId: getMarketHolidays-default
     steps:
@@ -1630,7 +1636,7 @@ workflows:
             condition: |
               {"data":[{"EPS3YearGrowthRate":17.6111,"EPS5YearGrowthRate":11.0713,"EPSDiluted":2.84,"EPSLatest12Month":18.3333,"PE":32.181,"askExchange":"BATS|BATS Trading","askPrice":268,"askSize":500,"assets":379297000,"avgVolume4Weeks":38174153,"bidExchange":"EDGX|Direct Edge X","bidPrice":267.5,"bidSize":1400,"closePrice":273.43,"dividend":0.26,"hasOptions":true,"high52WeekDate":"2025-12-03T00:00:00Z","high52WeekPrice":288.62,"highPrice":273.06,"instrumentType":"Equity","isETF":false,"lastPrice":271.06,"liabilities":291107000,"longTermDebt":905090000,"low52WeekDate":"2025-04-08","low52WeekPrice":169.2101,"lowPrice":269.65,"marketCap":30064771072,"midPrice":267.75,"name":"Apple Inc.","netChange":-3.53,"openPrice":272.78,"price":267.53,"quoteTimestamp":"2026-04-27T05:38:09.901000-04:00","sharesOutstanding":14681140,"shortSaleRestricted":0,"sicCode":3663,"size":1,"spread":0.5,"symbol":"AAPL","tick":0,"totalVolume":300562,"tradeExchange":"PACF|NYSE ARCA (Pacific)","tradeSeq":1009904,"tradeTimestamp":"2026-04-27T05:38:10.674000-04:00","type":"ETRADE"}],"errors":[]}
             type: simple
-    x-speakeasy-test-group: market
+    x-speakeasy-test-group: equities
     x-speakeasy-test-rebuild: true
   - workflowId: getOptionDetails
     steps:
@@ -1647,7 +1653,7 @@ workflows:
             condition: |
               {"data":[{"askPrice":80.9,"bidPrice":78.05,"closePrice":93.5,"lastPrice":79.76,"midPrice":79.475,"symbol":"GOOG270115C00285000"}],"errors":[]}
             type: simple
-    x-speakeasy-test-group: market
+    x-speakeasy-test-group: marketData
     x-speakeasy-test-rebuild: true
   - workflowId: getEtfCountryAllocation-default
     steps:
@@ -1768,7 +1774,7 @@ workflows:
             condition: |
               {"nextUrl":"https://api.aries.com/v1/financials/cash-flow-statements?limit=5&next=ASYPBEFBUEwCAgABAQABAQUAAgEJ-zp0AQ8KMDAwMDMyMDE5Mw%3D%3D&tickersAnyOf=AAPL","requestId":"d9ebd27856db41dc8f24f8118f9cada0","results":[{"cashFromOperatingActivitiesContinuingOperations":5781000000,"changeInCashAndEquivalents":2346000000,"changeInOtherOperatingAssetsAndLiabilitiesNet":1564000000,"cik":"0000320193","depreciationDepletionAndAmortization":209000000,"dividends":0,"filingDate":"2011-01-19","fiscalQuarter":1,"fiscalYear":2010,"longTermDebtIssuancesRepayments":0,"netCashFromFinancingActivities":523000000,"netCashFromFinancingActivitiesContinuingOperations":523000000,"netCashFromInvestingActivities":-3958000000,"netCashFromInvestingActivitiesContinuingOperations":-3958000000,"netCashFromOperatingActivities":5781000000,"netIncome":3378000000,"otherFinancingActivities":523000000,"otherInvestingActivities":-3582000000,"otherOperatingActivities":630000000,"periodEnd":"2009-12-26","purchaseOfPropertyPlantAndEquipment":-376000000,"tickers":["AAPL"],"timeframe":"quarterly"}],"status":"OK"}
             type: simple
-    x-speakeasy-test-group: financials
+    x-speakeasy-test-group: cashFlowStatements
     x-speakeasy-test-rebuild: true
   - workflowId: getIncomeStatements-default
     steps:
@@ -2472,6 +2478,13 @@ workflows:
             condition: |
               {"activities":[{"aggressorInd":"0.0","ask":"0.55","bid":"0.54","costBasis":"26352.000000000004","date":"2024-12-31","dateExpiration":"2025-01-02","description":"SPDR S&P 500 Option Alert: Jan 2 $591 Calls Sweep (5) near the Bid: 488 vs 2017 OI","descriptionExtended":"SPDR S&P 500 Option Alert: Jan 2 $591 Calls Sweep (5) near the Bid: 488 @ $0.54 vs 2017 OI; Ref=$586.4","exchange":"ARCA","executionEstimate":"AT_BID","id":"67745ec4c88d4e00015ce121","midpoint":"0.545","openInterest":"2017","optionActivityType":"SWEEP","optionSymbol":"SPY250102C00591000","price":"0.54","putCall":"CALL","sentiment":"BEARISH","size":"488","strikePrice":"591.00","ticker":"SPY","time":"16:14:43","tradeCount":"5","underlyingPrice":"586.4","underlyingType":"ETF","updated":1735679684,"volume":"37933"}]}
             type: simple
+        parameters:
+          - name: page
+            in: query
+            value: 0
+          - name: pageSize
+            in: query
+            value: 100
     x-speakeasy-test-group: options
     x-speakeasy-test-rebuild: true
   - workflowId: getOptionLastTrade
@@ -3261,7 +3274,7 @@ workflows:
             condition: |
               {"orders":[{"exDestination":"MNGD","side":"BUY","timeInForce":"DAY","type":"LIMIT"}]}
             type: simple
-    x-speakeasy-test-group: orders
+    x-speakeasy-test-group: accounts_orders
     x-speakeasy-test-rebuild: true
   - workflowId: listOrderHistory
     steps:
@@ -3313,7 +3326,7 @@ workflows:
             condition: |
               {"data":{"baseEvent":{"baseEventId":"<id>","categoryLevels":["Economic Indicators","Labor","United States"],"displayName":"US Unemployment Rate","firstSeenAt":"2024-09-06T05:59:28.906Z","lastSyncedAt":"2025-10-02T11:47:14.927Z"},"events":[]},"success":true}
             type: simple
-    x-speakeasy-test-group: markets
+    x-speakeasy-test-group: predictionMarkets
     x-speakeasy-test-rebuild: true
   - workflowId: listCategories
     steps:
@@ -3326,7 +3339,7 @@ workflows:
             condition: |
               {"data":{"categories":[{"children":[{"name":"United States House","path":"Elections > United States House"}],"name":"United States House","path":"Elections > United States House"}]},"success":true}
             type: simple
-    x-speakeasy-test-group: markets
+    x-speakeasy-test-group: predictionMarketCategories
     x-speakeasy-test-rebuild: true
   - workflowId: getEventContracts
     steps:
@@ -3341,9 +3354,9 @@ workflows:
           - condition: $response.header.Content-Type == application/json
           - context: $response.body
             condition: |
-              {"data":{"contracts":[{"baseEventId":"<id>","eventId":"<id>","lastSyncedAt":"2024-08-22T02:52:07.818Z","nonTradable":true,"state":"Pennsylvania","symbol":"<value>","symbolSubTypes":[],"tickSize":"0.01","tradable":false}],"event":{"baseEventId":"<id>","eventId":"<id>","lastSyncedAt":"2025-09-06T06:35:19.053Z","timeSpecifier":"2026.06"}},"success":true}
+              {"data":{"contracts":[{"baseEventId":"<id>","candidateStatus":"C","eventId":"<id>","frontRunner":true,"incumbent":false,"lastSyncedAt":"2024-08-22T02:52:07.818Z","nonTradable":true,"party":"O","photo":{"credit":"Gage Skidmore","license":"CC BY-SA 4.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/4.0","sourceUrl":"https://commons.wikimedia.org/wiki/File:K_Paxton.jpg","url":"https://grubby-fisherman.org"},"state":"Pennsylvania","symbol":"<value>","symbolSubTypes":[],"tickSize":"0.01","tradable":false}],"event":{"baseEventId":"<id>","eventId":"<id>","lastSyncedAt":"2025-09-06T06:35:19.053Z","timeSpecifier":"2026.06"}},"success":true}
             type: simple
-    x-speakeasy-test-group: markets
+    x-speakeasy-test-group: predictionMarkets
     x-speakeasy-test-rebuild: true
   - workflowId: search
     steps:
@@ -3374,14 +3387,20 @@ workflows:
           - name: perPage
             in: query
             value: 20
+          - name: sortBy
+            in: query
+            value: none
+          - name: contractsPerHit
+            in: query
+            value: 2
         successCriteria:
           - condition: $statusCode == 200
           - condition: $response.header.Content-Type == application/json
           - context: $response.body
             condition: |
-              {"data":{"found":161806,"hits":[{"baseEventId":"<id>","contractsFound":596463,"eventId":"<id>"}],"page":337360,"perPage":440776,"type":"events"},"success":true}
+              {"data":{"found":161806,"hits":[{"baseEventId":"<id>","contracts":[],"contractsFound":596463,"eventId":"<id>"}],"page":337360,"perPage":440776,"type":"events"},"success":true}
             type: simple
-    x-speakeasy-test-group: markets
+    x-speakeasy-test-group: predictionsMarkets
     x-speakeasy-test-rebuild: true
   - workflowId: getHistory
     steps:
@@ -3407,7 +3426,7 @@ workflows:
             condition: |
               {"data":{"count":584162,"symbol":"<value>","ticks":[{"noPrice":"0.46","quantity":10,"timestamp":"2026-04-18T13:45:01.234Z","yesPrice":"0.54"}]},"success":true}
             type: simple
-    x-speakeasy-test-group: history
+    x-speakeasy-test-group: predictionHistoricalData
     x-speakeasy-test-rebuild: true
   - workflowId: getHistoryBatch
     steps:
@@ -3428,7 +3447,7 @@ workflows:
             condition: |
               {"data":{"results":[]},"success":true}
             type: simple
-    x-speakeasy-test-group: history
+    x-speakeasy-test-group: predictions
     x-speakeasy-test-rebuild: true
   - workflowId: listPredictionOrders
     steps:
@@ -3441,14 +3460,17 @@ workflows:
           - name: limit
             in: query
             value: 50
+          - name: accountId
+            in: query
+            value: ACCOUNT-0001
         successCriteria:
           - condition: $statusCode == 200
           - condition: $response.header.Content-Type == application/json
           - context: $response.body
             condition: |
-              {"data":{"orders":[{"accountId":"ACCOUNT-0001","avgPx":"0","clientOrderRef":"7d1c8e0a-4b8f-4e3a-9f43-2a6b1d0c9e11","createdAt":"2026-02-03T23:48:41.308Z","cumQty":"0","leavesQty":"10","orderId":"0b9f3c2e-5d6a-4f1b-8e7c-9a0d1e2f3a4b","orderType":"limit","outcome":"YES","price":"0.54","quantity":"10","side":"buy","state":"pending_new","stopPx":"0.50","symbol":"HORC_1126_Republican","timeInForce":"day","updatedAt":"2026-12-06T13:43:49.554Z","workingPrice":"0.54","workingQuantity":"10"}]},"success":true}
+              {"data":{"orders":[{"accountId":"ACCOUNT-0001","avgPx":"0","clientOrderRef":"7d1c8e0a-4b8f-4e3a-9f43-2a6b1d0c9e11","contract":{"description":"Shelley Moore Capito","eventDisplayName":"West Virginia Senate General Election November 3 2026","eventId":"AXXWV_110326","question":"Will Shelley Moore Capito win the West Virginia general election for US Senate in 2026?","settlementValue":"1","state":"SETTLED"},"createdAt":"2026-02-03T23:48:41.308Z","cumQty":"0","leavesQty":"10","orderId":"0b9f3c2e-5d6a-4f1b-8e7c-9a0d1e2f3a4b","orderType":"limit","outcome":"YES","price":"0.54","quantity":"10","side":"buy","state":"pending_new","stopPx":"0.50","symbol":"HORC_1126_Republican","timeInForce":"day","updatedAt":"2026-12-06T13:43:49.554Z","workingPrice":"0.54","workingQuantity":"10"}]},"success":true}
             type: simple
-    x-speakeasy-test-group: predictions_orders
+    x-speakeasy-test-group: predictions
     x-speakeasy-test-rebuild: true
   - workflowId: placePredictionOrder
     steps:
@@ -3476,9 +3498,9 @@ workflows:
           - condition: $response.header.Content-Type == application/json
           - context: $response.body
             condition: |
-              {"data":{"accountId":"ACCOUNT-0001","avgPx":"0","clientOrderRef":"7d1c8e0a-4b8f-4e3a-9f43-2a6b1d0c9e11","createdAt":"2024-06-25T22:58:46.837Z","cumQty":"0","leavesQty":"10","orderId":"0b9f3c2e-5d6a-4f1b-8e7c-9a0d1e2f3a4b","orderType":"limit","outcome":"YES","price":"0.54","quantity":"10","side":"buy","state":"pending_new","stopPx":"0.50","symbol":"HORC_1126_Republican","timeInForce":"day","updatedAt":"2026-12-13T22:29:12.787Z","workingPrice":"0.54","workingQuantity":"10"},"success":true}
+              {"data":{"accountId":"ACCOUNT-0001","avgPx":"0","clientOrderRef":"7d1c8e0a-4b8f-4e3a-9f43-2a6b1d0c9e11","contract":{"description":"Shelley Moore Capito","eventDisplayName":"West Virginia Senate General Election November 3 2026","eventId":"AXXWV_110326","question":"Will Shelley Moore Capito win the West Virginia general election for US Senate in 2026?","settlementValue":"1","state":"DELETED"},"createdAt":"2024-06-25T22:58:46.837Z","cumQty":"0","leavesQty":"10","orderId":"0b9f3c2e-5d6a-4f1b-8e7c-9a0d1e2f3a4b","orderType":"limit","outcome":"YES","price":"0.54","quantity":"10","side":"buy","state":"pending_new","stopPx":"0.50","symbol":"HORC_1126_Republican","timeInForce":"day","updatedAt":"2026-12-13T22:29:12.787Z","workingPrice":"0.54","workingQuantity":"10"},"success":true}
             type: simple
-    x-speakeasy-test-group: predictions_orders
+    x-speakeasy-test-group: predictionOrders
     x-speakeasy-test-rebuild: true
   - workflowId: getPredictionOrder
     steps:
@@ -3488,14 +3510,17 @@ workflows:
           - name: orderId
             in: path
             value: 3e3ab03f-d246-4072-b29f-8558498115de
+          - name: accountId
+            in: query
+            value: ACCOUNT-0001
         successCriteria:
           - condition: $statusCode == 200
           - condition: $response.header.Content-Type == application/json
           - context: $response.body
             condition: |
-              {"data":{"order":{"accountId":"ACCOUNT-0001","avgPx":"0","clientOrderRef":"7d1c8e0a-4b8f-4e3a-9f43-2a6b1d0c9e11","createdAt":"2024-05-18T17:00:40.400Z","cumQty":"0","leavesQty":"10","orderId":"0b9f3c2e-5d6a-4f1b-8e7c-9a0d1e2f3a4b","orderType":"limit","outcome":"YES","price":"0.54","quantity":"10","side":"buy","state":"pending_new","stopPx":"0.50","symbol":"HORC_1126_Republican","timeInForce":"day","updatedAt":"2026-06-01T14:19:20.151Z","workingPrice":"0.54","workingQuantity":"10"},"reports":[{"avgPx":"0.54","cumQty":"10","execId":"<id>","execType":"trade","lastPx":"0.54","lastQty":"10","leavesQty":"0","status":"filled","transactTime":"2025-08-27T21:08:04.489Z"}]},"success":true}
+              {"data":{"events":[{"kind":"cancel_requested"}],"order":{"accountId":"ACCOUNT-0001","avgPx":"0","clientOrderRef":"7d1c8e0a-4b8f-4e3a-9f43-2a6b1d0c9e11","contract":{"description":"Shelley Moore Capito","eventDisplayName":"West Virginia Senate General Election November 3 2026","eventId":"AXXWV_110326","question":"Will Shelley Moore Capito win the West Virginia general election for US Senate in 2026?","settlementValue":"1","state":"CLOSED"},"createdAt":"2024-05-18T17:00:40.400Z","cumQty":"0","leavesQty":"10","orderId":"0b9f3c2e-5d6a-4f1b-8e7c-9a0d1e2f3a4b","orderType":"limit","outcome":"YES","price":"0.54","quantity":"10","side":"buy","state":"pending_new","stopPx":"0.50","symbol":"HORC_1126_Republican","timeInForce":"day","updatedAt":"2026-06-01T14:19:20.151Z","workingPrice":"0.54","workingQuantity":"10"},"reports":[{"avgPx":"0.54","cumQty":"10","execId":"<id>","execType":"trade","lastPx":"0.54","lastQty":"10","leavesQty":"0","status":"filled","transactTime":"2025-08-27T21:08:04.489Z"}]},"success":true}
             type: simple
-    x-speakeasy-test-group: predictions_orders
+    x-speakeasy-test-group: predictionOrders
     x-speakeasy-test-rebuild: true
   - workflowId: getBullBearAnalysis-success
     steps:
@@ -4011,6 +4036,9 @@ workflows:
           - name: limit
             in: query
             value: 1000
+          - name: sort
+            in: query
+            value: asc
         successCriteria:
           - condition: $statusCode == 200
           - condition: $response.header.Content-Type == application/json
@@ -4256,4 +4284,340 @@ workflows:
               {}
             type: simple
     x-speakeasy-test-group: stocks
+    x-speakeasy-test-rebuild: true
+  - workflowId: getAccountBalance-cashAccount
+    steps:
+      - stepId: test
+        operationId: getAccountBalance
+        parameters:
+          - name: id
+            in: path
+            value: TEST-ACCOUNT-001
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"accountId":"TEST-ACCOUNT-001","amountAvailableToWithdraw":"266.06","balance":"298.5939","cashBalance":"266.96","costOfPositions":"37.885","credit":"267","creditRemaining":"265.9","dayOpenPnl":"-1.0061","dayRealizedPnl":"0","dayTotalPnl":"-1.0061","dayTradeBuyingPower":"1063.7","dayTradeOvernightRegTBuyingPower":"265.9","freestockFrozenCash":"0","grossMargin":"0","heldBackFunds":"0","maintReq":"0","marketValue":"32.537","netBuyingPower":"267","openPnl":"-5.348","optionBuyingPower":"265.9","pdt":"0","pdtCreditRemaining":"0","pendingOrdersCount":1,"pendingOrdersMarginRequirements":"0","realizedPl":"0","settledFunds":"266.96","sma":"0","smaCreditRemaining":"0","sodFundsAvailableDate":"2026-10-29","sodGrossFundsAvailable":"266.06","sodMarginTradeBalance":"0.9","sodNetFundsAvailable":"266.06","sodPositionsMarketValue":"0","sodTtlEquity":"299.6","sodTtlEquityUpdatedAt":"2026-10-30T11:00:02.353449Z","startOfDayCash":"0","stockBuyingPower":"265.9","unrealizedPl":"-5.348","unsettledFunds":"0","valueBought":"0","valueSold":"0"}
+            type: simple
+    x-speakeasy-test-group: accounts
+    x-speakeasy-test-rebuild: true
+  - workflowId: getAccountBalance-marginAccount
+    steps:
+      - stepId: test
+        operationId: getAccountBalance
+        parameters:
+          - name: id
+            in: path
+            value: TEST-ACCOUNT-001
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"accountId":"TEST-ACCOUNT-001","amountAvailableToWithdraw":"100000","balance":"248874.14377781","costOfPositions":"180000","credit":"0","creditRemaining":"0","dayOpenPnl":"512.14","dayRealizedPnl":"37.5","dayTotalPnl":"549.64","dayTradeBuyingPower":"50000","dayTradeOvernightRegTBuyingPower":"48000","freestockFrozenCash":"0","grossMargin":"120000","heldBackFunds":"0","intradayMarginBalance":"7000","maintReq":"75000","marketValue":"180836.64377781","netBuyingPower":"125000.5","openPnl":"836.64377781","optionBuyingPower":"25000","pdt":"0","pdtCreditRemaining":"0","pendingOrdersCount":0,"pendingOrdersMarginRequirements":"0","realizedPl":"37.5","settledFunds":"100000","sma":"0","smaCreditRemaining":"0","sodFundsAvailableDate":"2026-01-14","sodGrossFundsAvailable":"100000","sodMarginTradeBalance":"-40000","sodNetFundsAvailable":"98500","sodPositionsMarketValue":"180000","sodTtlEquity":"248000","sodTtlEquityUpdatedAt":"2026-01-15T09:30:00Z","startOfDayCash":"95000","stockBuyingPower":"125000.5","unrealizedPl":"836.64377781","unsettledFunds":"5000","valueBought":"45000","valueSold":"12000"}
+            type: simple
+    x-speakeasy-test-group: accounts
+    x-speakeasy-test-rebuild: true
+  - workflowId: getElectionMap
+    steps:
+      - stepId: test
+        operationId: getElectionMap
+        parameters:
+          - name: cycle
+            in: path
+            value: 2026
+          - name: state
+            in: query
+            value: TX
+          - name: office
+            in: query
+            value: senate,house
+          - name: raceType
+            in: query
+            value: general,special
+          - name: includeResolved
+            in: query
+            value: true
+          - name: includeNonFrontRunners
+            in: query
+            value: false
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"data":{"asOf":"2026-10-22T17:32:50.815Z","cycle":2026,"electionDate":"2026-11-03","national":{"balanceOfPower":{"eventId":"HORC_1126","outcomes":[]},"houseControl":{"eventId":"HORC_1126","outcomes":[]},"senateControl":{"eventId":"HORC_1126","outcomes":[{"party":"D","symbol":"HORC_1126_Democratic","yesPrice":"0.55","yesPriceChange24h":"0.01"}]}},"states":[{"code":"TX","governor":[],"house":[],"houseSeats":38,"name":"Texas","senate":[{"atLarge":false,"baseEventId":"AXXTX","district":7,"electionDate":"2026-11-03","eventId":"AXXTX_110326","heldBy":"D","lastTradeDate":"2026-12-06","leader":{"party":"O","symbol":"AXXTX_110326_JT","yesPrice":"0.66"},"outcomes":[],"partyMarket":{"eventId":"HORC_1126","outcomes":[]},"raceType":"general","resolvedAt":null,"status":"open","title":"Texas Senate","winningSymbol":"<value>"}]}]},"success":true}
+            type: simple
+    x-speakeasy-test-group: markets
+    x-speakeasy-test-rebuild: true
+  - workflowId: listPredictionOrderHistory
+    steps:
+      - stepId: test
+        operationId: listPredictionOrderHistory
+        parameters:
+          - name: status
+            in: query
+            value: open
+          - name: accountId
+            in: query
+            value: ACCOUNT-0001
+          - name: limit
+            in: query
+            value: 50
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"data":{"orders":[{"accountId":"ACCOUNT-0001","avgPx":"0","clientOrderRef":"7d1c8e0a-4b8f-4e3a-9f43-2a6b1d0c9e11","contract":null,"createdAt":"2026-01-17T08:03:25.683Z","cumQty":"0","leavesQty":"10","orderId":"0b9f3c2e-5d6a-4f1b-8e7c-9a0d1e2f3a4b","orderType":"limit","outcome":"YES","price":"0.54","quantity":"10","side":"buy","state":"pending_new","stopPx":"0.50","symbol":"HORC_1126_Republican","timeInForce":"day","updatedAt":"2025-12-28T06:02:36.586Z","workingPrice":"0.54","workingQuantity":"10"}]},"success":true}
+            type: simple
+    x-speakeasy-test-group: predictions_orders
+    x-speakeasy-test-rebuild: true
+  - workflowId: listPredictionMassCancels
+    steps:
+      - stepId: test
+        operationId: listPredictionMassCancels
+        parameters:
+          - name: accountId
+            in: query
+            value: ACCOUNT-0001
+          - name: limit
+            in: query
+            value: 50
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"success":true}
+            type: simple
+    x-speakeasy-test-group: predictions_orders
+    x-speakeasy-test-rebuild: true
+  - workflowId: massCancelPredictionOrders
+    steps:
+      - stepId: test
+        operationId: massCancelPredictionOrders
+        requestBody:
+          contentType: application/json
+          payload:
+            accountId: ACCOUNT-0001
+            symbol: HORC_1126_Republican
+        successCriteria:
+          - condition: $statusCode == 202
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"success":true}
+            type: simple
+    x-speakeasy-test-group: predictions_orders
+    x-speakeasy-test-rebuild: true
+  - workflowId: getPredictionMassCancel
+    steps:
+      - stepId: test
+        operationId: getPredictionMassCancel
+        parameters:
+          - name: massCancelId
+            in: path
+            value: 97599149-c654-4879-ab4b-aaac771b2949
+          - name: accountId
+            in: query
+            value: ACCOUNT-0001
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"success":true}
+            type: simple
+    x-speakeasy-test-group: predictions_orders
+    x-speakeasy-test-rebuild: true
+  - workflowId: replacePredictionOrder
+    steps:
+      - stepId: test
+        operationId: replacePredictionOrder
+        parameters:
+          - name: orderId
+            in: path
+            value: 2a410d83-6352-4c2f-b168-8300471c5472
+        requestBody:
+          contentType: application/json
+          payload:
+            accountId: ACCOUNT-0001
+            price: "0.45"
+            quantity: "20"
+        successCriteria:
+          - condition: $statusCode == 202
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"data":{"accountId":"ACCOUNT-0001","avgPx":"0","clientOrderRef":"7d1c8e0a-4b8f-4e3a-9f43-2a6b1d0c9e11","contract":null,"createdAt":"2024-01-23T14:06:02.854Z","cumQty":"0","leavesQty":"10","orderId":"0b9f3c2e-5d6a-4f1b-8e7c-9a0d1e2f3a4b","orderType":"limit","outcome":"YES","price":"0.54","quantity":"10","side":"buy","state":"pending_new","stopPx":"0.50","symbol":"HORC_1126_Republican","timeInForce":"day","updatedAt":"2024-12-27T23:26:21.261Z","workingPrice":"0.54","workingQuantity":"10"},"success":true}
+            type: simple
+    x-speakeasy-test-group: predictions_orders
+    x-speakeasy-test-rebuild: true
+  - workflowId: cancelPredictionOrder
+    steps:
+      - stepId: test
+        operationId: cancelPredictionOrder
+        parameters:
+          - name: orderId
+            in: path
+            value: 912e51a0-6057-4c55-8263-982a49f2808d
+        requestBody:
+          contentType: application/json
+          payload:
+            accountId: ACCOUNT-0001
+        successCriteria:
+          - condition: $statusCode == 202
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"data":{"accountId":"ACCOUNT-0001","avgPx":"0","clientOrderRef":"7d1c8e0a-4b8f-4e3a-9f43-2a6b1d0c9e11","contract":{"description":"Shelley Moore Capito","eventDisplayName":"West Virginia Senate General Election November 3 2026","eventId":"AXXWV_110326","question":"Will Shelley Moore Capito win the West Virginia general election for US Senate in 2026?","settlementValue":"1","state":"ACTIVE"},"createdAt":"2025-09-18T05:57:34.478Z","cumQty":"0","leavesQty":"10","orderId":"0b9f3c2e-5d6a-4f1b-8e7c-9a0d1e2f3a4b","orderType":"limit","outcome":"YES","price":"0.54","quantity":"10","side":"buy","state":"pending_new","stopPx":"0.50","symbol":"HORC_1126_Republican","timeInForce":"day","updatedAt":"2024-02-18T11:17:56.767Z","workingPrice":"0.54","workingQuantity":"10"},"success":true}
+            type: simple
+    x-speakeasy-test-group: predictions_orders
+    x-speakeasy-test-rebuild: true
+  - workflowId: search-base-events
+    steps:
+      - stepId: test
+        operationId: search
+        parameters:
+          - name: type
+            in: query
+            value: contracts
+          - name: q
+            in: query
+            value: unemployment june
+          - name: state
+            in: query
+            value: ACTIVE
+          - name: baseEventId
+            in: query
+            value: UNR
+          - name: eventId
+            in: query
+            value: UNR_0822
+          - name: category
+            in: query
+            value: Elections > United States House
+          - name: sortBy
+            in: query
+            value: none
+          - name: page
+            in: query
+            value: 1
+          - name: perPage
+            in: query
+            value: 20
+          - name: contractsPerHit
+            in: query
+            value: 2
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"data":{"found":1110,"hits":[{"baseEventId":"HORC","contracts":[{"baseEventId":"HORC","candidateStatus":"C","evaluationType":"==","eventDisplayName":"US House of Representatives Control November 2026","eventId":"HORC_1126","eventQuestion":"Will the Republican Party win a majority in the United States House of Representatives in the 2026 general election?","expirationDate":"2027-01-04T00:00:00Z","frontRunner":true,"incumbent":false,"lastTradeDate":"2027-01-04T00:00:00Z","openInterest":1309471,"party":"R","photo":{"credit":"Gage Skidmore","license":"CC BY-SA 4.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/4.0","sourceUrl":"https://commons.wikimedia.org/wiki/File:K_Paxton.jpg","url":"https://perfumed-godfather.net/"},"question":"Will the Republican Party win a majority in the United States House of Representatives in the 2026 general election?","startDate":"2025-04-02T00:00:00Z","state":"ACTIVE","strikeValue":"Republican","symbol":"HORC_1126_Republican","symbolSubTypes":["YES","NO"],"tickSize":"0.01","timeSpecifier":"2026.11","tradable":true,"underlyingSpec":"The underlying is the political party whose members control at least 218 seats in the US House of Representatives on January 3rd of the year following a Congressional election. The list of US Representatives at the convening of each Congress is published January 4th on Congress.gov."}, {"baseEventId":"HORC","candidateStatus":"C","evaluationType":"==","eventDisplayName":"US House of Representatives Control November 2026","eventId":"HORC_1126","eventQuestion":"Will the Republican Party win a majority in the United States House of Representatives in the 2026 general election?","expirationDate":"2027-01-04T00:00:00Z","frontRunner":false,"incumbent":true,"lastTradeDate":"2027-01-04T00:00:00Z","openInterest":1204730,"party":"R","photo":{"credit":"Gage Skidmore","license":"CC BY-SA 4.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/4.0","sourceUrl":"https://commons.wikimedia.org/wiki/File:K_Paxton.jpg","url":"https://perfumed-godfather.net/"},"question":"Will the Democratic Party win a majority in the United States House of Representatives in the 2026 general election?","startDate":"2024-11-27T00:00:00Z","state":"ACTIVE","strikeValue":"Democratic","symbol":"HORC_1126_Democratic","symbolSubTypes":["YES","NO"],"tickSize":"0.01","timeSpecifier":"2026.11","tradable":true,"underlyingSpec":"The underlying is the political party whose members control at least 218 seats in the US House of Representatives on January 3rd of the year following a Congressional election. The list of US Representatives at the convening of each Congress is published January 4th on Congress.gov."}],"contractsFound":3,"openInterest":2514201,"underlyingSpec":"The underlying is the political party whose members control at least 218 seats in the US House of Representatives on January 3rd of the year following a Congressional election. The list of US Representatives at the convening of each Congress is published January 4th on Congress.gov."}],"page":1,"perPage":1,"type":"base-events"},"success":true}
+            type: simple
+    x-speakeasy-test-group: predictionsMarkets
+    x-speakeasy-test-rebuild: true
+  - workflowId: search-contracts
+    steps:
+      - stepId: test
+        operationId: search
+        parameters:
+          - name: type
+            in: query
+            value: contracts
+          - name: q
+            in: query
+            value: unemployment june
+          - name: state
+            in: query
+            value: ACTIVE
+          - name: baseEventId
+            in: query
+            value: UNR
+          - name: eventId
+            in: query
+            value: UNR_0822
+          - name: category
+            in: query
+            value: Elections > United States House
+          - name: sortBy
+            in: query
+            value: none
+          - name: page
+            in: query
+            value: 1
+          - name: perPage
+            in: query
+            value: 20
+          - name: contractsPerHit
+            in: query
+            value: 2
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"data":{"found":35000,"hits":[{"baseEventId":"HORC","candidateStatus":"C","evaluationType":"==","eventDisplayName":"US House of Representatives Control November 2026","eventId":"HORC_1126","eventQuestion":"Will the Republican Party win a majority in the United States House of Representatives in the 2026 general election?","expirationDate":"2027-01-04T00:00:00Z","frontRunner":true,"incumbent":true,"lastTradeDate":"2027-01-04T00:00:00Z","openInterest":1309471,"party":"R","photo":null,"question":"Will the Republican Party win a majority in the United States House of Representatives in the 2026 general election?","startDate":"2025-04-02T00:00:00Z","state":"ACTIVE","strikeValue":"Republican","symbol":"HORC_1126_Republican","symbolSubTypes":["YES","NO"],"tickSize":"0.01","timeSpecifier":"2026.11","tradable":true,"underlyingSpec":"The underlying is the political party whose members control at least 218 seats in the US House of Representatives on January 3rd of the year following a Congressional election. The list of US Representatives at the convening of each Congress is published January 4th on Congress.gov."}],"page":1,"perPage":1,"type":"contracts"},"success":true}
+            type: simple
+    x-speakeasy-test-group: predictionsMarkets
+    x-speakeasy-test-rebuild: true
+  - workflowId: search-events
+    steps:
+      - stepId: test
+        operationId: search
+        parameters:
+          - name: type
+            in: query
+            value: contracts
+          - name: q
+            in: query
+            value: unemployment june
+          - name: state
+            in: query
+            value: ACTIVE
+          - name: baseEventId
+            in: query
+            value: UNR
+          - name: eventId
+            in: query
+            value: UNR_0822
+          - name: category
+            in: query
+            value: Elections > United States House
+          - name: sortBy
+            in: query
+            value: none
+          - name: page
+            in: query
+            value: 1
+          - name: perPage
+            in: query
+            value: 20
+          - name: contractsPerHit
+            in: query
+            value: 2
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"data":{"found":4005,"hits":[{"baseEventId":"HORC","contracts":[{"baseEventId":"HORC","candidateStatus":"C","evaluationType":"==","eventDisplayName":"US House of Representatives Control November 2026","eventId":"HORC_1126","eventQuestion":"Will the Republican Party win a majority in the United States House of Representatives in the 2026 general election?","expirationDate":"2027-01-04T00:00:00Z","frontRunner":true,"incumbent":true,"lastTradeDate":"2027-01-04T00:00:00Z","openInterest":1309471,"party":"D","photo":{"credit":"Gage Skidmore","license":"CC BY-SA 4.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/4.0","sourceUrl":"https://commons.wikimedia.org/wiki/File:K_Paxton.jpg","url":"https://perfumed-godfather.net/"},"question":"Will the Republican Party win a majority in the United States House of Representatives in the 2026 general election?","startDate":"2025-04-02T00:00:00Z","state":"ACTIVE","strikeValue":"Republican","symbol":"HORC_1126_Republican","symbolSubTypes":["YES","NO"],"tickSize":"0.01","timeSpecifier":"2026.11","tradable":true,"underlyingSpec":"The underlying is the political party whose members control at least 218 seats in the US House of Representatives on January 3rd of the year following a Congressional election. The list of US Representatives at the convening of each Congress is published January 4th on Congress.gov."}, {"baseEventId":"HORC","candidateStatus":"C","evaluationType":"==","eventDisplayName":"US House of Representatives Control November 2026","eventId":"HORC_1126","eventQuestion":"Will the Republican Party win a majority in the United States House of Representatives in the 2026 general election?","expirationDate":"2027-01-04T00:00:00Z","frontRunner":true,"incumbent":true,"lastTradeDate":"2027-01-04T00:00:00Z","openInterest":1204730,"party":"R","photo":{"credit":"Gage Skidmore","license":"CC BY-SA 4.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/4.0","sourceUrl":"https://commons.wikimedia.org/wiki/File:K_Paxton.jpg","url":"https://perfumed-godfather.net/"},"question":"Will the Democratic Party win a majority in the United States House of Representatives in the 2026 general election?","startDate":"2024-11-27T00:00:00Z","state":"ACTIVE","strikeValue":"Democratic","symbol":"HORC_1126_Democratic","symbolSubTypes":["YES","NO"],"tickSize":"0.01","timeSpecifier":"2026.11","tradable":true,"underlyingSpec":"The underlying is the political party whose members control at least 218 seats in the US House of Representatives on January 3rd of the year following a Congressional election. The list of US Representatives at the convening of each Congress is published January 4th on Congress.gov."}],"contractsFound":2,"eventDisplayName":"US House of Representatives Control November 2026","eventId":"HORC_1126","eventQuestion":"Will the Republican Party win a majority in the United States House of Representatives in the 2026 general election?","openInterest":2514201,"timeSpecifier":"2026.11","underlyingSpec":"The underlying is the political party whose members control at least 218 seats in the US House of Representatives on January 3rd of the year following a Congressional election. The list of US Representatives at the convening of each Congress is published January 4th on Congress.gov."}],"page":1,"perPage":1,"type":"events"},"success":true}
+            type: simple
+    x-speakeasy-test-group: predictionsMarkets
+    x-speakeasy-test-rebuild: true
+  - workflowId: getUserInfo
+    steps:
+      - stepId: test
+        operationId: getUserInfo
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {"email":"user@example.com","id":12345}
+            type: simple
+    x-speakeasy-test-group: Users
     x-speakeasy-test-rebuild: true

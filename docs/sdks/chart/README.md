@@ -4,15 +4,15 @@
 
 ### Available Operations
 
-* [get_chart_config](#get_chart_config) - Get Chart Configuration
-* [get_chart_history](#get_chart_history) - Get Historical Chart Data
+* [get_config](#get_config) - Get Chart Configuration
+* [get_history](#get_history) - Get Historical Chart Data
 * [get_quotes](#get_quotes) - Get Real-Time Quotes
 * [search_symbols](#search_symbols) - Search Symbols
-* [get_symbol_info](#get_symbol_info) - Get Symbol Information
-* [get_tick_history](#get_tick_history) - Get Tick-Based Chart Data
-* [get_chart_time](#get_chart_time) - Get Server Time
+* [get_symbols](#get_symbols) - Get Symbol Information
+* [get_tick_based](#get_tick_based) - Get Tick-Based Chart Data
+* [get_time](#get_time) - Get Server Time
 
-## get_chart_config
+## get_config
 
 Returns the chart configuration including supported resolutions and charting capabilities. The response includes tick-based resolutions with a `T` suffix, minute-based resolutions, and daily, weekly, and monthly multipliers used by charting clients. It also indicates whether intraday, daily, weekly, and monthly data are available, plus search and time endpoint support.
 
@@ -30,7 +30,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.chart.get_chart_config()
+    res = fd_client.chart.get_config()
 
     assert res.chart_config is not None
 
@@ -65,7 +65,7 @@ with FinanceDev(
 | errors.AuthenticationErrorEnvelope | 500                                | application/json                   |
 | errors.APIError                    | 4XX, 5XX                           | \*/\*                              |
 
-## get_chart_history
+## get_history
 
 Retrieves historical price bars (OHLCV - Open, High, Low, Close, Volume) for a specific symbol within a date range. This endpoint supports various time resolutions from seconds to months. The data is returned in arrays format optimized for charting libraries, with timestamps in Unix format (seconds).
 
@@ -83,7 +83,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.chart.get_chart_history(symbol="AAPL", resolution=models.ChartResolution.D, from_=1672531200, to=1675209600, include_extended=False)
+    res = fd_client.chart.get_history(symbol="AAPL", resolution=models.ChartResolution.D, from_=1672531200, to=1675209600, include_extended=False)
 
     assert res.chart_bars is not None
 
@@ -233,7 +233,7 @@ with FinanceDev(
 | errors.AuthenticationErrorEnvelope | 500                                | application/json                   |
 | errors.APIError                    | 4XX, 5XX                           | \*/\*                              |
 
-## get_symbol_info
+## get_symbols
 
 Retrieves detailed symbol information for charting: exchange, timezone, session, supported resolutions, price scale, format. Required for TradingView-style chart setup. For **futures**, symbol must start with '/' (e.g., /ES, /NQ).
 
@@ -251,7 +251,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.chart.get_symbol_info(symbol="AAPL")
+    res = fd_client.chart.get_symbols(symbol="AAPL")
 
     assert res.symbol_info is not None
 
@@ -287,7 +287,7 @@ with FinanceDev(
 | errors.AuthenticationErrorEnvelope | 500                                | application/json                   |
 | errors.APIError                    | 4XX, 5XX                           | \*/\*                              |
 
-## get_tick_history
+## get_tick_based
 
 Retrieves tick-based chart bars for a specific symbol. Unlike time-based candles (which close every fixed number of minutes, hours, or days), a tick bar closes every time a fixed number of trades has occurred — for example, a `100T` bar closes after every 100 trades, whether that takes two seconds in a busy market or two minutes in a quiet one. This makes tick charts useful for visualizing market *activity* rather than the *passage of time*, which many traders use to spot momentum and unusual volume. Tick resolutions cannot be derived from time-based bars, so they are served from this dedicated endpoint rather than `/v1/chart/history`. Bar timestamps are returned in Unix milliseconds and are always strictly increasing, even for very actively traded symbols. Because tick bars are built from live trade activity rather than fixed calendar periods, older bars are loaded using the `cursor` pagination token instead of a date range — see the `cursor` and `nextTo` fields below.
 
@@ -305,7 +305,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.chart.get_tick_history(symbol="AAPL", resolution=models.TickResolution.ONE_HUNDRED_T, countback=300, cursor="1784677563966606471")
+    res = fd_client.chart.get_tick_based(symbol="AAPL", resolution=models.TickResolution.ONE_HUNDRED_T, countback=300, cursor="1784677563966606471")
 
     assert res.tick_chart_bars is not None
 
@@ -344,7 +344,7 @@ with FinanceDev(
 | errors.AuthenticationErrorEnvelope | 500                                | application/json                   |
 | errors.APIError                    | 4XX, 5XX                           | \*/\*                              |
 
-## get_chart_time
+## get_time
 
 Returns the current server time as a Unix timestamp in **seconds**. Response is plain text containing only the timestamp number (e.g., 1704067200). Useful for synchronizing client time with the server for charting.
 
@@ -362,7 +362,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.chart.get_chart_time()
+    res = fd_client.chart.get_time()
 
     assert res.res is not None
 

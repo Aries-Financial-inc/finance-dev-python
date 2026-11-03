@@ -7,29 +7,11 @@ import (
 	"mockserver/internal/sdk/models/components"
 )
 
-// GetAggregateTechnicalIndicatorsResolution - How long each bar covers. Supported values are minutes (`1`, `5`, `15`, `30`, `60`) or daily/weekly/monthly (`D`, `W`, `M`). Other values return 400 Bad Request with error code `VALIDATION_ERROR`.
-type GetAggregateTechnicalIndicatorsResolution string
-
-const (
-	GetAggregateTechnicalIndicatorsResolutionOne     GetAggregateTechnicalIndicatorsResolution = "1"
-	GetAggregateTechnicalIndicatorsResolutionFive    GetAggregateTechnicalIndicatorsResolution = "5"
-	GetAggregateTechnicalIndicatorsResolutionFifteen GetAggregateTechnicalIndicatorsResolution = "15"
-	GetAggregateTechnicalIndicatorsResolutionThirty  GetAggregateTechnicalIndicatorsResolution = "30"
-	GetAggregateTechnicalIndicatorsResolutionSixty   GetAggregateTechnicalIndicatorsResolution = "60"
-	GetAggregateTechnicalIndicatorsResolutionD       GetAggregateTechnicalIndicatorsResolution = "D"
-	GetAggregateTechnicalIndicatorsResolutionW       GetAggregateTechnicalIndicatorsResolution = "W"
-	GetAggregateTechnicalIndicatorsResolutionM       GetAggregateTechnicalIndicatorsResolution = "M"
-)
-
-func (e GetAggregateTechnicalIndicatorsResolution) ToPointer() *GetAggregateTechnicalIndicatorsResolution {
-	return &e
-}
-
 type GetAggregateTechnicalIndicatorsRequest struct {
 	// Stock ticker to query. Send the plain uppercase symbol exactly as you'd type it on a brokerage screen, e.g. `AAPL`, `MSFT`, `TSLA`.
 	Symbol string `queryParam:"style=form,explode=true,name=symbol"`
 	// How long each bar covers. Supported values are minutes (`1`, `5`, `15`, `30`, `60`) or daily/weekly/monthly (`D`, `W`, `M`). Other values return 400 Bad Request with error code `VALIDATION_ERROR`.
-	Resolution GetAggregateTechnicalIndicatorsResolution `queryParam:"style=form,explode=true,name=resolution"`
+	Resolution components.BarResolution `queryParam:"style=form,explode=true,name=resolution"`
 }
 
 func (o *GetAggregateTechnicalIndicatorsRequest) GetSymbol() string {
@@ -39,9 +21,9 @@ func (o *GetAggregateTechnicalIndicatorsRequest) GetSymbol() string {
 	return o.Symbol
 }
 
-func (o *GetAggregateTechnicalIndicatorsRequest) GetResolution() GetAggregateTechnicalIndicatorsResolution {
+func (o *GetAggregateTechnicalIndicatorsRequest) GetResolution() components.BarResolution {
 	if o == nil {
-		return GetAggregateTechnicalIndicatorsResolution("")
+		return components.BarResolution("")
 	}
 	return o.Resolution
 }

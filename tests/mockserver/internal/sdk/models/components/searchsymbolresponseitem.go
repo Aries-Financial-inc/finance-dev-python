@@ -3,18 +3,6 @@
 
 package components
 
-// SearchSymbolResponseItemType - Instrument class returned by symbol search.
-type SearchSymbolResponseItemType string
-
-const (
-	SearchSymbolResponseItemTypeStock  SearchSymbolResponseItemType = "stock"
-	SearchSymbolResponseItemTypeOption SearchSymbolResponseItemType = "option"
-)
-
-func (e SearchSymbolResponseItemType) ToPointer() *SearchSymbolResponseItemType {
-	return &e
-}
-
 // SearchSymbolResponseItem - One symbol search result. Use it to let users choose the exact instrument before fetching quotes, research data, or placing orders.
 type SearchSymbolResponseItem struct {
 	// Human-readable company or security name. Show this next to the symbol so users can confirm they selected the intended instrument.
@@ -24,7 +12,7 @@ type SearchSymbolResponseItem struct {
 	// Exchange or source tag, such as `XNAS` for Nasdaq or `OPRA` for options. Use it for display or filtering when multiple instruments share similar symbols.
 	Tag *string `json:"tag,omitempty"`
 	// Instrument class returned by symbol search.
-	Type *SearchSymbolResponseItemType `json:"type,omitempty"`
+	Type *InstrumentType `json:"type,omitempty"`
 }
 
 func (o *SearchSymbolResponseItem) GetDescription() *string {
@@ -48,7 +36,7 @@ func (o *SearchSymbolResponseItem) GetTag() *string {
 	return o.Tag
 }
 
-func (o *SearchSymbolResponseItem) GetType() *SearchSymbolResponseItemType {
+func (o *SearchSymbolResponseItem) GetType() *InstrumentType {
 	if o == nil {
 		return nil
 	}

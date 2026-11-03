@@ -2,14 +2,28 @@
 # @generated-id: 9ca9dae25671
 
 from .basesdk import BaseSDK
+from .sdkconfiguration import SDKConfiguration
 from finance_dev import errors, models, utils
 from finance_dev._hooks import HookContext
+from finance_dev.equities import Equities
 from finance_dev.types import OptionalNullable, UNSET
 from finance_dev.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, Iterable, List, Mapping, Optional
+from typing import Any, Mapping, Optional
 
 
 class Market(BaseSDK):
+    equities: Equities
+
+    def __init__(
+        self, sdk_config: SDKConfiguration, parent_ref: Optional[object] = None
+    ) -> None:
+        BaseSDK.__init__(self, sdk_config, parent_ref=parent_ref)
+        self.sdk_configuration = sdk_config
+        self._init_sdks()
+
+    def _init_sdks(self):
+        self.equities = Equities(self.sdk_configuration, parent_ref=self.parent_ref)
+
     def get_etb_list(
         self,
         *,
@@ -79,7 +93,20 @@ class Market(BaseSDK):
                 oauth2_scopes=["market:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Market Data"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.market.get_etb_list()\n\n    assert res.etb_list_response is not None\n\n    # Handle response\n    print(res.etb_list_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.market.getEtbList();\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -192,7 +219,20 @@ class Market(BaseSDK):
                 oauth2_scopes=["market:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Market Data"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.market.get_etb_list()\n\n    assert res.etb_list_response is not None\n\n    # Handle response\n    print(res.etb_list_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.market.getEtbList();\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -207,268 +247,6 @@ class Market(BaseSDK):
                 ),
                 http_meta=models.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(http_res, "401", "application/json"):
-            response_data = unmarshal_json_response(errors.UnauthorizedUnion, http_res)
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.Unauthorized(response_data, http_res)
-        if utils.match_response(http_res, "403", "application/json"):
-            response_data = unmarshal_json_response(errors.ForbiddenUnion, http_res)
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.Forbidden(response_data, http_res)
-        if utils.match_response(http_res, "500", "application/json"):
-            response_data = unmarshal_json_response(
-                errors.InternalServerErrorUnion, http_res
-            )
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.InternalServerError(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
-            http_res_text = await utils.stream_to_text_async(http_res)
-            raise errors.APIError("API error occurred", http_res, http_res_text)
-        if utils.match_response(http_res, "5XX", "*"):
-            http_res_text = await utils.stream_to_text_async(http_res)
-            raise errors.APIError("API error occurred", http_res, http_res_text)
-
-        raise errors.APIError("Unexpected response received", http_res)
-
-    def search_etb_symbols(
-        self,
-        *,
-        symbols: Iterable[str],
-        retries: OptionalNullable[utils.RetryConfig] = UNSET,
-        server_url: Optional[str] = None,
-        timeout_ms: Optional[int] = None,
-        http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.SearchEtbSymbolsResponse:
-        r"""Search Easy-to-Borrow Symbols
-
-        Answers borrowability for a batch of symbols. Use this instead of fetching the whole list when you only care about a handful — for example, deciding whether to show a short-sell option on a ticker page. This is a POST rather than a GET because a symbol list has no practical URL-length limit. Symbols are uppercased and trimmed before the lookup and duplicates collapse, so `count` can be lower than the number of symbols you sent; always read answers out of `results` by uppercase key rather than matching them against your request array by index. Reads the same underlying set as GET /v1/etb, so the two endpoints can never disagree.
-
-        If set, this operation will use `client_id` from the global security.
-
-        :param symbols: Symbols to check. Case-insensitive and whitespace-trimmed, so `aapl`, ` AAPL `, and `AAPL` are the same symbol and return one entry. A request of only blank strings is rejected with 400 MISSING_SYMBOLS rather than answered with an empty result.
-        :param retries: Override the default retry configuration for this method
-        :param server_url: Override the default server URL for this method
-        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
-        :param http_headers: Additional headers to set or replace on requests.
-        """
-        base_url = None
-        url_variables = None
-        if timeout_ms is None:
-            timeout_ms = self.sdk_configuration.timeout_ms
-
-        if timeout_ms is None:
-            timeout_ms = 30000
-
-        if server_url is not None:
-            base_url = server_url
-        else:
-            base_url = self._get_url(base_url, url_variables)
-
-        request = models.EtbSearchRequest(
-            symbols=utils.unmarshal(symbols, List[str]),
-        )
-
-        req = self._build_request(
-            method="POST",
-            path="/v1/etb/search",
-            base_url=base_url,
-            url_variables=url_variables,
-            request=request,
-            request_body_required=True,
-            request_has_path_params=False,
-            request_has_query_params=True,
-            user_agent_header="user-agent",
-            accept_header_value="application/json",
-            http_headers=http_headers,
-            security=self.sdk_configuration.security,
-            get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, False, "json", models.EtbSearchRequest
-            ),
-            allow_empty_value=None,
-            allowed_fields=["client_id"],
-            timeout_ms=timeout_ms,
-        )
-
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
-            else:
-                retries = utils.RetryConfig(
-                    "backoff", utils.BackoffStrategy(500, 8000, 1.5, 60000), True
-                )
-
-        retry_config = None
-        if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["429", "500", "502", "503", "504"])
-
-        http_res = self.do_request(
-            hook_ctx=HookContext(
-                config=self.sdk_configuration,
-                base_url=base_url or "",
-                operation_id="searchEtbSymbols",
-                oauth2_scopes=["market:information"],
-                security_source=self.sdk_configuration.security,
-                tags=["Market Data"],
-                extensions=None,
-            ),
-            request=req,
-            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
-            retry_config=retry_config,
-        )
-
-        response_data: Any = None
-        if utils.match_response(http_res, "200", "application/json"):
-            return models.SearchEtbSymbolsResponse(
-                etb_search_response=unmarshal_json_response(
-                    Optional[models.EtbSearchResponse], http_res
-                ),
-                http_meta=models.HTTPMetadata(request=req, response=http_res),
-            )
-        if utils.match_response(http_res, "400", "application/json"):
-            response_data = unmarshal_json_response(
-                errors.AuthenticationErrorEnvelopeData, http_res
-            )
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.AuthenticationErrorEnvelope(response_data, http_res)
-        if utils.match_response(http_res, "401", "application/json"):
-            response_data = unmarshal_json_response(errors.UnauthorizedUnion, http_res)
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.Unauthorized(response_data, http_res)
-        if utils.match_response(http_res, "403", "application/json"):
-            response_data = unmarshal_json_response(errors.ForbiddenUnion, http_res)
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.Forbidden(response_data, http_res)
-        if utils.match_response(http_res, "500", "application/json"):
-            response_data = unmarshal_json_response(
-                errors.InternalServerErrorUnion, http_res
-            )
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.InternalServerError(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
-            http_res_text = utils.stream_to_text(http_res)
-            raise errors.APIError("API error occurred", http_res, http_res_text)
-        if utils.match_response(http_res, "5XX", "*"):
-            http_res_text = utils.stream_to_text(http_res)
-            raise errors.APIError("API error occurred", http_res, http_res_text)
-
-        raise errors.APIError("Unexpected response received", http_res)
-
-    async def search_etb_symbols_async(
-        self,
-        *,
-        symbols: Iterable[str],
-        retries: OptionalNullable[utils.RetryConfig] = UNSET,
-        server_url: Optional[str] = None,
-        timeout_ms: Optional[int] = None,
-        http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.SearchEtbSymbolsResponse:
-        r"""Search Easy-to-Borrow Symbols
-
-        Answers borrowability for a batch of symbols. Use this instead of fetching the whole list when you only care about a handful — for example, deciding whether to show a short-sell option on a ticker page. This is a POST rather than a GET because a symbol list has no practical URL-length limit. Symbols are uppercased and trimmed before the lookup and duplicates collapse, so `count` can be lower than the number of symbols you sent; always read answers out of `results` by uppercase key rather than matching them against your request array by index. Reads the same underlying set as GET /v1/etb, so the two endpoints can never disagree.
-
-        If set, this operation will use `client_id` from the global security.
-
-        :param symbols: Symbols to check. Case-insensitive and whitespace-trimmed, so `aapl`, ` AAPL `, and `AAPL` are the same symbol and return one entry. A request of only blank strings is rejected with 400 MISSING_SYMBOLS rather than answered with an empty result.
-        :param retries: Override the default retry configuration for this method
-        :param server_url: Override the default server URL for this method
-        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
-        :param http_headers: Additional headers to set or replace on requests.
-        """
-        base_url = None
-        url_variables = None
-        if timeout_ms is None:
-            timeout_ms = self.sdk_configuration.timeout_ms
-
-        if timeout_ms is None:
-            timeout_ms = 30000
-
-        if server_url is not None:
-            base_url = server_url
-        else:
-            base_url = self._get_url(base_url, url_variables)
-
-        request = models.EtbSearchRequest(
-            symbols=utils.unmarshal(symbols, List[str]),
-        )
-
-        req = self._build_request_async(
-            method="POST",
-            path="/v1/etb/search",
-            base_url=base_url,
-            url_variables=url_variables,
-            request=request,
-            request_body_required=True,
-            request_has_path_params=False,
-            request_has_query_params=True,
-            user_agent_header="user-agent",
-            accept_header_value="application/json",
-            http_headers=http_headers,
-            security=self.sdk_configuration.security,
-            get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, False, "json", models.EtbSearchRequest
-            ),
-            allow_empty_value=None,
-            allowed_fields=["client_id"],
-            timeout_ms=timeout_ms,
-        )
-
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
-            else:
-                retries = utils.RetryConfig(
-                    "backoff", utils.BackoffStrategy(500, 8000, 1.5, 60000), True
-                )
-
-        retry_config = None
-        if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["429", "500", "502", "503", "504"])
-
-        http_res = await self.do_request_async(
-            hook_ctx=HookContext(
-                config=self.sdk_configuration,
-                base_url=base_url or "",
-                operation_id="searchEtbSymbols",
-                oauth2_scopes=["market:information"],
-                security_source=self.sdk_configuration.security,
-                tags=["Market Data"],
-                extensions=None,
-            ),
-            request=req,
-            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
-            retry_config=retry_config,
-        )
-
-        response_data: Any = None
-        if utils.match_response(http_res, "200", "application/json"):
-            return models.SearchEtbSymbolsResponse(
-                etb_search_response=unmarshal_json_response(
-                    Optional[models.EtbSearchResponse], http_res
-                ),
-                http_meta=models.HTTPMetadata(request=req, response=http_res),
-            )
-        if utils.match_response(http_res, "400", "application/json"):
-            response_data = unmarshal_json_response(
-                errors.AuthenticationErrorEnvelopeData, http_res
-            )
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.AuthenticationErrorEnvelope(response_data, http_res)
         if utils.match_response(http_res, "401", "application/json"):
             response_data = unmarshal_json_response(errors.UnauthorizedUnion, http_res)
             response_data.http_meta = models.HTTPMetadata(
@@ -574,7 +352,20 @@ class Market(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Market"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.market.get_holidays(exchange=models.ExchangeCode.US)\n\n    assert res.market_holiday_response is not None\n\n    # Handle response\n    print(res.market_holiday_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.market.getHolidays({});\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -706,7 +497,20 @@ class Market(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Market"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.market.get_holidays(exchange=models.ExchangeCode.US)\n\n    assert res.market_holiday_response is not None\n\n    # Handle response\n    print(res.market_holiday_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.market.getHolidays({});\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -838,7 +642,20 @@ class Market(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Market"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.market.get_status(exchange=models.ExchangeCode.US)\n\n    assert res.market_status is not None\n\n    # Handle response\n    print(res.market_status)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.market.getStatus({});\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -970,7 +787,20 @@ class Market(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Market"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.market.get_status(exchange=models.ExchangeCode.US)\n\n    assert res.market_status is not None\n\n    # Handle response\n    print(res.market_status)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.market.getStatus({});\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -982,534 +812,6 @@ class Market(BaseSDK):
             return models.GetMarketStatusResponse(
                 market_status=unmarshal_json_response(
                     Optional[models.MarketStatus], http_res
-                ),
-                http_meta=models.HTTPMetadata(request=req, response=http_res),
-            )
-        if utils.match_response(http_res, "400", "application/json"):
-            response_data = unmarshal_json_response(errors.BadRequestUnion, http_res)
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.BadRequest(response_data, http_res)
-        if utils.match_response(http_res, "401", "application/json"):
-            response_data = unmarshal_json_response(errors.UnauthorizedUnion, http_res)
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.Unauthorized(response_data, http_res)
-        if utils.match_response(http_res, "403", "application/json"):
-            response_data = unmarshal_json_response(errors.ForbiddenUnion, http_res)
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.Forbidden(response_data, http_res)
-        if utils.match_response(http_res, "404", "application/json"):
-            response_data = unmarshal_json_response(errors.NotFoundUnion, http_res)
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.NotFound(response_data, http_res)
-        if utils.match_response(http_res, "500", "application/json"):
-            response_data = unmarshal_json_response(
-                errors.InternalServerErrorUnion, http_res
-            )
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.InternalServerError(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
-            http_res_text = await utils.stream_to_text_async(http_res)
-            raise errors.APIError("API error occurred", http_res, http_res_text)
-        if utils.match_response(http_res, "5XX", "*"):
-            http_res_text = await utils.stream_to_text_async(http_res)
-            raise errors.APIError("API error occurred", http_res, http_res_text)
-
-        raise errors.APIError("Unexpected response received", http_res)
-
-    def get_equity_details(
-        self,
-        *,
-        symbols: str,
-        retries: OptionalNullable[utils.RetryConfig] = UNSET,
-        server_url: Optional[str] = None,
-        timeout_ms: Optional[int] = None,
-        http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetEquityDetailsResponseResponse:
-        r"""Get equity details
-
-        Batch equity details from an internal cache with an automatic fallback when cached quotes are unavailable. Response includes `data` with per-symbol fields (camelCase: `bidPrice`, `openPrice`, `totalVolume`, etc.); see `EquityDetailsDTO` and `GetEquityDetailsResponse`. At least one symbol is required.
-
-        If set, this operation will use `client_id` from the global security.
-
-        :param symbols: One or more uppercase ticker symbols, separated by commas (e.g. `AAPL,MSFT,GOOGL`). Send at least one. The response order matches the request order.
-        :param retries: Override the default retry configuration for this method
-        :param server_url: Override the default server URL for this method
-        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
-        :param http_headers: Additional headers to set or replace on requests.
-        """
-        base_url = None
-        url_variables = None
-        if timeout_ms is None:
-            timeout_ms = self.sdk_configuration.timeout_ms
-
-        if timeout_ms is None:
-            timeout_ms = 30000
-
-        if server_url is not None:
-            base_url = server_url
-        else:
-            base_url = self._get_url(base_url, url_variables)
-
-        request = models.GetEquityDetailsRequest(
-            symbols=symbols,
-        )
-
-        req = self._build_request(
-            method="GET",
-            path="/v1/marketdata/equities/details",
-            base_url=base_url,
-            url_variables=url_variables,
-            request=request,
-            request_body_required=False,
-            request_has_path_params=False,
-            request_has_query_params=True,
-            user_agent_header="user-agent",
-            accept_header_value="application/json",
-            http_headers=http_headers,
-            security=self.sdk_configuration.security,
-            allow_empty_value=None,
-            allowed_fields=["client_id"],
-            timeout_ms=timeout_ms,
-        )
-
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
-            else:
-                retries = utils.RetryConfig(
-                    "backoff", utils.BackoffStrategy(500, 8000, 1.5, 60000), True
-                )
-
-        retry_config = None
-        if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["429", "500", "502", "503", "504"])
-
-        http_res = self.do_request(
-            hook_ctx=HookContext(
-                config=self.sdk_configuration,
-                base_url=base_url or "",
-                operation_id="getEquityDetails",
-                oauth2_scopes=["market:information"],
-                security_source=self.sdk_configuration.security,
-                tags=["Market Data"],
-                extensions=None,
-            ),
-            request=req,
-            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
-            retry_config=retry_config,
-        )
-
-        response_data: Any = None
-        if utils.match_response(http_res, "200", "application/json"):
-            return models.GetEquityDetailsResponseResponse(
-                get_equity_details_response=unmarshal_json_response(
-                    Optional[models.GetEquityDetailsResponse], http_res
-                ),
-                http_meta=models.HTTPMetadata(request=req, response=http_res),
-            )
-        if utils.match_response(http_res, "400", "application/json"):
-            response_data = unmarshal_json_response(errors.BadRequestUnion, http_res)
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.BadRequest(response_data, http_res)
-        if utils.match_response(http_res, "401", "application/json"):
-            response_data = unmarshal_json_response(errors.UnauthorizedUnion, http_res)
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.Unauthorized(response_data, http_res)
-        if utils.match_response(http_res, "403", "application/json"):
-            response_data = unmarshal_json_response(errors.ForbiddenUnion, http_res)
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.Forbidden(response_data, http_res)
-        if utils.match_response(http_res, "404", "application/json"):
-            response_data = unmarshal_json_response(errors.NotFoundUnion, http_res)
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.NotFound(response_data, http_res)
-        if utils.match_response(http_res, "500", "application/json"):
-            response_data = unmarshal_json_response(
-                errors.InternalServerErrorUnion, http_res
-            )
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.InternalServerError(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
-            http_res_text = utils.stream_to_text(http_res)
-            raise errors.APIError("API error occurred", http_res, http_res_text)
-        if utils.match_response(http_res, "5XX", "*"):
-            http_res_text = utils.stream_to_text(http_res)
-            raise errors.APIError("API error occurred", http_res, http_res_text)
-
-        raise errors.APIError("Unexpected response received", http_res)
-
-    async def get_equity_details_async(
-        self,
-        *,
-        symbols: str,
-        retries: OptionalNullable[utils.RetryConfig] = UNSET,
-        server_url: Optional[str] = None,
-        timeout_ms: Optional[int] = None,
-        http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetEquityDetailsResponseResponse:
-        r"""Get equity details
-
-        Batch equity details from an internal cache with an automatic fallback when cached quotes are unavailable. Response includes `data` with per-symbol fields (camelCase: `bidPrice`, `openPrice`, `totalVolume`, etc.); see `EquityDetailsDTO` and `GetEquityDetailsResponse`. At least one symbol is required.
-
-        If set, this operation will use `client_id` from the global security.
-
-        :param symbols: One or more uppercase ticker symbols, separated by commas (e.g. `AAPL,MSFT,GOOGL`). Send at least one. The response order matches the request order.
-        :param retries: Override the default retry configuration for this method
-        :param server_url: Override the default server URL for this method
-        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
-        :param http_headers: Additional headers to set or replace on requests.
-        """
-        base_url = None
-        url_variables = None
-        if timeout_ms is None:
-            timeout_ms = self.sdk_configuration.timeout_ms
-
-        if timeout_ms is None:
-            timeout_ms = 30000
-
-        if server_url is not None:
-            base_url = server_url
-        else:
-            base_url = self._get_url(base_url, url_variables)
-
-        request = models.GetEquityDetailsRequest(
-            symbols=symbols,
-        )
-
-        req = self._build_request_async(
-            method="GET",
-            path="/v1/marketdata/equities/details",
-            base_url=base_url,
-            url_variables=url_variables,
-            request=request,
-            request_body_required=False,
-            request_has_path_params=False,
-            request_has_query_params=True,
-            user_agent_header="user-agent",
-            accept_header_value="application/json",
-            http_headers=http_headers,
-            security=self.sdk_configuration.security,
-            allow_empty_value=None,
-            allowed_fields=["client_id"],
-            timeout_ms=timeout_ms,
-        )
-
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
-            else:
-                retries = utils.RetryConfig(
-                    "backoff", utils.BackoffStrategy(500, 8000, 1.5, 60000), True
-                )
-
-        retry_config = None
-        if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["429", "500", "502", "503", "504"])
-
-        http_res = await self.do_request_async(
-            hook_ctx=HookContext(
-                config=self.sdk_configuration,
-                base_url=base_url or "",
-                operation_id="getEquityDetails",
-                oauth2_scopes=["market:information"],
-                security_source=self.sdk_configuration.security,
-                tags=["Market Data"],
-                extensions=None,
-            ),
-            request=req,
-            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
-            retry_config=retry_config,
-        )
-
-        response_data: Any = None
-        if utils.match_response(http_res, "200", "application/json"):
-            return models.GetEquityDetailsResponseResponse(
-                get_equity_details_response=unmarshal_json_response(
-                    Optional[models.GetEquityDetailsResponse], http_res
-                ),
-                http_meta=models.HTTPMetadata(request=req, response=http_res),
-            )
-        if utils.match_response(http_res, "400", "application/json"):
-            response_data = unmarshal_json_response(errors.BadRequestUnion, http_res)
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.BadRequest(response_data, http_res)
-        if utils.match_response(http_res, "401", "application/json"):
-            response_data = unmarshal_json_response(errors.UnauthorizedUnion, http_res)
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.Unauthorized(response_data, http_res)
-        if utils.match_response(http_res, "403", "application/json"):
-            response_data = unmarshal_json_response(errors.ForbiddenUnion, http_res)
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.Forbidden(response_data, http_res)
-        if utils.match_response(http_res, "404", "application/json"):
-            response_data = unmarshal_json_response(errors.NotFoundUnion, http_res)
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.NotFound(response_data, http_res)
-        if utils.match_response(http_res, "500", "application/json"):
-            response_data = unmarshal_json_response(
-                errors.InternalServerErrorUnion, http_res
-            )
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.InternalServerError(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
-            http_res_text = await utils.stream_to_text_async(http_res)
-            raise errors.APIError("API error occurred", http_res, http_res_text)
-        if utils.match_response(http_res, "5XX", "*"):
-            http_res_text = await utils.stream_to_text_async(http_res)
-            raise errors.APIError("API error occurred", http_res, http_res_text)
-
-        raise errors.APIError("Unexpected response received", http_res)
-
-    def get_option_details(
-        self,
-        *,
-        symbols: str,
-        retries: OptionalNullable[utils.RetryConfig] = UNSET,
-        server_url: Optional[str] = None,
-        timeout_ms: Optional[int] = None,
-        http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetOptionDetailsResponseResponse:
-        r"""Get option details
-
-        Batch option contract details for one or more OSI option symbols. Response includes `data` with per-symbol pricing fields (`lastPrice`, `bidPrice`, `askPrice`, `midPrice`, `closePrice`) and an `errors` array for symbols that cannot be returned. At least one symbol is required.
-
-        If set, this operation will use `client_id` from the global security.
-
-        :param symbols: One or more OSI option symbols, separated by commas (e.g. `GOOG270115C00285000`). Send at least one. The response order matches the request order.
-        :param retries: Override the default retry configuration for this method
-        :param server_url: Override the default server URL for this method
-        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
-        :param http_headers: Additional headers to set or replace on requests.
-        """
-        base_url = None
-        url_variables = None
-        if timeout_ms is None:
-            timeout_ms = self.sdk_configuration.timeout_ms
-
-        if timeout_ms is None:
-            timeout_ms = 30000
-
-        if server_url is not None:
-            base_url = server_url
-        else:
-            base_url = self._get_url(base_url, url_variables)
-
-        request = models.GetOptionDetailsRequest(
-            symbols=symbols,
-        )
-
-        req = self._build_request(
-            method="GET",
-            path="/v1/marketdata/options/details",
-            base_url=base_url,
-            url_variables=url_variables,
-            request=request,
-            request_body_required=False,
-            request_has_path_params=False,
-            request_has_query_params=True,
-            user_agent_header="user-agent",
-            accept_header_value="application/json",
-            http_headers=http_headers,
-            security=self.sdk_configuration.security,
-            allow_empty_value=None,
-            allowed_fields=["client_id"],
-            timeout_ms=timeout_ms,
-        )
-
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
-            else:
-                retries = utils.RetryConfig(
-                    "backoff", utils.BackoffStrategy(500, 8000, 1.5, 60000), True
-                )
-
-        retry_config = None
-        if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["429", "500", "502", "503", "504"])
-
-        http_res = self.do_request(
-            hook_ctx=HookContext(
-                config=self.sdk_configuration,
-                base_url=base_url or "",
-                operation_id="getOptionDetails",
-                oauth2_scopes=["market:information"],
-                security_source=self.sdk_configuration.security,
-                tags=["Market Data"],
-                extensions=None,
-            ),
-            request=req,
-            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
-            retry_config=retry_config,
-        )
-
-        response_data: Any = None
-        if utils.match_response(http_res, "200", "application/json"):
-            return models.GetOptionDetailsResponseResponse(
-                get_option_details_response=unmarshal_json_response(
-                    Optional[models.GetOptionDetailsResponse], http_res
-                ),
-                http_meta=models.HTTPMetadata(request=req, response=http_res),
-            )
-        if utils.match_response(http_res, "400", "application/json"):
-            response_data = unmarshal_json_response(errors.BadRequestUnion, http_res)
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.BadRequest(response_data, http_res)
-        if utils.match_response(http_res, "401", "application/json"):
-            response_data = unmarshal_json_response(errors.UnauthorizedUnion, http_res)
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.Unauthorized(response_data, http_res)
-        if utils.match_response(http_res, "403", "application/json"):
-            response_data = unmarshal_json_response(errors.ForbiddenUnion, http_res)
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.Forbidden(response_data, http_res)
-        if utils.match_response(http_res, "404", "application/json"):
-            response_data = unmarshal_json_response(errors.NotFoundUnion, http_res)
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.NotFound(response_data, http_res)
-        if utils.match_response(http_res, "500", "application/json"):
-            response_data = unmarshal_json_response(
-                errors.InternalServerErrorUnion, http_res
-            )
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.InternalServerError(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
-            http_res_text = utils.stream_to_text(http_res)
-            raise errors.APIError("API error occurred", http_res, http_res_text)
-        if utils.match_response(http_res, "5XX", "*"):
-            http_res_text = utils.stream_to_text(http_res)
-            raise errors.APIError("API error occurred", http_res, http_res_text)
-
-        raise errors.APIError("Unexpected response received", http_res)
-
-    async def get_option_details_async(
-        self,
-        *,
-        symbols: str,
-        retries: OptionalNullable[utils.RetryConfig] = UNSET,
-        server_url: Optional[str] = None,
-        timeout_ms: Optional[int] = None,
-        http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetOptionDetailsResponseResponse:
-        r"""Get option details
-
-        Batch option contract details for one or more OSI option symbols. Response includes `data` with per-symbol pricing fields (`lastPrice`, `bidPrice`, `askPrice`, `midPrice`, `closePrice`) and an `errors` array for symbols that cannot be returned. At least one symbol is required.
-
-        If set, this operation will use `client_id` from the global security.
-
-        :param symbols: One or more OSI option symbols, separated by commas (e.g. `GOOG270115C00285000`). Send at least one. The response order matches the request order.
-        :param retries: Override the default retry configuration for this method
-        :param server_url: Override the default server URL for this method
-        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
-        :param http_headers: Additional headers to set or replace on requests.
-        """
-        base_url = None
-        url_variables = None
-        if timeout_ms is None:
-            timeout_ms = self.sdk_configuration.timeout_ms
-
-        if timeout_ms is None:
-            timeout_ms = 30000
-
-        if server_url is not None:
-            base_url = server_url
-        else:
-            base_url = self._get_url(base_url, url_variables)
-
-        request = models.GetOptionDetailsRequest(
-            symbols=symbols,
-        )
-
-        req = self._build_request_async(
-            method="GET",
-            path="/v1/marketdata/options/details",
-            base_url=base_url,
-            url_variables=url_variables,
-            request=request,
-            request_body_required=False,
-            request_has_path_params=False,
-            request_has_query_params=True,
-            user_agent_header="user-agent",
-            accept_header_value="application/json",
-            http_headers=http_headers,
-            security=self.sdk_configuration.security,
-            allow_empty_value=None,
-            allowed_fields=["client_id"],
-            timeout_ms=timeout_ms,
-        )
-
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
-            else:
-                retries = utils.RetryConfig(
-                    "backoff", utils.BackoffStrategy(500, 8000, 1.5, 60000), True
-                )
-
-        retry_config = None
-        if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["429", "500", "502", "503", "504"])
-
-        http_res = await self.do_request_async(
-            hook_ctx=HookContext(
-                config=self.sdk_configuration,
-                base_url=base_url or "",
-                operation_id="getOptionDetails",
-                oauth2_scopes=["market:information"],
-                security_source=self.sdk_configuration.security,
-                tags=["Market Data"],
-                extensions=None,
-            ),
-            request=req,
-            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
-            retry_config=retry_config,
-        )
-
-        response_data: Any = None
-        if utils.match_response(http_res, "200", "application/json"):
-            return models.GetOptionDetailsResponseResponse(
-                get_option_details_response=unmarshal_json_response(
-                    Optional[models.GetOptionDetailsResponse], http_res
                 ),
                 http_meta=models.HTTPMetadata(request=req, response=http_res),
             )

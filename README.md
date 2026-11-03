@@ -245,7 +245,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.accounts.get_account_positions(id="TEST-ACCOUNT-001")
+    res = fd_client.accounts.get_positions(id="TEST-ACCOUNT-001")
 
     assert res.get_positions_response is not None
 
@@ -271,7 +271,7 @@ async def main():
         ),
     ) as fd_client:
 
-        res = await fd_client.accounts.get_account_positions_async(id="TEST-ACCOUNT-001")
+        res = await fd_client.accounts.get_positions_async(id="TEST-ACCOUNT-001")
 
         assert res.get_positions_response is not None
 
@@ -305,7 +305,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.accounts.get_account_positions(id="TEST-ACCOUNT-001")
+    res = fd_client.accounts.get_positions(id="TEST-ACCOUNT-001")
 
     assert res.get_positions_response is not None
 
@@ -323,9 +323,12 @@ with FinanceDev(
 
 ### [Accounts](docs/sdks/accounts/README.md)
 
-* [get_account_positions](docs/sdks/accounts/README.md#get_account_positions) - Get Account Positions
-* [get_account_balance](docs/sdks/accounts/README.md#get_account_balance) - Get Account Balance
-* [get_user_accounts](docs/sdks/accounts/README.md#get_user_accounts) - Get User Accounts
+* [get_positions](docs/sdks/accounts/README.md#get_positions) - Get Account Positions
+* [get_balance](docs/sdks/accounts/README.md#get_balance) - Get Account Balance
+
+#### [Accounts.Orders](docs/sdks/accountsorders/README.md)
+
+* [list_active](docs/sdks/accountsorders/README.md#list_active) - List active orders (v2)
 
 ### [Analytics](docs/sdks/analytics/README.md)
 
@@ -337,35 +340,41 @@ with FinanceDev(
 * [get_sector_wise_change](docs/sdks/analytics/README.md#get_sector_wise_change) - Get Sector-wise Change
 * [get_top_gainers](docs/sdks/analytics/README.md#get_top_gainers) - Get Top Gaining Stocks
 * [get_top_losers](docs/sdks/analytics/README.md#get_top_losers) - Get Top Losing Stocks
-* [get_top_most_active](docs/sdks/analytics/README.md#get_top_most_active) - Get Most Active Stocks
-* [get_options_et_fs_top_volume](docs/sdks/analytics/README.md#get_options_et_fs_top_volume) - Get Top ETF Options by Volume
+* [get_options_etfs_top_volume](docs/sdks/analytics/README.md#get_options_etfs_top_volume) - Get Top ETF Options by Volume
 * [get_options_stocks_top_gainers](docs/sdks/analytics/README.md#get_options_stocks_top_gainers) - Get Top Stock Options by Gains
-* [get_options_stocks_top_volume](docs/sdks/analytics/README.md#get_options_stocks_top_volume) - Get Top Stock Options by Volume
+* [get_top_volume_options](docs/sdks/analytics/README.md#get_top_volume_options) - Get Top Stock Options by Volume
 * [stock_screener](docs/sdks/analytics/README.md#stock_screener) - Stock Screener
 
-### [Calendar](docs/sdks/calendar/README.md)
+#### [Analytics.TopMostActive](docs/sdks/topmostactive/README.md)
 
-* [get_conference_calls](docs/sdks/calendar/README.md#get_conference_calls) - Get Conference Calls
-* [get_earnings_calendar](docs/sdks/calendar/README.md#get_earnings_calendar) - Get Earnings Calendar
-* [get_economics_calendar](docs/sdks/calendar/README.md#get_economics_calendar) - Get Economics Calendar
-* [get_historical_data](docs/sdks/calendar/README.md#get_historical_data) - Get Historical Economic Data
-* [get_mergers_and_acquisitions](docs/sdks/calendar/README.md#get_mergers_and_acquisitions) - Get Mergers & Acquisitions
+* [list](docs/sdks/topmostactive/README.md#list) - Get Most Active Stocks
+
+### [Calendars](docs/sdks/calendars/README.md)
+
+* [get_conference_calls](docs/sdks/calendars/README.md#get_conference_calls) - Get Conference Calls
+* [get_earnings](docs/sdks/calendars/README.md#get_earnings) - Get Earnings Calendar
+* [get_economics](docs/sdks/calendars/README.md#get_economics) - Get Economics Calendar
+* [get_historical_data](docs/sdks/calendars/README.md#get_historical_data) - Get Historical Economic Data
+* [get_mergers_and_acquisitions](docs/sdks/calendars/README.md#get_mergers_and_acquisitions) - Get Mergers & Acquisitions
 
 ### [Chart](docs/sdks/chart/README.md)
 
-* [get_chart_config](docs/sdks/chart/README.md#get_chart_config) - Get Chart Configuration
-* [get_chart_history](docs/sdks/chart/README.md#get_chart_history) - Get Historical Chart Data
+* [get_config](docs/sdks/chart/README.md#get_config) - Get Chart Configuration
+* [get_history](docs/sdks/chart/README.md#get_history) - Get Historical Chart Data
 * [get_quotes](docs/sdks/chart/README.md#get_quotes) - Get Real-Time Quotes
 * [search_symbols](docs/sdks/chart/README.md#search_symbols) - Search Symbols
-* [get_symbol_info](docs/sdks/chart/README.md#get_symbol_info) - Get Symbol Information
-* [get_tick_history](docs/sdks/chart/README.md#get_tick_history) - Get Tick-Based Chart Data
-* [get_chart_time](docs/sdks/chart/README.md#get_chart_time) - Get Server Time
+* [get_symbols](docs/sdks/chart/README.md#get_symbols) - Get Symbol Information
+* [get_tick_based](docs/sdks/chart/README.md#get_tick_based) - Get Tick-Based Chart Data
+* [get_time](docs/sdks/chart/README.md#get_time) - Get Server Time
+
+### [Companies](docs/sdks/companies/README.md)
+
+* [get_peers](docs/sdks/companies/README.md#get_peers) - Get Company Peers
 
 ### [Company](docs/sdks/company/README.md)
 
 * [get_executive](docs/sdks/company/README.md#get_executive) - Get Company Executives
 * [get_financial_metrics](docs/sdks/company/README.md#get_financial_metrics) - Get Company Financial Metrics
-* [get_peers](docs/sdks/company/README.md#get_peers) - Get Company Peers
 * [get_profile](docs/sdks/company/README.md#get_profile) - Get Company Profile
 
 ### [CorporateActions](docs/sdks/corporateactions/README.md)
@@ -399,7 +408,6 @@ with FinanceDev(
 
 ### [Financials](docs/sdks/financials/README.md)
 
-* [get_cash_flow_statements](docs/sdks/financials/README.md#get_cash_flow_statements) - Get Cash Flow Statements
 * [get_income_statements](docs/sdks/financials/README.md#get_income_statements) - Get Income Statements
 * [get_ratios](docs/sdks/financials/README.md#get_ratios) - Get Financial Ratios
 * [get_reported](docs/sdks/financials/README.md#get_reported) - Get Reported Financials
@@ -407,6 +415,10 @@ with FinanceDev(
 * [get_short_interest](docs/sdks/financials/README.md#get_short_interest) - Get Short Interest Data
 * [get_short_volume](docs/sdks/financials/README.md#get_short_volume) - Get Short Volume Data
 * [get_statements](docs/sdks/financials/README.md#get_statements) - Get Financial Statements
+
+#### [Financials.CashFlowStatements](docs/sdks/cashflowstatements/README.md)
+
+* [get](docs/sdks/cashflowstatements/README.md#get) - Get Cash Flow Statements
 
 ### [Indices](docs/sdks/indices/README.md)
 
@@ -427,19 +439,22 @@ with FinanceDev(
 ### [Market](docs/sdks/market/README.md)
 
 * [get_etb_list](docs/sdks/market/README.md#get_etb_list) - Get Easy-to-Borrow List
-* [search_etb_symbols](docs/sdks/market/README.md#search_etb_symbols) - Search Easy-to-Borrow Symbols
 * [get_holidays](docs/sdks/market/README.md#get_holidays) - Get Market Holidays
 * [get_status](docs/sdks/market/README.md#get_status) - Get Market Status
-* [get_equity_details](docs/sdks/market/README.md#get_equity_details) - Get equity details
-* [get_option_details](docs/sdks/market/README.md#get_option_details) - Get option details
+
+#### [Market.Equities](docs/sdks/equities/README.md)
+
+* [get_details](docs/sdks/equities/README.md#get_details) - Get equity details
 
 ### [MarketData](docs/sdks/marketdata/README.md)
 
+* [search_etb_symbols](docs/sdks/marketdata/README.md#search_etb_symbols) - Search Easy-to-Borrow Symbols
+* [get_option_details](docs/sdks/marketdata/README.md#get_option_details) - Get option details
 * [search_symbols](docs/sdks/marketdata/README.md#search_symbols) - Search Symbols
 
 ### [News](docs/sdks/newssdk/README.md)
 
-* [get_news](docs/sdks/newssdk/README.md#get_news) - Get Market News
+* [list](docs/sdks/newssdk/README.md#list) - Get Market News
 * [get_sentiment](docs/sdks/newssdk/README.md#get_sentiment) - Get News Sentiment
 * [get_by_id](docs/sdks/newssdk/README.md#get_by_id) - Get News by ID
 
@@ -450,8 +465,8 @@ with FinanceDev(
 * [get_open_close_data](docs/sdks/options/README.md#get_open_close_data) - Get Option Open/Close Data
 * [get_previous_day](docs/sdks/options/README.md#get_previous_day) - Get Previous Day Option Data
 * [get_quotes](docs/sdks/options/README.md#get_quotes) - Get Options Quotes
-* [get_option_chain_snapshot](docs/sdks/options/README.md#get_option_chain_snapshot) - Get option chain snapshot
-* [get_option_contract_snapshot](docs/sdks/options/README.md#get_option_contract_snapshot) - Get option contract snapshot
+* [get_chain_snapshot](docs/sdks/options/README.md#get_chain_snapshot) - Get option chain snapshot
+* [get_snapshot](docs/sdks/options/README.md#get_snapshot) - Get option contract snapshot
 * [get_trades](docs/sdks/options/README.md#get_trades) - Get Options Trades
 * [get_unusual_activity](docs/sdks/options/README.md#get_unusual_activity) - Get Options Unusual Activity by Symbol
 * [get_contracts](docs/sdks/options/README.md#get_contracts) - Get Options Contract Symbols
@@ -459,12 +474,11 @@ with FinanceDev(
 
 ### [Orders](docs/sdks/orders/README.md)
 
-* [place_order](docs/sdks/orders/README.md#place_order) - Place an order
+* [create](docs/sdks/orders/README.md#create) - Place an order
 * [cancel](docs/sdks/orders/README.md#cancel) - Cancel an order
-* [preview_order](docs/sdks/orders/README.md#preview_order) - Preview order
+* [preview](docs/sdks/orders/README.md#preview) - Preview order
 * [replace](docs/sdks/orders/README.md#replace) - Replace an order
-* [list_active_orders](docs/sdks/orders/README.md#list_active_orders) - List active orders (v2)
-* [list_order_history](docs/sdks/orders/README.md#list_order_history) - List order history (v2)
+* [get_history](docs/sdks/orders/README.md#get_history) - List order history (v2)
 
 ### [Ownership](docs/sdks/ownership/README.md)
 
@@ -474,23 +488,45 @@ with FinanceDev(
 * [get_fund_data](docs/sdks/ownership/README.md#get_fund_data) - Get Fund Ownership Data
 * [get_insider_transactions](docs/sdks/ownership/README.md#get_insider_transactions) - Get Insider Transactions
 
-### [Predictions.History](docs/sdks/history/README.md)
+### [PredictionHistoricalData](docs/sdks/predictionhistoricaldata/README.md)
 
-* [get_history](docs/sdks/history/README.md#get_history) - Get historical ticks for a single symbol
-* [get_history_batch](docs/sdks/history/README.md#get_history_batch) - Batch historical ticks for up to 5 symbols
+* [get](docs/sdks/predictionhistoricaldata/README.md#get) - Get historical ticks for a single symbol
 
-### [Predictions.Markets](docs/sdks/markets/README.md)
+### [PredictionMarketCategories](docs/sdks/predictionmarketcategories/README.md)
 
-* [get_base_event](docs/sdks/markets/README.md#get_base_event) - Get a base event with its events and each event's contracts
-* [list_categories](docs/sdks/markets/README.md#list_categories) - List prediction market categories
-* [get_event_contracts](docs/sdks/markets/README.md#get_event_contracts) - Get an event and all contracts under it
-* [search](docs/sdks/markets/README.md#search) - Search contracts, events or base events
+* [list](docs/sdks/predictionmarketcategories/README.md#list) - List prediction market categories
 
-### [Predictions.Orders](docs/sdks/predictionsorders/README.md)
+### [PredictionMarkets](docs/sdks/predictionmarkets/README.md)
 
-* [list_prediction_orders](docs/sdks/predictionsorders/README.md#list_prediction_orders) - List prediction orders
-* [place_prediction_order](docs/sdks/predictionsorders/README.md#place_prediction_order) - Place prediction order
-* [get_prediction_order](docs/sdks/predictionsorders/README.md#get_prediction_order) - Get prediction order
+* [get_base_event](docs/sdks/predictionmarkets/README.md#get_base_event) - Get a base event with its events and each event's contracts
+* [get_event_contracts](docs/sdks/predictionmarkets/README.md#get_event_contracts) - Get an event and all contracts under it
+
+### [PredictionOrders](docs/sdks/predictionorders/README.md)
+
+* [create](docs/sdks/predictionorders/README.md#create) - Place prediction order
+* [get](docs/sdks/predictionorders/README.md#get) - Get prediction order
+
+### [Predictions](docs/sdks/predictions/README.md)
+
+* [batch_get](docs/sdks/predictions/README.md#batch_get) - Batch historical ticks for up to 5 symbols
+* [list_orders](docs/sdks/predictions/README.md#list_orders) - List current prediction orders
+
+#### [Predictions.Markets](docs/sdks/markets/README.md)
+
+* [get_election_map](docs/sdks/markets/README.md#get_election_map) - Get every race of an election cycle with its candidates' prices
+
+#### [Predictions.Orders](docs/sdks/predictionsorders/README.md)
+
+* [list_prediction_order_history](docs/sdks/predictionsorders/README.md#list_prediction_order_history) - List prediction order history
+* [list_prediction_mass_cancels](docs/sdks/predictionsorders/README.md#list_prediction_mass_cancels) - List prediction mass cancels
+* [mass_cancel_prediction_orders](docs/sdks/predictionsorders/README.md#mass_cancel_prediction_orders) - Mass cancel prediction orders
+* [get_prediction_mass_cancel](docs/sdks/predictionsorders/README.md#get_prediction_mass_cancel) - Get prediction mass cancel
+* [replace_prediction_order](docs/sdks/predictionsorders/README.md#replace_prediction_order) - Replace prediction order
+* [cancel_prediction_order](docs/sdks/predictionsorders/README.md#cancel_prediction_order) - Cancel prediction order
+
+### [PredictionsMarkets](docs/sdks/predictionsmarkets/README.md)
+
+* [search](docs/sdks/predictionsmarkets/README.md#search) - Search contracts, events or base events
 
 ### [Signals](docs/sdks/signals/README.md)
 
@@ -550,14 +586,22 @@ with FinanceDev(
 * [get_support_resistance](docs/sdks/technicalanalysissdk/README.md#get_support_resistance) - Get Support & Resistance Levels
 * [get_technical_indicator](docs/sdks/technicalanalysissdk/README.md#get_technical_indicator) - Get Aggregate Technical Indicators
 
-### [Watchlist](docs/sdks/watchlistsdk/README.md)
+### [Users](docs/sdks/users/README.md)
 
-* [list](docs/sdks/watchlistsdk/README.md#list) - List Watchlists
-* [create](docs/sdks/watchlistsdk/README.md#create) - Create Watchlist
-* [replace_all](docs/sdks/watchlistsdk/README.md#replace_all) - Replace All Watchlists
-* [delete](docs/sdks/watchlistsdk/README.md#delete) - Delete Watchlist
-* [get](docs/sdks/watchlistsdk/README.md#get) - Get Watchlist
-* [update](docs/sdks/watchlistsdk/README.md#update) - Update Watchlist
+* [get_user_info](docs/sdks/users/README.md#get_user_info) - Get User Info
+
+### [Users.Accounts](docs/sdks/usersaccounts/README.md)
+
+* [list](docs/sdks/usersaccounts/README.md#list) - Get User Accounts
+
+### [Watchlists](docs/sdks/watchlists/README.md)
+
+* [list](docs/sdks/watchlists/README.md#list) - List Watchlists
+* [create](docs/sdks/watchlists/README.md#create) - Create Watchlist
+* [replace_all](docs/sdks/watchlists/README.md#replace_all) - Replace All Watchlists
+* [delete](docs/sdks/watchlists/README.md#delete) - Delete Watchlist
+* [get](docs/sdks/watchlists/README.md#get) - Get Watchlist
+* [update](docs/sdks/watchlists/README.md#update) - Update Watchlist
 
 </details>
 <!-- End Available Resources and Operations [operations] -->
@@ -581,7 +625,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.analytics.get_insights()
+    res = fd_client.accounts.orders.list_active(id="TEST-ACCOUNT-001", limit=50, cursor=0)
 
     while res is not None:
         # Handle items
@@ -609,7 +653,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.accounts.get_account_positions(id="TEST-ACCOUNT-001",
+    res = fd_client.accounts.get_positions(id="TEST-ACCOUNT-001",
         RetryConfig("backoff", BackoffStrategy(1, 50, 1.1, 100), False))
 
     assert res.get_positions_response is not None
@@ -633,7 +677,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.accounts.get_account_positions(id="TEST-ACCOUNT-001")
+    res = fd_client.accounts.get_positions(id="TEST-ACCOUNT-001")
 
     assert res.get_positions_response is not None
 
@@ -671,7 +715,7 @@ with FinanceDev(
     res = None
     try:
 
-        res = fd_client.accounts.get_account_positions(id="TEST-ACCOUNT-001")
+        res = fd_client.accounts.get_positions(id="TEST-ACCOUNT-001")
 
         assert res.get_positions_response is not None
 
@@ -711,8 +755,8 @@ with FinanceDev(
 
 
 **Inherit from [`FinanceDevAPIError`](./src/finance_dev/errors/financedevapierror.py)**:
-* [`ErrorEnvelope`](./src/finance_dev/errors/errorenvelope.py): Prediction-market error envelope. Returned by historical-data and prediction-market reference endpoints on 400/404/500/502. Applicable to 6 of 151 methods.*
-* [`PredOrdersErrorEnvelope`](./src/finance_dev/errors/predorderserrorenvelope.py): Invalid request. `INVALID_ORDER` carries the reason in `message`; on placement this includes refusals from order entry and the venue (price, tick size, account setup). Applicable to 3 of 151 methods.*
+* [`PredOrdersErrorEnvelope`](./src/finance_dev/errors/predorderserrorenvelope.py): Invalid request. `INVALID_ORDER` carries the reason in `message`; on placement this includes refusals from order entry and the venue (price, tick size, account setup). Applicable to 9 of 159 methods.*
+* [`ErrorEnvelope`](./src/finance_dev/errors/errorenvelope.py): Prediction-market error envelope. Returned by historical-data and prediction-market reference endpoints on 400/404/500/502. Applicable to 7 of 159 methods.*
 * [`ResponseValidationError`](./src/finance_dev/errors/responsevalidationerror.py): Type mismatch between the response data and the expected Pydantic model. Provides access to the Pydantic validation error via the `cause` attribute.
 
 </details>
@@ -738,7 +782,7 @@ with FinanceDev(
     ),
 ) as fd_client:
 
-    res = fd_client.accounts.get_account_positions(id="TEST-ACCOUNT-001")
+    res = fd_client.accounts.get_positions(id="TEST-ACCOUNT-001")
 
     assert res.get_positions_response is not None
 

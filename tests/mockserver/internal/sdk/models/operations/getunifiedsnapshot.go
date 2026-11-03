@@ -23,7 +23,7 @@ func (e GetUnifiedSnapshotType) ToPointer() *GetUnifiedSnapshotType {
 	return &e
 }
 
-// GetUnifiedSnapshotOrder - Sort order for returned records. Use asc for oldest first or desc for newest first when supported.
+// GetUnifiedSnapshotOrder - Sort direction for results. Use ascending for oldest or smallest first, descending for newest or largest first.
 type GetUnifiedSnapshotOrder string
 
 const (

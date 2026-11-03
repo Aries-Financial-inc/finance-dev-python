@@ -7,29 +7,11 @@ import (
 	"mockserver/internal/sdk/models/components"
 )
 
-// GetSupportResistanceLevelsResolution - How long each bar covers. Supported values are minutes (`1`, `5`, `15`, `30`, `60`) or daily/weekly/monthly (`D`, `W`, `M`). Other values return 400 Bad Request with error code `VALIDATION_ERROR`.
-type GetSupportResistanceLevelsResolution string
-
-const (
-	GetSupportResistanceLevelsResolutionOne     GetSupportResistanceLevelsResolution = "1"
-	GetSupportResistanceLevelsResolutionFive    GetSupportResistanceLevelsResolution = "5"
-	GetSupportResistanceLevelsResolutionFifteen GetSupportResistanceLevelsResolution = "15"
-	GetSupportResistanceLevelsResolutionThirty  GetSupportResistanceLevelsResolution = "30"
-	GetSupportResistanceLevelsResolutionSixty   GetSupportResistanceLevelsResolution = "60"
-	GetSupportResistanceLevelsResolutionD       GetSupportResistanceLevelsResolution = "D"
-	GetSupportResistanceLevelsResolutionW       GetSupportResistanceLevelsResolution = "W"
-	GetSupportResistanceLevelsResolutionM       GetSupportResistanceLevelsResolution = "M"
-)
-
-func (e GetSupportResistanceLevelsResolution) ToPointer() *GetSupportResistanceLevelsResolution {
-	return &e
-}
-
 type GetSupportResistanceLevelsRequest struct {
 	// Stock ticker to query. Send the plain uppercase symbol exactly as you'd type it on a brokerage screen, e.g. `AAPL`, `MSFT`, `TSLA`.
 	Symbol string `queryParam:"style=form,explode=true,name=symbol"`
 	// How long each bar covers. Supported values are minutes (`1`, `5`, `15`, `30`, `60`) or daily/weekly/monthly (`D`, `W`, `M`). Other values return 400 Bad Request with error code `VALIDATION_ERROR`.
-	Resolution GetSupportResistanceLevelsResolution `queryParam:"style=form,explode=true,name=resolution"`
+	Resolution components.BarResolution `queryParam:"style=form,explode=true,name=resolution"`
 }
 
 func (o *GetSupportResistanceLevelsRequest) GetSymbol() string {
@@ -39,9 +21,9 @@ func (o *GetSupportResistanceLevelsRequest) GetSymbol() string {
 	return o.Symbol
 }
 
-func (o *GetSupportResistanceLevelsRequest) GetResolution() GetSupportResistanceLevelsResolution {
+func (o *GetSupportResistanceLevelsRequest) GetResolution() components.BarResolution {
 	if o == nil {
-		return GetSupportResistanceLevelsResolution("")
+		return components.BarResolution("")
 	}
 	return o.Resolution
 }

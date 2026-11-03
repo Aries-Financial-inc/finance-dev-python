@@ -41,8 +41,6 @@ class EquityDetailsDTOTypedDict(TypedDict):
     r"""Earnings per share over the latest 12 months. Use it for trailing profitability calculations."""
     pe: NotRequired[float]
     r"""Price-to-earnings ratio. Use it as a valuation metric, especially when comparing companies in the same industry."""
-    advancers: NotRequired[int]
-    r"""Market breadth advancers (if present)"""
     annual_yield: NotRequired[float]
     r"""Annual yield, typically dividend yield when provided. Use it for income-oriented displays."""
     ask_exchange: NotRequired[str]
@@ -67,8 +65,6 @@ class EquityDetailsDTOTypedDict(TypedDict):
     r"""Feed-provided status describing the latest price movement when available."""
     close_price: NotRequired[float]
     r"""Previous or latest close price from the feed. Use it as the baseline for daily change calculations."""
-    decliners: NotRequired[int]
-    r"""Number of symbols declining in the related market-breadth snapshot."""
     dividend: NotRequired[float]
     r"""Dividend amount when provided. Use it in income and yield displays."""
     expiration_date: NotRequired[str]
@@ -103,20 +99,8 @@ class EquityDetailsDTOTypedDict(TypedDict):
     r"""Midpoint between bid and ask. Use it as a neutral reference price, not as a guaranteed execution price."""
     name: NotRequired[str]
     r"""Company or instrument name"""
-    nasdaq_buy_volume: NotRequired[int]
-    r"""Reported Nasdaq buy-side volume. Use it only for advanced market-flow displays."""
-    nasdaq_net_in_flow: NotRequired[float]
-    r"""Net buy versus sell flow for Nasdaq-listed activity when provided by the feed."""
-    nasdaq_sell_volume: NotRequired[int]
-    r"""Reported Nasdaq sell-side volume. Use it only for advanced market-flow displays."""
     net_change: NotRequired[float]
     r"""Price change versus the previous close. Use it for daily gain/loss displays."""
-    nyse_buy_volume: NotRequired[int]
-    r"""Reported NYSE buy-side volume. Use it only for advanced market-flow displays."""
-    nyse_net_inflow: NotRequired[float]
-    r"""Net buy versus sell flow for NYSE-listed activity when provided by the feed."""
-    nyse_sell_volume: NotRequired[int]
-    r"""Reported NYSE sell-side volume. Use it only for advanced market-flow displays."""
     open_interest: NotRequired[int]
     r"""Number of outstanding option contracts for this contract. Use it to gauge options liquidity."""
     open_price: NotRequired[float]
@@ -150,8 +134,6 @@ class EquityDetailsDTOTypedDict(TypedDict):
     r"""Ticker symbol this detail record belongs to. Use it to match the response item back to your requested symbol."""
     tick: NotRequired[int]
     r"""Feed tick direction or tick value when provided. Use it only when your UI needs trade direction indicators."""
-    total_symbols: NotRequired[int]
-    r"""Total symbols counted in the market-breadth snapshot."""
     total_volume: NotRequired[int]
     r"""Total shares or contracts traded during the current session. Use it to show liquidity and activity."""
     trade_exchange: NotRequired[str]
@@ -162,8 +144,6 @@ class EquityDetailsDTOTypedDict(TypedDict):
     r"""RFC 3339 timestamp of the last trade, including its UTC offset. Omitted when the feed timestamp is missing or invalid."""
     type: NotRequired[str]
     r"""Provider-supplied market data type for this snapshot. Treat this as a feed classification string rather than an order type."""
-    unchanged: NotRequired[int]
-    r"""Number of symbols unchanged in the related market-breadth snapshot."""
     underlying_symbol: NotRequired[str]
     r"""Underlying symbol (options)"""
     year_end_close: NotRequired[float]
@@ -212,9 +192,6 @@ class EquityDetailsDTO(BaseModel):
     pe: Annotated[Optional[float], pydantic.Field(alias="PE")] = None
     r"""Price-to-earnings ratio. Use it as a valuation metric, especially when comparing companies in the same industry."""
 
-    advancers: Optional[int] = None
-    r"""Market breadth advancers (if present)"""
-
     annual_yield: Annotated[Optional[float], pydantic.Field(alias="annualYield")] = None
     r"""Annual yield, typically dividend yield when provided. Use it for income-oriented displays."""
 
@@ -252,9 +229,6 @@ class EquityDetailsDTO(BaseModel):
 
     close_price: Annotated[Optional[float], pydantic.Field(alias="closePrice")] = None
     r"""Previous or latest close price from the feed. Use it as the baseline for daily change calculations."""
-
-    decliners: Optional[int] = None
-    r"""Number of symbols declining in the related market-breadth snapshot."""
 
     dividend: Optional[float] = None
     r"""Dividend amount when provided. Use it in income and yield displays."""
@@ -321,38 +295,8 @@ class EquityDetailsDTO(BaseModel):
     name: Optional[str] = None
     r"""Company or instrument name"""
 
-    nasdaq_buy_volume: Annotated[
-        Optional[int], pydantic.Field(alias="nasdaqBuyVolume")
-    ] = None
-    r"""Reported Nasdaq buy-side volume. Use it only for advanced market-flow displays."""
-
-    nasdaq_net_in_flow: Annotated[
-        Optional[float], pydantic.Field(alias="nasdaqNetInFlow")
-    ] = None
-    r"""Net buy versus sell flow for Nasdaq-listed activity when provided by the feed."""
-
-    nasdaq_sell_volume: Annotated[
-        Optional[int], pydantic.Field(alias="nasdaqSellVolume")
-    ] = None
-    r"""Reported Nasdaq sell-side volume. Use it only for advanced market-flow displays."""
-
     net_change: Annotated[Optional[float], pydantic.Field(alias="netChange")] = None
     r"""Price change versus the previous close. Use it for daily gain/loss displays."""
-
-    nyse_buy_volume: Annotated[Optional[int], pydantic.Field(alias="nyseBuyVolume")] = (
-        None
-    )
-    r"""Reported NYSE buy-side volume. Use it only for advanced market-flow displays."""
-
-    nyse_net_inflow: Annotated[
-        Optional[float], pydantic.Field(alias="nyseNetInflow")
-    ] = None
-    r"""Net buy versus sell flow for NYSE-listed activity when provided by the feed."""
-
-    nyse_sell_volume: Annotated[
-        Optional[int], pydantic.Field(alias="nyseSellVolume")
-    ] = None
-    r"""Reported NYSE sell-side volume. Use it only for advanced market-flow displays."""
 
     open_interest: Annotated[Optional[int], pydantic.Field(alias="openInterest")] = None
     r"""Number of outstanding option contracts for this contract. Use it to gauge options liquidity."""
@@ -414,9 +358,6 @@ class EquityDetailsDTO(BaseModel):
     tick: Optional[int] = None
     r"""Feed tick direction or tick value when provided. Use it only when your UI needs trade direction indicators."""
 
-    total_symbols: Annotated[Optional[int], pydantic.Field(alias="totalSymbols")] = None
-    r"""Total symbols counted in the market-breadth snapshot."""
-
     total_volume: Annotated[Optional[int], pydantic.Field(alias="totalVolume")] = None
     r"""Total shares or contracts traded during the current session. Use it to show liquidity and activity."""
 
@@ -435,9 +376,6 @@ class EquityDetailsDTO(BaseModel):
 
     type: Optional[str] = None
     r"""Provider-supplied market data type for this snapshot. Treat this as a feed classification string rather than an order type."""
-
-    unchanged: Optional[int] = None
-    r"""Number of symbols unchanged in the related market-breadth snapshot."""
 
     underlying_symbol: Annotated[
         Optional[str], pydantic.Field(alias="underlyingSymbol")
@@ -481,7 +419,6 @@ class EquityDetailsDTO(BaseModel):
                 "EPSDiluted",
                 "EPSLatest12Month",
                 "PE",
-                "advancers",
                 "annualYield",
                 "askExchange",
                 "askPrice",
@@ -494,7 +431,6 @@ class EquityDetailsDTO(BaseModel):
                 "bidSize",
                 "changeStatus",
                 "closePrice",
-                "decliners",
                 "dividend",
                 "expirationDate",
                 "hasOptions",
@@ -512,13 +448,7 @@ class EquityDetailsDTO(BaseModel):
                 "marketCap",
                 "midPrice",
                 "name",
-                "nasdaqBuyVolume",
-                "nasdaqNetInFlow",
-                "nasdaqSellVolume",
                 "netChange",
-                "nyseBuyVolume",
-                "nyseNetInflow",
-                "nyseSellVolume",
                 "openInterest",
                 "openPrice",
                 "pctHeldByInstitution",
@@ -534,13 +464,11 @@ class EquityDetailsDTO(BaseModel):
                 "strikePrice",
                 "symbol",
                 "tick",
-                "totalSymbols",
                 "totalVolume",
                 "tradeExchange",
                 "tradeSeq",
                 "tradeTimestamp",
                 "type",
-                "unchanged",
                 "underlyingSymbol",
                 "yearEndClose",
                 "ytdHigh",

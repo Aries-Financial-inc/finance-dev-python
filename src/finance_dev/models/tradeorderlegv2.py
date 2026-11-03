@@ -66,6 +66,8 @@ class TradeOrderLegV2TypedDict(TypedDict):
     r"""Symbol for this leg. For options, use the exact contract symbol from search or the order response."""
     avg_price: NotRequired[str]
     r"""Average fill price for this leg (decimal string)"""
+    ticker_symbol: NotRequired[str]
+    r"""Full OCC contract symbol for an option leg (for example `AAPL261023C00340000`). Equity legs carry the plain symbol. Omitted on orders stored before this field existed."""
 
 
 class TradeOrderLegV2(BaseModel):
@@ -105,6 +107,9 @@ class TradeOrderLegV2(BaseModel):
     avg_price: Annotated[Optional[str], pydantic.Field(alias="avgPrice")] = None
     r"""Average fill price for this leg (decimal string)"""
 
+    ticker_symbol: Annotated[Optional[str], pydantic.Field(alias="tickerSymbol")] = None
+    r"""Full OCC contract symbol for an option leg (for example `AAPL261023C00340000`). Equity legs carry the plain symbol. Omitted on orders stored before this field existed."""
+
     @field_serializer("position_effect")
     def serialize_position_effect(self, value):
         if isinstance(value, str):
@@ -143,7 +148,7 @@ class TradeOrderLegV2(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["avgPrice"])
+        optional_fields = set(["avgPrice", "tickerSymbol"])
         serialized = handler(self)
         m = {}
 

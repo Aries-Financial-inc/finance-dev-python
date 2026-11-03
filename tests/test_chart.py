@@ -20,7 +20,7 @@ def test_chart_get_chart_config():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.chart.get_chart_config()
+        res = fd_client.chart.get_config()
         assert res.http_meta is not None
         assert res.http_meta.response is not None
         assert res.http_meta.response.status_code == 200
@@ -95,7 +95,7 @@ def test_chart_get_chart_history():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.chart.get_chart_history(
+        res = fd_client.chart.get_history(
             symbol="AAPL",
             resolution=models.ChartResolution.D,
             from_=1672531200,
@@ -125,7 +125,7 @@ def test_chart_get_chart_history_success():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.chart.get_chart_history(
+        res = fd_client.chart.get_history(
             symbol="AAPL",
             resolution=models.ChartResolution.D,
             from_=1672531200,
@@ -186,7 +186,7 @@ def test_chart_get_chart_history_no_data():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.chart.get_chart_history(
+        res = fd_client.chart.get_history(
             symbol="AAPL",
             resolution=models.ChartResolution.SIXTY,
             from_=1672531200,
@@ -217,7 +217,7 @@ def test_chart_get_chart_history_error():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.chart.get_chart_history(
+        res = fd_client.chart.get_history(
             symbol="AAPL",
             resolution=models.ChartResolution.SIXTY,
             from_=1672531200,
@@ -327,7 +327,7 @@ def test_chart_search_symbols_stock_results():
             models.SearchSymbolItem(
                 description="Apple Inc.",
                 symbol="AAPL",
-                type=models.SearchSymbolItemType.STOCK,
+                type=models.InstrumentType.STOCK,
             ),
             models.SearchSymbolItem(
                 description="Apple Inc. Warrant",
@@ -359,12 +359,12 @@ def test_chart_search_symbols_option_results():
             models.SearchSymbolItem(
                 description="AAPL Mar 15 2024 $150 Call",
                 symbol="AAPL240315C00150000",
-                type=models.SearchSymbolItemType.OPTION,
+                type=models.InstrumentType.OPTION,
             ),
             models.SearchSymbolItem(
                 description="AAPL Mar 15 2024 $150 Put",
                 symbol="AAPL240315P00150000",
-                type=models.SearchSymbolItemType.OPTION,
+                type=models.InstrumentType.OPTION,
             ),
         ]
 
@@ -390,7 +390,7 @@ def test_chart_search_symbols():
         assert res.search_symbol_items is not None
         assert res.search_symbol_items == [
             models.SearchSymbolItem(
-                type=models.SearchSymbolItemType.STOCK,
+                type=models.InstrumentType.STOCK,
             ),
         ]
 
@@ -409,7 +409,7 @@ def test_chart_get_symbol_info():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.chart.get_symbol_info(symbol="AAPL")
+        res = fd_client.chart.get_symbols(symbol="AAPL")
         assert res.http_meta is not None
         assert res.http_meta.response is not None
         assert res.http_meta.response.status_code == 200
@@ -467,7 +467,7 @@ def test_chart_get_tick_history():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.chart.get_tick_history(
+        res = fd_client.chart.get_tick_based(
             symbol="AAPL",
             resolution=models.TickResolution.ONE_HUNDRED_T,
             countback=300,
@@ -496,7 +496,7 @@ def test_chart_get_tick_history_success():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.chart.get_tick_history(
+        res = fd_client.chart.get_tick_based(
             symbol="AAPL",
             resolution=models.TickResolution.ONE_HUNDRED_T,
             countback=300,
@@ -556,7 +556,7 @@ def test_chart_get_chart_time():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.chart.get_chart_time()
+        res = fd_client.chart.get_time()
         assert res.http_meta is not None
         assert res.http_meta.response is not None
         assert res.http_meta.response.status_code == 200

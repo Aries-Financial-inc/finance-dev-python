@@ -58,13 +58,13 @@ func testSearchMarketSymbolsSearchMarketSymbolsOption0(w http.ResponseWriter, re
 			Description: types.String("Apple Inc."),
 			Symbol:      types.String("AAPL"),
 			Tag:         types.String("XNAS"),
-			Type:        components.SearchSymbolResponseItemTypeStock.ToPointer(),
+			Type:        components.InstrumentTypeStock.ToPointer(),
 		},
 		components.SearchSymbolResponseItem{
 			Description: types.String("AAPL Jan 19 2024 190 Call"),
 			Symbol:      types.String("AAPL240119C00190000"),
 			Tag:         types.String("OPRA"),
-			Type:        components.SearchSymbolResponseItemTypeOption.ToPointer(),
+			Type:        components.InstrumentTypeOption.ToPointer(),
 		},
 	}
 	respBodyBytes, err := utils.MarshalJSON(respBody, "", true)
@@ -103,13 +103,13 @@ func testSearchMarketSymbolsSearchMarketSymbolsStock0(w http.ResponseWriter, req
 			Description: types.String("Apple Inc."),
 			Symbol:      types.String("AAPL"),
 			Tag:         types.String("XNAS"),
-			Type:        components.SearchSymbolResponseItemTypeStock.ToPointer(),
+			Type:        components.InstrumentTypeStock.ToPointer(),
 		},
 		components.SearchSymbolResponseItem{
 			Description: types.String("AAPL Jan 19 2024 190 Call"),
 			Symbol:      types.String("AAPL240119C00190000"),
 			Tag:         types.String("OPRA"),
-			Type:        components.SearchSymbolResponseItemTypeOption.ToPointer(),
+			Type:        components.InstrumentTypeOption.ToPointer(),
 		},
 	}
 	respBodyBytes, err := utils.MarshalJSON(respBody, "", true)
@@ -148,13 +148,13 @@ func testSearchMarketSymbolsSearchMarketSymbolsFutures0(w http.ResponseWriter, r
 			Description: types.String("Apple Inc."),
 			Symbol:      types.String("AAPL"),
 			Tag:         types.String("XNAS"),
-			Type:        components.SearchSymbolResponseItemTypeStock.ToPointer(),
+			Type:        components.InstrumentTypeStock.ToPointer(),
 		},
 		components.SearchSymbolResponseItem{
 			Description: types.String("AAPL Jan 19 2024 190 Call"),
 			Symbol:      types.String("AAPL240119C00190000"),
 			Tag:         types.String("OPRA"),
-			Type:        components.SearchSymbolResponseItemTypeOption.ToPointer(),
+			Type:        components.InstrumentTypeOption.ToPointer(),
 		},
 	}
 	respBodyBytes, err := utils.MarshalJSON(respBody, "", true)
@@ -193,13 +193,13 @@ func testSearchMarketSymbolsSearchMarketSymbols0(w http.ResponseWriter, req *htt
 			Description: types.String("Apple Inc."),
 			Symbol:      types.String("AAPL"),
 			Tag:         types.String("XNAS"),
-			Type:        components.SearchSymbolResponseItemTypeStock.ToPointer(),
+			Type:        components.InstrumentTypeStock.ToPointer(),
 		},
 		components.SearchSymbolResponseItem{
 			Description: types.String("AAPL Jan 19 2024 190 Call"),
 			Symbol:      types.String("AAPL240119C00190000"),
 			Tag:         types.String("OPRA"),
-			Type:        components.SearchSymbolResponseItemTypeOption.ToPointer(),
+			Type:        components.InstrumentTypeOption.ToPointer(),
 		},
 	}
 	respBodyBytes, err := utils.MarshalJSON(respBody, "", true)
