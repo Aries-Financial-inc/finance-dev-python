@@ -2,13 +2,13 @@
 # @generated-id: a985700ee8b1
 
 from __future__ import annotations
+from .barresolution import BarResolution
 from .httpmetadata import HTTPMetadata, HTTPMetadataTypedDict
 from .supportresistancelevelsresponse import (
     SupportResistanceLevelsResponse,
     SupportResistanceLevelsResponseTypedDict,
 )
-from enum import Enum
-from finance_dev import models, utils
+from finance_dev import models
 from finance_dev.types import BaseModel, UNSET_SENTINEL
 from finance_dev.utils import FieldMetadata, QueryParamMetadata
 import pydantic
@@ -17,23 +17,10 @@ from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class GetSupportResistanceLevelsResolution(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""How long each bar covers. Supported values are minutes (`1`, `5`, `15`, `30`, `60`) or daily/weekly/monthly (`D`, `W`, `M`). Other values return 400 Bad Request with error code `VALIDATION_ERROR`."""
-
-    ONE = "1"
-    FIVE = "5"
-    FIFTEEN = "15"
-    THIRTY = "30"
-    SIXTY = "60"
-    D = "D"
-    W = "W"
-    M = "M"
-
-
 class GetSupportResistanceLevelsRequestTypedDict(TypedDict):
     symbol: str
     r"""Stock ticker to query. Send the plain uppercase symbol exactly as you'd type it on a brokerage screen, e.g. `AAPL`, `MSFT`, `TSLA`."""
-    resolution: GetSupportResistanceLevelsResolution
+    resolution: BarResolution
     r"""How long each bar covers. Supported values are minutes (`1`, `5`, `15`, `30`, `60`) or daily/weekly/monthly (`D`, `W`, `M`). Other values return 400 Bad Request with error code `VALIDATION_ERROR`."""
 
 
@@ -44,7 +31,7 @@ class GetSupportResistanceLevelsRequest(BaseModel):
     r"""Stock ticker to query. Send the plain uppercase symbol exactly as you'd type it on a brokerage screen, e.g. `AAPL`, `MSFT`, `TSLA`."""
 
     resolution: Annotated[
-        GetSupportResistanceLevelsResolution,
+        BarResolution,
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ]
     r"""How long each bar covers. Supported values are minutes (`1`, `5`, `15`, `30`, `60`) or daily/weekly/monthly (`D`, `W`, `M`). Other values return 400 Bad Request with error code `VALIDATION_ERROR`."""
@@ -53,7 +40,7 @@ class GetSupportResistanceLevelsRequest(BaseModel):
     def serialize_resolution(self, value):
         if isinstance(value, str):
             try:
-                return models.GetSupportResistanceLevelsResolution(value)
+                return models.BarResolution(value)
             except ValueError:
                 return value
         return value

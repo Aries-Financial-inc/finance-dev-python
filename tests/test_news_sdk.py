@@ -21,9 +21,7 @@ def test_news_sdk_get_news_default():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.news.get_news(
-            symbols="AAPL,GOOGL,MSFT", topics="earnings,guidance"
-        )
+        res = fd_client.news.list(symbols="AAPL,GOOGL,MSFT", topics="earnings,guidance")
         assert res.http_meta is not None
         assert res.http_meta.response is not None
         assert res.http_meta.response.status_code == 200

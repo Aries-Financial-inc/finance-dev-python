@@ -5,9 +5,18 @@ package components
 
 // PredOrdersOrderDetail - An order and every venue report against it, read from one snapshot.
 type PredOrdersOrderDetail struct {
+	// Every step of the order's history, in version order.
+	Events []PredOrdersOrderEvent `json:"events,omitempty"`
 	// An order as recorded by order entry. Submitted terms (`quantity`, `price`, …) never change; working terms (`workingQuantity`, `workingPrice`, …) are the venue's answer. Optional decimals and timestamps are omitted when absent, never zero.
 	Order   PredOrdersOrder         `json:"order"`
 	Reports []PredOrdersOrderReport `json:"reports"`
+}
+
+func (o *PredOrdersOrderDetail) GetEvents() []PredOrdersOrderEvent {
+	if o == nil {
+		return nil
+	}
+	return o.Events
 }
 
 func (o *PredOrdersOrderDetail) GetOrder() PredOrdersOrder {

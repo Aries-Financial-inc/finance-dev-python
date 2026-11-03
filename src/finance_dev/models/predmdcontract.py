@@ -4,6 +4,8 @@
 from __future__ import annotations
 from datetime import datetime
 from decimal import Decimal
+from enum import Enum
+from finance_dev import models, utils
 from finance_dev.types import (
     BaseModel,
     Nullable,
@@ -13,20 +15,79 @@ from finance_dev.types import (
 )
 from finance_dev.utils import serialize_decimal, validate_decimal
 import pydantic
-from pydantic import model_serializer
+from pydantic import field_serializer, model_serializer
 from pydantic.functional_serializers import PlainSerializer
 from pydantic.functional_validators import BeforeValidator
 from typing import Any, List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
+class PredMdContractParty(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""The candidate's party from the venue: `D` Democratic, `R` Republican, `I` independent, `O` any other. `null` on a contract that is not a candidate."""
+
+    D = "D"
+    R = "R"
+    I = "I"
+    O = "O"
+
+
+class PredMdContractPhotoTypedDict(TypedDict):
+    r"""The candidate's portrait, for an election contract that has one. `null` for every other contract."""
+
+    credit: str
+    license: str
+    license_url: Nullable[str]
+    source_url: str
+    url: str
+    r"""256×256 webp."""
+
+
+class PredMdContractPhoto(BaseModel):
+    r"""The candidate's portrait, for an election contract that has one. `null` for every other contract."""
+
+    credit: str
+
+    license: str
+
+    license_url: Annotated[Nullable[str], pydantic.Field(alias="licenseUrl")]
+
+    source_url: Annotated[str, pydantic.Field(alias="sourceUrl")]
+
+    url: str
+    r"""256×256 webp."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                m[k] = val
+
+        return m
+
+
 class PredMdContractTypedDict(TypedDict):
     r"""A single tradable event contract at a specific strike."""
 
     base_event_id: str
+    candidate_status: Nullable[str]
+    r"""FEC-style status from the venue: `I` incumbent, `C` challenger, `O` open seat, `N` not running. `null` on a contract that is not a candidate."""
     event_id: str
+    front_runner: Nullable[bool]
+    r"""`true` for a nominee, a candidate who advanced, or a significant independent; `false` for one no longer in the race, such as a primary loser. `null` on a contract that is not a candidate."""
+    incumbent: Nullable[bool]
+    r"""Whether the candidate holds the seat. `null` on a contract that is not a candidate."""
     last_synced_at: datetime
     non_tradable: bool
+    party: Nullable[PredMdContractParty]
+    r"""The candidate's party from the venue: `D` Democratic, `R` Republican, `I` independent, `O` any other. `null` on a contract that is not a candidate."""
+    photo: Nullable[PredMdContractPhotoTypedDict]
+    r"""The candidate's portrait, for an election contract that has one. `null` for every other contract."""
     state: str
     symbol: str
     symbol_sub_types: List[str]
@@ -57,11 +118,26 @@ class PredMdContract(BaseModel):
 
     base_event_id: Annotated[str, pydantic.Field(alias="baseEventId")]
 
+    candidate_status: Annotated[Nullable[str], pydantic.Field(alias="candidateStatus")]
+    r"""FEC-style status from the venue: `I` incumbent, `C` challenger, `O` open seat, `N` not running. `null` on a contract that is not a candidate."""
+
     event_id: Annotated[str, pydantic.Field(alias="eventId")]
+
+    front_runner: Annotated[Nullable[bool], pydantic.Field(alias="frontRunner")]
+    r"""`true` for a nominee, a candidate who advanced, or a significant independent; `false` for one no longer in the race, such as a primary loser. `null` on a contract that is not a candidate."""
+
+    incumbent: Nullable[bool]
+    r"""Whether the candidate holds the seat. `null` on a contract that is not a candidate."""
 
     last_synced_at: Annotated[datetime, pydantic.Field(alias="lastSyncedAt")]
 
     non_tradable: Annotated[bool, pydantic.Field(alias="nonTradable")]
+
+    party: Nullable[PredMdContractParty]
+    r"""The candidate's party from the venue: `D` Democratic, `R` Republican, `I` independent, `O` any other. `null` on a contract that is not a candidate."""
+
+    photo: Nullable[PredMdContractPhoto]
+    r"""The candidate's portrait, for an election contract that has one. `null` for every other contract."""
 
     state: str
 
@@ -125,6 +201,15 @@ class PredMdContract(BaseModel):
     ] = None
     r"""Venue JSON payload (passthrough)."""
 
+    @field_serializer("party")
+    def serialize_party(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PredMdContractParty(value)
+            except ValueError:
+                return value
+        return value
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -147,7 +232,17 @@ class PredMdContract(BaseModel):
             ]
         )
         nullable_fields = set(
-            ["expirationDate", "lastTradeDate", "startDate", "terminationDate"]
+            [
+                "candidateStatus",
+                "expirationDate",
+                "frontRunner",
+                "incumbent",
+                "lastTradeDate",
+                "party",
+                "photo",
+                "startDate",
+                "terminationDate",
+            ]
         )
         serialized = handler(self)
         m = {}
@@ -171,6 +266,10 @@ class PredMdContract(BaseModel):
         return m
 
 
+try:
+    PredMdContractPhoto.model_rebuild()
+except NameError:
+    pass
 try:
     PredMdContract.model_rebuild()
 except NameError:

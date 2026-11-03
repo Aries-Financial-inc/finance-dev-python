@@ -10,7 +10,7 @@ from typing import Any, List, Mapping, Optional
 
 
 class Chart(BaseSDK):
-    def get_chart_config(
+    def get_config(
         self,
         *,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -79,7 +79,20 @@ class Chart(BaseSDK):
                 oauth2_scopes=["market:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Chart"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.chart.get_chart_config()\n\n    assert res.chart_config is not None\n\n    # Handle response\n    print(res.chart_config)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.chart.getConfig();\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -135,7 +148,7 @@ class Chart(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_chart_config_async(
+    async def get_config_async(
         self,
         *,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -204,7 +217,20 @@ class Chart(BaseSDK):
                 oauth2_scopes=["market:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Chart"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.chart.get_chart_config()\n\n    assert res.chart_config is not None\n\n    # Handle response\n    print(res.chart_config)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.chart.getConfig();\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -260,7 +286,7 @@ class Chart(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_chart_history(
+    def get_history(
         self,
         *,
         symbol: str,
@@ -351,7 +377,20 @@ class Chart(BaseSDK):
                 oauth2_scopes=["market:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Chart"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.chart.get_chart_history(symbol="AAPL", resolution=models.ChartResolution.SIXTY, from_=1672531200, to=1675209600, include_extended=False)\n\n    assert res.chart_bars is not None\n\n    # Handle response\n    print(res.chart_bars)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.chart.getHistory({\n    symbol: "AAPL",\n    resolution: "60",\n    from: 1672531200,\n    to: 1675209600,\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -407,7 +446,7 @@ class Chart(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_chart_history_async(
+    async def get_history_async(
         self,
         *,
         symbol: str,
@@ -498,7 +537,20 @@ class Chart(BaseSDK):
                 oauth2_scopes=["market:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Chart"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.chart.get_chart_history(symbol="AAPL", resolution=models.ChartResolution.SIXTY, from_=1672531200, to=1675209600, include_extended=False)\n\n    assert res.chart_bars is not None\n\n    # Handle response\n    print(res.chart_bars)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.chart.getHistory({\n    symbol: "AAPL",\n    resolution: "60",\n    from: 1672531200,\n    to: 1675209600,\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -630,7 +682,20 @@ class Chart(BaseSDK):
                 oauth2_scopes=["market:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Chart"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.chart.get_quotes(symbols="AAPL,GOOGL,MSFT")\n\n    assert res.quotes_response is not None\n\n    # Handle response\n    print(res.quotes_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.chart.getQuotes({\n    symbols: "AAPL,GOOGL,MSFT",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -762,7 +827,20 @@ class Chart(BaseSDK):
                 oauth2_scopes=["market:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Chart"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.chart.get_quotes(symbols="AAPL,GOOGL,MSFT")\n\n    assert res.quotes_response is not None\n\n    # Handle response\n    print(res.quotes_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.chart.getQuotes({\n    symbols: "AAPL,GOOGL,MSFT",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -897,7 +975,20 @@ class Chart(BaseSDK):
                 oauth2_scopes=["market:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Chart"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.chart.search_symbols(query="Apple", limit=20)\n\n    assert res.search_symbol_items is not None\n\n    # Handle response\n    print(res.search_symbol_items)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.chart.searchSymbols({\n    query: "Apple",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1032,7 +1123,20 @@ class Chart(BaseSDK):
                 oauth2_scopes=["market:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Chart"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.chart.search_symbols(query="Apple", limit=20)\n\n    assert res.search_symbol_items is not None\n\n    # Handle response\n    print(res.search_symbol_items)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.chart.searchSymbols({\n    query: "Apple",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1088,7 +1192,7 @@ class Chart(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_symbol_info(
+    def get_symbols(
         self,
         *,
         symbol: str,
@@ -1164,7 +1268,20 @@ class Chart(BaseSDK):
                 oauth2_scopes=["market:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Chart"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.chart.get_symbol_info(symbol="AAPL")\n\n    assert res.symbol_info is not None\n\n    # Handle response\n    print(res.symbol_info)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.chart.getSymbols({\n    symbol: "AAPL",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1220,7 +1337,7 @@ class Chart(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_symbol_info_async(
+    async def get_symbols_async(
         self,
         *,
         symbol: str,
@@ -1296,7 +1413,20 @@ class Chart(BaseSDK):
                 oauth2_scopes=["market:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Chart"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.chart.get_symbol_info(symbol="AAPL")\n\n    assert res.symbol_info is not None\n\n    # Handle response\n    print(res.symbol_info)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.chart.getSymbols({\n    symbol: "AAPL",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1352,7 +1482,7 @@ class Chart(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_tick_history(
+    def get_tick_based(
         self,
         *,
         symbol: str,
@@ -1437,7 +1567,20 @@ class Chart(BaseSDK):
                 oauth2_scopes=["market:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Chart"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.chart.get_tick_history(symbol="AAPL", resolution=models.TickResolution.ONE_HUNDRED_T, countback=300, cursor="1784677563966606471")\n\n    assert res.tick_chart_bars is not None\n\n    # Handle response\n    print(res.tick_chart_bars)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.chart.getTickHistory({\n    symbol: "AAPL",\n    resolution: "100T",\n    cursor: "1784677563966606471",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1493,7 +1636,7 @@ class Chart(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_tick_history_async(
+    async def get_tick_based_async(
         self,
         *,
         symbol: str,
@@ -1578,7 +1721,20 @@ class Chart(BaseSDK):
                 oauth2_scopes=["market:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Chart"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.chart.get_tick_history(symbol="AAPL", resolution=models.TickResolution.ONE_HUNDRED_T, countback=300, cursor="1784677563966606471")\n\n    assert res.tick_chart_bars is not None\n\n    # Handle response\n    print(res.tick_chart_bars)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.chart.getTickHistory({\n    symbol: "AAPL",\n    resolution: "100T",\n    cursor: "1784677563966606471",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1634,7 +1790,7 @@ class Chart(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_chart_time(
+    def get_time(
         self,
         *,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -1703,7 +1859,20 @@ class Chart(BaseSDK):
                 oauth2_scopes=["market:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Chart"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.chart.get_chart_time()\n\n    assert res.res is not None\n\n    # Handle response\n    print(res.res)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.chart.getTime();\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1757,7 +1926,7 @@ class Chart(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_chart_time_async(
+    async def get_time_async(
         self,
         *,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -1826,7 +1995,20 @@ class Chart(BaseSDK):
                 oauth2_scopes=["market:information"],
                 security_source=self.sdk_configuration.security,
                 tags=["Chart"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.chart.get_chart_time()\n\n    assert res.res is not None\n\n    # Handle response\n    print(res.res)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.chart.getTime();\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),

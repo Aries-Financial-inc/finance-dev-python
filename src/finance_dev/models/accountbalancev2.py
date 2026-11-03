@@ -16,11 +16,11 @@ class AccountBalanceV2TypedDict(TypedDict):
     account_id: NotRequired[str]
     r"""Account these balances belong to. Match it to the account selected by the user."""
     amount_available_to_withdraw: NotRequired[str]
-    r"""Cash currently available to withdraw from the account, returned as a decimal string."""
+    r"""Cash available to withdraw from the account, returned as a decimal string. This is cash only: it does not include buying power or margin. Show this figure to a user asking how much they can take out. Any frozen free-stock sale proceeds (`freestockFrozenCash`) have already been deducted."""
     balance: NotRequired[str]
     r"""Total account balance (net account value), returned as a decimal string. Use this as the headline portfolio value."""
     cash_balance: NotRequired[str]
-    r"""Current cash balance in the account, returned as a decimal string. Can be negative on a margin account."""
+    r"""Current cash balance in the account, returned as a decimal string. Returned only for cash accounts (`account_class` `CASH` on `GET /v2/users/me/accounts`). Omitted for margin accounts and for any account whose type is not `CASH` or `MARGIN` or cannot be determined."""
     cost_of_positions: NotRequired[str]
     r"""Aggregate cost basis of all currently open positions, returned as a decimal string."""
     credit: NotRequired[str]
@@ -37,16 +37,18 @@ class AccountBalanceV2TypedDict(TypedDict):
     r"""How much the user can use for same-day round-trip trades. Typically up to 4× equity for pattern day traders. Resets at end of day. Decimal string."""
     day_trade_overnight_reg_t_buying_power: NotRequired[str]
     r"""Reg T overnight buying power available for day-trade-related calculations, returned as a decimal string."""
-    funds_available_for_withdrawal: NotRequired[str]
-    r"""Cash available to withdraw right now, returned as a decimal string. The lower of `creditRemaining` and `smaCreditRemaining`, adjusted by the clearing firm's previous-close haircut (`sodNetFundsAvailable` minus `sodGrossFundsAvailable`) and floored at zero. Derived at read time. Until the start-of-day funds data has loaded (see `sodFundsAvailableDate`) the haircut is zero and this equals the lower of the two credit figures."""
+    freestock_frozen_cash: NotRequired[str]
+    r"""Cash from free-stock sales that is currently frozen and cannot be withdrawn, returned as a decimal string. Already deducted from `amountAvailableToWithdraw`. Omitted when the frozen amount is not available."""
     gross_margin: NotRequired[str]
     r"""Total amount currently borrowed from the broker on margin (before offsets). Use this in risk and account-health displays. Decimal string."""
     held_back_funds: NotRequired[str]
     r"""Funds reserved or held back by the brokerage, returned as a decimal string. Subtract this from available cash displays when explaining restricted funds."""
     intraday_margin_balance: NotRequired[str]
-    r"""Margin loan currently outstanding, returned as a positive decimal string and rolled forward through today's trading: the start-of-day margin trade balance (sign-inverted) plus `valueSold` minus `valueBought`. Derived at read time, not stored."""
+    r"""Margin loan currently outstanding, returned as a positive decimal string and rolled forward through today's trading: the start-of-day margin trade balance (sign-inverted) plus `valueSold` minus `valueBought`. Derived at read time, not stored. Returned only for margin accounts (`account_class` `MARGIN` on `GET /v2/users/me/accounts`). Omitted for cash accounts and for any account whose type is not `CASH` or `MARGIN` or cannot be determined."""
     maint_req: NotRequired[str]
     r"""**Maintenance requirement** — the minimum equity that must be held to support current positions. Drop below this and the account may receive a margin call. Decimal string."""
+    market_value: NotRequired[str]
+    r"""Current market value of all open positions, returned as a decimal string: `unrealizedPl` plus `costOfPositions`. Omitted while any open position has no price yet."""
     net_buying_power: NotRequired[str]
     r"""Total purchasing power available right now across all instruments — the main number to show as 'Buying Power' in a trading UI. Decimal string."""
     open_pnl: NotRequired[str]
@@ -76,7 +78,7 @@ class AccountBalanceV2TypedDict(TypedDict):
     sod_margin_trade_balance: NotRequired[str]
     r"""Start-of-day margin trade-date balance as reported by the clearing firm, returned as a decimal string. Negative while a margin loan is outstanding. `\"0\"` until the start-of-day load has run for the account."""
     sod_net_funds_available: NotRequired[str]
-    r"""Net funds available to withdraw at the previous close, as reported by the clearing firm, returned as a decimal string. Previous-close only; for the live figure use `fundsAvailableForWithdrawal`. `\"0\"` until the start-of-day load has run."""
+    r"""Net funds available to withdraw at the previous close, as reported by the clearing firm, returned as a decimal string. Previous-close only; for the live figure use `amountAvailableToWithdraw`. `\"0\"` until the start-of-day load has run."""
     sod_positions_market_value: NotRequired[str]
     r"""Market value of positions at the start of the day, returned as a decimal string. Use this for daily performance comparisons."""
     sod_ttl_equity: NotRequired[str]
@@ -106,13 +108,13 @@ class AccountBalanceV2(BaseModel):
     amount_available_to_withdraw: Annotated[
         Optional[str], pydantic.Field(alias="amountAvailableToWithdraw")
     ] = None
-    r"""Cash currently available to withdraw from the account, returned as a decimal string."""
+    r"""Cash available to withdraw from the account, returned as a decimal string. This is cash only: it does not include buying power or margin. Show this figure to a user asking how much they can take out. Any frozen free-stock sale proceeds (`freestockFrozenCash`) have already been deducted."""
 
     balance: Optional[str] = None
     r"""Total account balance (net account value), returned as a decimal string. Use this as the headline portfolio value."""
 
     cash_balance: Annotated[Optional[str], pydantic.Field(alias="cashBalance")] = None
-    r"""Current cash balance in the account, returned as a decimal string. Can be negative on a margin account."""
+    r"""Current cash balance in the account, returned as a decimal string. Returned only for cash accounts (`account_class` `CASH` on `GET /v2/users/me/accounts`). Omitted for margin accounts and for any account whose type is not `CASH` or `MARGIN` or cannot be determined."""
 
     cost_of_positions: Annotated[
         Optional[str], pydantic.Field(alias="costOfPositions")
@@ -148,10 +150,10 @@ class AccountBalanceV2(BaseModel):
     ] = None
     r"""Reg T overnight buying power available for day-trade-related calculations, returned as a decimal string."""
 
-    funds_available_for_withdrawal: Annotated[
-        Optional[str], pydantic.Field(alias="fundsAvailableForWithdrawal")
+    freestock_frozen_cash: Annotated[
+        Optional[str], pydantic.Field(alias="freestockFrozenCash")
     ] = None
-    r"""Cash available to withdraw right now, returned as a decimal string. The lower of `creditRemaining` and `smaCreditRemaining`, adjusted by the clearing firm's previous-close haircut (`sodNetFundsAvailable` minus `sodGrossFundsAvailable`) and floored at zero. Derived at read time. Until the start-of-day funds data has loaded (see `sodFundsAvailableDate`) the haircut is zero and this equals the lower of the two credit figures."""
+    r"""Cash from free-stock sales that is currently frozen and cannot be withdrawn, returned as a decimal string. Already deducted from `amountAvailableToWithdraw`. Omitted when the frozen amount is not available."""
 
     gross_margin: Annotated[Optional[str], pydantic.Field(alias="grossMargin")] = None
     r"""Total amount currently borrowed from the broker on margin (before offsets). Use this in risk and account-health displays. Decimal string."""
@@ -164,10 +166,13 @@ class AccountBalanceV2(BaseModel):
     intraday_margin_balance: Annotated[
         Optional[str], pydantic.Field(alias="intradayMarginBalance")
     ] = None
-    r"""Margin loan currently outstanding, returned as a positive decimal string and rolled forward through today's trading: the start-of-day margin trade balance (sign-inverted) plus `valueSold` minus `valueBought`. Derived at read time, not stored."""
+    r"""Margin loan currently outstanding, returned as a positive decimal string and rolled forward through today's trading: the start-of-day margin trade balance (sign-inverted) plus `valueSold` minus `valueBought`. Derived at read time, not stored. Returned only for margin accounts (`account_class` `MARGIN` on `GET /v2/users/me/accounts`). Omitted for cash accounts and for any account whose type is not `CASH` or `MARGIN` or cannot be determined."""
 
     maint_req: Annotated[Optional[str], pydantic.Field(alias="maintReq")] = None
     r"""**Maintenance requirement** — the minimum equity that must be held to support current positions. Drop below this and the account may receive a margin call. Decimal string."""
+
+    market_value: Annotated[Optional[str], pydantic.Field(alias="marketValue")] = None
+    r"""Current market value of all open positions, returned as a decimal string: `unrealizedPl` plus `costOfPositions`. Omitted while any open position has no price yet."""
 
     net_buying_power: Annotated[
         Optional[str], pydantic.Field(alias="netBuyingPower")
@@ -232,7 +237,7 @@ class AccountBalanceV2(BaseModel):
     sod_net_funds_available: Annotated[
         Optional[str], pydantic.Field(alias="sodNetFundsAvailable")
     ] = None
-    r"""Net funds available to withdraw at the previous close, as reported by the clearing firm, returned as a decimal string. Previous-close only; for the live figure use `fundsAvailableForWithdrawal`. `\"0\"` until the start-of-day load has run."""
+    r"""Net funds available to withdraw at the previous close, as reported by the clearing firm, returned as a decimal string. Previous-close only; for the live figure use `amountAvailableToWithdraw`. `\"0\"` until the start-of-day load has run."""
 
     sod_positions_market_value: Annotated[
         Optional[str], pydantic.Field(alias="sodPositionsMarketValue")
@@ -289,11 +294,12 @@ class AccountBalanceV2(BaseModel):
                 "dayTotalPnl",
                 "dayTradeBuyingPower",
                 "dayTradeOvernightRegTBuyingPower",
-                "fundsAvailableForWithdrawal",
+                "freestockFrozenCash",
                 "grossMargin",
                 "heldBackFunds",
                 "intradayMarginBalance",
                 "maintReq",
+                "marketValue",
                 "netBuyingPower",
                 "openPnl",
                 "optionBuyingPower",

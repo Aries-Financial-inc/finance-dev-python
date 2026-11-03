@@ -127,7 +127,7 @@ def test_analytics_get_ratings():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.analytics.get(tickers="AAPL,GOOGL")
+        res = fd_client.analytics.get(tickers="AAPL,GOOGL", page=0, page_size=100)
         assert res.http_meta is not None
         assert res.http_meta.response is not None
         assert res.http_meta.response.status_code == 200
@@ -328,43 +328,6 @@ def test_analytics_get_top_losers():
         ]
 
 
-def test_analytics_get_top_most_active():
-    test_http_client = create_test_http_client("getTopMostActive")
-
-    with FinanceDev(
-        server_url=os.getenv("TEST_SERVER_URL", "http://localhost:18080"),
-        client=test_http_client,
-        security=models.Security(
-            client_id="<YOUR_CLIENT_ID_HERE>",
-            client_secret="<YOUR_CLIENT_SECRET_HERE>",
-            token_url="/_mockserver/oauth2/token",
-        ),
-    ) as fd_client:
-        assert fd_client is not None
-
-        res = fd_client.analytics.get_top_most_active(limit=10, size=10)
-        assert res.http_meta is not None
-        assert res.http_meta.response is not None
-        assert res.http_meta.response.status_code == 200
-        assert res.symbol_details is not None
-        assert res.symbol_details == [
-            models.SymbolDetails(
-                change=1.25,
-                change_percent=0.72,
-                is_etf=False,
-                last_price=175.43,
-                logo_url="https://cdn.example.com/logos/AAPL.png",
-                previous_close=174.18,
-                sector="Technology",
-                sic_code="3571",
-                symbol="AAPL",
-                timestamp=1736956800.0,
-                type="stock",
-                volume=52000000.0,
-            ),
-        ]
-
-
 def test_analytics_get_options_et_fs_top_volume():
     test_http_client = create_test_http_client("getOptionsETFsTopVolume")
 
@@ -379,7 +342,7 @@ def test_analytics_get_options_et_fs_top_volume():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.analytics.get_options_et_fs_top_volume(size=10)
+        res = fd_client.analytics.get_options_etfs_top_volume(size=10)
         assert res.http_meta is not None
         assert res.http_meta.response is not None
         assert res.http_meta.response.status_code == 200
@@ -457,7 +420,7 @@ def test_analytics_get_options_stocks_top_volume():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.analytics.get_options_stocks_top_volume(size=10)
+        res = fd_client.analytics.get_top_volume_options(size=10)
         assert res.http_meta is not None
         assert res.http_meta.response is not None
         assert res.http_meta.response.status_code == 200

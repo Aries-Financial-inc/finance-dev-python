@@ -47,10 +47,21 @@ func testGetEventContractsGetEventContracts0(w http.ResponseWriter, req *http.Re
 		Data: &components.PredMdEventWithContracts{
 			Contracts: []components.PredMdContract{
 				components.PredMdContract{
-					BaseEventID:    "<id>",
-					EventID:        "<id>",
-					LastSyncedAt:   types.MustTimeFromString("2024-08-22T02:52:07.818Z"),
-					NonTradable:    true,
+					BaseEventID:     "<id>",
+					CandidateStatus: types.String("C"),
+					EventID:         "<id>",
+					FrontRunner:     types.Bool(true),
+					Incumbent:       types.Bool(false),
+					LastSyncedAt:    types.MustTimeFromString("2024-08-22T02:52:07.818Z"),
+					NonTradable:     true,
+					Party:           components.PredMdContractPartyO.ToPointer(),
+					Photo: &components.PredMdContractPhoto{
+						Credit:     "Gage Skidmore",
+						License:    "CC BY-SA 4.0",
+						LicenseURL: types.String("https://creativecommons.org/licenses/by-sa/4.0"),
+						SourceURL:  "https://commons.wikimedia.org/wiki/File:K_Paxton.jpg",
+						URL:        "https://grubby-fisherman.org",
+					},
 					State:          "Pennsylvania",
 					Symbol:         "<value>",
 					SymbolSubTypes: []string{},

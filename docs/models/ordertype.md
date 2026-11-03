@@ -1,5 +1,7 @@
 # OrderType
 
+ForecastEx does not support `stop` or `market_to_limit` orders.
+
 ## Example Usage
 
 ```python
@@ -13,9 +15,7 @@ value = OrderType.LIMIT
 
 ## Values
 
-| Name              | Value             |
-| ----------------- | ----------------- |
-| `LIMIT`           | limit             |
-| `STOP`            | stop              |
-| `STOP_LIMIT`      | stop_limit        |
-| `MARKET_TO_LIMIT` | market_to_limit   |
+| Name         | Value        |
+| ------------ | ------------ |
+| `LIMIT`      | limit        |
+| `STOP_LIMIT` | stop_limit   |

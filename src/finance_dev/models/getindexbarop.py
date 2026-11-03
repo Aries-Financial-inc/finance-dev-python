@@ -2,27 +2,17 @@
 # @generated-id: 1e77bb9515b6
 
 from __future__ import annotations
+from .barprecision import BarPrecision
 from .httpmetadata import HTTPMetadata, HTTPMetadataTypedDict
 from .indexbarresponse import IndexBarResponse, IndexBarResponseTypedDict
 from .indicesidentifiertype import IndicesIdentifierType
-from enum import Enum
-from finance_dev import models, utils
+from finance_dev import models
 from finance_dev.types import BaseModel, UNSET_SENTINEL
 from finance_dev.utils import FieldMetadata, QueryParamMetadata
 import pydantic
 from pydantic import field_serializer, model_serializer
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
-
-
-class GetIndexBarPrecision(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""How long each bar covers. Pair with `period` to set the exact size (e.g. `precision=Minutes`, `period=5` = 5-minute bars). Allowed values:
-    - `Minutes` — minute bars (combine with `period` for 1, 5, 15, 30-minute candles).
-    - `Hours` — hour bars (combine with `period` for 1, 2, 4-hour candles).
-    """
-
-    MINUTES = "Minutes"
-    HOURS = "Hours"
 
 
 class GetIndexBarRequestTypedDict(TypedDict):
@@ -32,7 +22,7 @@ class GetIndexBarRequestTypedDict(TypedDict):
     r"""End time for the bar window. Format: `MM/DD/YYYY hh:mm am/pm` in the index's native timezone (e.g. `12/22/2025 10:30 am`)."""
     identifier_type: NotRequired[IndicesIdentifierType]
     r"""How to interpret the value you sent in `identifier`. Defaults to `Symbol`. See `IndicesIdentifierType` for the full set of accepted values."""
-    precision: NotRequired[GetIndexBarPrecision]
+    precision: NotRequired[BarPrecision]
     r"""How long each bar covers. Pair with `period` to set the exact size (e.g. `precision=Minutes`, `period=5` = 5-minute bars). Allowed values:
     - `Minutes` — minute bars (combine with `period` for 1, 5, 15, 30-minute candles).
     - `Hours` — hour bars (combine with `period` for 1, 2, 4-hour candles).
@@ -62,7 +52,7 @@ class GetIndexBarRequest(BaseModel):
     r"""How to interpret the value you sent in `identifier`. Defaults to `Symbol`. See `IndicesIdentifierType` for the full set of accepted values."""
 
     precision: Annotated[
-        Optional[GetIndexBarPrecision],
+        Optional[BarPrecision],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
     r"""How long each bar covers. Pair with `period` to set the exact size (e.g. `precision=Minutes`, `period=5` = 5-minute bars). Allowed values:
@@ -89,7 +79,7 @@ class GetIndexBarRequest(BaseModel):
     def serialize_precision(self, value):
         if isinstance(value, str):
             try:
-                return models.GetIndexBarPrecision(value)
+                return models.BarPrecision(value)
             except ValueError:
                 return value
         return value

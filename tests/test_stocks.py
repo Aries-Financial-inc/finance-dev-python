@@ -28,6 +28,7 @@ def test_stocks_get_stock_aggregates():
             from_="2024-01-01",
             to="2024-01-31",
             adjusted=True,
+            sort=models.SortOrderEnum.ASC,
             limit=1000,
         )
         assert res.http_meta is not None

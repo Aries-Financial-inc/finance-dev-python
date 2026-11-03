@@ -7,8 +7,8 @@ import os
 from tests.test_client import create_test_http_client
 
 
-def test_predictions_orders_list_prediction_orders():
-    test_http_client = create_test_http_client("listPredictionOrders")
+def test_predictions_orders_list_prediction_order_history():
+    test_http_client = create_test_http_client("listPredictionOrderHistory")
 
     with FinanceDev(
         server_url=os.getenv("TEST_SERVER_URL", "http://localhost:18080"),
@@ -21,21 +21,22 @@ def test_predictions_orders_list_prediction_orders():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.predictions.orders.list_prediction_orders(
-            status="open", limit=50
+        res = fd_client.predictions.orders.list_prediction_order_history(
+            account_id="ACCOUNT-0001", status="open", limit=50
         )
         assert res.http_meta is not None
         assert res.http_meta.response is not None
         assert res.http_meta.response.status_code == 200
         assert res.object is not None
-        assert res.object == models.ListPredictionOrdersResponseBody(
+        assert res.object == models.ListPredictionOrderHistoryResponseBody(
             data=models.PredOrdersOrderPage(
                 orders=[
                     models.PredOrdersOrder(
                         account_id="ACCOUNT-0001",
                         avg_px="0",
                         client_order_ref="7d1c8e0a-4b8f-4e3a-9f43-2a6b1d0c9e11",
-                        created_at=parse_datetime("2026-02-03T23:48:41.308Z"),
+                        contract=None,
+                        created_at=parse_datetime("2026-01-17T08:03:25.683Z"),
                         cum_qty="0",
                         leaves_qty="10",
                         order_id="0b9f3c2e-5d6a-4f1b-8e7c-9a0d1e2f3a4b",
@@ -48,7 +49,7 @@ def test_predictions_orders_list_prediction_orders():
                         stop_px="0.50",
                         symbol="HORC_1126_Republican",
                         time_in_force="day",
-                        updated_at=parse_datetime("2026-12-06T13:43:49.554Z"),
+                        updated_at=parse_datetime("2025-12-28T06:02:36.586Z"),
                         working_price="0.54",
                         working_quantity="10",
                     ),
@@ -58,8 +59,8 @@ def test_predictions_orders_list_prediction_orders():
         )
 
 
-def test_predictions_orders_place_prediction_order():
-    test_http_client = create_test_http_client("placePredictionOrder")
+def test_predictions_orders_list_prediction_mass_cancels():
+    test_http_client = create_test_http_client("listPredictionMassCancels")
 
     with FinanceDev(
         server_url=os.getenv("TEST_SERVER_URL", "http://localhost:18080"),
@@ -72,29 +73,102 @@ def test_predictions_orders_place_prediction_order():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.predictions.orders.place_prediction_order(
-            account_id="ACCOUNT-0001",
-            order_type=models.OrderType.LIMIT,
-            outcome=models.PredOrdersPlaceOrderRequestOutcome.YES,
-            quantity="10",
-            side=models.PredOrdersPlaceOrderRequestSide.BUY,
-            symbol="HORC_1126_Republican",
-            time_in_force=models.TimeInForce.DAY,
-            idempotency_key="7d1c8e0a-4b8f-4e3a-9f43-2a6b1d0c9e11",
-            client_order_ref="7d1c8e0a-4b8f-4e3a-9f43-2a6b1d0c9e11",
-            price="0.54",
-            stop_px="0.50",
+        res = fd_client.predictions.orders.list_prediction_mass_cancels(
+            account_id="ACCOUNT-0001", limit=50
+        )
+        assert res.http_meta is not None
+        assert res.http_meta.response is not None
+        assert res.http_meta.response.status_code == 200
+        assert res.object is not None
+        assert res.object == models.ListPredictionMassCancelsResponseBody(
+            success=True,
+        )
+
+
+def test_predictions_orders_mass_cancel_prediction_orders():
+    test_http_client = create_test_http_client("massCancelPredictionOrders")
+
+    with FinanceDev(
+        server_url=os.getenv("TEST_SERVER_URL", "http://localhost:18080"),
+        client=test_http_client,
+        security=models.Security(
+            client_id="<YOUR_CLIENT_ID_HERE>",
+            client_secret="<YOUR_CLIENT_SECRET_HERE>",
+            token_url="/_mockserver/oauth2/token",
+        ),
+    ) as fd_client:
+        assert fd_client is not None
+
+        res = fd_client.predictions.orders.mass_cancel_prediction_orders(
+            account_id="ACCOUNT-0001", symbol="HORC_1126_Republican"
         )
         assert res.http_meta is not None
         assert res.http_meta.response is not None
         assert res.http_meta.response.status_code == 202
         assert res.object is not None
-        assert res.object == models.PlacePredictionOrderResponseBody(
+        assert res.object == models.MassCancelPredictionOrdersResponseBody(
+            success=True,
+        )
+
+
+def test_predictions_orders_get_prediction_mass_cancel():
+    test_http_client = create_test_http_client("getPredictionMassCancel")
+
+    with FinanceDev(
+        server_url=os.getenv("TEST_SERVER_URL", "http://localhost:18080"),
+        client=test_http_client,
+        security=models.Security(
+            client_id="<YOUR_CLIENT_ID_HERE>",
+            client_secret="<YOUR_CLIENT_SECRET_HERE>",
+            token_url="/_mockserver/oauth2/token",
+        ),
+    ) as fd_client:
+        assert fd_client is not None
+
+        res = fd_client.predictions.orders.get_prediction_mass_cancel(
+            mass_cancel_id="97599149-c654-4879-ab4b-aaac771b2949",
+            account_id="ACCOUNT-0001",
+        )
+        assert res.http_meta is not None
+        assert res.http_meta.response is not None
+        assert res.http_meta.response.status_code == 200
+        assert res.object is not None
+        assert res.object == models.GetPredictionMassCancelResponseBody(
+            success=True,
+        )
+
+
+def test_predictions_orders_replace_prediction_order():
+    test_http_client = create_test_http_client("replacePredictionOrder")
+
+    with FinanceDev(
+        server_url=os.getenv("TEST_SERVER_URL", "http://localhost:18080"),
+        client=test_http_client,
+        security=models.Security(
+            client_id="<YOUR_CLIENT_ID_HERE>",
+            client_secret="<YOUR_CLIENT_SECRET_HERE>",
+            token_url="/_mockserver/oauth2/token",
+        ),
+    ) as fd_client:
+        assert fd_client is not None
+
+        res = fd_client.predictions.orders.replace_prediction_order(
+            order_id="2a410d83-6352-4c2f-b168-8300471c5472",
+            account_id="ACCOUNT-0001",
+            price="0.45",
+            quantity="20",
+        )
+        assert res.http_meta is not None
+        assert res.http_meta.response is not None
+        assert res.http_meta.response.status_code == 202
+        assert res.object is not None
+        assert res.object == models.ReplacePredictionOrderResponseBody(
             data=models.PredOrdersOrder(
                 account_id="ACCOUNT-0001",
                 avg_px="0",
                 client_order_ref="7d1c8e0a-4b8f-4e3a-9f43-2a6b1d0c9e11",
-                created_at=parse_datetime("2024-06-25T22:58:46.837Z"),
+                contract=None,
+                created_at=parse_datetime("2024-01-23T14:06:02.854Z"),
                 cum_qty="0",
                 leaves_qty="10",
                 order_id="0b9f3c2e-5d6a-4f1b-8e7c-9a0d1e2f3a4b",
@@ -107,7 +181,7 @@ def test_predictions_orders_place_prediction_order():
                 stop_px="0.50",
                 symbol="HORC_1126_Republican",
                 time_in_force="day",
-                updated_at=parse_datetime("2026-12-13T22:29:12.787Z"),
+                updated_at=parse_datetime("2024-12-27T23:26:21.261Z"),
                 working_price="0.54",
                 working_quantity="10",
             ),
@@ -115,8 +189,8 @@ def test_predictions_orders_place_prediction_order():
         )
 
 
-def test_predictions_orders_get_prediction_order():
-    test_http_client = create_test_http_client("getPredictionOrder")
+def test_predictions_orders_cancel_prediction_order():
+    test_http_client = create_test_http_client("cancelPredictionOrder")
 
     with FinanceDev(
         server_url=os.getenv("TEST_SERVER_URL", "http://localhost:18080"),
@@ -129,49 +203,42 @@ def test_predictions_orders_get_prediction_order():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.predictions.orders.get_prediction_order(
-            order_id="3e3ab03f-d246-4072-b29f-8558498115de"
+        res = fd_client.predictions.orders.cancel_prediction_order(
+            order_id="912e51a0-6057-4c55-8263-982a49f2808d", account_id="ACCOUNT-0001"
         )
         assert res.http_meta is not None
         assert res.http_meta.response is not None
-        assert res.http_meta.response.status_code == 200
+        assert res.http_meta.response.status_code == 202
         assert res.object is not None
-        assert res.object == models.GetPredictionOrderResponseBody(
-            data=models.PredOrdersOrderDetail(
-                order=models.PredOrdersOrder(
-                    account_id="ACCOUNT-0001",
-                    avg_px="0",
-                    client_order_ref="7d1c8e0a-4b8f-4e3a-9f43-2a6b1d0c9e11",
-                    created_at=parse_datetime("2024-05-18T17:00:40.400Z"),
-                    cum_qty="0",
-                    leaves_qty="10",
-                    order_id="0b9f3c2e-5d6a-4f1b-8e7c-9a0d1e2f3a4b",
-                    order_type="limit",
-                    outcome=models.PredOrdersOrderOutcome.YES,
-                    price="0.54",
-                    quantity="10",
-                    side="buy",
-                    state=models.State.PENDING_NEW,
-                    stop_px="0.50",
-                    symbol="HORC_1126_Republican",
-                    time_in_force="day",
-                    updated_at=parse_datetime("2026-06-01T14:19:20.151Z"),
-                    working_price="0.54",
-                    working_quantity="10",
+        assert res.object == models.CancelPredictionOrderResponseBody(
+            data=models.PredOrdersOrder(
+                account_id="ACCOUNT-0001",
+                avg_px="0",
+                client_order_ref="7d1c8e0a-4b8f-4e3a-9f43-2a6b1d0c9e11",
+                contract=models.Contract(
+                    description="Shelley Moore Capito",
+                    event_display_name="West Virginia Senate General Election November 3 2026",
+                    event_id="AXXWV_110326",
+                    question="Will Shelley Moore Capito win the West Virginia general election for US Senate in 2026?",
+                    settlement_value="1",
+                    state=models.ContractState.ACTIVE,
                 ),
-                reports=[
-                    models.PredOrdersOrderReport(
-                        avg_px="0.54",
-                        cum_qty="10",
-                        exec_id="<id>",
-                        exec_type="trade",
-                        last_px="0.54",
-                        last_qty="10",
-                        leaves_qty="0",
-                        status="filled",
-                        transact_time=parse_datetime("2025-08-27T21:08:04.489Z"),
-                    ),
-                ],
+                created_at=parse_datetime("2025-09-18T05:57:34.478Z"),
+                cum_qty="0",
+                leaves_qty="10",
+                order_id="0b9f3c2e-5d6a-4f1b-8e7c-9a0d1e2f3a4b",
+                order_type="limit",
+                outcome=models.PredOrdersOrderOutcome.YES,
+                price="0.54",
+                quantity="10",
+                side="buy",
+                state=models.State.PENDING_NEW,
+                stop_px="0.50",
+                symbol="HORC_1126_Republican",
+                time_in_force="day",
+                updated_at=parse_datetime("2024-02-18T11:17:56.767Z"),
+                working_price="0.54",
+                working_quantity="10",
             ),
             success=True,
         )

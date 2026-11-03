@@ -7,7 +7,7 @@ package components
 type StockAggregatesResponse struct {
 	// Whether or not the results are adjusted for splits
 	Adjusted *bool `json:"adjusted,omitempty"`
-	// URL for next page of results
+	// URL for the next page of results, including the continuation cursor and updated time bounds. Follow this URL unchanged. Omitted when there are no more pages.
 	NextURL *string `json:"nextUrl,omitempty"`
 	// Number of results returned
 	QueryCount *int64 `json:"queryCount,omitempty"`

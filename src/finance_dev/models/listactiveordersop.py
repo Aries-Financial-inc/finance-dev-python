@@ -18,7 +18,7 @@ class ListActiveOrdersRequestTypedDict(TypedDict):
     limit: NotRequired[int]
     r"""Maximum number of orders to return in this page. Use smaller values for UI lists and larger values for back-office exports. Default is 50; maximum is 500."""
     cursor: NotRequired[int]
-    r"""Opaque pagination cursor. Send `0` (or omit) for the first page; pass the previous response's `nextCursor` for subsequent pages. Stop when `nextCursor` is `0`."""
+    r"""Opaque pagination cursor. Send `0` (or omit) for the first page; pass the previous response's `nextCursor` for subsequent pages. Stop when `nextCursor` is absent."""
 
 
 class ListActiveOrdersRequest(BaseModel):
@@ -37,7 +37,7 @@ class ListActiveOrdersRequest(BaseModel):
         Optional[int],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = 0
-    r"""Opaque pagination cursor. Send `0` (or omit) for the first page; pass the previous response's `nextCursor` for subsequent pages. Stop when `nextCursor` is `0`."""
+    r"""Opaque pagination cursor. Send `0` (or omit) for the first page; pass the previous response's `nextCursor` for subsequent pages. Stop when `nextCursor` is absent."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

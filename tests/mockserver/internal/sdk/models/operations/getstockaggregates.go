@@ -25,18 +25,6 @@ func (e Timespan) ToPointer() *Timespan {
 	return &e
 }
 
-// Sort direction for aggregate bars. Use `asc` for oldest first or `desc` for newest first.
-type Sort string
-
-const (
-	SortAsc  Sort = "asc"
-	SortDesc Sort = "desc"
-)
-
-func (e Sort) ToPointer() *Sort {
-	return &e
-}
-
 type GetStockAggregatesRequest struct {
 	// Stock ticker symbol, such as AAPL. Use the exact ticker for the company you want to research.
 	Ticker string `queryParam:"style=form,explode=true,name=ticker"`
@@ -51,10 +39,10 @@ type GetStockAggregatesRequest struct {
 	// Whether to adjust historical prices for stock splits. Use true for normalized charting and false for raw market data.
 	Adjusted *bool `queryParam:"style=form,explode=true,name=adjusted"`
 	// Sort direction for aggregate bars. Use `asc` for oldest first or `desc` for newest first.
-	Sort *Sort `queryParam:"style=form,explode=true,name=sort"`
+	Sort *components.SortOrderEnum `queryParam:"style=form,explode=true,name=sort"`
 	// Maximum number of results to return. Use smaller values for UI pages and larger values for exports within API limits.
 	Limit *int64 `queryParam:"style=form,explode=true,name=limit"`
-	// Pagination cursor from the previous response. Omit it on the first request, then send the returned cursor to fetch the next page.
+	// Pagination cursor included in the returned nextUrl. Follow the entire nextUrl to fetch the next page; it also contains updated from/to bounds required to advance through the results.
 	Next *string `queryParam:"style=form,explode=true,name=next"`
 }
 
@@ -100,7 +88,7 @@ func (o *GetStockAggregatesRequest) GetAdjusted() *bool {
 	return o.Adjusted
 }
 
-func (o *GetStockAggregatesRequest) GetSort() *Sort {
+func (o *GetStockAggregatesRequest) GetSort() *components.SortOrderEnum {
 	if o == nil {
 		return nil
 	}

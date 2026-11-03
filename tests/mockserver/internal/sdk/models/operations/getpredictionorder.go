@@ -10,6 +10,8 @@ import (
 type GetPredictionOrderRequest struct {
 	// `orderId` returned by Place Prediction Order or List Prediction Orders.
 	OrderID string `pathParam:"style=simple,explode=false,name=orderId"`
+	// The account the order is on.
+	AccountID string `queryParam:"style=form,explode=true,name=accountId"`
 }
 
 func (o *GetPredictionOrderRequest) GetOrderID() string {
@@ -17,6 +19,13 @@ func (o *GetPredictionOrderRequest) GetOrderID() string {
 		return ""
 	}
 	return o.OrderID
+}
+
+func (o *GetPredictionOrderRequest) GetAccountID() string {
+	if o == nil {
+		return ""
+	}
+	return o.AccountID
 }
 
 // GetPredictionOrderResponseBody - Standard success envelope used by all success responses. `data` is endpoint-specific.

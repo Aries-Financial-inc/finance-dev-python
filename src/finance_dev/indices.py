@@ -19,7 +19,7 @@ class Indices(BaseSDK):
         identifier_type: Optional[
             models.IndicesIdentifierType
         ] = models.IndicesIdentifierType.SYMBOL,
-        precision: Optional[models.GetIndexBarPrecision] = None,
+        precision: Optional[models.BarPrecision] = None,
         period: Optional[int] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -103,7 +103,20 @@ class Indices(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Indices"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.indices.get_bar(identifier="SPX.IND_CBOM", end_time="12/22/2025 10:30 am", identifier_type=models.IndicesIdentifierType.SYMBOL, precision=models.GetIndexBarPrecision.MINUTES, period=1)\n\n    assert res.index_bar_response is not None\n\n    # Handle response\n    print(res.index_bar_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.indices.getBar({\n    identifier: "SPX.IND_CBOM",\n    endTime: "12/22/2025 10:30 am",\n    precision: "Minutes",\n    period: 1,\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -167,7 +180,7 @@ class Indices(BaseSDK):
         identifier_type: Optional[
             models.IndicesIdentifierType
         ] = models.IndicesIdentifierType.SYMBOL,
-        precision: Optional[models.GetIndexBarPrecision] = None,
+        precision: Optional[models.BarPrecision] = None,
         period: Optional[int] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -251,7 +264,20 @@ class Indices(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Indices"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.indices.get_bar(identifier="SPX.IND_CBOM", end_time="12/22/2025 10:30 am", identifier_type=models.IndicesIdentifierType.SYMBOL, precision=models.GetIndexBarPrecision.MINUTES, period=1)\n\n    assert res.index_bar_response is not None\n\n    # Handle response\n    print(res.index_bar_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.indices.getBar({\n    identifier: "SPX.IND_CBOM",\n    endTime: "12/22/2025 10:30 am",\n    precision: "Minutes",\n    period: 1,\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -316,7 +342,7 @@ class Indices(BaseSDK):
         identifier_type: Optional[
             models.IndicesIdentifierType
         ] = models.IndicesIdentifierType.SYMBOL,
-        precision: Optional[models.GetIndexBarsPrecision] = None,
+        precision: Optional[models.BarPrecision] = None,
         period: Optional[int] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -402,7 +428,20 @@ class Indices(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Indices"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.indices.get_bars(identifier="SPX.IND_CBOM", start_time="12/22/2025 9:30 am", end_time="12/22/2025 4:00 pm", identifier_type=models.IndicesIdentifierType.SYMBOL, precision=models.GetIndexBarsPrecision.MINUTES)\n\n    assert res.index_bars_response is not None\n\n    # Handle response\n    print(res.index_bars_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.indices.getBars({\n    identifier: "SPX.IND_CBOM",\n    startTime: "12/22/2025 9:30 am",\n    endTime: "12/22/2025 4:00 pm",\n    precision: "Minutes",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -467,7 +506,7 @@ class Indices(BaseSDK):
         identifier_type: Optional[
             models.IndicesIdentifierType
         ] = models.IndicesIdentifierType.SYMBOL,
-        precision: Optional[models.GetIndexBarsPrecision] = None,
+        precision: Optional[models.BarPrecision] = None,
         period: Optional[int] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -553,7 +592,20 @@ class Indices(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Indices"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.indices.get_bars(identifier="SPX.IND_CBOM", start_time="12/22/2025 9:30 am", end_time="12/22/2025 4:00 pm", identifier_type=models.IndicesIdentifierType.SYMBOL, precision=models.GetIndexBarsPrecision.MINUTES)\n\n    assert res.index_bars_response is not None\n\n    # Handle response\n    print(res.index_bars_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.indices.getBars({\n    identifier: "SPX.IND_CBOM",\n    startTime: "12/22/2025 9:30 am",\n    endTime: "12/22/2025 4:00 pm",\n    precision: "Minutes",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -685,7 +737,20 @@ class Indices(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Indices"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.indices.get_by_group(index_group="IND_CBOM")\n\n    assert res.indices_by_group_response is not None\n\n    # Handle response\n    print(res.indices_by_group_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.indices.getByGroup({\n    indexGroup: "IND_CBOM",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -817,7 +882,20 @@ class Indices(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Indices"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.indices.get_by_group(index_group="IND_CBOM")\n\n    assert res.indices_by_group_response is not None\n\n    # Handle response\n    print(res.indices_by_group_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.indices.getByGroup({\n    indexGroup: "IND_CBOM",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -882,7 +960,7 @@ class Indices(BaseSDK):
         identifier_type: Optional[
             models.IndicesIdentifierType
         ] = models.IndicesIdentifierType.SYMBOL,
-        precision: Optional[models.GetIndexChartBarsPrecision] = None,
+        precision: Optional[models.Precision] = None,
         period: Optional[int] = None,
         adjustment_method: Optional[str] = None,
         include_extended: Optional[bool] = False,
@@ -893,7 +971,7 @@ class Indices(BaseSDK):
     ) -> models.GetIndexChartBarsResponse:
         r"""Get Index Chart Data
 
-        Retrieve historical chart data for indices including price history, volume, and returns for creating index performance charts.
+        Retrieve intraday chart bars for indices.
 
         If set, this operation will use `client_id` from the global security.
 
@@ -901,9 +979,7 @@ class Indices(BaseSDK):
         :param start_time: Start of the chart range, inclusive. Format: `MM/DD/YYYY hh:mm am/pm` in the index's native timezone (e.g. `12/15/2025 9:00 am`).
         :param end_time: End of the chart range, inclusive. Format: `MM/DD/YYYY hh:mm am/pm` in the index's native timezone (e.g. `12/15/2025 9:30 am`).
         :param identifier_type: How to interpret the value you sent in `identifier`. Defaults to `Symbol`. See `IndicesIdentifierType` for the full set of accepted values.
-        :param precision: How long each chart bar covers. Pair with `period` to set the exact size. Note the singular form (different from `/v1/indices/bar` and `/v1/indices/bars`). Allowed values:
-            - `Minute` — minute bars (intraday).
-            - `Hour` — hour bars.
+        :param precision: How long each chart bar covers. Pair with `period` to set the exact size. Allowed values: `Minute` or `Minutes` for minute bars; `Hour` or `Hours` for hour bars. Other nonempty values, including `Daily`, `Day`, `Days`, and `Week`, return HTTP 400 with code `VALIDATION_ERROR` and precision error: \"field 'precision' must be one of: Minute Minutes Hour Hours\".
         :param period: Multiplier on `precision` to set the bar size. Defaults to `1`. Example: `precision=Minute` + `period=15` = 15-minute bars.
         :param adjustment_method: How to adjust historical prices for corporate actions like dividends and splits. Pass the literal value supported by the upstream data provider. Omit to leave prices unadjusted.
         :param include_extended: Include pre-market and after-hours sessions in the returned chart bars. Defaults to `false` (regular hours only). Set `true` when you want a continuous extended-session chart.
@@ -974,7 +1050,20 @@ class Indices(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Indices"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.indices.get_chart_bars(identifier="SPX.IND_CBOM", start_time="12/15/2025 9:00 am", end_time="12/15/2025 9:30 am", identifier_type=models.IndicesIdentifierType.SYMBOL, precision=models.GetIndexChartBarsPrecision.MINUTE, period=15, include_extended=False)\n\n    assert res.index_chart_bars_response is not None\n\n    # Handle response\n    print(res.index_chart_bars_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.indices.getChartBars({\n    identifier: "SPX.IND_CBOM",\n    startTime: "12/15/2025 9:00 am",\n    endTime: "12/15/2025 9:30 am",\n    precision: "Minute",\n    period: 15,\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1039,7 +1128,7 @@ class Indices(BaseSDK):
         identifier_type: Optional[
             models.IndicesIdentifierType
         ] = models.IndicesIdentifierType.SYMBOL,
-        precision: Optional[models.GetIndexChartBarsPrecision] = None,
+        precision: Optional[models.Precision] = None,
         period: Optional[int] = None,
         adjustment_method: Optional[str] = None,
         include_extended: Optional[bool] = False,
@@ -1050,7 +1139,7 @@ class Indices(BaseSDK):
     ) -> models.GetIndexChartBarsResponse:
         r"""Get Index Chart Data
 
-        Retrieve historical chart data for indices including price history, volume, and returns for creating index performance charts.
+        Retrieve intraday chart bars for indices.
 
         If set, this operation will use `client_id` from the global security.
 
@@ -1058,9 +1147,7 @@ class Indices(BaseSDK):
         :param start_time: Start of the chart range, inclusive. Format: `MM/DD/YYYY hh:mm am/pm` in the index's native timezone (e.g. `12/15/2025 9:00 am`).
         :param end_time: End of the chart range, inclusive. Format: `MM/DD/YYYY hh:mm am/pm` in the index's native timezone (e.g. `12/15/2025 9:30 am`).
         :param identifier_type: How to interpret the value you sent in `identifier`. Defaults to `Symbol`. See `IndicesIdentifierType` for the full set of accepted values.
-        :param precision: How long each chart bar covers. Pair with `period` to set the exact size. Note the singular form (different from `/v1/indices/bar` and `/v1/indices/bars`). Allowed values:
-            - `Minute` — minute bars (intraday).
-            - `Hour` — hour bars.
+        :param precision: How long each chart bar covers. Pair with `period` to set the exact size. Allowed values: `Minute` or `Minutes` for minute bars; `Hour` or `Hours` for hour bars. Other nonempty values, including `Daily`, `Day`, `Days`, and `Week`, return HTTP 400 with code `VALIDATION_ERROR` and precision error: \"field 'precision' must be one of: Minute Minutes Hour Hours\".
         :param period: Multiplier on `precision` to set the bar size. Defaults to `1`. Example: `precision=Minute` + `period=15` = 15-minute bars.
         :param adjustment_method: How to adjust historical prices for corporate actions like dividends and splits. Pass the literal value supported by the upstream data provider. Omit to leave prices unadjusted.
         :param include_extended: Include pre-market and after-hours sessions in the returned chart bars. Defaults to `false` (regular hours only). Set `true` when you want a continuous extended-session chart.
@@ -1131,7 +1218,20 @@ class Indices(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Indices"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.indices.get_chart_bars(identifier="SPX.IND_CBOM", start_time="12/15/2025 9:00 am", end_time="12/15/2025 9:30 am", identifier_type=models.IndicesIdentifierType.SYMBOL, precision=models.GetIndexChartBarsPrecision.MINUTE, period=15, include_extended=False)\n\n    assert res.index_chart_bars_response is not None\n\n    # Handle response\n    print(res.index_chart_bars_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.indices.getChartBars({\n    identifier: "SPX.IND_CBOM",\n    startTime: "12/15/2025 9:00 am",\n    endTime: "12/15/2025 9:30 am",\n    precision: "Minute",\n    period: 15,\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1256,7 +1356,20 @@ class Indices(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Indices"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.indices.get_groups()\n\n    assert res.index_groups_response is not None\n\n    # Handle response\n    print(res.index_groups_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.indices.getGroups();\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1381,7 +1494,20 @@ class Indices(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Indices"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.indices.get_groups()\n\n    assert res.index_groups_response is not None\n\n    # Handle response\n    print(res.index_groups_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.indices.getGroups();\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1519,7 +1645,20 @@ class Indices(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Indices"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.indices.list(index_group="IND_CBOM", page_size=100)\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.indices.list({\n    indexGroup: "IND_CBOM",\n    pageSize: 100,\n  });\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1685,7 +1824,20 @@ class Indices(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Indices"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.indices.list(index_group="IND_CBOM", page_size=100)\n\n    while res is not None:\n        # Handle items\n\n        res = res.next()',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.indices.list({\n    indexGroup: "IND_CBOM",\n    pageSize: 100,\n  });\n\n  for await (const page of result) {\n    console.log(page);\n  }\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1850,7 +2002,20 @@ class Indices(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Indices"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.indices.get_realtime_values(identifiers="<value>", identifier_type=models.IndicesIdentifierType.SYMBOL)\n\n    assert res.indices_realtime_values_response is not None\n\n    # Handle response\n    print(res.indices_realtime_values_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.indices.getRealtimeValues({\n    identifiers: "<value>",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1987,7 +2152,20 @@ class Indices(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Indices"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.indices.get_realtime_values(identifiers="<value>", identifier_type=models.IndicesIdentifierType.SYMBOL)\n\n    assert res.indices_realtime_values_response is not None\n\n    # Handle response\n    print(res.indices_realtime_values_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.indices.getRealtimeValues({\n    identifiers: "<value>",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -2119,7 +2297,20 @@ class Indices(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Indices"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.indices.search(index_name="S&P 500")\n\n    assert res.index_search_response is not None\n\n    # Handle response\n    print(res.index_search_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.indices.search({\n    indexName: "S&P 500",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -2251,7 +2442,20 @@ class Indices(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Indices"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.indices.search(index_name="S&P 500")\n\n    assert res.index_search_response is not None\n\n    # Handle response\n    print(res.index_search_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.indices.search({\n    indexName: "S&P 500",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),

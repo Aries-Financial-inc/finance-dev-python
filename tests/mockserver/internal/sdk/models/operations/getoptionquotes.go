@@ -8,7 +8,7 @@ import (
 	"mockserver/internal/sdk/utils"
 )
 
-// GetOptionQuotesOrder - Sort order for returned records. Use asc for oldest first or desc for newest first when supported.
+// GetOptionQuotesOrder - Sort direction for results. Use ascending for oldest or smallest first, descending for newest or largest first.
 type GetOptionQuotesOrder string
 
 const (
