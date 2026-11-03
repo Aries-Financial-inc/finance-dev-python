@@ -21,7 +21,7 @@ targets:
         sourceRevisionDigest: sha256:f90f6ce2daf5c1a315348b4d3a332cf42fe17a2af71a7dc75cf8d8d8fd76da31
         sourceBlobDigest: sha256:25b2e04f6c577c6f9daca6318dd59a36303a57df7808ebb8d415e31cf0417644
         codeSamplesNamespace: aries-prod-spec-python-code-samples
-        codeSamplesRevisionDigest: sha256:dfccf321ea4d1126326adfc9a140f0730b68596712fac0af72efc9ffe2f77726
+        codeSamplesRevisionDigest: sha256:e4944a651463e71b0b4a78ff74262ae9a80ccfc2c29c9545c07b119fe5a3f69f
 workflow:
     workflowVersion: 1.0.0
     speakeasyVersion: 1.802.0

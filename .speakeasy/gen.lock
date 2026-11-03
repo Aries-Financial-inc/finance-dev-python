@@ -6,12 +6,12 @@ management:
   speakeasyVersion: 1.802.0
   generationVersion: 2.948.4
   releaseVersion: 0.10.0
-  configChecksum: 3f4109d6eb7745797a565098bb6cdd0b
+  configChecksum: 2e2b256d07b75a5e5c07b94bb3f74b0a
   published: true
 persistentEdits:
-  generation_id: b631b628-9537-44c2-b015-f0063d59872f
-  pristine_commit_hash: 2caa6cf57a4b5175f87e28213d92a10670cd378a
-  pristine_tree_hash: 0c1070057eddc1b8fbfc195d56b4b95a4c41640c
+  generation_id: 7bc615b5-1c4b-4a49-83a5-c1414d70f580
+  pristine_commit_hash: 4dd7ea4d66ab71ecb39bcfcd923ca3f421a10830
+  pristine_tree_hash: 055ae614540b10680f78cdc19a183eb71669d42e
 features:
   python:
     additionalDependencies: 1.1.0
@@ -3447,8 +3447,8 @@ trackedFiles:
     pristine_git_object: 9108ba049b1eafc07a4d74bd7c3ce87427bf0aae
   pyproject.toml:
     id: 5d07e7d72637
-    last_write_checksum: sha1:5ad741748c4f014a988f628971818d6a42aac74e
-    pristine_git_object: cdcd1cd08fa141285e5285738b6a547580134087
+    last_write_checksum: sha1:74c1eb7b538ab459ce77e3d1efa72860c3454120
+    pristine_git_object: 40040862a2c9710576fdc9766709971415545f29
   scripts/publish.sh:
     id: fe273b08f514
     last_write_checksum: sha1:adc9b741c12ad1591ab4870eabe20f0d0a86cd1a
@@ -5513,8 +5513,8 @@ trackedFiles:
     pristine_git_object: a769d077c6441caf3716cb61a2a41d5ee12811fe
   tests/mockserver/internal/handler/pathgetv1calendarsearnings.go:
     id: 15a1bfe10e07
-    last_write_checksum: sha1:0263a56deb3674a99a2ab4c32c1de68dcf6b198d
-    pristine_git_object: e21ba12068f74d068cd45ee9b7f285df0a0f6885
+    last_write_checksum: sha1:7783bec8abbf1848307d41cdbb4653a144da3523
+    pristine_git_object: 9b36f3d96e54d65633dc18245b871718b0bdafc8
   tests/mockserver/internal/handler/pathgetv1calendarseconomics.go:
     id: 6e9dfeffc696
     last_write_checksum: sha1:c8df4afd2adcf4d85baa892b1987c4b69fc10c09
@@ -8021,8 +8021,8 @@ trackedFiles:
     pristine_git_object: c9071eaeb667616e2bb619946681ea93dfdb6619
   tests/test_orders.py:
     id: a94664f5c6ec
-    last_write_checksum: sha1:05b5cc049fb2e1c5cc765deb808987b563b82e39
-    pristine_git_object: a463cb2526a95dcf872bfd2ec83ca4587b4b8e5f
+    last_write_checksum: sha1:f0234f51f38f4ce8a99211da0688f00800f1d851
+    pristine_git_object: a7c632fb9d6ab509b4996b90ac812f54a67b4600
   tests/test_ownership.py:
     id: 2ae90197caeb
     last_write_checksum: sha1:8cac148c2336bc6a4255e49f3bd6e5c33a668f66

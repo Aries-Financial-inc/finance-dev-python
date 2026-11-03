@@ -48,7 +48,7 @@ python:
     - object
   asyncMode: both
   authors:
-    - Speakeasy
+    - Aries Financial
   baseErrorName: FinanceDevAPIError
   bodyVariantOverloads: false
   clientServerStatusCodesAsErrors: true
