@@ -18,14 +18,13 @@ from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class GetIndexChartBarsPrecision(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""How long each chart bar covers. Pair with `period` to set the exact size. Note the singular form (different from `/v1/indices/bar` and `/v1/indices/bars`). Allowed values:
-    - `Minute` — minute bars (intraday).
-    - `Hour` — hour bars.
-    """
+class Precision(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""How long each chart bar covers. Pair with `period` to set the exact size. Allowed values: `Minute` or `Minutes` for minute bars; `Hour` or `Hours` for hour bars. Other nonempty values, including `Daily`, `Day`, `Days`, and `Week`, return HTTP 400 with code `VALIDATION_ERROR` and precision error: \"field 'precision' must be one of: Minute Minutes Hour Hours\"."""
 
     MINUTE = "Minute"
+    MINUTES = "Minutes"
     HOUR = "Hour"
+    HOURS = "Hours"
 
 
 class GetIndexChartBarsRequestTypedDict(TypedDict):
@@ -37,11 +36,8 @@ class GetIndexChartBarsRequestTypedDict(TypedDict):
     r"""End of the chart range, inclusive. Format: `MM/DD/YYYY hh:mm am/pm` in the index's native timezone (e.g. `12/15/2025 9:30 am`)."""
     identifier_type: NotRequired[IndicesIdentifierType]
     r"""How to interpret the value you sent in `identifier`. Defaults to `Symbol`. See `IndicesIdentifierType` for the full set of accepted values."""
-    precision: NotRequired[GetIndexChartBarsPrecision]
-    r"""How long each chart bar covers. Pair with `period` to set the exact size. Note the singular form (different from `/v1/indices/bar` and `/v1/indices/bars`). Allowed values:
-    - `Minute` — minute bars (intraday).
-    - `Hour` — hour bars.
-    """
+    precision: NotRequired[Precision]
+    r"""How long each chart bar covers. Pair with `period` to set the exact size. Allowed values: `Minute` or `Minutes` for minute bars; `Hour` or `Hours` for hour bars. Other nonempty values, including `Daily`, `Day`, `Days`, and `Week`, return HTTP 400 with code `VALIDATION_ERROR` and precision error: \"field 'precision' must be one of: Minute Minutes Hour Hours\"."""
     period: NotRequired[int]
     r"""Multiplier on `precision` to set the bar size. Defaults to `1`. Example: `precision=Minute` + `period=15` = 15-minute bars."""
     adjustment_method: NotRequired[str]
@@ -78,13 +74,10 @@ class GetIndexChartBarsRequest(BaseModel):
     r"""How to interpret the value you sent in `identifier`. Defaults to `Symbol`. See `IndicesIdentifierType` for the full set of accepted values."""
 
     precision: Annotated[
-        Optional[GetIndexChartBarsPrecision],
+        Optional[Precision],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""How long each chart bar covers. Pair with `period` to set the exact size. Note the singular form (different from `/v1/indices/bar` and `/v1/indices/bars`). Allowed values:
-    - `Minute` — minute bars (intraday).
-    - `Hour` — hour bars.
-    """
+    r"""How long each chart bar covers. Pair with `period` to set the exact size. Allowed values: `Minute` or `Minutes` for minute bars; `Hour` or `Hours` for hour bars. Other nonempty values, including `Daily`, `Day`, `Days`, and `Week`, return HTTP 400 with code `VALIDATION_ERROR` and precision error: \"field 'precision' must be one of: Minute Minutes Hour Hours\"."""
 
     period: Annotated[
         Optional[int],
@@ -119,7 +112,7 @@ class GetIndexChartBarsRequest(BaseModel):
     def serialize_precision(self, value):
         if isinstance(value, str):
             try:
-                return models.GetIndexChartBarsPrecision(value)
+                return models.Precision(value)
             except ValueError:
                 return value
         return value

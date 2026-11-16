@@ -127,7 +127,7 @@ func testSearchSymbolsSearchSymbolsStockResults0(w http.ResponseWriter, req *htt
 		components.SearchSymbolItem{
 			Description: types.String("Apple Inc."),
 			Symbol:      types.String("AAPL"),
-			Type:        components.SearchSymbolItemTypeStock.ToPointer(),
+			Type:        components.InstrumentTypeStock.ToPointer(),
 		},
 		components.SearchSymbolItem{
 			Description: types.String("Apple Inc. Warrant"),
@@ -169,12 +169,12 @@ func testSearchSymbolsSearchSymbolsOptionResults0(w http.ResponseWriter, req *ht
 		components.SearchSymbolItem{
 			Description: types.String("AAPL Mar 15 2024 $150 Call"),
 			Symbol:      types.String("AAPL240315C00150000"),
-			Type:        components.SearchSymbolItemTypeOption.ToPointer(),
+			Type:        components.InstrumentTypeOption.ToPointer(),
 		},
 		components.SearchSymbolItem{
 			Description: types.String("AAPL Mar 15 2024 $150 Put"),
 			Symbol:      types.String("AAPL240315P00150000"),
-			Type:        components.SearchSymbolItemTypeOption.ToPointer(),
+			Type:        components.InstrumentTypeOption.ToPointer(),
 		},
 	}
 	respBodyBytes, err := utils.MarshalJSON(respBody, "", true)
@@ -210,7 +210,7 @@ func testSearchSymbolsSearchSymbols0(w http.ResponseWriter, req *http.Request) {
 	}
 	var respBody []components.SearchSymbolItem = []components.SearchSymbolItem{
 		components.SearchSymbolItem{
-			Type: components.SearchSymbolItemTypeStock.ToPointer(),
+			Type: components.InstrumentTypeStock.ToPointer(),
 		},
 	}
 	respBodyBytes, err := utils.MarshalJSON(respBody, "", true)

@@ -11,8 +11,10 @@ import (
 type ListPredictionOrdersRequest struct {
 	// Comma-separated order states, or `open` for every state an order can still rest or execute in (`pending_new`, `new`, `partially_filled`, `unknown`). An unknown state returns `400`.
 	Status *string `queryParam:"style=form,explode=true,name=status"`
-	// Only orders on this account.
-	AccountID *string `queryParam:"style=form,explode=true,name=accountId"`
+	// The account. Every order on it is covered, whoever placed it.
+	AccountID string `queryParam:"style=form,explode=true,name=accountId"`
+	// Only orders this user placed.
+	PlacedBy *string `queryParam:"style=form,explode=true,name=placedBy"`
 	// Only orders on this contract symbol.
 	Symbol *string `queryParam:"style=form,explode=true,name=symbol"`
 	// Orders per page. Values above 200 are clamped to 200. `0`, a negative value, or a non-integer returns `400`.
@@ -26,7 +28,7 @@ func (l ListPredictionOrdersRequest) MarshalJSON() ([]byte, error) {
 }
 
 func (l *ListPredictionOrdersRequest) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &l, "", false, nil); err != nil {
+	if err := utils.UnmarshalJSON(data, &l, "", false, []string{"accountId"}); err != nil {
 		return err
 	}
 	return nil
@@ -39,11 +41,18 @@ func (o *ListPredictionOrdersRequest) GetStatus() *string {
 	return o.Status
 }
 
-func (o *ListPredictionOrdersRequest) GetAccountID() *string {
+func (o *ListPredictionOrdersRequest) GetAccountID() string {
+	if o == nil {
+		return ""
+	}
+	return o.AccountID
+}
+
+func (o *ListPredictionOrdersRequest) GetPlacedBy() *string {
 	if o == nil {
 		return nil
 	}
-	return o.AccountID
+	return o.PlacedBy
 }
 
 func (o *ListPredictionOrdersRequest) GetSymbol() *string {

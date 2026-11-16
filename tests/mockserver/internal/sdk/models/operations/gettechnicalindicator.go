@@ -7,29 +7,11 @@ import (
 	"mockserver/internal/sdk/models/components"
 )
 
-// GetTechnicalIndicatorResolution - How long each bar covers. Supported values are minutes (`1`, `5`, `15`, `30`, `60`) or daily/weekly/monthly (`D`, `W`, `M`). Other values return 400 Bad Request with error code `VALIDATION_ERROR`.
-type GetTechnicalIndicatorResolution string
-
-const (
-	GetTechnicalIndicatorResolutionOne     GetTechnicalIndicatorResolution = "1"
-	GetTechnicalIndicatorResolutionFive    GetTechnicalIndicatorResolution = "5"
-	GetTechnicalIndicatorResolutionFifteen GetTechnicalIndicatorResolution = "15"
-	GetTechnicalIndicatorResolutionThirty  GetTechnicalIndicatorResolution = "30"
-	GetTechnicalIndicatorResolutionSixty   GetTechnicalIndicatorResolution = "60"
-	GetTechnicalIndicatorResolutionD       GetTechnicalIndicatorResolution = "D"
-	GetTechnicalIndicatorResolutionW       GetTechnicalIndicatorResolution = "W"
-	GetTechnicalIndicatorResolutionM       GetTechnicalIndicatorResolution = "M"
-)
-
-func (e GetTechnicalIndicatorResolution) ToPointer() *GetTechnicalIndicatorResolution {
-	return &e
-}
-
 type GetTechnicalIndicatorRequest struct {
 	// Stock ticker to query. Send the plain uppercase symbol exactly as you'd type it on a brokerage screen, e.g. `AAPL`, `MSFT`, `TSLA`.
 	Symbol string `queryParam:"style=form,explode=true,name=symbol"`
 	// How long each bar covers. Supported values are minutes (`1`, `5`, `15`, `30`, `60`) or daily/weekly/monthly (`D`, `W`, `M`). Other values return 400 Bad Request with error code `VALIDATION_ERROR`.
-	Resolution GetTechnicalIndicatorResolution `queryParam:"style=form,explode=true,name=resolution"`
+	Resolution components.BarResolution `queryParam:"style=form,explode=true,name=resolution"`
 	// Which technical indicator to compute. Common picks: `sma` (simple moving average), `ema` (exponential moving average), `rsi` (relative strength index), `macd` (moving-average convergence-divergence), `bbands` (Bollinger Bands). See `TechnicalIndicatorType` for the full list of supported slugs.
 	Indicator components.TechnicalIndicatorType `queryParam:"style=form,explode=true,name=indicator"`
 	// Start timestamp (Unix seconds)
@@ -53,9 +35,9 @@ func (o *GetTechnicalIndicatorRequest) GetSymbol() string {
 	return o.Symbol
 }
 
-func (o *GetTechnicalIndicatorRequest) GetResolution() GetTechnicalIndicatorResolution {
+func (o *GetTechnicalIndicatorRequest) GetResolution() components.BarResolution {
 	if o == nil {
-		return GetTechnicalIndicatorResolution("")
+		return components.BarResolution("")
 	}
 	return o.Resolution
 }

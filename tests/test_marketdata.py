@@ -6,6 +6,107 @@ import os
 from tests.test_client import create_test_http_client
 
 
+def test_marketdata_search_etb_symbols_duplicates_collapse():
+    test_http_client = create_test_http_client("searchEtbSymbols-duplicatesCollapse")
+
+    with FinanceDev(
+        server_url=os.getenv("TEST_SERVER_URL", "http://localhost:18080"),
+        client=test_http_client,
+        security=models.Security(
+            client_id="<YOUR_CLIENT_ID_HERE>",
+            client_secret="<YOUR_CLIENT_SECRET_HERE>",
+            token_url="/_mockserver/oauth2/token",
+        ),
+    ) as fd_client:
+        assert fd_client is not None
+
+        res = fd_client.market_data.search_etb_symbols(
+            symbols=[
+                "aapl",
+                " AAPL ",
+                "AAPL",
+            ]
+        )
+        assert res.http_meta is not None
+        assert res.http_meta.response is not None
+        assert res.http_meta.response.status_code == 200
+        assert res.etb_search_response is not None
+        assert res.etb_search_response == models.EtbSearchResponse(
+            count=1,
+            results={
+                "AAPL": True,
+            },
+        )
+
+
+def test_marketdata_search_etb_symbols_mixed_case():
+    test_http_client = create_test_http_client("searchEtbSymbols-mixedCase")
+
+    with FinanceDev(
+        server_url=os.getenv("TEST_SERVER_URL", "http://localhost:18080"),
+        client=test_http_client,
+        security=models.Security(
+            client_id="<YOUR_CLIENT_ID_HERE>",
+            client_secret="<YOUR_CLIENT_SECRET_HERE>",
+            token_url="/_mockserver/oauth2/token",
+        ),
+    ) as fd_client:
+        assert fd_client is not None
+
+        res = fd_client.market_data.search_etb_symbols(
+            symbols=[
+                "AAPL",
+                "GME",
+                "msft",
+            ]
+        )
+        assert res.http_meta is not None
+        assert res.http_meta.response is not None
+        assert res.http_meta.response.status_code == 200
+        assert res.etb_search_response is not None
+        assert res.etb_search_response == models.EtbSearchResponse(
+            count=3,
+            results={
+                "AAPL": True,
+                "GME": False,
+                "MSFT": True,
+            },
+        )
+
+
+def test_marketdata_get_option_details():
+    test_http_client = create_test_http_client("getOptionDetails")
+
+    with FinanceDev(
+        server_url=os.getenv("TEST_SERVER_URL", "http://localhost:18080"),
+        client=test_http_client,
+        security=models.Security(
+            client_id="<YOUR_CLIENT_ID_HERE>",
+            client_secret="<YOUR_CLIENT_SECRET_HERE>",
+            token_url="/_mockserver/oauth2/token",
+        ),
+    ) as fd_client:
+        assert fd_client is not None
+
+        res = fd_client.market_data.get_option_details(symbols="GOOG270115C00285000")
+        assert res.http_meta is not None
+        assert res.http_meta.response is not None
+        assert res.http_meta.response.status_code == 200
+        assert res.get_option_details_response is not None
+        assert res.get_option_details_response == models.GetOptionDetailsResponse(
+            data=[
+                models.OptionDetailsDTO(
+                    ask_price=80.9,
+                    bid_price=78.05,
+                    close_price=93.5,
+                    last_price=79.76,
+                    mid_price=79.475,
+                    symbol="GOOG270115C00285000",
+                ),
+            ],
+        )
+
+
 def test_marketdata_search_market_symbols_option():
     test_http_client = create_test_http_client("searchMarketSymbols-option")
 
@@ -30,13 +131,13 @@ def test_marketdata_search_market_symbols_option():
                 description="Apple Inc.",
                 symbol="AAPL",
                 tag="XNAS",
-                type=models.SearchSymbolResponseItemType.STOCK,
+                type=models.InstrumentType.STOCK,
             ),
             models.SearchSymbolResponseItem(
                 description="AAPL Jan 19 2024 190 Call",
                 symbol="AAPL240119C00190000",
                 tag="OPRA",
-                type=models.SearchSymbolResponseItemType.OPTION,
+                type=models.InstrumentType.OPTION,
             ),
         ]
 
@@ -65,13 +166,13 @@ def test_marketdata_search_market_symbols_stock():
                 description="Apple Inc.",
                 symbol="AAPL",
                 tag="XNAS",
-                type=models.SearchSymbolResponseItemType.STOCK,
+                type=models.InstrumentType.STOCK,
             ),
             models.SearchSymbolResponseItem(
                 description="AAPL Jan 19 2024 190 Call",
                 symbol="AAPL240119C00190000",
                 tag="OPRA",
-                type=models.SearchSymbolResponseItemType.OPTION,
+                type=models.InstrumentType.OPTION,
             ),
         ]
 
@@ -100,13 +201,13 @@ def test_marketdata_search_market_symbols_futures():
                 description="Apple Inc.",
                 symbol="AAPL",
                 tag="XNAS",
-                type=models.SearchSymbolResponseItemType.STOCK,
+                type=models.InstrumentType.STOCK,
             ),
             models.SearchSymbolResponseItem(
                 description="AAPL Jan 19 2024 190 Call",
                 symbol="AAPL240119C00190000",
                 tag="OPRA",
-                type=models.SearchSymbolResponseItemType.OPTION,
+                type=models.InstrumentType.OPTION,
             ),
         ]
 
@@ -135,12 +236,12 @@ def test_marketdata_search_market_symbols():
                 description="Apple Inc.",
                 symbol="AAPL",
                 tag="XNAS",
-                type=models.SearchSymbolResponseItemType.STOCK,
+                type=models.InstrumentType.STOCK,
             ),
             models.SearchSymbolResponseItem(
                 description="AAPL Jan 19 2024 190 Call",
                 symbol="AAPL240119C00190000",
                 tag="OPRA",
-                type=models.SearchSymbolResponseItemType.OPTION,
+                type=models.InstrumentType.OPTION,
             ),
         ]

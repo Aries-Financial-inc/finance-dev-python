@@ -11,7 +11,7 @@ import (
 	"mockserver/internal/sdk/utils"
 )
 
-// SearchType - Level hits come back at. `contracts` (default) returns matching contracts; `events` returns one hit per event and `base-events` one per base event, each ranked by its best-matching contract and carrying only its own fields and a count of matching contracts. Echoed in the response.
+// SearchType - Level hits come back at. `contracts` (default) returns matching contracts; `events` returns one hit per event and `base-events` one per base event, each with its own fields, a count of matching contracts and the first contractsPerHit of them in the sortBy order. Echoed in the response.
 type SearchType string
 
 const (
@@ -24,10 +24,22 @@ func (e SearchType) ToPointer() *SearchType {
 	return &e
 }
 
+// SortBy - Result order. `none` (default): a q match first, then symbol ascending, at every level, so pages are stable. `openInterest`: by open interest from the venue's last daily prices file, each type by its own total, with a q match first; contracts with no open interest come last. Any other value returns 400 INVALID_SORT_BY.
+type SortBy string
+
+const (
+	SortByNone         SortBy = "none"
+	SortByOpenInterest SortBy = "openInterest"
+)
+
+func (e SortBy) ToPointer() *SortBy {
+	return &e
+}
+
 type SearchRequest struct {
-	// Level hits come back at. `contracts` (default) returns matching contracts; `events` returns one hit per event and `base-events` one per base event, each ranked by its best-matching contract and carrying only its own fields and a count of matching contracts. Echoed in the response.
+	// Level hits come back at. `contracts` (default) returns matching contracts; `events` returns one hit per event and `base-events` one per base event, each with its own fields, a count of matching contracts and the first contractsPerHit of them in the sortBy order. Echoed in the response.
 	Type *SearchType `default:"contracts" queryParam:"style=form,explode=true,name=type"`
-	// Full-text query over symbols, questions, event names and base-event specifications. Symbols split on _, - and . so `BPM 0822` finds `BPM_0822_1750`. Omit to browse, soonest last-trade date first.
+	// Full-text query over symbols, questions, event names and base-event specifications. Symbols split on _, - and . so `BPM 0822` finds `BPM_0822_1750`. Omit to browse, in the sortBy order.
 	Q *string `queryParam:"style=form,explode=true,name=q"`
 	// Contract state. Omitted means ACTIVE; `*` matches every state, including DELETED.
 	State *string `queryParam:"style=form,explode=true,name=state"`
@@ -39,10 +51,14 @@ type SearchRequest struct {
 	Category *string `queryParam:"style=form,explode=true,name=category"`
 	// Only tradable (true) or non-tradable (false) contracts.
 	Tradable *bool `queryParam:"style=form,explode=true,name=tradable"`
+	// Result order. `none` (default): a q match first, then symbol ascending, at every level, so pages are stable. `openInterest`: by open interest from the venue's last daily prices file, each type by its own total, with a q match first; contracts with no open interest come last. Any other value returns 400 INVALID_SORT_BY.
+	SortBy *SortBy `default:"none" queryParam:"style=form,explode=true,name=sortBy"`
 	// 1-based page number; 0 or omitted means 1.
 	Page *int64 `queryParam:"style=form,explode=true,name=page"`
 	// Hits per page, counting whatever type returns; 0 or omitted means 20, values above 100 are clamped to 100.
 	PerPage *int64 `queryParam:"style=form,explode=true,name=perPage"`
+	// With type=events or type=base-events, how many of each hit's matching contracts to return in contracts, in the sortBy order. 0 or omitted means 2; values above 10 are clamped to 10. A negative or non-integer value returns 400 INVALID_CONTRACTS_PER_HIT. Ignored by type=contracts.
+	ContractsPerHit *int64 `default:"2" queryParam:"style=form,explode=true,name=contractsPerHit"`
 }
 
 func (s SearchRequest) MarshalJSON() ([]byte, error) {
@@ -105,6 +121,13 @@ func (o *SearchRequest) GetTradable() *bool {
 	return o.Tradable
 }
 
+func (o *SearchRequest) GetSortBy() *SortBy {
+	if o == nil {
+		return nil
+	}
+	return o.SortBy
+}
+
 func (o *SearchRequest) GetPage() *int64 {
 	if o == nil {
 		return nil
@@ -117,6 +140,13 @@ func (o *SearchRequest) GetPerPage() *int64 {
 		return nil
 	}
 	return o.PerPage
+}
+
+func (o *SearchRequest) GetContractsPerHit() *int64 {
+	if o == nil {
+		return nil
+	}
+	return o.ContractsPerHit
 }
 
 type SearchDataType string

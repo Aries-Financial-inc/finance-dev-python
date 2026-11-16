@@ -10,6 +10,7 @@ import (
 	"mockserver/internal/logging"
 	"mockserver/internal/sdk/models/components"
 	"mockserver/internal/sdk/models/operations"
+	"mockserver/internal/sdk/optionalnullable"
 	"mockserver/internal/sdk/types"
 	"mockserver/internal/sdk/utils"
 	"mockserver/internal/tracking"
@@ -26,6 +27,12 @@ func pathGetV1PredictionsSearch(dir *logging.HTTPFileDirectory, rt *tracking.Req
 		switch fmt.Sprintf("%s[%d]", test, count) {
 		case "search[0]":
 			dir.HandlerFunc("search", testSearchSearch0)(w, req)
+		case "search-base-events[0]":
+			dir.HandlerFunc("search", testSearchSearchBaseEvents0)(w, req)
+		case "search-contracts[0]":
+			dir.HandlerFunc("search", testSearchSearchContracts0)(w, req)
+		case "search-events[0]":
+			dir.HandlerFunc("search", testSearchSearchEvents0)(w, req)
 		default:
 			http.Error(w, fmt.Sprintf("Unknown test: %s[%d]", test, count), http.StatusBadRequest)
 		}
@@ -50,12 +57,314 @@ func testSearchSearch0(w http.ResponseWriter, req *http.Request) {
 				Hits: []components.PredMdEventHit{
 					components.PredMdEventHit{
 						BaseEventID:    "<id>",
+						Contracts:      []components.PredMdContractHit{},
 						ContractsFound: 596463,
 						EventID:        "<id>",
 					},
 				},
 				Page:    337360,
 				PerPage: 440776,
+				Type:    components.PredMdEventSearchResultTypeEvents,
+			},
+		)),
+		Success: true,
+	}
+	respBodyBytes, err := utils.MarshalJSON(respBody, "", true)
+
+	if err != nil {
+		http.Error(
+			w,
+			"Unable to encode response body as JSON: "+err.Error(),
+			http.StatusInternalServerError,
+		)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	_, _ = w.Write(respBodyBytes)
+}
+
+func testSearchSearchBaseEvents0(w http.ResponseWriter, req *http.Request) {
+	if err := assert.AcceptHeader(req, []string{"application/json"}); err != nil {
+		log.Printf("assertion error: %s\n", err)
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	if err := assert.HeaderExists(req, "User-Agent"); err != nil {
+		log.Printf("assertion error: %s\n", err)
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	var respBody *operations.SearchResponseBody = &operations.SearchResponseBody{
+		Data: types.Pointer(operations.CreateSearchDataBaseEvents(
+			components.PredMdBaseEventSearchResult{
+				Found: 1110,
+				Hits: []components.PredMdBaseEventHit{
+					components.PredMdBaseEventHit{
+						BaseEventID: "HORC",
+						Contracts: []components.PredMdContractHit{
+							components.PredMdContractHit{
+								BaseEventID:      "HORC",
+								CandidateStatus:  types.String("C"),
+								EvaluationType:   types.String("=="),
+								EventDisplayName: types.String("US House of Representatives Control November 2026"),
+								EventID:          "HORC_1126",
+								EventQuestion:    types.String("Will the Republican Party win a majority in the United States House of Representatives in the 2026 general election?"),
+								ExpirationDate:   optionalnullable.From(types.MustNewTimeFromString("2027-01-04T00:00:00Z")),
+								FrontRunner:      types.Bool(true),
+								Incumbent:        types.Bool(false),
+								LastTradeDate:    optionalnullable.From(types.MustNewTimeFromString("2027-01-04T00:00:00Z")),
+								OpenInterest:     types.Int64(1309471),
+								Party:            components.PredMdContractHitPartyR.ToPointer(),
+								Photo: &components.PredMdContractHitPhoto{
+									Credit:     "Gage Skidmore",
+									License:    "CC BY-SA 4.0",
+									LicenseURL: types.String("https://creativecommons.org/licenses/by-sa/4.0"),
+									SourceURL:  "https://commons.wikimedia.org/wiki/File:K_Paxton.jpg",
+									URL:        "https://perfumed-godfather.net/",
+								},
+								Question:    types.String("Will the Republican Party win a majority in the United States House of Representatives in the 2026 general election?"),
+								StartDate:   optionalnullable.From(types.MustNewTimeFromString("2025-04-02T00:00:00Z")),
+								State:       "ACTIVE",
+								StrikeValue: types.String("Republican"),
+								Symbol:      "HORC_1126_Republican",
+								SymbolSubTypes: []string{
+									"YES",
+									"NO",
+								},
+								TickSize:       types.MustNewDecimalFromString("0.01"),
+								TimeSpecifier:  types.String("2026.11"),
+								Tradable:       true,
+								UnderlyingSpec: types.String("The underlying is the political party whose members control at least 218 seats in the US House of Representatives on January 3rd of the year following a Congressional election. The list of US Representatives at the convening of each Congress is published January 4th on Congress.gov."),
+							},
+							components.PredMdContractHit{
+								BaseEventID:      "HORC",
+								CandidateStatus:  types.String("C"),
+								EvaluationType:   types.String("=="),
+								EventDisplayName: types.String("US House of Representatives Control November 2026"),
+								EventID:          "HORC_1126",
+								EventQuestion:    types.String("Will the Republican Party win a majority in the United States House of Representatives in the 2026 general election?"),
+								ExpirationDate:   optionalnullable.From(types.MustNewTimeFromString("2027-01-04T00:00:00Z")),
+								FrontRunner:      types.Bool(false),
+								Incumbent:        types.Bool(true),
+								LastTradeDate:    optionalnullable.From(types.MustNewTimeFromString("2027-01-04T00:00:00Z")),
+								OpenInterest:     types.Int64(1204730),
+								Party:            components.PredMdContractHitPartyR.ToPointer(),
+								Photo: &components.PredMdContractHitPhoto{
+									Credit:     "Gage Skidmore",
+									License:    "CC BY-SA 4.0",
+									LicenseURL: types.String("https://creativecommons.org/licenses/by-sa/4.0"),
+									SourceURL:  "https://commons.wikimedia.org/wiki/File:K_Paxton.jpg",
+									URL:        "https://perfumed-godfather.net/",
+								},
+								Question:    types.String("Will the Democratic Party win a majority in the United States House of Representatives in the 2026 general election?"),
+								StartDate:   optionalnullable.From(types.MustNewTimeFromString("2024-11-27T00:00:00Z")),
+								State:       "ACTIVE",
+								StrikeValue: types.String("Democratic"),
+								Symbol:      "HORC_1126_Democratic",
+								SymbolSubTypes: []string{
+									"YES",
+									"NO",
+								},
+								TickSize:       types.MustNewDecimalFromString("0.01"),
+								TimeSpecifier:  types.String("2026.11"),
+								Tradable:       true,
+								UnderlyingSpec: types.String("The underlying is the political party whose members control at least 218 seats in the US House of Representatives on January 3rd of the year following a Congressional election. The list of US Representatives at the convening of each Congress is published January 4th on Congress.gov."),
+							},
+						},
+						ContractsFound: 3,
+						OpenInterest:   types.Int64(2514201),
+						UnderlyingSpec: types.String("The underlying is the political party whose members control at least 218 seats in the US House of Representatives on January 3rd of the year following a Congressional election. The list of US Representatives at the convening of each Congress is published January 4th on Congress.gov."),
+					},
+				},
+				Page:    1,
+				PerPage: 1,
+				Type:    components.PredMdBaseEventSearchResultTypeBaseEvents,
+			},
+		)),
+		Success: true,
+	}
+	respBodyBytes, err := utils.MarshalJSON(respBody, "", true)
+
+	if err != nil {
+		http.Error(
+			w,
+			"Unable to encode response body as JSON: "+err.Error(),
+			http.StatusInternalServerError,
+		)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	_, _ = w.Write(respBodyBytes)
+}
+
+func testSearchSearchContracts0(w http.ResponseWriter, req *http.Request) {
+	if err := assert.AcceptHeader(req, []string{"application/json"}); err != nil {
+		log.Printf("assertion error: %s\n", err)
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	if err := assert.HeaderExists(req, "User-Agent"); err != nil {
+		log.Printf("assertion error: %s\n", err)
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	var respBody *operations.SearchResponseBody = &operations.SearchResponseBody{
+		Data: types.Pointer(operations.CreateSearchDataContracts(
+			components.PredMdContractSearchResult{
+				Found: 35000,
+				Hits: []components.PredMdContractHit{
+					components.PredMdContractHit{
+						BaseEventID:      "HORC",
+						CandidateStatus:  types.String("C"),
+						EvaluationType:   types.String("=="),
+						EventDisplayName: types.String("US House of Representatives Control November 2026"),
+						EventID:          "HORC_1126",
+						EventQuestion:    types.String("Will the Republican Party win a majority in the United States House of Representatives in the 2026 general election?"),
+						ExpirationDate:   optionalnullable.From(types.MustNewTimeFromString("2027-01-04T00:00:00Z")),
+						FrontRunner:      types.Bool(true),
+						Incumbent:        types.Bool(true),
+						LastTradeDate:    optionalnullable.From(types.MustNewTimeFromString("2027-01-04T00:00:00Z")),
+						OpenInterest:     types.Int64(1309471),
+						Party:            components.PredMdContractHitPartyR.ToPointer(),
+						Photo:            nil,
+						Question:         types.String("Will the Republican Party win a majority in the United States House of Representatives in the 2026 general election?"),
+						StartDate:        optionalnullable.From(types.MustNewTimeFromString("2025-04-02T00:00:00Z")),
+						State:            "ACTIVE",
+						StrikeValue:      types.String("Republican"),
+						Symbol:           "HORC_1126_Republican",
+						SymbolSubTypes: []string{
+							"YES",
+							"NO",
+						},
+						TickSize:       types.MustNewDecimalFromString("0.01"),
+						TimeSpecifier:  types.String("2026.11"),
+						Tradable:       true,
+						UnderlyingSpec: types.String("The underlying is the political party whose members control at least 218 seats in the US House of Representatives on January 3rd of the year following a Congressional election. The list of US Representatives at the convening of each Congress is published January 4th on Congress.gov."),
+					},
+				},
+				Page:    1,
+				PerPage: 1,
+				Type:    components.PredMdContractSearchResultTypeContracts,
+			},
+		)),
+		Success: true,
+	}
+	respBodyBytes, err := utils.MarshalJSON(respBody, "", true)
+
+	if err != nil {
+		http.Error(
+			w,
+			"Unable to encode response body as JSON: "+err.Error(),
+			http.StatusInternalServerError,
+		)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	_, _ = w.Write(respBodyBytes)
+}
+
+func testSearchSearchEvents0(w http.ResponseWriter, req *http.Request) {
+	if err := assert.AcceptHeader(req, []string{"application/json"}); err != nil {
+		log.Printf("assertion error: %s\n", err)
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	if err := assert.HeaderExists(req, "User-Agent"); err != nil {
+		log.Printf("assertion error: %s\n", err)
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	var respBody *operations.SearchResponseBody = &operations.SearchResponseBody{
+		Data: types.Pointer(operations.CreateSearchDataEvents(
+			components.PredMdEventSearchResult{
+				Found: 4005,
+				Hits: []components.PredMdEventHit{
+					components.PredMdEventHit{
+						BaseEventID: "HORC",
+						Contracts: []components.PredMdContractHit{
+							components.PredMdContractHit{
+								BaseEventID:      "HORC",
+								CandidateStatus:  types.String("C"),
+								EvaluationType:   types.String("=="),
+								EventDisplayName: types.String("US House of Representatives Control November 2026"),
+								EventID:          "HORC_1126",
+								EventQuestion:    types.String("Will the Republican Party win a majority in the United States House of Representatives in the 2026 general election?"),
+								ExpirationDate:   optionalnullable.From(types.MustNewTimeFromString("2027-01-04T00:00:00Z")),
+								FrontRunner:      types.Bool(true),
+								Incumbent:        types.Bool(true),
+								LastTradeDate:    optionalnullable.From(types.MustNewTimeFromString("2027-01-04T00:00:00Z")),
+								OpenInterest:     types.Int64(1309471),
+								Party:            components.PredMdContractHitPartyD.ToPointer(),
+								Photo: &components.PredMdContractHitPhoto{
+									Credit:     "Gage Skidmore",
+									License:    "CC BY-SA 4.0",
+									LicenseURL: types.String("https://creativecommons.org/licenses/by-sa/4.0"),
+									SourceURL:  "https://commons.wikimedia.org/wiki/File:K_Paxton.jpg",
+									URL:        "https://perfumed-godfather.net/",
+								},
+								Question:    types.String("Will the Republican Party win a majority in the United States House of Representatives in the 2026 general election?"),
+								StartDate:   optionalnullable.From(types.MustNewTimeFromString("2025-04-02T00:00:00Z")),
+								State:       "ACTIVE",
+								StrikeValue: types.String("Republican"),
+								Symbol:      "HORC_1126_Republican",
+								SymbolSubTypes: []string{
+									"YES",
+									"NO",
+								},
+								TickSize:       types.MustNewDecimalFromString("0.01"),
+								TimeSpecifier:  types.String("2026.11"),
+								Tradable:       true,
+								UnderlyingSpec: types.String("The underlying is the political party whose members control at least 218 seats in the US House of Representatives on January 3rd of the year following a Congressional election. The list of US Representatives at the convening of each Congress is published January 4th on Congress.gov."),
+							},
+							components.PredMdContractHit{
+								BaseEventID:      "HORC",
+								CandidateStatus:  types.String("C"),
+								EvaluationType:   types.String("=="),
+								EventDisplayName: types.String("US House of Representatives Control November 2026"),
+								EventID:          "HORC_1126",
+								EventQuestion:    types.String("Will the Republican Party win a majority in the United States House of Representatives in the 2026 general election?"),
+								ExpirationDate:   optionalnullable.From(types.MustNewTimeFromString("2027-01-04T00:00:00Z")),
+								FrontRunner:      types.Bool(true),
+								Incumbent:        types.Bool(true),
+								LastTradeDate:    optionalnullable.From(types.MustNewTimeFromString("2027-01-04T00:00:00Z")),
+								OpenInterest:     types.Int64(1204730),
+								Party:            components.PredMdContractHitPartyR.ToPointer(),
+								Photo: &components.PredMdContractHitPhoto{
+									Credit:     "Gage Skidmore",
+									License:    "CC BY-SA 4.0",
+									LicenseURL: types.String("https://creativecommons.org/licenses/by-sa/4.0"),
+									SourceURL:  "https://commons.wikimedia.org/wiki/File:K_Paxton.jpg",
+									URL:        "https://perfumed-godfather.net/",
+								},
+								Question:    types.String("Will the Democratic Party win a majority in the United States House of Representatives in the 2026 general election?"),
+								StartDate:   optionalnullable.From(types.MustNewTimeFromString("2024-11-27T00:00:00Z")),
+								State:       "ACTIVE",
+								StrikeValue: types.String("Democratic"),
+								Symbol:      "HORC_1126_Democratic",
+								SymbolSubTypes: []string{
+									"YES",
+									"NO",
+								},
+								TickSize:       types.MustNewDecimalFromString("0.01"),
+								TimeSpecifier:  types.String("2026.11"),
+								Tradable:       true,
+								UnderlyingSpec: types.String("The underlying is the political party whose members control at least 218 seats in the US House of Representatives on January 3rd of the year following a Congressional election. The list of US Representatives at the convening of each Congress is published January 4th on Congress.gov."),
+							},
+						},
+						ContractsFound:   2,
+						EventDisplayName: types.String("US House of Representatives Control November 2026"),
+						EventID:          "HORC_1126",
+						EventQuestion:    types.String("Will the Republican Party win a majority in the United States House of Representatives in the 2026 general election?"),
+						OpenInterest:     types.Int64(2514201),
+						TimeSpecifier:    types.String("2026.11"),
+						UnderlyingSpec:   types.String("The underlying is the political party whose members control at least 218 seats in the US House of Representatives on January 3rd of the year following a Congressional election. The list of US Representatives at the convening of each Congress is published January 4th on Congress.gov."),
+					},
+				},
+				Page:    1,
+				PerPage: 1,
 				Type:    components.PredMdEventSearchResultTypeEvents,
 			},
 		)),

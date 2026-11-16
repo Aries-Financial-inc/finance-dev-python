@@ -3,18 +3,6 @@
 
 package components
 
-// SearchSymbolItemType - Instrument class returned by symbol search.
-type SearchSymbolItemType string
-
-const (
-	SearchSymbolItemTypeStock  SearchSymbolItemType = "stock"
-	SearchSymbolItemTypeOption SearchSymbolItemType = "option"
-)
-
-func (e SearchSymbolItemType) ToPointer() *SearchSymbolItemType {
-	return &e
-}
-
 // SearchSymbolItem - Symbol search result.
 type SearchSymbolItem struct {
 	// Full description of the symbol/company
@@ -26,7 +14,7 @@ type SearchSymbolItem struct {
 	// Symbol ticker
 	Ticker *string `json:"ticker,omitempty"`
 	// Instrument class returned by symbol search.
-	Type *SearchSymbolItemType `json:"type,omitempty"`
+	Type *InstrumentType `json:"type,omitempty"`
 }
 
 func (o *SearchSymbolItem) GetDescription() *string {
@@ -57,7 +45,7 @@ func (o *SearchSymbolItem) GetTicker() *string {
 	return o.Ticker
 }
 
-func (o *SearchSymbolItem) GetType() *SearchSymbolItemType {
+func (o *SearchSymbolItem) GetType() *InstrumentType {
 	if o == nil {
 		return nil
 	}

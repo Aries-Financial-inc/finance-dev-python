@@ -29,9 +29,9 @@ class GetAnalystInsightsSearchKeysType(str, Enum, metaclass=utils.OpenEnumMeta):
 
 class GetAnalystInsightsRequestTypedDict(TypedDict):
     page: NotRequired[int]
-    r"""Zero-based page number. Enter 0 for the first page, 1 for the second page, and so on."""
+    r"""Zero-based page number (default: 0). page × pageSize must be less than 100,000; otherwise the API returns HTTP 400 with error code PAGINATION_LIMIT_EXCEEDED. Narrow the query filters and restart at page 0 to reduce the result set. Within this limit, pages beyond the available results return HTTP 200 with an empty insights array."""
     page_size: NotRequired[int]
-    r"""Number of results per page. Use this to control pagination size in list views. Use this to control page size; default is 10."""
+    r"""Number of results per page (default: 10, maximum: 1000). page × pageSize must be less than 100,000."""
     symbols: NotRequired[str]
     r"""Comma-separated ticker symbols, such as AAPL,MSFT. Use this to request or filter multiple companies in one call. (e.g. AAPL,MSFT)"""
     analyst: NotRequired[str]
@@ -52,14 +52,14 @@ class GetAnalystInsightsRequest(BaseModel):
         Optional[int],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Zero-based page number. Enter 0 for the first page, 1 for the second page, and so on."""
+    r"""Zero-based page number (default: 0). page × pageSize must be less than 100,000; otherwise the API returns HTTP 400 with error code PAGINATION_LIMIT_EXCEEDED. Narrow the query filters and restart at page 0 to reduce the result set. Within this limit, pages beyond the available results return HTTP 200 with an empty insights array."""
 
     page_size: Annotated[
         Optional[int],
         pydantic.Field(alias="pageSize"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Number of results per page. Use this to control pagination size in list views. Use this to control page size; default is 10."""
+    r"""Number of results per page (default: 10, maximum: 1000). page × pageSize must be less than 100,000."""
 
     symbols: Annotated[
         Optional[str],

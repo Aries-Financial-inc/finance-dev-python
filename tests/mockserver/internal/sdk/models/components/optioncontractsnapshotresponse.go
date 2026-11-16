@@ -3,23 +3,14 @@
 
 package components
 
-// OptionContractSnapshotResponse - Single option contract snapshot (`OptionContractSnapshotResponse`). Responses may be cached for about five minutes.
+// OptionContractSnapshotResponse - Single option contract snapshot (`OptionContractSnapshotResponse`) without pagination. Responses may be cached for about five minutes.
 type OptionContractSnapshotResponse struct {
-	// Pagination URL when applicable; omitted when not used.
-	NextURL *string `json:"nextUrl,omitempty"`
 	// Request identifier from upstream data.
 	RequestID *string `json:"requestId,omitempty"`
 	// One option contract row in a snapshot response (`OptionContractSnapshotDataDTO`). Optional fields are omitted when absent.
 	Results *OptionContractSnapshotRow `json:"results,omitempty"`
 	// Status string from the upstream data provider — typically `OK` for a successful response. Treat any other value as an error indicator alongside the HTTP status code.
 	Status *string `json:"status,omitempty"`
-}
-
-func (o *OptionContractSnapshotResponse) GetNextURL() *string {
-	if o == nil {
-		return nil
-	}
-	return o.NextURL
 }
 
 func (o *OptionContractSnapshotResponse) GetRequestID() *string {

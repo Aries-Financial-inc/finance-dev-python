@@ -26,18 +26,25 @@ from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class SearchType(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Level hits come back at. `contracts` (default) returns matching contracts; `events` returns one hit per event and `base-events` one per base event, each ranked by its best-matching contract and carrying only its own fields and a count of matching contracts. Echoed in the response."""
+    r"""Level hits come back at. `contracts` (default) returns matching contracts; `events` returns one hit per event and `base-events` one per base event, each with its own fields, a count of matching contracts and the first contractsPerHit of them in the sortBy order. Echoed in the response."""
 
     CONTRACTS = "contracts"
     EVENTS = "events"
     BASE_EVENTS = "base-events"
 
 
+class SortBy(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Result order. `none` (default): a q match first, then symbol ascending, at every level, so pages are stable. `openInterest`: by open interest from the venue's last daily prices file, each type by its own total, with a q match first; contracts with no open interest come last. Any other value returns 400 INVALID_SORT_BY."""
+
+    NONE = "none"
+    OPEN_INTEREST = "openInterest"
+
+
 class SearchRequestTypedDict(TypedDict):
     type: NotRequired[SearchType]
-    r"""Level hits come back at. `contracts` (default) returns matching contracts; `events` returns one hit per event and `base-events` one per base event, each ranked by its best-matching contract and carrying only its own fields and a count of matching contracts. Echoed in the response."""
+    r"""Level hits come back at. `contracts` (default) returns matching contracts; `events` returns one hit per event and `base-events` one per base event, each with its own fields, a count of matching contracts and the first contractsPerHit of them in the sortBy order. Echoed in the response."""
     q: NotRequired[str]
-    r"""Full-text query over symbols, questions, event names and base-event specifications. Symbols split on _, - and . so `BPM 0822` finds `BPM_0822_1750`. Omit to browse, soonest last-trade date first."""
+    r"""Full-text query over symbols, questions, event names and base-event specifications. Symbols split on _, - and . so `BPM 0822` finds `BPM_0822_1750`. Omit to browse, in the sortBy order."""
     state: NotRequired[str]
     r"""Contract state. Omitted means ACTIVE; `*` matches every state, including DELETED."""
     base_event_id: NotRequired[str]
@@ -48,10 +55,14 @@ class SearchRequestTypedDict(TypedDict):
     r"""Only contracts in this category or any category under it. Takes a `path` from List Categories, URL-encoded. A bare level name such as `United States` matches nothing, because level names repeat under different parents."""
     tradable: NotRequired[bool]
     r"""Only tradable (true) or non-tradable (false) contracts."""
+    sort_by: NotRequired[SortBy]
+    r"""Result order. `none` (default): a q match first, then symbol ascending, at every level, so pages are stable. `openInterest`: by open interest from the venue's last daily prices file, each type by its own total, with a q match first; contracts with no open interest come last. Any other value returns 400 INVALID_SORT_BY."""
     page: NotRequired[int]
     r"""1-based page number; 0 or omitted means 1."""
     per_page: NotRequired[int]
     r"""Hits per page, counting whatever type returns; 0 or omitted means 20, values above 100 are clamped to 100."""
+    contracts_per_hit: NotRequired[int]
+    r"""With type=events or type=base-events, how many of each hit's matching contracts to return in contracts, in the sortBy order. 0 or omitted means 2; values above 10 are clamped to 10. A negative or non-integer value returns 400 INVALID_CONTRACTS_PER_HIT. Ignored by type=contracts."""
 
 
 class SearchRequest(BaseModel):
@@ -59,13 +70,13 @@ class SearchRequest(BaseModel):
         Optional[SearchType],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = SearchType.CONTRACTS
-    r"""Level hits come back at. `contracts` (default) returns matching contracts; `events` returns one hit per event and `base-events` one per base event, each ranked by its best-matching contract and carrying only its own fields and a count of matching contracts. Echoed in the response."""
+    r"""Level hits come back at. `contracts` (default) returns matching contracts; `events` returns one hit per event and `base-events` one per base event, each with its own fields, a count of matching contracts and the first contractsPerHit of them in the sortBy order. Echoed in the response."""
 
     q: Annotated[
         Optional[str],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Full-text query over symbols, questions, event names and base-event specifications. Symbols split on _, - and . so `BPM 0822` finds `BPM_0822_1750`. Omit to browse, soonest last-trade date first."""
+    r"""Full-text query over symbols, questions, event names and base-event specifications. Symbols split on _, - and . so `BPM 0822` finds `BPM_0822_1750`. Omit to browse, in the sortBy order."""
 
     state: Annotated[
         Optional[str],
@@ -99,6 +110,13 @@ class SearchRequest(BaseModel):
     ] = None
     r"""Only tradable (true) or non-tradable (false) contracts."""
 
+    sort_by: Annotated[
+        Optional[SortBy],
+        pydantic.Field(alias="sortBy"),
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = SortBy.NONE
+    r"""Result order. `none` (default): a q match first, then symbol ascending, at every level, so pages are stable. `openInterest`: by open interest from the venue's last daily prices file, each type by its own total, with a q match first; contracts with no open interest come last. Any other value returns 400 INVALID_SORT_BY."""
+
     page: Annotated[
         Optional[int],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
@@ -112,11 +130,27 @@ class SearchRequest(BaseModel):
     ] = None
     r"""Hits per page, counting whatever type returns; 0 or omitted means 20, values above 100 are clamped to 100."""
 
+    contracts_per_hit: Annotated[
+        Optional[int],
+        pydantic.Field(alias="contractsPerHit"),
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = 2
+    r"""With type=events or type=base-events, how many of each hit's matching contracts to return in contracts, in the sortBy order. 0 or omitted means 2; values above 10 are clamped to 10. A negative or non-integer value returns 400 INVALID_CONTRACTS_PER_HIT. Ignored by type=contracts."""
+
     @field_serializer("type")
     def serialize_type(self, value):
         if isinstance(value, str):
             try:
                 return models.SearchType(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("sort_by")
+    def serialize_sort_by(self, value):
+        if isinstance(value, str):
+            try:
+                return models.SortBy(value)
             except ValueError:
                 return value
         return value
@@ -132,8 +166,10 @@ class SearchRequest(BaseModel):
                 "eventId",
                 "category",
                 "tradable",
+                "sortBy",
                 "page",
                 "perPage",
+                "contractsPerHit",
             ]
         )
         serialized = handler(self)

@@ -25,6 +25,10 @@ func pathGetV2AccountsIDBalance(dir *logging.HTTPFileDirectory, rt *tracking.Req
 		switch fmt.Sprintf("%s[%d]", test, count) {
 		case "getAccountBalance[0]":
 			dir.HandlerFunc("getAccountBalance", testGetAccountBalanceGetAccountBalance0)(w, req)
+		case "getAccountBalance-cashAccount[0]":
+			dir.HandlerFunc("getAccountBalance", testGetAccountBalanceGetAccountBalanceCashAccount0)(w, req)
+		case "getAccountBalance-marginAccount[0]":
+			dir.HandlerFunc("getAccountBalance", testGetAccountBalanceGetAccountBalanceMarginAccount0)(w, req)
 		default:
 			http.Error(w, fmt.Sprintf("Unknown test: %s[%d]", test, count), http.StatusBadRequest)
 		}
@@ -51,7 +55,6 @@ func testGetAccountBalanceGetAccountBalance0(w http.ResponseWriter, req *http.Re
 		AccountID:                        types.String("TEST-ACCOUNT-001"),
 		AmountAvailableToWithdraw:        types.String("100000"),
 		Balance:                          types.String("248874.14377781"),
-		CashBalance:                      types.String("105000"),
 		CostOfPositions:                  types.String("180000"),
 		Credit:                           types.String("0"),
 		CreditRemaining:                  types.String("0"),
@@ -60,11 +63,160 @@ func testGetAccountBalanceGetAccountBalance0(w http.ResponseWriter, req *http.Re
 		DayTotalPnl:                      types.String("549.64"),
 		DayTradeBuyingPower:              types.String("50000"),
 		DayTradeOvernightRegTBuyingPower: types.String("48000"),
-		FundsAvailableForWithdrawal:      types.String("98500"),
+		FreestockFrozenCash:              types.String("0"),
 		GrossMargin:                      types.String("120000"),
 		HeldBackFunds:                    types.String("0"),
 		IntradayMarginBalance:            types.String("7000"),
 		MaintReq:                         types.String("75000"),
+		MarketValue:                      types.String("180836.64377781"),
+		NetBuyingPower:                   types.String("125000.5"),
+		OpenPnl:                          types.String("836.64377781"),
+		OptionBuyingPower:                types.String("25000"),
+		Pdt:                              types.String("0"),
+		PdtCreditRemaining:               types.String("0"),
+		PendingOrdersCount:               types.Int64(0),
+		PendingOrdersMarginRequirements:  types.String("0"),
+		RealizedPl:                       types.String("37.5"),
+		SettledFunds:                     types.String("100000"),
+		Sma:                              types.String("0"),
+		SmaCreditRemaining:               types.String("0"),
+		SodFundsAvailableDate:            types.MustNewDateFromString("2026-01-14"),
+		SodGrossFundsAvailable:           types.String("100000"),
+		SodMarginTradeBalance:            types.String("-40000"),
+		SodNetFundsAvailable:             types.String("98500"),
+		SodPositionsMarketValue:          types.String("180000"),
+		SodTTLEquity:                     types.String("248000"),
+		SodTTLEquityUpdatedAt:            types.MustNewTimeFromString("2026-01-15T09:30:00Z"),
+		StartOfDayCash:                   types.String("95000"),
+		StockBuyingPower:                 types.String("125000.5"),
+		UnrealizedPl:                     types.String("836.64377781"),
+		UnsettledFunds:                   types.String("5000"),
+		ValueBought:                      types.String("45000"),
+		ValueSold:                        types.String("12000"),
+	}
+	respBodyBytes, err := utils.MarshalJSON(respBody, "", true)
+
+	if err != nil {
+		http.Error(
+			w,
+			"Unable to encode response body as JSON: "+err.Error(),
+			http.StatusInternalServerError,
+		)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	_, _ = w.Write(respBodyBytes)
+}
+
+func testGetAccountBalanceGetAccountBalanceCashAccount0(w http.ResponseWriter, req *http.Request) {
+	if err := assert.SecurityAuthorizationHeader(req, true, "Bearer"); err != nil {
+		log.Printf("assertion error: %s\n", err)
+		http.Error(w, err.Error(), http.StatusUnauthorized)
+		return
+	}
+	if err := assert.AcceptHeader(req, []string{"application/json"}); err != nil {
+		log.Printf("assertion error: %s\n", err)
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	if err := assert.HeaderExists(req, "User-Agent"); err != nil {
+		log.Printf("assertion error: %s\n", err)
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	var respBody *components.AccountBalanceV2 = &components.AccountBalanceV2{
+		AccountID:                        types.String("TEST-ACCOUNT-001"),
+		AmountAvailableToWithdraw:        types.String("266.06"),
+		Balance:                          types.String("298.5939"),
+		CashBalance:                      types.String("266.96"),
+		CostOfPositions:                  types.String("37.885"),
+		Credit:                           types.String("267"),
+		CreditRemaining:                  types.String("265.9"),
+		DayOpenPnl:                       types.String("-1.0061"),
+		DayRealizedPnl:                   types.String("0"),
+		DayTotalPnl:                      types.String("-1.0061"),
+		DayTradeBuyingPower:              types.String("1063.7"),
+		DayTradeOvernightRegTBuyingPower: types.String("265.9"),
+		FreestockFrozenCash:              types.String("0"),
+		GrossMargin:                      types.String("0"),
+		HeldBackFunds:                    types.String("0"),
+		MaintReq:                         types.String("0"),
+		MarketValue:                      types.String("32.537"),
+		NetBuyingPower:                   types.String("267"),
+		OpenPnl:                          types.String("-5.348"),
+		OptionBuyingPower:                types.String("265.9"),
+		Pdt:                              types.String("0"),
+		PdtCreditRemaining:               types.String("0"),
+		PendingOrdersCount:               types.Int64(1),
+		PendingOrdersMarginRequirements:  types.String("0"),
+		RealizedPl:                       types.String("0"),
+		SettledFunds:                     types.String("266.96"),
+		Sma:                              types.String("0"),
+		SmaCreditRemaining:               types.String("0"),
+		SodFundsAvailableDate:            types.MustNewDateFromString("2026-10-29"),
+		SodGrossFundsAvailable:           types.String("266.06"),
+		SodMarginTradeBalance:            types.String("0.9"),
+		SodNetFundsAvailable:             types.String("266.06"),
+		SodPositionsMarketValue:          types.String("0"),
+		SodTTLEquity:                     types.String("299.6"),
+		SodTTLEquityUpdatedAt:            types.MustNewTimeFromString("2026-10-30T11:00:02.353449Z"),
+		StartOfDayCash:                   types.String("0"),
+		StockBuyingPower:                 types.String("265.9"),
+		UnrealizedPl:                     types.String("-5.348"),
+		UnsettledFunds:                   types.String("0"),
+		ValueBought:                      types.String("0"),
+		ValueSold:                        types.String("0"),
+	}
+	respBodyBytes, err := utils.MarshalJSON(respBody, "", true)
+
+	if err != nil {
+		http.Error(
+			w,
+			"Unable to encode response body as JSON: "+err.Error(),
+			http.StatusInternalServerError,
+		)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	_, _ = w.Write(respBodyBytes)
+}
+
+func testGetAccountBalanceGetAccountBalanceMarginAccount0(w http.ResponseWriter, req *http.Request) {
+	if err := assert.SecurityAuthorizationHeader(req, true, "Bearer"); err != nil {
+		log.Printf("assertion error: %s\n", err)
+		http.Error(w, err.Error(), http.StatusUnauthorized)
+		return
+	}
+	if err := assert.AcceptHeader(req, []string{"application/json"}); err != nil {
+		log.Printf("assertion error: %s\n", err)
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	if err := assert.HeaderExists(req, "User-Agent"); err != nil {
+		log.Printf("assertion error: %s\n", err)
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	var respBody *components.AccountBalanceV2 = &components.AccountBalanceV2{
+		AccountID:                        types.String("TEST-ACCOUNT-001"),
+		AmountAvailableToWithdraw:        types.String("100000"),
+		Balance:                          types.String("248874.14377781"),
+		CostOfPositions:                  types.String("180000"),
+		Credit:                           types.String("0"),
+		CreditRemaining:                  types.String("0"),
+		DayOpenPnl:                       types.String("512.14"),
+		DayRealizedPnl:                   types.String("37.5"),
+		DayTotalPnl:                      types.String("549.64"),
+		DayTradeBuyingPower:              types.String("50000"),
+		DayTradeOvernightRegTBuyingPower: types.String("48000"),
+		FreestockFrozenCash:              types.String("0"),
+		GrossMargin:                      types.String("120000"),
+		HeldBackFunds:                    types.String("0"),
+		IntradayMarginBalance:            types.String("7000"),
+		MaintReq:                         types.String("75000"),
+		MarketValue:                      types.String("180836.64377781"),
 		NetBuyingPower:                   types.String("125000.5"),
 		OpenPnl:                          types.String("836.64377781"),
 		OptionBuyingPower:                types.String("25000"),

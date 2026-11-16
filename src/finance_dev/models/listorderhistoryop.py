@@ -36,7 +36,7 @@ class ListOrderHistoryRequestTypedDict(TypedDict):
     limit: NotRequired[int]
     r"""Maximum number of historical orders to return in this page. Default is 50; maximum is 500."""
     cursor: NotRequired[int]
-    r"""Opaque pagination cursor for the database history walk. Send `0` (or omit) for the first page; pass the previous `nextCursor` until it returns `0`."""
+    r"""Opaque pagination cursor for the database history walk. Send `0` (or omit) for the first page; pass the previous `nextCursor` until it is absent."""
 
 
 class ListOrderHistoryRequest(BaseModel):
@@ -80,7 +80,7 @@ class ListOrderHistoryRequest(BaseModel):
         Optional[int],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = 0
-    r"""Opaque pagination cursor for the database history walk. Send `0` (or omit) for the first page; pass the previous `nextCursor` until it returns `0`."""
+    r"""Opaque pagination cursor for the database history walk. Send `0` (or omit) for the first page; pass the previous `nextCursor` until it is absent."""
 
     @field_serializer("order_by")
     def serialize_order_by(self, value):

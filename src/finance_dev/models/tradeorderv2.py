@@ -16,6 +16,39 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
+class AdvancedOrderRole(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""The order's role within its advanced-order list.
+    - `SIBLING` — An OCO order.
+    - `ENTRY`, `PROFIT_TARGET`, `STOP_LOSS` — Bracket orders.
+    - `PARENT`, `CHILD` — OTO and OTOCO orders.
+
+    Omitted for ordinary orders.
+    """
+
+    SIBLING = "SIBLING"
+    ENTRY = "ENTRY"
+    PROFIT_TARGET = "PROFIT_TARGET"
+    STOP_LOSS = "STOP_LOSS"
+    PARENT = "PARENT"
+    CHILD = "CHILD"
+
+
+class AdvancedOrderType(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Kind of advanced-order list the order was placed in.
+    - `OCO` — One-cancels-other siblings.
+    - `BRACKET` — Entry with a profit target and/or stop loss.
+    - `OTO` — Parent whose fill releases its children.
+    - `OTOCO` — Parent whose fill releases a one-cancels-other group.
+
+    Omitted for ordinary orders.
+    """
+
+    OCO = "OCO"
+    BRACKET = "BRACKET"
+    OTO = "OTO"
+    OTOCO = "OTOCO"
+
+
 class Category(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""What kind of trade this order represents.
     - `EQUITY` — Plain stock or ETF order.
@@ -92,6 +125,23 @@ class TradeOrderV2TypedDict(TypedDict):
 
     account_id: NotRequired[str]
     r"""Account that owns this order."""
+    advanced_order_role: NotRequired[AdvancedOrderRole]
+    r"""The order's role within its advanced-order list.
+    - `SIBLING` — An OCO order.
+    - `ENTRY`, `PROFIT_TARGET`, `STOP_LOSS` — Bracket orders.
+    - `PARENT`, `CHILD` — OTO and OTOCO orders.
+
+    Omitted for ordinary orders.
+    """
+    advanced_order_type: NotRequired[AdvancedOrderType]
+    r"""Kind of advanced-order list the order was placed in.
+    - `OCO` — One-cancels-other siblings.
+    - `BRACKET` — Entry with a profit target and/or stop loss.
+    - `OTO` — Parent whose fill releases its children.
+    - `OTOCO` — Parent whose fill releases a one-cancels-other group.
+
+    Omitted for ordinary orders.
+    """
     avg_price: NotRequired[str]
     r"""Average fill price at the order level. For multi-leg orders this may be zero; use each leg's `avgPrice` instead."""
     category: NotRequired[Category]
@@ -121,6 +171,8 @@ class TradeOrderV2TypedDict(TypedDict):
     r"""Quantity still open and waiting to fill, returned as a decimal string."""
     legs: NotRequired[List[TradeOrderLegV2TypedDict]]
     r"""Per-leg details for option spreads or other multi-leg orders. Empty or omitted for normal single-symbol orders."""
+    list_id: NotRequired[str]
+    r"""ID of the advanced-order list (OCO, bracket, OTO or OTOCO) this order was placed in, shared by every order in the list. Kept on the order's cancel and replace records. Omitted for ordinary orders."""
     ord_id: NotRequired[str]
     r"""Broker order ID. Always serialized; may be an empty string for cancel-rejects or before the broker accepts the order."""
     ord_rej_reason: NotRequired[str]
@@ -148,6 +200,8 @@ class TradeOrderV2TypedDict(TypedDict):
     """
     orig_cl_ord_id: NotRequired[str]
     r"""Original client order ID for replace/cancel chains. Omitted when not part of a chain."""
+    parent_cl_ord_id: NotRequired[str]
+    r"""Client order ID the parent order was placed with, on a child of a bracket, OTO or OTOCO. Unchanged when the child is replaced or cancelled, and when the parent is replaced — follow the parent's `origClOrdId` chain for that. Omitted for parents, OCO orders and ordinary orders."""
     price: NotRequired[str]
     r"""Limit or reference price as a decimal string. Required for limit-style orders and empty or zero for pure market orders."""
     qty: NotRequired[str]
@@ -194,6 +248,29 @@ class TradeOrderV2(BaseModel):
     account_id: Annotated[Optional[str], pydantic.Field(alias="accountId")] = None
     r"""Account that owns this order."""
 
+    advanced_order_role: Annotated[
+        Optional[AdvancedOrderRole], pydantic.Field(alias="advancedOrderRole")
+    ] = None
+    r"""The order's role within its advanced-order list.
+    - `SIBLING` — An OCO order.
+    - `ENTRY`, `PROFIT_TARGET`, `STOP_LOSS` — Bracket orders.
+    - `PARENT`, `CHILD` — OTO and OTOCO orders.
+
+    Omitted for ordinary orders.
+    """
+
+    advanced_order_type: Annotated[
+        Optional[AdvancedOrderType], pydantic.Field(alias="advancedOrderType")
+    ] = None
+    r"""Kind of advanced-order list the order was placed in.
+    - `OCO` — One-cancels-other siblings.
+    - `BRACKET` — Entry with a profit target and/or stop loss.
+    - `OTO` — Parent whose fill releases its children.
+    - `OTOCO` — Parent whose fill releases a one-cancels-other group.
+
+    Omitted for ordinary orders.
+    """
+
     avg_price: Annotated[Optional[str], pydantic.Field(alias="avgPrice")] = None
     r"""Average fill price at the order level. For multi-leg orders this may be zero; use each leg's `avgPrice` instead."""
 
@@ -235,6 +312,9 @@ class TradeOrderV2(BaseModel):
     legs: Optional[List[TradeOrderLegV2]] = None
     r"""Per-leg details for option spreads or other multi-leg orders. Empty or omitted for normal single-symbol orders."""
 
+    list_id: Annotated[Optional[str], pydantic.Field(alias="listId")] = None
+    r"""ID of the advanced-order list (OCO, bracket, OTO or OTOCO) this order was placed in, shared by every order in the list. Kept on the order's cancel and replace records. Omitted for ordinary orders."""
+
     ord_id: Annotated[Optional[str], pydantic.Field(alias="ordId")] = None
     r"""Broker order ID. Always serialized; may be an empty string for cancel-rejects or before the broker accepts the order."""
 
@@ -267,6 +347,11 @@ class TradeOrderV2(BaseModel):
 
     orig_cl_ord_id: Annotated[Optional[str], pydantic.Field(alias="origClOrdId")] = None
     r"""Original client order ID for replace/cancel chains. Omitted when not part of a chain."""
+
+    parent_cl_ord_id: Annotated[
+        Optional[str], pydantic.Field(alias="parentClOrdId")
+    ] = None
+    r"""Client order ID the parent order was placed with, on a child of a bracket, OTO or OTOCO. Unchanged when the child is replaced or cancelled, and when the parent is replaced — follow the parent's `origClOrdId` chain for that. Omitted for parents, OCO orders and ordinary orders."""
 
     price: Optional[str] = None
     r"""Limit or reference price as a decimal string. Required for limit-style orders and empty or zero for pure market orders."""
@@ -319,6 +404,24 @@ class TradeOrderV2(BaseModel):
 
     updated_at: Annotated[Optional[datetime], pydantic.Field(alias="updatedAt")] = None
     r"""Time the order record was last updated. Use this to show status freshness."""
+
+    @field_serializer("advanced_order_role")
+    def serialize_advanced_order_role(self, value):
+        if isinstance(value, str):
+            try:
+                return models.AdvancedOrderRole(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("advanced_order_type")
+    def serialize_advanced_order_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.AdvancedOrderType(value)
+            except ValueError:
+                return value
+        return value
 
     @field_serializer("category")
     def serialize_category(self, value):
@@ -388,6 +491,8 @@ class TradeOrderV2(BaseModel):
         optional_fields = set(
             [
                 "accountId",
+                "advancedOrderRole",
+                "advancedOrderType",
                 "avgPrice",
                 "category",
                 "clOrdId",
@@ -398,10 +503,12 @@ class TradeOrderV2(BaseModel):
                 "exDestination",
                 "leavesQty",
                 "legs",
+                "listId",
                 "ordId",
                 "ordRejReason",
                 "ordStatus",
                 "origClOrdId",
+                "parentClOrdId",
                 "price",
                 "qty",
                 "securityType",

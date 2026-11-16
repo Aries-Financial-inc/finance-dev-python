@@ -8,20 +8,6 @@ import (
 	"mockserver/internal/sdk/utils"
 )
 
-// GetIndexBarsPrecision - How long each bar covers. Pair with `period` to set the exact size (e.g. `precision=Minutes`, `period=5` = 5-minute bars). Allowed values:
-// - `Minutes` — minute bars (combine with `period` for 1, 5, 15, 30-minute candles).
-// - `Hours` — hour bars (combine with `period` for 1, 2, 4-hour candles).
-type GetIndexBarsPrecision string
-
-const (
-	GetIndexBarsPrecisionMinutes GetIndexBarsPrecision = "Minutes"
-	GetIndexBarsPrecisionHours   GetIndexBarsPrecision = "Hours"
-)
-
-func (e GetIndexBarsPrecision) ToPointer() *GetIndexBarsPrecision {
-	return &e
-}
-
 type GetIndexBarsRequest struct {
 	// Index identifier to query. For `Symbol`-type identifiers, use the full `<SYMBOL>.<GROUP>` form (e.g. `SPX.IND_CBOM`). For other identifier types, set `identifierType` accordingly.
 	Identifier string `queryParam:"style=form,explode=true,name=identifier"`
@@ -34,7 +20,7 @@ type GetIndexBarsRequest struct {
 	// How long each bar covers. Pair with `period` to set the exact size (e.g. `precision=Minutes`, `period=5` = 5-minute bars). Allowed values:
 	// - `Minutes` — minute bars (combine with `period` for 1, 5, 15, 30-minute candles).
 	// - `Hours` — hour bars (combine with `period` for 1, 2, 4-hour candles).
-	Precision *GetIndexBarsPrecision `queryParam:"style=form,explode=true,name=precision"`
+	Precision *components.BarPrecision `queryParam:"style=form,explode=true,name=precision"`
 	// Multiplier on `precision` to set the bar size. Defaults to `1`. Examples: `precision=Minutes` + `period=5` = 5-minute bars; `precision=Hours` + `period=4` = 4-hour bars.
 	Period *int64 `queryParam:"style=form,explode=true,name=period"`
 }
@@ -78,7 +64,7 @@ func (o *GetIndexBarsRequest) GetEndTime() string {
 	return o.EndTime
 }
 
-func (o *GetIndexBarsRequest) GetPrecision() *GetIndexBarsPrecision {
+func (o *GetIndexBarsRequest) GetPrecision() *components.BarPrecision {
 	if o == nil {
 		return nil
 	}

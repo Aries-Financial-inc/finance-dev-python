@@ -3,13 +3,7 @@
 
 from __future__ import annotations
 from .tradeorderv2 import TradeOrderV2, TradeOrderV2TypedDict
-from finance_dev.types import (
-    BaseModel,
-    Nullable,
-    OptionalNullable,
-    UNSET,
-    UNSET_SENTINEL,
-)
+from finance_dev.types import BaseModel, Nullable, UNSET_SENTINEL
 import pydantic
 from pydantic import model_serializer
 from typing import List, Optional
@@ -17,26 +11,26 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class GetOrdersV2ResponseTypedDict(TypedDict):
-    r"""Paginated v2 orders response from **GET /v2/accounts/{id}/orders** and **GET /v2/accounts/{id}/orders/history**. Both fields are always present."""
+    r"""Paginated v2 orders response from **GET /v2/accounts/{id}/orders** and **GET /v2/accounts/{id}/orders/history**. `orders` is always present; `nextCursor` is present only when another page exists."""
 
-    next_cursor: NotRequired[int]
-    r"""Opaque pagination cursor. Pass as `cursor` on the next request. Value `0` means the walk is exhausted."""
-    orders: NotRequired[Nullable[List[TradeOrderV2TypedDict]]]
+    orders: Nullable[List[TradeOrderV2TypedDict]]
     r"""Page of orders in v2 domain shape (`TradeOrderV2`). `null` from **GET /v2/accounts/{id}/orders** when the account has no active orders; an empty array from the history endpoint when there are no matches."""
+    next_cursor: NotRequired[int]
+    r"""Opaque pagination cursor. Pass as `cursor` on the next request. This field is omitted on the final page."""
 
 
 class GetOrdersV2Response(BaseModel):
-    r"""Paginated v2 orders response from **GET /v2/accounts/{id}/orders** and **GET /v2/accounts/{id}/orders/history**. Both fields are always present."""
+    r"""Paginated v2 orders response from **GET /v2/accounts/{id}/orders** and **GET /v2/accounts/{id}/orders/history**. `orders` is always present; `nextCursor` is present only when another page exists."""
+
+    orders: Nullable[List[TradeOrderV2]]
+    r"""Page of orders in v2 domain shape (`TradeOrderV2`). `null` from **GET /v2/accounts/{id}/orders** when the account has no active orders; an empty array from the history endpoint when there are no matches."""
 
     next_cursor: Annotated[Optional[int], pydantic.Field(alias="nextCursor")] = None
-    r"""Opaque pagination cursor. Pass as `cursor` on the next request. Value `0` means the walk is exhausted."""
-
-    orders: OptionalNullable[List[TradeOrderV2]] = UNSET
-    r"""Page of orders in v2 domain shape (`TradeOrderV2`). `null` from **GET /v2/accounts/{id}/orders** when the account has no active orders; an empty array from the history endpoint when there are no matches."""
+    r"""Opaque pagination cursor. Pass as `cursor` on the next request. This field is omitted on the final page."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["nextCursor", "orders"])
+        optional_fields = set(["nextCursor"])
         nullable_fields = set(["orders"])
         serialized = handler(self)
         m = {}

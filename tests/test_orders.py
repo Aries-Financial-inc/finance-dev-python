@@ -22,7 +22,7 @@ def test_orders_place_order():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.orders.place_order(
+        res = fd_client.orders.create(
             request={
                 "account_id": "<id>",
                 "client_id": "CLIENT-001",
@@ -83,7 +83,7 @@ def test_orders_place_order_equity_market():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.orders.place_order(
+        res = fd_client.orders.create(
             request={
                 "qty": "10",
                 "side": models.OrderSideEnum.BUY,
@@ -127,7 +127,7 @@ def test_orders_place_order_equity_limit():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.orders.place_order(
+        res = fd_client.orders.create(
             request={
                 "price": "150.00",
                 "qty": "10",
@@ -172,7 +172,7 @@ def test_orders_place_order_single_leg_call():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.orders.place_order(
+        res = fd_client.orders.create(
             request={
                 "legs": [
                     {
@@ -228,7 +228,7 @@ def test_orders_place_order_vertical_spread():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.orders.place_order(
+        res = fd_client.orders.create(
             request={
                 "legs": [
                     {
@@ -408,7 +408,7 @@ def test_orders_preview_order():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.orders.preview_order(
+        res = fd_client.orders.preview(
             request={
                 "client_id": "CLIENT-001",
                 "currency": "USD",
@@ -455,7 +455,7 @@ def test_orders_preview_order_equity_market():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.orders.preview_order(
+        res = fd_client.orders.preview(
             request={
                 "qty": "10",
                 "side": models.OrderSideEnum.BUY,
@@ -497,7 +497,7 @@ def test_orders_preview_order_equity_limit():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.orders.preview_order(
+        res = fd_client.orders.preview(
             request={
                 "price": "150.00",
                 "qty": "10",
@@ -540,7 +540,7 @@ def test_orders_preview_order_option_order():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.orders.preview_order(
+        res = fd_client.orders.preview(
             request={
                 "legs": [
                     {
@@ -594,7 +594,7 @@ def test_orders_preview_order_multi_leg_spread():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.orders.preview_order(
+        res = fd_client.orders.preview(
             request={
                 "legs": [
                     {
@@ -657,7 +657,7 @@ def test_orders_preview_order_equity_preview():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.orders.preview_order(
+        res = fd_client.orders.preview(
             request={
                 "client_id": "CLIENT-001",
                 "currency": "USD",
@@ -715,7 +715,7 @@ def test_orders_preview_order_option_preview():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.orders.preview_order(
+        res = fd_client.orders.preview(
             request={
                 "account_id": "<id>",
                 "client_id": "CLIENT-001",
@@ -900,39 +900,6 @@ def test_orders_replace_order():
         )
 
 
-def test_orders_list_active_orders():
-    test_http_client = create_test_http_client("listActiveOrders")
-
-    with FinanceDev(
-        server_url=os.getenv("TEST_SERVER_URL", "http://localhost:18080"),
-        client=test_http_client,
-        security=models.Security(
-            client_id="<YOUR_CLIENT_ID_HERE>",
-            client_secret="<YOUR_CLIENT_SECRET_HERE>",
-            token_url="/_mockserver/oauth2/token",
-        ),
-    ) as fd_client:
-        assert fd_client is not None
-
-        res = fd_client.orders.list_active_orders(
-            id="TEST-ACCOUNT-001", limit=50, cursor=0
-        )
-        assert res.http_meta is not None
-        assert res.http_meta.response is not None
-        assert res.http_meta.response.status_code == 200
-        assert res.get_orders_v2_response is not None
-        assert res.get_orders_v2_response == models.GetOrdersV2Response(
-            orders=[
-                models.TradeOrderV2(
-                    ex_destination=models.ExDestination.MNGD,
-                    side=models.OrderSideEnum.BUY,
-                    time_in_force=models.TimeInForceEnum.DAY,
-                    type=models.OrderTypeEnum.LIMIT,
-                ),
-            ],
-        )
-
-
 def test_orders_list_order_history():
     test_http_client = create_test_http_client("listOrderHistory")
 
@@ -947,7 +914,7 @@ def test_orders_list_order_history():
     ) as fd_client:
         assert fd_client is not None
 
-        res = fd_client.orders.list_order_history(
+        res = fd_client.orders.get_history(
             id="TEST-ACCOUNT-001",
             from_=parse_datetime("2026-01-01T00:00:00Z"),
             to=parse_datetime("2026-01-31T00:00:00Z"),

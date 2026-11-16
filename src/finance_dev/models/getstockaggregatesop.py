@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 from .httpmetadata import HTTPMetadata, HTTPMetadataTypedDict
+from .sortorderenum import SortOrderEnum
 from .stockaggregatesresponse import (
     StockAggregatesResponse,
     StockAggregatesResponseTypedDict,
@@ -30,13 +31,6 @@ class Timespan(str, Enum, metaclass=utils.OpenEnumMeta):
     YEAR = "year"
 
 
-class Sort(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Sort direction for aggregate bars. Use `asc` for oldest first or `desc` for newest first."""
-
-    ASC = "asc"
-    DESC = "desc"
-
-
 class GetStockAggregatesRequestTypedDict(TypedDict):
     ticker: str
     r"""Stock ticker symbol, such as AAPL. Use the exact ticker for the company you want to research."""
@@ -50,12 +44,12 @@ class GetStockAggregatesRequestTypedDict(TypedDict):
     r"""End date in YYYY-MM-DD format. Enter the last date to include in the research window. or timestamp"""
     adjusted: NotRequired[bool]
     r"""Whether to adjust historical prices for stock splits. Use true for normalized charting and false for raw market data."""
-    sort: NotRequired[Sort]
+    sort: NotRequired[SortOrderEnum]
     r"""Sort direction for aggregate bars. Use `asc` for oldest first or `desc` for newest first."""
     limit: NotRequired[int]
     r"""Maximum number of results to return. Use smaller values for UI pages and larger values for exports within API limits."""
     next: NotRequired[str]
-    r"""Pagination cursor from the previous response. Omit it on the first request, then send the returned cursor to fetch the next page."""
+    r"""Pagination cursor included in the returned nextUrl. Follow the entire nextUrl to fetch the next page; it also contains updated from/to bounds required to advance through the results."""
 
 
 class GetStockAggregatesRequest(BaseModel):
@@ -93,7 +87,7 @@ class GetStockAggregatesRequest(BaseModel):
     r"""Whether to adjust historical prices for stock splits. Use true for normalized charting and false for raw market data."""
 
     sort: Annotated[
-        Optional[Sort],
+        Optional[SortOrderEnum],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
     r"""Sort direction for aggregate bars. Use `asc` for oldest first or `desc` for newest first."""
@@ -108,7 +102,7 @@ class GetStockAggregatesRequest(BaseModel):
         Optional[str],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Pagination cursor from the previous response. Omit it on the first request, then send the returned cursor to fetch the next page."""
+    r"""Pagination cursor included in the returned nextUrl. Follow the entire nextUrl to fetch the next page; it also contains updated from/to bounds required to advance through the results."""
 
     @field_serializer("timespan")
     def serialize_timespan(self, value):
@@ -123,7 +117,7 @@ class GetStockAggregatesRequest(BaseModel):
     def serialize_sort(self, value):
         if isinstance(value, str):
             try:
-                return models.Sort(value)
+                return models.SortOrderEnum(value)
             except ValueError:
                 return value
         return value

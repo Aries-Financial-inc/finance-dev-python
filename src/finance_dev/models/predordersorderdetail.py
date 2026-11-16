@@ -3,10 +3,12 @@
 
 from __future__ import annotations
 from .predordersorder import PredOrdersOrder, PredOrdersOrderTypedDict
+from .predordersorderevent import PredOrdersOrderEvent, PredOrdersOrderEventTypedDict
 from .predordersorderreport import PredOrdersOrderReport, PredOrdersOrderReportTypedDict
-from finance_dev.types import BaseModel
-from typing import List
-from typing_extensions import TypedDict
+from finance_dev.types import BaseModel, UNSET_SENTINEL
+from pydantic import model_serializer
+from typing import List, Optional
+from typing_extensions import NotRequired, TypedDict
 
 
 class PredOrdersOrderDetailTypedDict(TypedDict):
@@ -15,6 +17,8 @@ class PredOrdersOrderDetailTypedDict(TypedDict):
     order: PredOrdersOrderTypedDict
     r"""An order as recorded by order entry. Submitted terms (`quantity`, `price`, …) never change; working terms (`workingQuantity`, `workingPrice`, …) are the venue's answer. Optional decimals and timestamps are omitted when absent, never zero."""
     reports: List[PredOrdersOrderReportTypedDict]
+    events: NotRequired[List[PredOrdersOrderEventTypedDict]]
+    r"""Every step of the order's history, in version order."""
 
 
 class PredOrdersOrderDetail(BaseModel):
@@ -24,3 +28,22 @@ class PredOrdersOrderDetail(BaseModel):
     r"""An order as recorded by order entry. Submitted terms (`quantity`, `price`, …) never change; working terms (`workingQuantity`, `workingPrice`, …) are the venue's answer. Optional decimals and timestamps are omitted when absent, never zero."""
 
     reports: List[PredOrdersOrderReport]
+
+    events: Optional[List[PredOrdersOrderEvent]] = None
+    r"""Every step of the order's history, in version order."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["events"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m

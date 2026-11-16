@@ -11,9 +11,9 @@ import (
 type GetBullBearAnalysisRequest struct {
 	// Comma-separated list of ticker symbols
 	Symbols string `queryParam:"style=form,explode=true,name=symbols"`
-	// Page number for pagination (0-based)
+	// Zero-based page number (default: 0). page × pageSize must be less than 100,000; otherwise the API returns HTTP 400 with error code PAGINATION_LIMIT_EXCEEDED. Narrow symbols and restart at page 0 to reduce the result set.
 	Page *int64 `default:"0" queryParam:"style=form,explode=true,name=page"`
-	// Number of results per page. Use this to control pagination size in list views. (1-200)
+	// Number of results per page (default: 100, maximum: 200). page × pageSize must be less than 100,000.
 	PageSize *int64 `default:"100" queryParam:"style=form,explode=true,name=pageSize"`
 }
 

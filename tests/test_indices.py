@@ -24,7 +24,7 @@ def test_indices_get_index_bar():
             identifier="SPX.IND_CBOM",
             end_time="12/22/2025 10:30 am",
             identifier_type=models.IndicesIdentifierType.SYMBOL,
-            precision=models.GetIndexBarPrecision.MINUTES,
+            precision=models.BarPrecision.MINUTES,
             period=1,
         )
         assert res.http_meta is not None
@@ -53,7 +53,7 @@ def test_indices_get_index_bars_success():
             start_time="12/22/2025 9:30 am",
             end_time="12/22/2025 4:00 pm",
             identifier_type=models.IndicesIdentifierType.SYMBOL,
-            precision=models.GetIndexBarsPrecision.MINUTES,
+            precision=models.BarPrecision.MINUTES,
         )
         assert res.http_meta is not None
         assert res.http_meta.response is not None
@@ -134,7 +134,7 @@ def test_indices_get_index_chart_bars():
             start_time="12/15/2025 9:00 am",
             end_time="12/15/2025 9:30 am",
             identifier_type=models.IndicesIdentifierType.SYMBOL,
-            precision=models.GetIndexChartBarsPrecision.MINUTE,
+            precision=models.Precision.MINUTE,
             period=15,
             include_extended=False,
         )

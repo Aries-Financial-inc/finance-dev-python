@@ -4,10 +4,10 @@
 import importlib.metadata
 
 __title__: str = "finance_dev"
-__version__: str = "0.9.0"
+__version__: str = "0.10.0"
 __openapi_doc_version__: str = "1.0.0"
 __gen_version__: str = "2.948.4"
-__user_agent__: str = "speakeasy-sdk/python 0.9.0 2.948.4 1.0.0 finance_dev"
+__user_agent__: str = "speakeasy-sdk/python 0.10.0 2.948.4 1.0.0 finance_dev"
 
 try:
     if __package__ is not None:

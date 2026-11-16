@@ -8,13 +8,12 @@ import (
 	"time"
 )
 
+// OrderType - ForecastEx does not support `stop` or `market_to_limit` orders.
 type OrderType string
 
 const (
-	OrderTypeLimit         OrderType = "limit"
-	OrderTypeStop          OrderType = "stop"
-	OrderTypeStopLimit     OrderType = "stop_limit"
-	OrderTypeMarketToLimit OrderType = "market_to_limit"
+	OrderTypeLimit     OrderType = "limit"
+	OrderTypeStopLimit OrderType = "stop_limit"
 )
 
 func (e OrderType) ToPointer() *OrderType {
@@ -44,17 +43,17 @@ func (e PredOrdersPlaceOrderRequestSide) ToPointer() *PredOrdersPlaceOrderReques
 	return &e
 }
 
-type TimeInForce string
+type PredOrdersPlaceOrderRequestTimeInForce string
 
 const (
-	TimeInForceDay TimeInForce = "day"
-	TimeInForceGtc TimeInForce = "gtc"
-	TimeInForceIoc TimeInForce = "ioc"
-	TimeInForceFok TimeInForce = "fok"
-	TimeInForceGtd TimeInForce = "gtd"
+	PredOrdersPlaceOrderRequestTimeInForceDay PredOrdersPlaceOrderRequestTimeInForce = "day"
+	PredOrdersPlaceOrderRequestTimeInForceGtc PredOrdersPlaceOrderRequestTimeInForce = "gtc"
+	PredOrdersPlaceOrderRequestTimeInForceIoc PredOrdersPlaceOrderRequestTimeInForce = "ioc"
+	PredOrdersPlaceOrderRequestTimeInForceFok PredOrdersPlaceOrderRequestTimeInForce = "fok"
+	PredOrdersPlaceOrderRequestTimeInForceGtd PredOrdersPlaceOrderRequestTimeInForce = "gtd"
 )
 
-func (e TimeInForce) ToPointer() *TimeInForce {
+func (e PredOrdersPlaceOrderRequestTimeInForce) ToPointer() *PredOrdersPlaceOrderRequestTimeInForce {
 	return &e
 }
 
@@ -66,7 +65,8 @@ type PredOrdersPlaceOrderRequest struct {
 	ClientOrderRef *string `json:"clientOrderRef,omitempty"`
 	// Required when `timeInForce` is `gtd`.
 	ExpireTime *time.Time `json:"expireTime,omitempty"`
-	OrderType  OrderType  `json:"orderType"`
+	// ForecastEx does not support `stop` or `market_to_limit` orders.
+	OrderType OrderType `json:"orderType"`
 	// The binary outcome the order trades. It is never inferred from `side`.
 	Outcome PredOrdersPlaceOrderRequestOutcome `json:"outcome"`
 	// Limit price as an exact decimal string. Required for `limit` and `stop_limit`.
@@ -74,11 +74,11 @@ type PredOrdersPlaceOrderRequest struct {
 	// Number of contracts as an exact decimal string. Must be greater than zero.
 	Quantity string                          `json:"quantity"`
 	Side     PredOrdersPlaceOrderRequestSide `json:"side"`
-	// Stop price as an exact decimal string. Required for `stop` and `stop_limit`.
+	// Stop price as an exact decimal string. Required for `stop_limit`.
 	StopPx *string `json:"stopPx,omitempty"`
 	// Prediction-market contract symbol, as returned by search or Get Event Contracts.
-	Symbol      string      `json:"symbol"`
-	TimeInForce TimeInForce `json:"timeInForce"`
+	Symbol      string                                 `json:"symbol"`
+	TimeInForce PredOrdersPlaceOrderRequestTimeInForce `json:"timeInForce"`
 }
 
 func (p PredOrdersPlaceOrderRequest) MarshalJSON() ([]byte, error) {
@@ -162,9 +162,9 @@ func (o *PredOrdersPlaceOrderRequest) GetSymbol() string {
 	return o.Symbol
 }
 
-func (o *PredOrdersPlaceOrderRequest) GetTimeInForce() TimeInForce {
+func (o *PredOrdersPlaceOrderRequest) GetTimeInForce() PredOrdersPlaceOrderRequestTimeInForce {
 	if o == nil {
-		return TimeInForce("")
+		return PredOrdersPlaceOrderRequestTimeInForce("")
 	}
 	return o.TimeInForce
 }

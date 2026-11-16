@@ -14,7 +14,7 @@ class TechnicalAnalysisSDK(BaseSDK):
         self,
         *,
         symbol: str,
-        resolution: models.GetTechnicalIndicatorResolution,
+        resolution: models.BarResolution,
         indicator: models.TechnicalIndicatorType,
         from_: int,
         to: int,
@@ -112,7 +112,20 @@ class TechnicalAnalysisSDK(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Technical Analysis"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.technical_analysis.get_indicator(symbol="<value>", resolution=models.GetTechnicalIndicatorResolution.THIRTY, indicator=models.TechnicalIndicatorType.RSI, from_=714124, to=669868)\n\n    assert res.technical_indicator_response is not None\n\n    # Handle response\n    print(res.technical_indicator_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.technicalAnalysis.getIndicator({\n    symbol: "<value>",\n    resolution: "30",\n    indicator: "rsi",\n    from: 714124,\n    to: 669868,\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -172,7 +185,7 @@ class TechnicalAnalysisSDK(BaseSDK):
         self,
         *,
         symbol: str,
-        resolution: models.GetTechnicalIndicatorResolution,
+        resolution: models.BarResolution,
         indicator: models.TechnicalIndicatorType,
         from_: int,
         to: int,
@@ -270,7 +283,20 @@ class TechnicalAnalysisSDK(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Technical Analysis"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.technical_analysis.get_indicator(symbol="<value>", resolution=models.GetTechnicalIndicatorResolution.THIRTY, indicator=models.TechnicalIndicatorType.RSI, from_=714124, to=669868)\n\n    assert res.technical_indicator_response is not None\n\n    # Handle response\n    print(res.technical_indicator_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.technicalAnalysis.getIndicator({\n    symbol: "<value>",\n    resolution: "30",\n    indicator: "rsi",\n    from: 714124,\n    to: 669868,\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -330,7 +356,7 @@ class TechnicalAnalysisSDK(BaseSDK):
         self,
         *,
         symbol: str,
-        resolution: models.GetTechnicalPatternsResolution,
+        resolution: models.BarResolution,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -405,7 +431,20 @@ class TechnicalAnalysisSDK(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Technical Analysis"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.technical_analysis.get_pattern(symbol="AAPL", resolution=models.GetTechnicalPatternsResolution.M)\n\n    assert res.technical_patterns_response is not None\n\n    # Handle response\n    print(res.technical_patterns_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.technicalAnalysis.getPattern({\n    symbol: "AAPL",\n    resolution: "M",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -465,7 +504,7 @@ class TechnicalAnalysisSDK(BaseSDK):
         self,
         *,
         symbol: str,
-        resolution: models.GetTechnicalPatternsResolution,
+        resolution: models.BarResolution,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -540,7 +579,20 @@ class TechnicalAnalysisSDK(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Technical Analysis"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.technical_analysis.get_pattern(symbol="AAPL", resolution=models.GetTechnicalPatternsResolution.M)\n\n    assert res.technical_patterns_response is not None\n\n    # Handle response\n    print(res.technical_patterns_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.technicalAnalysis.getPattern({\n    symbol: "AAPL",\n    resolution: "M",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -600,7 +652,7 @@ class TechnicalAnalysisSDK(BaseSDK):
         self,
         *,
         symbol: str,
-        resolution: models.GetSupportResistanceLevelsResolution,
+        resolution: models.BarResolution,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -675,7 +727,20 @@ class TechnicalAnalysisSDK(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Technical Analysis"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.technical_analysis.get_support_resistance(symbol="AAPL", resolution=models.GetSupportResistanceLevelsResolution.FIFTEEN)\n\n    assert res.support_resistance_levels_response is not None\n\n    # Handle response\n    print(res.support_resistance_levels_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.technicalAnalysis.getSupportResistance({\n    symbol: "AAPL",\n    resolution: "15",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -735,7 +800,7 @@ class TechnicalAnalysisSDK(BaseSDK):
         self,
         *,
         symbol: str,
-        resolution: models.GetSupportResistanceLevelsResolution,
+        resolution: models.BarResolution,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -810,7 +875,20 @@ class TechnicalAnalysisSDK(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Technical Analysis"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.technical_analysis.get_support_resistance(symbol="AAPL", resolution=models.GetSupportResistanceLevelsResolution.FIFTEEN)\n\n    assert res.support_resistance_levels_response is not None\n\n    # Handle response\n    print(res.support_resistance_levels_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.technicalAnalysis.getSupportResistance({\n    symbol: "AAPL",\n    resolution: "15",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -870,7 +948,7 @@ class TechnicalAnalysisSDK(BaseSDK):
         self,
         *,
         symbol: str,
-        resolution: models.GetAggregateTechnicalIndicatorsResolution,
+        resolution: models.BarResolution,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -945,7 +1023,20 @@ class TechnicalAnalysisSDK(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Technical Analysis"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.technical_analysis.get_technical_indicator(symbol="AAPL", resolution=models.GetAggregateTechnicalIndicatorsResolution.D)\n\n    assert res.aggregate_technical_indicators_response is not None\n\n    # Handle response\n    print(res.aggregate_technical_indicators_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.technicalAnalysis.getTechnicalIndicator({\n    symbol: "AAPL",\n    resolution: "D",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1005,7 +1096,7 @@ class TechnicalAnalysisSDK(BaseSDK):
         self,
         *,
         symbol: str,
-        resolution: models.GetAggregateTechnicalIndicatorsResolution,
+        resolution: models.BarResolution,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1080,7 +1171,20 @@ class TechnicalAnalysisSDK(BaseSDK):
                 oauth2_scopes=["market:supplemental"],
                 security_source=self.sdk_configuration.security,
                 tags=["Technical Analysis"],
-                extensions=None,
+                extensions={
+                    "x-codeSamples": [
+                        {
+                            "label": "Python (SDK)",
+                            "lang": "python",
+                            "source": 'from finance_dev import FinanceDev, models\n\n\nwith FinanceDev(\n    security=models.Security(\n        client_id="<YOUR_CLIENT_ID_HERE>",\n        client_secret="<YOUR_CLIENT_SECRET_HERE>",\n    ),\n) as fd_client:\n\n    res = fd_client.technical_analysis.get_technical_indicator(symbol="AAPL", resolution=models.GetAggregateTechnicalIndicatorsResolution.D)\n\n    assert res.aggregate_technical_indicators_response is not None\n\n    # Handle response\n    print(res.aggregate_technical_indicators_response)',
+                        },
+                        {
+                            "label": "Typescript (SDK)",
+                            "lang": "typescript",
+                            "source": 'import { FinanceDev } from "@ariesdotcom/finance-dev";\n\nconst financeDev = new FinanceDev({\n  security: {\n    clientID: "<YOUR_CLIENT_ID_HERE>",\n    clientSecret: "<YOUR_CLIENT_SECRET_HERE>",\n  },\n});\n\nasync function run() {\n  const result = await financeDev.technicalAnalysis.getTechnicalIndicator({\n    symbol: "AAPL",\n    resolution: "D",\n  });\n\n  console.log(result);\n}\n\nrun();',
+                        },
+                    ]
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),

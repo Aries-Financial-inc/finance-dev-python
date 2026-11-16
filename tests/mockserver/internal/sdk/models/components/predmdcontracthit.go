@@ -10,18 +10,100 @@ import (
 	"time"
 )
 
+// PredMdContractHitParty - The candidate's party from the venue: `D` Democratic, `R` Republican, `I` independent, `O` any other. `null` on a contract that is not a candidate.
+type PredMdContractHitParty string
+
+const (
+	PredMdContractHitPartyD PredMdContractHitParty = "D"
+	PredMdContractHitPartyR PredMdContractHitParty = "R"
+	PredMdContractHitPartyI PredMdContractHitParty = "I"
+	PredMdContractHitPartyO PredMdContractHitParty = "O"
+)
+
+func (e PredMdContractHitParty) ToPointer() *PredMdContractHitParty {
+	return &e
+}
+
+// PredMdContractHitPhoto - The candidate's portrait, for an election contract that has one. `null` for every other contract.
+type PredMdContractHitPhoto struct {
+	Credit     string  `json:"credit"`
+	License    string  `json:"license"`
+	LicenseURL *string `json:"licenseUrl"`
+	SourceURL  string  `json:"sourceUrl"`
+	// 256×256 webp.
+	URL string `json:"url"`
+}
+
+func (p PredMdContractHitPhoto) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
+}
+
+func (p *PredMdContractHitPhoto) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, []string{"credit", "license", "licenseUrl", "sourceUrl", "url"}); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (o *PredMdContractHitPhoto) GetCredit() string {
+	if o == nil {
+		return ""
+	}
+	return o.Credit
+}
+
+func (o *PredMdContractHitPhoto) GetLicense() string {
+	if o == nil {
+		return ""
+	}
+	return o.License
+}
+
+func (o *PredMdContractHitPhoto) GetLicenseURL() *string {
+	if o == nil {
+		return nil
+	}
+	return o.LicenseURL
+}
+
+func (o *PredMdContractHitPhoto) GetSourceURL() string {
+	if o == nil {
+		return ""
+	}
+	return o.SourceURL
+}
+
+func (o *PredMdContractHitPhoto) GetURL() string {
+	if o == nil {
+		return ""
+	}
+	return o.URL
+}
+
 // PredMdContractHit - One matching contract, with its event's and base event's text flattened in. The index trails the catalogue by seconds; read the contract through /events/{eventId}/contracts when it must be current.
 type PredMdContractHit struct {
-	BaseEventID      string  `json:"baseEventId"`
+	BaseEventID string `json:"baseEventId"`
+	// FEC-style status from the venue: `I` incumbent, `C` challenger, `O` open seat, `N` not running. `null` on a contract that is not a candidate.
+	CandidateStatus  *string `json:"candidateStatus"`
 	EvaluationType   *string `json:"evaluationType,omitempty"`
 	EventDisplayName *string `json:"eventDisplayName,omitempty"`
 	EventID          string  `json:"eventId"`
 	EventQuestion    *string `json:"eventQuestion,omitempty"`
 	// Calendar date, at midnight UTC.
 	ExpirationDate optionalnullable.OptionalNullable[time.Time] `json:"expirationDate,omitempty"`
+	// `true` for a nominee, a candidate who advanced, or a significant independent; `false` for one no longer in the race, such as a primary loser. `null` on a contract that is not a candidate.
+	FrontRunner *bool `json:"frontRunner"`
+	// Whether the candidate holds the seat. `null` on a contract that is not a candidate.
+	Incumbent *bool `json:"incumbent"`
 	// Calendar date, at midnight UTC.
 	LastTradeDate optionalnullable.OptionalNullable[time.Time] `json:"lastTradeDate,omitempty"`
-	Question      *string                                      `json:"question,omitempty"`
+	// Contracts held open, as of the venue's last daily prices file. Absent when the file did not name the contract; 0 is a real value. Live prices are on /v1/predictions/stream.
+	OpenInterest *int64 `json:"openInterest,omitempty"`
+	// The candidate's party from the venue: `D` Democratic, `R` Republican, `I` independent, `O` any other. `null` on a contract that is not a candidate.
+	Party *PredMdContractHitParty `json:"party"`
+	// The candidate's portrait, for an election contract that has one. `null` for every other contract.
+	Photo    *PredMdContractHitPhoto `json:"photo"`
+	Question *string                 `json:"question,omitempty"`
 	// Calendar date, at midnight UTC.
 	StartDate      optionalnullable.OptionalNullable[time.Time] `json:"startDate,omitempty"`
 	State          string                                       `json:"state"`
@@ -41,7 +123,7 @@ func (p PredMdContractHit) MarshalJSON() ([]byte, error) {
 }
 
 func (p *PredMdContractHit) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &p, "", false, []string{"baseEventId", "eventId", "state", "symbol", "symbolSubTypes", "tickSize", "tradable"}); err != nil {
+	if err := utils.UnmarshalJSON(data, &p, "", false, []string{"baseEventId", "candidateStatus", "eventId", "frontRunner", "incumbent", "party", "photo", "state", "symbol", "symbolSubTypes", "tickSize", "tradable"}); err != nil {
 		return err
 	}
 	return nil
@@ -52,6 +134,13 @@ func (o *PredMdContractHit) GetBaseEventID() string {
 		return ""
 	}
 	return o.BaseEventID
+}
+
+func (o *PredMdContractHit) GetCandidateStatus() *string {
+	if o == nil {
+		return nil
+	}
+	return o.CandidateStatus
 }
 
 func (o *PredMdContractHit) GetEvaluationType() *string {
@@ -89,11 +178,46 @@ func (o *PredMdContractHit) GetExpirationDate() optionalnullable.OptionalNullabl
 	return o.ExpirationDate
 }
 
+func (o *PredMdContractHit) GetFrontRunner() *bool {
+	if o == nil {
+		return nil
+	}
+	return o.FrontRunner
+}
+
+func (o *PredMdContractHit) GetIncumbent() *bool {
+	if o == nil {
+		return nil
+	}
+	return o.Incumbent
+}
+
 func (o *PredMdContractHit) GetLastTradeDate() optionalnullable.OptionalNullable[time.Time] {
 	if o == nil {
 		return nil
 	}
 	return o.LastTradeDate
+}
+
+func (o *PredMdContractHit) GetOpenInterest() *int64 {
+	if o == nil {
+		return nil
+	}
+	return o.OpenInterest
+}
+
+func (o *PredMdContractHit) GetParty() *PredMdContractHitParty {
+	if o == nil {
+		return nil
+	}
+	return o.Party
+}
+
+func (o *PredMdContractHit) GetPhoto() *PredMdContractHitPhoto {
+	if o == nil {
+		return nil
+	}
+	return o.Photo
 }
 
 func (o *PredMdContractHit) GetQuestion() *string {

@@ -14,10 +14,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OptionContractSnapshotResponseTypedDict(TypedDict):
-    r"""Single option contract snapshot (`OptionContractSnapshotResponse`). Responses may be cached for about five minutes."""
+    r"""Single option contract snapshot (`OptionContractSnapshotResponse`) without pagination. Responses may be cached for about five minutes."""
 
-    next_url: NotRequired[str]
-    r"""Pagination URL when applicable; omitted when not used."""
     request_id: NotRequired[str]
     r"""Request identifier from upstream data."""
     results: NotRequired[OptionContractSnapshotRowTypedDict]
@@ -27,10 +25,7 @@ class OptionContractSnapshotResponseTypedDict(TypedDict):
 
 
 class OptionContractSnapshotResponse(BaseModel):
-    r"""Single option contract snapshot (`OptionContractSnapshotResponse`). Responses may be cached for about five minutes."""
-
-    next_url: Annotated[Optional[str], pydantic.Field(alias="nextUrl")] = None
-    r"""Pagination URL when applicable; omitted when not used."""
+    r"""Single option contract snapshot (`OptionContractSnapshotResponse`) without pagination. Responses may be cached for about five minutes."""
 
     request_id: Annotated[Optional[str], pydantic.Field(alias="requestId")] = None
     r"""Request identifier from upstream data."""
@@ -43,7 +38,7 @@ class OptionContractSnapshotResponse(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["nextUrl", "requestId", "results", "status"])
+        optional_fields = set(["requestId", "results", "status"])
         serialized = handler(self)
         m = {}
 

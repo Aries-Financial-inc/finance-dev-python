@@ -8,6 +8,47 @@ import (
 	"time"
 )
 
+// AdvancedOrderRole - The order's role within its advanced-order list.
+// - `SIBLING` — An OCO order.
+// - `ENTRY`, `PROFIT_TARGET`, `STOP_LOSS` — Bracket orders.
+// - `PARENT`, `CHILD` — OTO and OTOCO orders.
+//
+// Omitted for ordinary orders.
+type AdvancedOrderRole string
+
+const (
+	AdvancedOrderRoleSibling      AdvancedOrderRole = "SIBLING"
+	AdvancedOrderRoleEntry        AdvancedOrderRole = "ENTRY"
+	AdvancedOrderRoleProfitTarget AdvancedOrderRole = "PROFIT_TARGET"
+	AdvancedOrderRoleStopLoss     AdvancedOrderRole = "STOP_LOSS"
+	AdvancedOrderRoleParent       AdvancedOrderRole = "PARENT"
+	AdvancedOrderRoleChild        AdvancedOrderRole = "CHILD"
+)
+
+func (e AdvancedOrderRole) ToPointer() *AdvancedOrderRole {
+	return &e
+}
+
+// AdvancedOrderType - Kind of advanced-order list the order was placed in.
+// - `OCO` — One-cancels-other siblings.
+// - `BRACKET` — Entry with a profit target and/or stop loss.
+// - `OTO` — Parent whose fill releases its children.
+// - `OTOCO` — Parent whose fill releases a one-cancels-other group.
+//
+// Omitted for ordinary orders.
+type AdvancedOrderType string
+
+const (
+	AdvancedOrderTypeOco     AdvancedOrderType = "OCO"
+	AdvancedOrderTypeBracket AdvancedOrderType = "BRACKET"
+	AdvancedOrderTypeOto     AdvancedOrderType = "OTO"
+	AdvancedOrderTypeOtoco   AdvancedOrderType = "OTOCO"
+)
+
+func (e AdvancedOrderType) ToPointer() *AdvancedOrderType {
+	return &e
+}
+
 // Category - What kind of trade this order represents.
 // - `EQUITY` — Plain stock or ETF order.
 // - `SINGLE_LEG` — One option contract (call or put).
@@ -100,6 +141,21 @@ func (e TradeOrderV2SecurityType) ToPointer() *TradeOrderV2SecurityType {
 type TradeOrderV2 struct {
 	// Account that owns this order.
 	AccountID *string `json:"accountId,omitempty"`
+	// The order's role within its advanced-order list.
+	// - `SIBLING` — An OCO order.
+	// - `ENTRY`, `PROFIT_TARGET`, `STOP_LOSS` — Bracket orders.
+	// - `PARENT`, `CHILD` — OTO and OTOCO orders.
+	//
+	// Omitted for ordinary orders.
+	AdvancedOrderRole *AdvancedOrderRole `json:"advancedOrderRole,omitempty"`
+	// Kind of advanced-order list the order was placed in.
+	// - `OCO` — One-cancels-other siblings.
+	// - `BRACKET` — Entry with a profit target and/or stop loss.
+	// - `OTO` — Parent whose fill releases its children.
+	// - `OTOCO` — Parent whose fill releases a one-cancels-other group.
+	//
+	// Omitted for ordinary orders.
+	AdvancedOrderType *AdvancedOrderType `json:"advancedOrderType,omitempty"`
 	// Average fill price at the order level. For multi-leg orders this may be zero; use each leg's `avgPrice` instead.
 	AvgPrice *string `json:"avgPrice,omitempty"`
 	// What kind of trade this order represents.
@@ -127,6 +183,8 @@ type TradeOrderV2 struct {
 	LeavesQty *string `json:"leavesQty,omitempty"`
 	// Per-leg details for option spreads or other multi-leg orders. Empty or omitted for normal single-symbol orders.
 	Legs []TradeOrderLegV2 `json:"legs,omitempty"`
+	// ID of the advanced-order list (OCO, bracket, OTO or OTOCO) this order was placed in, shared by every order in the list. Kept on the order's cancel and replace records. Omitted for ordinary orders.
+	ListID *string `json:"listId,omitempty"`
 	// Broker order ID. Always serialized; may be an empty string for cancel-rejects or before the broker accepts the order.
 	OrdID *string `json:"ordId,omitempty"`
 	// Broker rejection reason code or text. Use this with `text` to explain why an order was rejected.
@@ -153,6 +211,8 @@ type TradeOrderV2 struct {
 	OrdStatus *OrdStatus `json:"ordStatus,omitempty"`
 	// Original client order ID for replace/cancel chains. Omitted when not part of a chain.
 	OrigClOrdID *string `json:"origClOrdId,omitempty"`
+	// Client order ID the parent order was placed with, on a child of a bracket, OTO or OTOCO. Unchanged when the child is replaced or cancelled, and when the parent is replaced — follow the parent's `origClOrdId` chain for that. Omitted for parents, OCO orders and ordinary orders.
+	ParentClOrdID *string `json:"parentClOrdId,omitempty"`
 	// Limit or reference price as a decimal string. Required for limit-style orders and empty or zero for pure market orders.
 	Price *string `json:"price,omitempty"`
 	// Original order size as a decimal string. Use this with filled and remaining quantities to show execution progress.
@@ -206,6 +266,20 @@ func (o *TradeOrderV2) GetAccountID() *string {
 		return nil
 	}
 	return o.AccountID
+}
+
+func (o *TradeOrderV2) GetAdvancedOrderRole() *AdvancedOrderRole {
+	if o == nil {
+		return nil
+	}
+	return o.AdvancedOrderRole
+}
+
+func (o *TradeOrderV2) GetAdvancedOrderType() *AdvancedOrderType {
+	if o == nil {
+		return nil
+	}
+	return o.AdvancedOrderType
 }
 
 func (o *TradeOrderV2) GetAvgPrice() *string {
@@ -278,6 +352,13 @@ func (o *TradeOrderV2) GetLegs() []TradeOrderLegV2 {
 	return o.Legs
 }
 
+func (o *TradeOrderV2) GetListID() *string {
+	if o == nil {
+		return nil
+	}
+	return o.ListID
+}
+
 func (o *TradeOrderV2) GetOrdID() *string {
 	if o == nil {
 		return nil
@@ -304,6 +385,13 @@ func (o *TradeOrderV2) GetOrigClOrdID() *string {
 		return nil
 	}
 	return o.OrigClOrdID
+}
+
+func (o *TradeOrderV2) GetParentClOrdID() *string {
+	if o == nil {
+		return nil
+	}
+	return o.ParentClOrdID
 }
 
 func (o *TradeOrderV2) GetPrice() *string {

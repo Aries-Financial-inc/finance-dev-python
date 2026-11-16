@@ -28,7 +28,7 @@ class GetUnifiedSnapshotType(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class GetUnifiedSnapshotOrder(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Sort order for returned records. Use asc for oldest first or desc for newest first when supported."""
+    r"""Sort direction for results. Use ascending for oldest or smallest first, descending for newest or largest first."""
 
     ASC = "asc"
     DESC = "desc"

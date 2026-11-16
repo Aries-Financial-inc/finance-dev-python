@@ -7,29 +7,11 @@ import (
 	"mockserver/internal/sdk/models/components"
 )
 
-// GetTechnicalPatternsResolution - How long each bar covers. Supported values are minutes (`1`, `5`, `15`, `30`, `60`) or daily/weekly/monthly (`D`, `W`, `M`). Other values return 400 Bad Request with error code `VALIDATION_ERROR`.
-type GetTechnicalPatternsResolution string
-
-const (
-	GetTechnicalPatternsResolutionOne     GetTechnicalPatternsResolution = "1"
-	GetTechnicalPatternsResolutionFive    GetTechnicalPatternsResolution = "5"
-	GetTechnicalPatternsResolutionFifteen GetTechnicalPatternsResolution = "15"
-	GetTechnicalPatternsResolutionThirty  GetTechnicalPatternsResolution = "30"
-	GetTechnicalPatternsResolutionSixty   GetTechnicalPatternsResolution = "60"
-	GetTechnicalPatternsResolutionD       GetTechnicalPatternsResolution = "D"
-	GetTechnicalPatternsResolutionW       GetTechnicalPatternsResolution = "W"
-	GetTechnicalPatternsResolutionM       GetTechnicalPatternsResolution = "M"
-)
-
-func (e GetTechnicalPatternsResolution) ToPointer() *GetTechnicalPatternsResolution {
-	return &e
-}
-
 type GetTechnicalPatternsRequest struct {
 	// Stock ticker to query. Send the plain uppercase symbol exactly as you'd type it on a brokerage screen, e.g. `AAPL`, `MSFT`, `TSLA`.
 	Symbol string `queryParam:"style=form,explode=true,name=symbol"`
 	// How long each bar covers. Supported values are minutes (`1`, `5`, `15`, `30`, `60`) or daily/weekly/monthly (`D`, `W`, `M`). Other values return 400 Bad Request with error code `VALIDATION_ERROR`.
-	Resolution GetTechnicalPatternsResolution `queryParam:"style=form,explode=true,name=resolution"`
+	Resolution components.BarResolution `queryParam:"style=form,explode=true,name=resolution"`
 }
 
 func (o *GetTechnicalPatternsRequest) GetSymbol() string {
@@ -39,9 +21,9 @@ func (o *GetTechnicalPatternsRequest) GetSymbol() string {
 	return o.Symbol
 }
 
-func (o *GetTechnicalPatternsRequest) GetResolution() GetTechnicalPatternsResolution {
+func (o *GetTechnicalPatternsRequest) GetResolution() components.BarResolution {
 	if o == nil {
-		return GetTechnicalPatternsResolution("")
+		return components.BarResolution("")
 	}
 	return o.Resolution
 }

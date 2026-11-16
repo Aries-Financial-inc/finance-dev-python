@@ -8,20 +8,6 @@ import (
 	"mockserver/internal/sdk/utils"
 )
 
-// GetIndexBarPrecision - How long each bar covers. Pair with `period` to set the exact size (e.g. `precision=Minutes`, `period=5` = 5-minute bars). Allowed values:
-// - `Minutes` — minute bars (combine with `period` for 1, 5, 15, 30-minute candles).
-// - `Hours` — hour bars (combine with `period` for 1, 2, 4-hour candles).
-type GetIndexBarPrecision string
-
-const (
-	GetIndexBarPrecisionMinutes GetIndexBarPrecision = "Minutes"
-	GetIndexBarPrecisionHours   GetIndexBarPrecision = "Hours"
-)
-
-func (e GetIndexBarPrecision) ToPointer() *GetIndexBarPrecision {
-	return &e
-}
-
 type GetIndexBarRequest struct {
 	// Index identifier to query. For `Symbol`-type identifiers, use the full `<SYMBOL>.<GROUP>` form (e.g. `SPX.IND_CBOM` for the S&P 500 in the CBOE CSMI group). For other identifier types (CUSIP, ISIN, etc.), set `identifierType` accordingly.
 	Identifier string `queryParam:"style=form,explode=true,name=identifier"`
@@ -32,7 +18,7 @@ type GetIndexBarRequest struct {
 	// How long each bar covers. Pair with `period` to set the exact size (e.g. `precision=Minutes`, `period=5` = 5-minute bars). Allowed values:
 	// - `Minutes` — minute bars (combine with `period` for 1, 5, 15, 30-minute candles).
 	// - `Hours` — hour bars (combine with `period` for 1, 2, 4-hour candles).
-	Precision *GetIndexBarPrecision `queryParam:"style=form,explode=true,name=precision"`
+	Precision *components.BarPrecision `queryParam:"style=form,explode=true,name=precision"`
 	// Multiplier on `precision` to set the bar size. Defaults to `1`. Examples: `precision=Minutes` + `period=5` = 5-minute bars; `precision=Hours` + `period=4` = 4-hour bars.
 	Period *int64 `queryParam:"style=form,explode=true,name=period"`
 }
@@ -69,7 +55,7 @@ func (o *GetIndexBarRequest) GetEndTime() string {
 	return o.EndTime
 }
 
-func (o *GetIndexBarRequest) GetPrecision() *GetIndexBarPrecision {
+func (o *GetIndexBarRequest) GetPrecision() *components.BarPrecision {
 	if o == nil {
 		return nil
 	}

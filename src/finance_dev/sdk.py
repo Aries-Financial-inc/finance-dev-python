@@ -18,8 +18,9 @@ import weakref
 if TYPE_CHECKING:
     from finance_dev.accounts import Accounts
     from finance_dev.analytics import Analytics
-    from finance_dev.calendar import Calendar
+    from finance_dev.calendars import Calendars
     from finance_dev.chart import Chart
+    from finance_dev.companies import Companies
     from finance_dev.company import Company
     from finance_dev.corporateactions import CorporateActions
     from finance_dev.economy import Economy
@@ -35,14 +36,20 @@ if TYPE_CHECKING:
     from finance_dev.options import Options
     from finance_dev.orders import Orders
     from finance_dev.ownership import Ownership
+    from finance_dev.predictionhistoricaldata import PredictionHistoricalData
+    from finance_dev.predictionmarketcategories import PredictionMarketCategories
+    from finance_dev.predictionmarkets import PredictionMarkets
+    from finance_dev.predictionorders import PredictionOrders
     from finance_dev.predictions import Predictions
+    from finance_dev.predictionsmarkets import PredictionsMarkets
     from finance_dev.signals import Signals
     from finance_dev.stockalternative import StockAlternative
     from finance_dev.stockalternatives import StockAlternatives
     from finance_dev.stockestimates import StockEstimates
     from finance_dev.stocks import Stocks
     from finance_dev.technicalanalysis_sdk import TechnicalAnalysisSDK
-    from finance_dev.watchlist_sdk import WatchlistSDK
+    from finance_dev.users import Users
+    from finance_dev.watchlists import Watchlists
     from finance_dev.websocket.sdk import WebSocketSDK
 
 
@@ -153,13 +160,15 @@ class FinanceDev(BaseSDK):
 
     accounts: "Accounts"
     analytics: "Analytics"
-    calendar: "Calendar"
+    calendars: "Calendars"
     chart: "Chart"
     company: "Company"
-    watchlist: "WatchlistSDK"
+    companies: "Companies"
+    watchlists: "Watchlists"
     corporate_actions: "CorporateActions"
     economy: "Economy"
     market: "Market"
+    market_data: "MarketData"
     etfs: "Etfs"
     etf: "Etf"
     filings: "Filings"
@@ -168,28 +177,36 @@ class FinanceDev(BaseSDK):
     indices: "Indices"
     ownership: "Ownership"
     logos: "Logos"
-    market_data: "MarketData"
     news: "NewsSDK"
     options: "Options"
     orders: "Orders"
+    prediction_markets: "PredictionMarkets"
+    prediction_market_categories: "PredictionMarketCategories"
     predictions: "Predictions"
+    prediction_historical_data: "PredictionHistoricalData"
+    prediction_orders: "PredictionOrders"
+    predictions_markets: "PredictionsMarkets"
     signals: "Signals"
     stock_alternative: "StockAlternative"
     stock_estimates: "StockEstimates"
     stock_alternatives: "StockAlternatives"
     stocks: "Stocks"
+    users: "Users"
+    r"""Basic information about the authenticated user."""
     websocket: "WebSocketSDK"
     _sub_sdk_map = {
         "websocket": ("finance_dev.websocket.sdk", "WebSocketSDK"),
         "accounts": ("finance_dev.accounts", "Accounts"),
         "analytics": ("finance_dev.analytics", "Analytics"),
-        "calendar": ("finance_dev.calendar", "Calendar"),
+        "calendars": ("finance_dev.calendars", "Calendars"),
         "chart": ("finance_dev.chart", "Chart"),
         "company": ("finance_dev.company", "Company"),
-        "watchlist": ("finance_dev.watchlist_sdk", "WatchlistSDK"),
+        "companies": ("finance_dev.companies", "Companies"),
+        "watchlists": ("finance_dev.watchlists", "Watchlists"),
         "corporate_actions": ("finance_dev.corporateactions", "CorporateActions"),
         "economy": ("finance_dev.economy", "Economy"),
         "market": ("finance_dev.market", "Market"),
+        "market_data": ("finance_dev.marketdata", "MarketData"),
         "etfs": ("finance_dev.etfs", "Etfs"),
         "etf": ("finance_dev.etf", "Etf"),
         "filings": ("finance_dev.filings", "Filings"),
@@ -201,16 +218,27 @@ class FinanceDev(BaseSDK):
         "indices": ("finance_dev.indices", "Indices"),
         "ownership": ("finance_dev.ownership", "Ownership"),
         "logos": ("finance_dev.logos", "Logos"),
-        "market_data": ("finance_dev.marketdata", "MarketData"),
         "news": ("finance_dev.news_sdk", "NewsSDK"),
         "options": ("finance_dev.options", "Options"),
         "orders": ("finance_dev.orders", "Orders"),
+        "prediction_markets": ("finance_dev.predictionmarkets", "PredictionMarkets"),
+        "prediction_market_categories": (
+            "finance_dev.predictionmarketcategories",
+            "PredictionMarketCategories",
+        ),
         "predictions": ("finance_dev.predictions", "Predictions"),
+        "prediction_historical_data": (
+            "finance_dev.predictionhistoricaldata",
+            "PredictionHistoricalData",
+        ),
+        "prediction_orders": ("finance_dev.predictionorders", "PredictionOrders"),
+        "predictions_markets": ("finance_dev.predictionsmarkets", "PredictionsMarkets"),
         "signals": ("finance_dev.signals", "Signals"),
         "stock_alternative": ("finance_dev.stockalternative", "StockAlternative"),
         "stock_estimates": ("finance_dev.stockestimates", "StockEstimates"),
         "stock_alternatives": ("finance_dev.stockalternatives", "StockAlternatives"),
         "stocks": ("finance_dev.stocks", "Stocks"),
+        "users": ("finance_dev.users", "Users"),
     }
 
     def __init__(

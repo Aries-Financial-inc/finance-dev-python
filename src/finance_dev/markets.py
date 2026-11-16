@@ -6,655 +6,36 @@ from finance_dev import errors, models, utils
 from finance_dev._hooks import HookContext
 from finance_dev.types import OptionalNullable, UNSET
 from finance_dev.utils.unmarshal_json_response import unmarshal_json_response
-from jsonpath import JSONPath
-from typing import Any, Dict, List, Mapping, Optional, Union
+from typing import Any, Mapping, Optional
 
 
 class Markets(BaseSDK):
-    def get_base_event(
+    def get_election_map(
         self,
         *,
-        base_event_id: str,
-        retries: OptionalNullable[utils.RetryConfig] = UNSET,
-        server_url: Optional[str] = None,
-        timeout_ms: Optional[int] = None,
-        http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetBaseEventResponse:
-        r"""Get a base event with its events and each event's contracts
-
-        :param base_event_id:
-        :param retries: Override the default retry configuration for this method
-        :param server_url: Override the default server URL for this method
-        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
-        :param http_headers: Additional headers to set or replace on requests.
-        """
-        base_url = None
-        url_variables = None
-        if timeout_ms is None:
-            timeout_ms = self.sdk_configuration.timeout_ms
-
-        if timeout_ms is None:
-            timeout_ms = 30000
-
-        if server_url is not None:
-            base_url = server_url
-        else:
-            base_url = self._get_url(base_url, url_variables)
-
-        request = models.GetBaseEventRequest(
-            base_event_id=base_event_id,
-        )
-
-        req = self._build_request(
-            method="GET",
-            path="/v1/predictions/base-events/{baseEventId}",
-            base_url=base_url,
-            url_variables=url_variables,
-            request=request,
-            request_body_required=False,
-            request_has_path_params=True,
-            request_has_query_params=False,
-            user_agent_header="user-agent",
-            accept_header_value="application/json",
-            http_headers=http_headers,
-            allow_empty_value=None,
-            timeout_ms=timeout_ms,
-        )
-
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
-            else:
-                retries = utils.RetryConfig(
-                    "backoff", utils.BackoffStrategy(500, 8000, 1.5, 60000), True
-                )
-
-        retry_config = None
-        if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["429", "500", "502", "503", "504"])
-
-        http_res = self.do_request(
-            hook_ctx=HookContext(
-                config=self.sdk_configuration,
-                base_url=base_url or "",
-                operation_id="getBaseEvent",
-                oauth2_scopes=None,
-                security_source=None,
-                tags=["Prediction Market Data"],
-                extensions=None,
-            ),
-            request=req,
-            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
-            retry_config=retry_config,
-        )
-
-        response_data: Any = None
-        if utils.match_response(http_res, "200", "application/json"):
-            return models.GetBaseEventResponse(
-                object=unmarshal_json_response(
-                    Optional[models.GetBaseEventResponseBody], http_res
-                ),
-                http_meta=models.HTTPMetadata(request=req, response=http_res),
-            )
-        if utils.match_response(http_res, ["400", "404"], "application/json"):
-            response_data = unmarshal_json_response(errors.ErrorEnvelopeData, http_res)
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.ErrorEnvelope(response_data, http_res)
-        if utils.match_response(http_res, "500", "application/json"):
-            response_data = unmarshal_json_response(errors.ErrorEnvelopeData, http_res)
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.ErrorEnvelope(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
-            http_res_text = utils.stream_to_text(http_res)
-            raise errors.APIError("API error occurred", http_res, http_res_text)
-        if utils.match_response(http_res, "5XX", "*"):
-            http_res_text = utils.stream_to_text(http_res)
-            raise errors.APIError("API error occurred", http_res, http_res_text)
-
-        raise errors.APIError("Unexpected response received", http_res)
-
-    async def get_base_event_async(
-        self,
-        *,
-        base_event_id: str,
-        retries: OptionalNullable[utils.RetryConfig] = UNSET,
-        server_url: Optional[str] = None,
-        timeout_ms: Optional[int] = None,
-        http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetBaseEventResponse:
-        r"""Get a base event with its events and each event's contracts
-
-        :param base_event_id:
-        :param retries: Override the default retry configuration for this method
-        :param server_url: Override the default server URL for this method
-        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
-        :param http_headers: Additional headers to set or replace on requests.
-        """
-        base_url = None
-        url_variables = None
-        if timeout_ms is None:
-            timeout_ms = self.sdk_configuration.timeout_ms
-
-        if timeout_ms is None:
-            timeout_ms = 30000
-
-        if server_url is not None:
-            base_url = server_url
-        else:
-            base_url = self._get_url(base_url, url_variables)
-
-        request = models.GetBaseEventRequest(
-            base_event_id=base_event_id,
-        )
-
-        req = self._build_request_async(
-            method="GET",
-            path="/v1/predictions/base-events/{baseEventId}",
-            base_url=base_url,
-            url_variables=url_variables,
-            request=request,
-            request_body_required=False,
-            request_has_path_params=True,
-            request_has_query_params=False,
-            user_agent_header="user-agent",
-            accept_header_value="application/json",
-            http_headers=http_headers,
-            allow_empty_value=None,
-            timeout_ms=timeout_ms,
-        )
-
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
-            else:
-                retries = utils.RetryConfig(
-                    "backoff", utils.BackoffStrategy(500, 8000, 1.5, 60000), True
-                )
-
-        retry_config = None
-        if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["429", "500", "502", "503", "504"])
-
-        http_res = await self.do_request_async(
-            hook_ctx=HookContext(
-                config=self.sdk_configuration,
-                base_url=base_url or "",
-                operation_id="getBaseEvent",
-                oauth2_scopes=None,
-                security_source=None,
-                tags=["Prediction Market Data"],
-                extensions=None,
-            ),
-            request=req,
-            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
-            retry_config=retry_config,
-        )
-
-        response_data: Any = None
-        if utils.match_response(http_res, "200", "application/json"):
-            return models.GetBaseEventResponse(
-                object=unmarshal_json_response(
-                    Optional[models.GetBaseEventResponseBody], http_res
-                ),
-                http_meta=models.HTTPMetadata(request=req, response=http_res),
-            )
-        if utils.match_response(http_res, ["400", "404"], "application/json"):
-            response_data = unmarshal_json_response(errors.ErrorEnvelopeData, http_res)
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.ErrorEnvelope(response_data, http_res)
-        if utils.match_response(http_res, "500", "application/json"):
-            response_data = unmarshal_json_response(errors.ErrorEnvelopeData, http_res)
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.ErrorEnvelope(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
-            http_res_text = await utils.stream_to_text_async(http_res)
-            raise errors.APIError("API error occurred", http_res, http_res_text)
-        if utils.match_response(http_res, "5XX", "*"):
-            http_res_text = await utils.stream_to_text_async(http_res)
-            raise errors.APIError("API error occurred", http_res, http_res_text)
-
-        raise errors.APIError("Unexpected response received", http_res)
-
-    def list_categories(
-        self,
-        *,
-        retries: OptionalNullable[utils.RetryConfig] = UNSET,
-        server_url: Optional[str] = None,
-        timeout_ms: Optional[int] = None,
-        http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListCategoriesResponse:
-        r"""List prediction market categories
-
-        The category tree of every category with at least one ACTIVE contract, so each one finds something when passed to search as category. Each level is ordered by name. Read from the search index, which trails the catalogue by seconds.
-
-        :param retries: Override the default retry configuration for this method
-        :param server_url: Override the default server URL for this method
-        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
-        :param http_headers: Additional headers to set or replace on requests.
-        """
-        base_url = None
-        url_variables = None
-        if timeout_ms is None:
-            timeout_ms = self.sdk_configuration.timeout_ms
-
-        if timeout_ms is None:
-            timeout_ms = 30000
-
-        if server_url is not None:
-            base_url = server_url
-        else:
-            base_url = self._get_url(base_url, url_variables)
-        req = self._build_request(
-            method="GET",
-            path="/v1/predictions/categories",
-            base_url=base_url,
-            url_variables=url_variables,
-            request=None,
-            request_body_required=False,
-            request_has_path_params=False,
-            request_has_query_params=False,
-            user_agent_header="user-agent",
-            accept_header_value="application/json",
-            http_headers=http_headers,
-            allow_empty_value=None,
-            timeout_ms=timeout_ms,
-        )
-
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
-            else:
-                retries = utils.RetryConfig(
-                    "backoff", utils.BackoffStrategy(500, 8000, 1.5, 60000), True
-                )
-
-        retry_config = None
-        if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["429", "500", "502", "503", "504"])
-
-        http_res = self.do_request(
-            hook_ctx=HookContext(
-                config=self.sdk_configuration,
-                base_url=base_url or "",
-                operation_id="listCategories",
-                oauth2_scopes=None,
-                security_source=None,
-                tags=["Prediction Market Data"],
-                extensions=None,
-            ),
-            request=req,
-            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
-            retry_config=retry_config,
-        )
-
-        response_data: Any = None
-        if utils.match_response(http_res, "200", "application/json"):
-            return models.ListCategoriesResponse(
-                object=unmarshal_json_response(
-                    Optional[models.ListCategoriesResponseBody], http_res
-                ),
-                http_meta=models.HTTPMetadata(request=req, response=http_res),
-            )
-        if utils.match_response(http_res, "502", "application/json"):
-            response_data = unmarshal_json_response(errors.ErrorEnvelopeData, http_res)
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.ErrorEnvelope(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
-            http_res_text = utils.stream_to_text(http_res)
-            raise errors.APIError("API error occurred", http_res, http_res_text)
-        if utils.match_response(http_res, "5XX", "*"):
-            http_res_text = utils.stream_to_text(http_res)
-            raise errors.APIError("API error occurred", http_res, http_res_text)
-
-        raise errors.APIError("Unexpected response received", http_res)
-
-    async def list_categories_async(
-        self,
-        *,
-        retries: OptionalNullable[utils.RetryConfig] = UNSET,
-        server_url: Optional[str] = None,
-        timeout_ms: Optional[int] = None,
-        http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListCategoriesResponse:
-        r"""List prediction market categories
-
-        The category tree of every category with at least one ACTIVE contract, so each one finds something when passed to search as category. Each level is ordered by name. Read from the search index, which trails the catalogue by seconds.
-
-        :param retries: Override the default retry configuration for this method
-        :param server_url: Override the default server URL for this method
-        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
-        :param http_headers: Additional headers to set or replace on requests.
-        """
-        base_url = None
-        url_variables = None
-        if timeout_ms is None:
-            timeout_ms = self.sdk_configuration.timeout_ms
-
-        if timeout_ms is None:
-            timeout_ms = 30000
-
-        if server_url is not None:
-            base_url = server_url
-        else:
-            base_url = self._get_url(base_url, url_variables)
-        req = self._build_request_async(
-            method="GET",
-            path="/v1/predictions/categories",
-            base_url=base_url,
-            url_variables=url_variables,
-            request=None,
-            request_body_required=False,
-            request_has_path_params=False,
-            request_has_query_params=False,
-            user_agent_header="user-agent",
-            accept_header_value="application/json",
-            http_headers=http_headers,
-            allow_empty_value=None,
-            timeout_ms=timeout_ms,
-        )
-
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
-            else:
-                retries = utils.RetryConfig(
-                    "backoff", utils.BackoffStrategy(500, 8000, 1.5, 60000), True
-                )
-
-        retry_config = None
-        if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["429", "500", "502", "503", "504"])
-
-        http_res = await self.do_request_async(
-            hook_ctx=HookContext(
-                config=self.sdk_configuration,
-                base_url=base_url or "",
-                operation_id="listCategories",
-                oauth2_scopes=None,
-                security_source=None,
-                tags=["Prediction Market Data"],
-                extensions=None,
-            ),
-            request=req,
-            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
-            retry_config=retry_config,
-        )
-
-        response_data: Any = None
-        if utils.match_response(http_res, "200", "application/json"):
-            return models.ListCategoriesResponse(
-                object=unmarshal_json_response(
-                    Optional[models.ListCategoriesResponseBody], http_res
-                ),
-                http_meta=models.HTTPMetadata(request=req, response=http_res),
-            )
-        if utils.match_response(http_res, "502", "application/json"):
-            response_data = unmarshal_json_response(errors.ErrorEnvelopeData, http_res)
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.ErrorEnvelope(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
-            http_res_text = await utils.stream_to_text_async(http_res)
-            raise errors.APIError("API error occurred", http_res, http_res_text)
-        if utils.match_response(http_res, "5XX", "*"):
-            http_res_text = await utils.stream_to_text_async(http_res)
-            raise errors.APIError("API error occurred", http_res, http_res_text)
-
-        raise errors.APIError("Unexpected response received", http_res)
-
-    def get_event_contracts(
-        self,
-        *,
-        event_id: str,
-        retries: OptionalNullable[utils.RetryConfig] = UNSET,
-        server_url: Optional[str] = None,
-        timeout_ms: Optional[int] = None,
-        http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetEventContractsResponse:
-        r"""Get an event and all contracts under it
-
-        :param event_id:
-        :param retries: Override the default retry configuration for this method
-        :param server_url: Override the default server URL for this method
-        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
-        :param http_headers: Additional headers to set or replace on requests.
-        """
-        base_url = None
-        url_variables = None
-        if timeout_ms is None:
-            timeout_ms = self.sdk_configuration.timeout_ms
-
-        if timeout_ms is None:
-            timeout_ms = 30000
-
-        if server_url is not None:
-            base_url = server_url
-        else:
-            base_url = self._get_url(base_url, url_variables)
-
-        request = models.GetEventContractsRequest(
-            event_id=event_id,
-        )
-
-        req = self._build_request(
-            method="GET",
-            path="/v1/predictions/events/{eventId}/contracts",
-            base_url=base_url,
-            url_variables=url_variables,
-            request=request,
-            request_body_required=False,
-            request_has_path_params=True,
-            request_has_query_params=False,
-            user_agent_header="user-agent",
-            accept_header_value="application/json",
-            http_headers=http_headers,
-            allow_empty_value=None,
-            timeout_ms=timeout_ms,
-        )
-
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
-            else:
-                retries = utils.RetryConfig(
-                    "backoff", utils.BackoffStrategy(500, 8000, 1.5, 60000), True
-                )
-
-        retry_config = None
-        if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["429", "500", "502", "503", "504"])
-
-        http_res = self.do_request(
-            hook_ctx=HookContext(
-                config=self.sdk_configuration,
-                base_url=base_url or "",
-                operation_id="getEventContracts",
-                oauth2_scopes=None,
-                security_source=None,
-                tags=["Prediction Market Data"],
-                extensions=None,
-            ),
-            request=req,
-            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
-            retry_config=retry_config,
-        )
-
-        response_data: Any = None
-        if utils.match_response(http_res, "200", "application/json"):
-            return models.GetEventContractsResponse(
-                object=unmarshal_json_response(
-                    Optional[models.GetEventContractsResponseBody], http_res
-                ),
-                http_meta=models.HTTPMetadata(request=req, response=http_res),
-            )
-        if utils.match_response(http_res, ["400", "404"], "application/json"):
-            response_data = unmarshal_json_response(errors.ErrorEnvelopeData, http_res)
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.ErrorEnvelope(response_data, http_res)
-        if utils.match_response(http_res, "500", "application/json"):
-            response_data = unmarshal_json_response(errors.ErrorEnvelopeData, http_res)
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.ErrorEnvelope(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
-            http_res_text = utils.stream_to_text(http_res)
-            raise errors.APIError("API error occurred", http_res, http_res_text)
-        if utils.match_response(http_res, "5XX", "*"):
-            http_res_text = utils.stream_to_text(http_res)
-            raise errors.APIError("API error occurred", http_res, http_res_text)
-
-        raise errors.APIError("Unexpected response received", http_res)
-
-    async def get_event_contracts_async(
-        self,
-        *,
-        event_id: str,
-        retries: OptionalNullable[utils.RetryConfig] = UNSET,
-        server_url: Optional[str] = None,
-        timeout_ms: Optional[int] = None,
-        http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetEventContractsResponse:
-        r"""Get an event and all contracts under it
-
-        :param event_id:
-        :param retries: Override the default retry configuration for this method
-        :param server_url: Override the default server URL for this method
-        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
-        :param http_headers: Additional headers to set or replace on requests.
-        """
-        base_url = None
-        url_variables = None
-        if timeout_ms is None:
-            timeout_ms = self.sdk_configuration.timeout_ms
-
-        if timeout_ms is None:
-            timeout_ms = 30000
-
-        if server_url is not None:
-            base_url = server_url
-        else:
-            base_url = self._get_url(base_url, url_variables)
-
-        request = models.GetEventContractsRequest(
-            event_id=event_id,
-        )
-
-        req = self._build_request_async(
-            method="GET",
-            path="/v1/predictions/events/{eventId}/contracts",
-            base_url=base_url,
-            url_variables=url_variables,
-            request=request,
-            request_body_required=False,
-            request_has_path_params=True,
-            request_has_query_params=False,
-            user_agent_header="user-agent",
-            accept_header_value="application/json",
-            http_headers=http_headers,
-            allow_empty_value=None,
-            timeout_ms=timeout_ms,
-        )
-
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
-            else:
-                retries = utils.RetryConfig(
-                    "backoff", utils.BackoffStrategy(500, 8000, 1.5, 60000), True
-                )
-
-        retry_config = None
-        if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["429", "500", "502", "503", "504"])
-
-        http_res = await self.do_request_async(
-            hook_ctx=HookContext(
-                config=self.sdk_configuration,
-                base_url=base_url or "",
-                operation_id="getEventContracts",
-                oauth2_scopes=None,
-                security_source=None,
-                tags=["Prediction Market Data"],
-                extensions=None,
-            ),
-            request=req,
-            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
-            retry_config=retry_config,
-        )
-
-        response_data: Any = None
-        if utils.match_response(http_res, "200", "application/json"):
-            return models.GetEventContractsResponse(
-                object=unmarshal_json_response(
-                    Optional[models.GetEventContractsResponseBody], http_res
-                ),
-                http_meta=models.HTTPMetadata(request=req, response=http_res),
-            )
-        if utils.match_response(http_res, ["400", "404"], "application/json"):
-            response_data = unmarshal_json_response(errors.ErrorEnvelopeData, http_res)
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.ErrorEnvelope(response_data, http_res)
-        if utils.match_response(http_res, "500", "application/json"):
-            response_data = unmarshal_json_response(errors.ErrorEnvelopeData, http_res)
-            response_data.http_meta = models.HTTPMetadata(
-                request=req, response=http_res
-            )
-            raise errors.ErrorEnvelope(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
-            http_res_text = await utils.stream_to_text_async(http_res)
-            raise errors.APIError("API error occurred", http_res, http_res_text)
-        if utils.match_response(http_res, "5XX", "*"):
-            http_res_text = await utils.stream_to_text_async(http_res)
-            raise errors.APIError("API error occurred", http_res, http_res_text)
-
-        raise errors.APIError("Unexpected response received", http_res)
-
-    def search(
-        self,
-        *,
-        type_: Optional[models.SearchType] = models.SearchType.CONTRACTS,
-        q: Optional[str] = None,
+        cycle: int,
         state: Optional[str] = None,
-        base_event_id: Optional[str] = None,
-        event_id: Optional[str] = None,
-        category: Optional[str] = None,
-        tradable: Optional[bool] = None,
-        page: Optional[int] = None,
-        per_page: Optional[int] = None,
+        office: Optional[str] = None,
+        race_type: Optional[str] = None,
+        include_resolved: Optional[bool] = True,
+        include_non_front_runners: Optional[bool] = False,
+        if_none_match: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Optional[models.SearchResponse]:
-        r"""Search contracts, events or base events
+    ) -> models.GetElectionMapResponse:
+        r"""Get every race of an election cycle with its candidates' prices
 
-        Full-text search over one index of event contracts. Filters always apply to contracts, so with type=events or type=base-events an event or base event is found through its matching contracts: one with none (for example, only DELETED contracts under the default state) is not returned. The index trails the catalogue by seconds.
+        Every Senate, House and governor race of the cycle in all 50 states, with each candidate's latest price and 24-hour change, plus the House-control, Senate-majority and balance-of-power markets, in one response. Built for an election map: poll it with `If-None-Match`.
 
-        :param type: Level hits come back at. `contracts` (default) returns matching contracts; `events` returns one hit per event and `base-events` one per base event, each ranked by its best-matching contract and carrying only its own fields and a count of matching contracts. Echoed in the response.
-        :param q: Full-text query over symbols, questions, event names and base-event specifications. Symbols split on _, - and . so `BPM 0822` finds `BPM_0822_1750`. Omit to browse, soonest last-trade date first.
-        :param state: Contract state. Omitted means ACTIVE; `*` matches every state, including DELETED.
-        :param base_event_id: Only contracts under this base event.
-        :param event_id: Only contracts under this event.
-        :param category: Only contracts in this category or any category under it. Takes a `path` from List Categories, URL-encoded. A bare level name such as `United States` matches nothing, because level names repeat under different parents.
-        :param tradable: Only tradable (true) or non-tradable (false) contracts.
-        :param page: 1-based page number; 0 or omitted means 1.
-        :param per_page: Hits per page, counting whatever type returns; 0 or omitted means 20, values above 100 are clamped to 100.
+        :param cycle: Election year. `2026` is the only cycle served.
+        :param state: Two-letter code of one of the 50 states. Returns that state only.
+        :param office: Comma-separated: `senate`, `governor`, `house`. Default: all.
+        :param race_type: Comma-separated: `general`, `special`, `primary_d`, `primary_r`, `primary_open`, `runoff`. Default: all.
+        :param include_resolved: `false` leaves out races the venue has settled.
+        :param include_non_front_runners: `true` also returns candidates the venue marks as no longer in the race (`frontRunner: false`), such as primary losers. `leader` is computed from the outcomes returned.
+        :param if_none_match: The `ETag` of a previous response. Answers `304` while the map is unchanged.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -673,26 +54,24 @@ class Markets(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.SearchRequest(
-            type=type_,
-            q=q,
+        request = models.GetElectionMapRequest(
+            cycle=cycle,
             state=state,
-            base_event_id=base_event_id,
-            event_id=event_id,
-            category=category,
-            tradable=tradable,
-            page=page,
-            per_page=per_page,
+            office=office,
+            race_type=race_type,
+            include_resolved=include_resolved,
+            include_non_front_runners=include_non_front_runners,
+            if_none_match=if_none_match,
         )
 
         req = self._build_request(
             method="GET",
-            path="/v1/predictions/search",
+            path="/v1/predictions/elections/{cycle}/states",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
             request_body_required=False,
-            request_has_path_params=False,
+            request_has_path_params=True,
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
@@ -717,7 +96,7 @@ class Markets(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="search",
+                operation_id="getElectionMap",
                 oauth2_scopes=None,
                 security_source=None,
                 tags=["Prediction Market Data"],
@@ -728,52 +107,25 @@ class Markets(BaseSDK):
             retry_config=retry_config,
         )
 
-        def next_func() -> Optional[models.SearchResponse]:
-            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
-            page = request.page if isinstance(request.page, int) else 1
-            next_page = page + 1
-
-            if not http_res.text:
-                return None
-            results = JSONPath("$.data.hits").parse(body)
-            if len(results) == 0 or len(results[0]) == 0:
-                return None
-            limit_ = request.per_page if isinstance(request.per_page, int) else 0
-            if len(results[0]) < limit_:
-                return None
-
-            return self.search(
-                type_=type_,
-                q=q,
-                state=state,
-                base_event_id=base_event_id,
-                event_id=event_id,
-                category=category,
-                tradable=tradable,
-                page=next_page,
-                per_page=per_page,
-                retries=retries,
-                server_url=server_url,
-                timeout_ms=timeout_ms,
-                http_headers=http_headers,
-            )
-
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return models.SearchResponse(
+            return models.GetElectionMapResponse(
                 object=unmarshal_json_response(
-                    Optional[models.SearchResponseBody], http_res
+                    Optional[models.GetElectionMapResponseBody], http_res
                 ),
                 http_meta=models.HTTPMetadata(request=req, response=http_res),
-                next=next_func,
             )
-        if utils.match_response(http_res, "400", "application/json"):
+        if utils.match_response(http_res, "304", "*"):
+            return models.GetElectionMapResponse(
+                http_meta=models.HTTPMetadata(request=req, response=http_res)
+            )
+        if utils.match_response(http_res, ["400", "404"], "application/json"):
             response_data = unmarshal_json_response(errors.ErrorEnvelopeData, http_res)
             response_data.http_meta = models.HTTPMetadata(
                 request=req, response=http_res
             )
             raise errors.ErrorEnvelope(response_data, http_res)
-        if utils.match_response(http_res, "502", "application/json"):
+        if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorEnvelopeData, http_res)
             response_data.http_meta = models.HTTPMetadata(
                 request=req, response=http_res
@@ -788,36 +140,32 @@ class Markets(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def search_async(
+    async def get_election_map_async(
         self,
         *,
-        type_: Optional[models.SearchType] = models.SearchType.CONTRACTS,
-        q: Optional[str] = None,
+        cycle: int,
         state: Optional[str] = None,
-        base_event_id: Optional[str] = None,
-        event_id: Optional[str] = None,
-        category: Optional[str] = None,
-        tradable: Optional[bool] = None,
-        page: Optional[int] = None,
-        per_page: Optional[int] = None,
+        office: Optional[str] = None,
+        race_type: Optional[str] = None,
+        include_resolved: Optional[bool] = True,
+        include_non_front_runners: Optional[bool] = False,
+        if_none_match: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Optional[models.SearchResponse]:
-        r"""Search contracts, events or base events
+    ) -> models.GetElectionMapResponse:
+        r"""Get every race of an election cycle with its candidates' prices
 
-        Full-text search over one index of event contracts. Filters always apply to contracts, so with type=events or type=base-events an event or base event is found through its matching contracts: one with none (for example, only DELETED contracts under the default state) is not returned. The index trails the catalogue by seconds.
+        Every Senate, House and governor race of the cycle in all 50 states, with each candidate's latest price and 24-hour change, plus the House-control, Senate-majority and balance-of-power markets, in one response. Built for an election map: poll it with `If-None-Match`.
 
-        :param type: Level hits come back at. `contracts` (default) returns matching contracts; `events` returns one hit per event and `base-events` one per base event, each ranked by its best-matching contract and carrying only its own fields and a count of matching contracts. Echoed in the response.
-        :param q: Full-text query over symbols, questions, event names and base-event specifications. Symbols split on _, - and . so `BPM 0822` finds `BPM_0822_1750`. Omit to browse, soonest last-trade date first.
-        :param state: Contract state. Omitted means ACTIVE; `*` matches every state, including DELETED.
-        :param base_event_id: Only contracts under this base event.
-        :param event_id: Only contracts under this event.
-        :param category: Only contracts in this category or any category under it. Takes a `path` from List Categories, URL-encoded. A bare level name such as `United States` matches nothing, because level names repeat under different parents.
-        :param tradable: Only tradable (true) or non-tradable (false) contracts.
-        :param page: 1-based page number; 0 or omitted means 1.
-        :param per_page: Hits per page, counting whatever type returns; 0 or omitted means 20, values above 100 are clamped to 100.
+        :param cycle: Election year. `2026` is the only cycle served.
+        :param state: Two-letter code of one of the 50 states. Returns that state only.
+        :param office: Comma-separated: `senate`, `governor`, `house`. Default: all.
+        :param race_type: Comma-separated: `general`, `special`, `primary_d`, `primary_r`, `primary_open`, `runoff`. Default: all.
+        :param include_resolved: `false` leaves out races the venue has settled.
+        :param include_non_front_runners: `true` also returns candidates the venue marks as no longer in the race (`frontRunner: false`), such as primary losers. `leader` is computed from the outcomes returned.
+        :param if_none_match: The `ETag` of a previous response. Answers `304` while the map is unchanged.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -836,26 +184,24 @@ class Markets(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.SearchRequest(
-            type=type_,
-            q=q,
+        request = models.GetElectionMapRequest(
+            cycle=cycle,
             state=state,
-            base_event_id=base_event_id,
-            event_id=event_id,
-            category=category,
-            tradable=tradable,
-            page=page,
-            per_page=per_page,
+            office=office,
+            race_type=race_type,
+            include_resolved=include_resolved,
+            include_non_front_runners=include_non_front_runners,
+            if_none_match=if_none_match,
         )
 
         req = self._build_request_async(
             method="GET",
-            path="/v1/predictions/search",
+            path="/v1/predictions/elections/{cycle}/states",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
             request_body_required=False,
-            request_has_path_params=False,
+            request_has_path_params=True,
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
@@ -880,7 +226,7 @@ class Markets(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="search",
+                operation_id="getElectionMap",
                 oauth2_scopes=None,
                 security_source=None,
                 tags=["Prediction Market Data"],
@@ -891,52 +237,25 @@ class Markets(BaseSDK):
             retry_config=retry_config,
         )
 
-        def next_func() -> Optional[models.SearchResponse]:
-            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
-            page = request.page if isinstance(request.page, int) else 1
-            next_page = page + 1
-
-            if not http_res.text:
-                return None
-            results = JSONPath("$.data.hits").parse(body)
-            if len(results) == 0 or len(results[0]) == 0:
-                return None
-            limit_ = request.per_page if isinstance(request.per_page, int) else 0
-            if len(results[0]) < limit_:
-                return None
-
-            return self.search(
-                type_=type_,
-                q=q,
-                state=state,
-                base_event_id=base_event_id,
-                event_id=event_id,
-                category=category,
-                tradable=tradable,
-                page=next_page,
-                per_page=per_page,
-                retries=retries,
-                server_url=server_url,
-                timeout_ms=timeout_ms,
-                http_headers=http_headers,
-            )
-
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return models.SearchResponse(
+            return models.GetElectionMapResponse(
                 object=unmarshal_json_response(
-                    Optional[models.SearchResponseBody], http_res
+                    Optional[models.GetElectionMapResponseBody], http_res
                 ),
                 http_meta=models.HTTPMetadata(request=req, response=http_res),
-                next=next_func,
             )
-        if utils.match_response(http_res, "400", "application/json"):
+        if utils.match_response(http_res, "304", "*"):
+            return models.GetElectionMapResponse(
+                http_meta=models.HTTPMetadata(request=req, response=http_res)
+            )
+        if utils.match_response(http_res, ["400", "404"], "application/json"):
             response_data = unmarshal_json_response(errors.ErrorEnvelopeData, http_res)
             response_data.http_meta = models.HTTPMetadata(
                 request=req, response=http_res
             )
             raise errors.ErrorEnvelope(response_data, http_res)
-        if utils.match_response(http_res, "502", "application/json"):
+        if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorEnvelopeData, http_res)
             response_data.http_meta = models.HTTPMetadata(
                 request=req, response=http_res

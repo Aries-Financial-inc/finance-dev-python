@@ -7,11 +7,15 @@ import (
 	"mockserver/internal/sdk/utils"
 )
 
-// PredMdBaseEventHit - One base event with at least one matching contract. The index carries no display name; read it through /base-events/{baseEventId}.
+// PredMdBaseEventHit - One base event with at least one matching contract. The index carries no display name; read it through /base-events/{baseEventId}. With sortBy=openInterest, ranked by its total open interest.
 type PredMdBaseEventHit struct {
 	BaseEventID string `json:"baseEventId"`
-	// Every matching contract under this hit. Read them with type=contracts and eventId or baseEventId.
-	ContractsFound int64   `json:"contractsFound"`
+	// This base event's first matching contracts in the sortBy order, up to contractsPerHit. Empty, never null. Prices are not included; stream them from /v1/predictions/stream.
+	Contracts []PredMdContractHit `json:"contracts"`
+	// Every matching contract under this hit. contracts holds the first contractsPerHit of them; read the rest with type=contracts and eventId or baseEventId.
+	ContractsFound int64 `json:"contractsFound"`
+	// Sum of open interest over all of the base event's active contracts, matching or not, as of the venue's last daily prices file. Absent when the file named none of them.
+	OpenInterest   *int64  `json:"openInterest,omitempty"`
 	UnderlyingSpec *string `json:"underlyingSpec,omitempty"`
 }
 
@@ -20,7 +24,7 @@ func (p PredMdBaseEventHit) MarshalJSON() ([]byte, error) {
 }
 
 func (p *PredMdBaseEventHit) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &p, "", false, []string{"baseEventId", "contractsFound"}); err != nil {
+	if err := utils.UnmarshalJSON(data, &p, "", false, []string{"baseEventId", "contracts", "contractsFound"}); err != nil {
 		return err
 	}
 	return nil
@@ -33,11 +37,25 @@ func (o *PredMdBaseEventHit) GetBaseEventID() string {
 	return o.BaseEventID
 }
 
+func (o *PredMdBaseEventHit) GetContracts() []PredMdContractHit {
+	if o == nil {
+		return []PredMdContractHit{}
+	}
+	return o.Contracts
+}
+
 func (o *PredMdBaseEventHit) GetContractsFound() int64 {
 	if o == nil {
 		return 0
 	}
 	return o.ContractsFound
+}
+
+func (o *PredMdBaseEventHit) GetOpenInterest() *int64 {
+	if o == nil {
+		return nil
+	}
+	return o.OpenInterest
 }
 
 func (o *PredMdBaseEventHit) GetUnderlyingSpec() *string {

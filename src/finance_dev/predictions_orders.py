@@ -11,30 +11,36 @@ from typing import Any, Mapping, Optional
 
 
 class PredictionsOrders(BaseSDK):
-    def list_prediction_orders(
+    def list_prediction_order_history(
         self,
         *,
+        account_id: str,
         status: Optional[str] = None,
-        account_id: Optional[str] = None,
+        placed_by: Optional[str] = None,
         symbol: Optional[str] = None,
         limit: Optional[int] = 50,
         cursor: Optional[str] = None,
+        from_: Optional[datetime] = None,
+        to: Optional[datetime] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListPredictionOrdersResponse:
-        r"""List prediction orders
+    ) -> models.ListPredictionOrderHistoryResponse:
+        r"""List prediction order history
 
-        **Closed beta.** Available only to accounts enrolled in the prediction-market orders closed beta. Returns the authenticated user's prediction-market orders, newest first, one page at a time.
+        **Closed beta.** Available only to accounts enrolled in the prediction-market orders closed beta. Returns every order on the account, newest first, one page at a time, optionally bounded by creation time.
 
         If set, this operation will use `client_id` from the global security.
 
+        :param account_id: The account. Every order on it is covered, whoever placed it.
         :param status: Comma-separated order states, or `open` for every state an order can still rest or execute in (`pending_new`, `new`, `partially_filled`, `unknown`). An unknown state returns `400`.
-        :param account_id: Only orders on this account.
+        :param placed_by: Only orders this user placed.
         :param symbol: Only orders on this contract symbol.
         :param limit: Orders per page. Values above 200 are clamped to 200. `0`, a negative value, or a non-integer returns `400`.
         :param cursor: `nextCursor` from the previous page.
+        :param from_: Only orders created at or after this time (RFC 3339). Not RFC 3339 returns `400` `INVALID_FROM`.
+        :param to: Only orders created before this time (RFC 3339). Not RFC 3339 returns `400` `INVALID_TO`.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -53,17 +59,20 @@ class PredictionsOrders(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.ListPredictionOrdersRequest(
+        request = models.ListPredictionOrderHistoryRequest(
             status=status,
             account_id=account_id,
+            placed_by=placed_by,
             symbol=symbol,
             limit=limit,
             cursor=cursor,
+            from_=from_,
+            to=to,
         )
 
         req = self._build_request(
             method="GET",
-            path="/v1/predictions/orders",
+            path="/v1/predictions/orders/history",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -95,7 +104,7 @@ class PredictionsOrders(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="listPredictionOrders",
+                operation_id="listPredictionOrderHistory",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
                 tags=["Prediction Orders"],
@@ -108,9 +117,9 @@ class PredictionsOrders(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return models.ListPredictionOrdersResponse(
+            return models.ListPredictionOrderHistoryResponse(
                 object=unmarshal_json_response(
-                    Optional[models.ListPredictionOrdersResponseBody], http_res
+                    Optional[models.ListPredictionOrderHistoryResponseBody], http_res
                 ),
                 http_meta=models.HTTPMetadata(request=req, response=http_res),
             )
@@ -145,30 +154,36 @@ class PredictionsOrders(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def list_prediction_orders_async(
+    async def list_prediction_order_history_async(
         self,
         *,
+        account_id: str,
         status: Optional[str] = None,
-        account_id: Optional[str] = None,
+        placed_by: Optional[str] = None,
         symbol: Optional[str] = None,
         limit: Optional[int] = 50,
         cursor: Optional[str] = None,
+        from_: Optional[datetime] = None,
+        to: Optional[datetime] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListPredictionOrdersResponse:
-        r"""List prediction orders
+    ) -> models.ListPredictionOrderHistoryResponse:
+        r"""List prediction order history
 
-        **Closed beta.** Available only to accounts enrolled in the prediction-market orders closed beta. Returns the authenticated user's prediction-market orders, newest first, one page at a time.
+        **Closed beta.** Available only to accounts enrolled in the prediction-market orders closed beta. Returns every order on the account, newest first, one page at a time, optionally bounded by creation time.
 
         If set, this operation will use `client_id` from the global security.
 
+        :param account_id: The account. Every order on it is covered, whoever placed it.
         :param status: Comma-separated order states, or `open` for every state an order can still rest or execute in (`pending_new`, `new`, `partially_filled`, `unknown`). An unknown state returns `400`.
-        :param account_id: Only orders on this account.
+        :param placed_by: Only orders this user placed.
         :param symbol: Only orders on this contract symbol.
         :param limit: Orders per page. Values above 200 are clamped to 200. `0`, a negative value, or a non-integer returns `400`.
         :param cursor: `nextCursor` from the previous page.
+        :param from_: Only orders created at or after this time (RFC 3339). Not RFC 3339 returns `400` `INVALID_FROM`.
+        :param to: Only orders created before this time (RFC 3339). Not RFC 3339 returns `400` `INVALID_TO`.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -187,17 +202,20 @@ class PredictionsOrders(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.ListPredictionOrdersRequest(
+        request = models.ListPredictionOrderHistoryRequest(
             status=status,
             account_id=account_id,
+            placed_by=placed_by,
             symbol=symbol,
             limit=limit,
             cursor=cursor,
+            from_=from_,
+            to=to,
         )
 
         req = self._build_request_async(
             method="GET",
-            path="/v1/predictions/orders",
+            path="/v1/predictions/orders/history",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -229,7 +247,7 @@ class PredictionsOrders(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="listPredictionOrders",
+                operation_id="listPredictionOrderHistory",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
                 tags=["Prediction Orders"],
@@ -242,9 +260,9 @@ class PredictionsOrders(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return models.ListPredictionOrdersResponse(
+            return models.ListPredictionOrderHistoryResponse(
                 object=unmarshal_json_response(
-                    Optional[models.ListPredictionOrdersResponseBody], http_res
+                    Optional[models.ListPredictionOrderHistoryResponseBody], http_res
                 ),
                 http_meta=models.HTTPMetadata(request=req, response=http_res),
             )
@@ -279,44 +297,26 @@ class PredictionsOrders(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def place_prediction_order(
+    def list_prediction_mass_cancels(
         self,
         *,
         account_id: str,
-        order_type: models.OrderType,
-        outcome: models.PredOrdersPlaceOrderRequestOutcome,
-        quantity: str,
-        side: models.PredOrdersPlaceOrderRequestSide,
-        symbol: str,
-        time_in_force: models.TimeInForce,
-        idempotency_key: Optional[str] = None,
-        client_order_ref: Optional[str] = None,
-        expire_time: Optional[datetime] = None,
-        price: Optional[str] = None,
-        stop_px: Optional[str] = None,
+        limit: Optional[int] = 50,
+        cursor: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.PlacePredictionOrderResponse:
-        r"""Place prediction order
+    ) -> models.ListPredictionMassCancelsResponse:
+        r"""List prediction mass cancels
 
-        **Closed beta.** Available only to accounts enrolled in the prediction-market orders closed beta. Places a prediction-market order for the authenticated user. Returns `202` as soon as the order is on its way to the venue, normally in state `pending_new`. Read the venue's answer back with Get Prediction Order.
+        **Closed beta.** Available only to accounts enrolled in the prediction-market orders closed beta. Returns the account's mass cancels, newest first, one page at a time.
 
         If set, this operation will use `client_id` from the global security.
 
-        :param account_id: The account to place the order on.
-        :param order_type:
-        :param outcome: The binary outcome the order trades. It is never inferred from `side`.
-        :param quantity: Number of contracts as an exact decimal string. Must be greater than zero.
-        :param side:
-        :param symbol: Prediction-market contract symbol, as returned by search or Get Event Contracts.
-        :param time_in_force:
-        :param idempotency_key: Makes a retry safe. A placement repeating a key you already used returns the order that key placed and places nothing new. The same key with different order terms returns `400` `INVALID_ORDER`. Without it, every request is a new order. Send it at most once.
-        :param client_order_ref: Your own reference for the order, unique per account. Reusing one returns `409` `CLIENT_ORDER_REF_IN_USE`; it is not a retry key. To retry safely, use the `Idempotency-Key` header.
-        :param expire_time: Required when `timeInForce` is `gtd`.
-        :param price: Limit price as an exact decimal string. Required for `limit` and `stop_limit`.
-        :param stop_px: Stop price as an exact decimal string. Required for `stop` and `stop_limit`.
+        :param account_id: The account. Every order on it is covered, whoever placed it.
+        :param limit: Mass cancels per page. Values above 200 are clamped to 200.
+        :param cursor: `nextCursor` from the previous page.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -335,26 +335,271 @@ class PredictionsOrders(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.PlacePredictionOrderRequest(
-            idempotency_key=idempotency_key,
-            pred_orders_place_order_request=models.PredOrdersPlaceOrderRequest(
-                account_id=account_id,
-                client_order_ref=client_order_ref,
-                expire_time=expire_time,
-                order_type=order_type,
-                outcome=outcome,
-                price=price,
-                quantity=quantity,
-                side=side,
-                stop_px=stop_px,
-                symbol=symbol,
-                time_in_force=time_in_force,
+        request = models.ListPredictionMassCancelsRequest(
+            account_id=account_id,
+            limit=limit,
+            cursor=cursor,
+        )
+
+        req = self._build_request(
+            method="GET",
+            path="/v1/predictions/orders/mass-cancels",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=False,
+            request_has_path_params=False,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            allow_empty_value=None,
+            allowed_fields=["client_id"],
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 8000, 1.5, 60000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["429", "500", "502", "503", "504"])
+
+        http_res = self.do_request(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="listPredictionMassCancels",
+                oauth2_scopes=[],
+                security_source=self.sdk_configuration.security,
+                tags=["Prediction Orders"],
+                extensions=None,
             ),
+            request=req,
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return models.ListPredictionMassCancelsResponse(
+                object=unmarshal_json_response(
+                    Optional[models.ListPredictionMassCancelsResponseBody], http_res
+                ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
+            )
+        if utils.match_response(http_res, "400", "application/json"):
+            response_data = unmarshal_json_response(
+                errors.PredOrdersErrorEnvelopeData, http_res
+            )
+            response_data.http_meta = models.HTTPMetadata(
+                request=req, response=http_res
+            )
+            raise errors.PredOrdersErrorEnvelope(response_data, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.UnauthorizedUnion, http_res)
+            response_data.http_meta = models.HTTPMetadata(
+                request=req, response=http_res
+            )
+            raise errors.Unauthorized(response_data, http_res)
+        if utils.match_response(http_res, "500", "application/json"):
+            response_data = unmarshal_json_response(
+                errors.PredOrdersErrorEnvelopeData, http_res
+            )
+            response_data.http_meta = models.HTTPMetadata(
+                request=req, response=http_res
+            )
+            raise errors.PredOrdersErrorEnvelope(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.APIError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.APIError("API error occurred", http_res, http_res_text)
+
+        raise errors.APIError("Unexpected response received", http_res)
+
+    async def list_prediction_mass_cancels_async(
+        self,
+        *,
+        account_id: str,
+        limit: Optional[int] = 50,
+        cursor: Optional[str] = None,
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> models.ListPredictionMassCancelsResponse:
+        r"""List prediction mass cancels
+
+        **Closed beta.** Available only to accounts enrolled in the prediction-market orders closed beta. Returns the account's mass cancels, newest first, one page at a time.
+
+        If set, this operation will use `client_id` from the global security.
+
+        :param account_id: The account. Every order on it is covered, whoever placed it.
+        :param limit: Mass cancels per page. Values above 200 are clamped to 200.
+        :param cursor: `nextCursor` from the previous page.
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if timeout_ms is None:
+            timeout_ms = 30000
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = models.ListPredictionMassCancelsRequest(
+            account_id=account_id,
+            limit=limit,
+            cursor=cursor,
+        )
+
+        req = self._build_request_async(
+            method="GET",
+            path="/v1/predictions/orders/mass-cancels",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=False,
+            request_has_path_params=False,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            allow_empty_value=None,
+            allowed_fields=["client_id"],
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 8000, 1.5, 60000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["429", "500", "502", "503", "504"])
+
+        http_res = await self.do_request_async(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="listPredictionMassCancels",
+                oauth2_scopes=[],
+                security_source=self.sdk_configuration.security,
+                tags=["Prediction Orders"],
+                extensions=None,
+            ),
+            request=req,
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return models.ListPredictionMassCancelsResponse(
+                object=unmarshal_json_response(
+                    Optional[models.ListPredictionMassCancelsResponseBody], http_res
+                ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
+            )
+        if utils.match_response(http_res, "400", "application/json"):
+            response_data = unmarshal_json_response(
+                errors.PredOrdersErrorEnvelopeData, http_res
+            )
+            response_data.http_meta = models.HTTPMetadata(
+                request=req, response=http_res
+            )
+            raise errors.PredOrdersErrorEnvelope(response_data, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.UnauthorizedUnion, http_res)
+            response_data.http_meta = models.HTTPMetadata(
+                request=req, response=http_res
+            )
+            raise errors.Unauthorized(response_data, http_res)
+        if utils.match_response(http_res, "500", "application/json"):
+            response_data = unmarshal_json_response(
+                errors.PredOrdersErrorEnvelopeData, http_res
+            )
+            response_data.http_meta = models.HTTPMetadata(
+                request=req, response=http_res
+            )
+            raise errors.PredOrdersErrorEnvelope(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.APIError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.APIError("API error occurred", http_res, http_res_text)
+
+        raise errors.APIError("Unexpected response received", http_res)
+
+    def mass_cancel_prediction_orders(
+        self,
+        *,
+        account_id: str,
+        outcome: Optional[models.PredOrdersMassCancelRequestOutcome] = None,
+        symbol: Optional[str] = None,
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> models.MassCancelPredictionOrdersResponse:
+        r"""Mass cancel prediction orders
+
+        **Closed beta.** Available only to accounts enrolled in the prediction-market orders closed beta. Cancels every working order on an account, or only those in one contract, in one request to the venue. Returns `202` with the request, normally `pending`. A `202` does not mean any order is canceled: each order the venue cancels arrives as an ordinary order update.
+
+        If set, this operation will use `client_id` from the global security.
+
+        :param account_id: The account whose working orders to cancel.
+        :param outcome: Cancel only this outcome's orders. Requires `symbol`.
+        :param symbol: Cancel only orders in this contract. Omit to cancel every working order on the account.
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if timeout_ms is None:
+            timeout_ms = 30000
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = models.PredOrdersMassCancelRequest(
+            account_id=account_id,
+            outcome=outcome,
+            symbol=symbol,
         )
 
         req = self._build_request(
             method="POST",
-            path="/v1/predictions/orders",
+            path="/v1/predictions/orders/mass-cancels",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -366,11 +611,7 @@ class PredictionsOrders(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.pred_orders_place_order_request,
-                False,
-                False,
-                "json",
-                models.PredOrdersPlaceOrderRequest,
+                request, False, False, "json", models.PredOrdersMassCancelRequest
             ),
             allow_empty_value=None,
             allowed_fields=["client_id"],
@@ -393,7 +634,7 @@ class PredictionsOrders(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="placePredictionOrder",
+                operation_id="massCancelPredictionOrders",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
                 tags=["Prediction Orders"],
@@ -406,9 +647,9 @@ class PredictionsOrders(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "202", "application/json"):
-            return models.PlacePredictionOrderResponse(
+            return models.MassCancelPredictionOrdersResponse(
                 object=unmarshal_json_response(
-                    Optional[models.PlacePredictionOrderResponseBody], http_res
+                    Optional[models.MassCancelPredictionOrdersResponseBody], http_res
                 ),
                 http_meta=models.HTTPMetadata(request=req, response=http_res),
             )
@@ -418,7 +659,7 @@ class PredictionsOrders(BaseSDK):
                 request=req, response=http_res
             )
             raise errors.Unauthorized(response_data, http_res)
-        if utils.match_response(http_res, ["400", "409", "429"], "application/json"):
+        if utils.match_response(http_res, ["400", "429"], "application/json"):
             response_data = unmarshal_json_response(
                 errors.PredOrdersErrorEnvelopeData, http_res
             )
@@ -443,44 +684,26 @@ class PredictionsOrders(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def place_prediction_order_async(
+    async def mass_cancel_prediction_orders_async(
         self,
         *,
         account_id: str,
-        order_type: models.OrderType,
-        outcome: models.PredOrdersPlaceOrderRequestOutcome,
-        quantity: str,
-        side: models.PredOrdersPlaceOrderRequestSide,
-        symbol: str,
-        time_in_force: models.TimeInForce,
-        idempotency_key: Optional[str] = None,
-        client_order_ref: Optional[str] = None,
-        expire_time: Optional[datetime] = None,
-        price: Optional[str] = None,
-        stop_px: Optional[str] = None,
+        outcome: Optional[models.PredOrdersMassCancelRequestOutcome] = None,
+        symbol: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.PlacePredictionOrderResponse:
-        r"""Place prediction order
+    ) -> models.MassCancelPredictionOrdersResponse:
+        r"""Mass cancel prediction orders
 
-        **Closed beta.** Available only to accounts enrolled in the prediction-market orders closed beta. Places a prediction-market order for the authenticated user. Returns `202` as soon as the order is on its way to the venue, normally in state `pending_new`. Read the venue's answer back with Get Prediction Order.
+        **Closed beta.** Available only to accounts enrolled in the prediction-market orders closed beta. Cancels every working order on an account, or only those in one contract, in one request to the venue. Returns `202` with the request, normally `pending`. A `202` does not mean any order is canceled: each order the venue cancels arrives as an ordinary order update.
 
         If set, this operation will use `client_id` from the global security.
 
-        :param account_id: The account to place the order on.
-        :param order_type:
-        :param outcome: The binary outcome the order trades. It is never inferred from `side`.
-        :param quantity: Number of contracts as an exact decimal string. Must be greater than zero.
-        :param side:
-        :param symbol: Prediction-market contract symbol, as returned by search or Get Event Contracts.
-        :param time_in_force:
-        :param idempotency_key: Makes a retry safe. A placement repeating a key you already used returns the order that key placed and places nothing new. The same key with different order terms returns `400` `INVALID_ORDER`. Without it, every request is a new order. Send it at most once.
-        :param client_order_ref: Your own reference for the order, unique per account. Reusing one returns `409` `CLIENT_ORDER_REF_IN_USE`; it is not a retry key. To retry safely, use the `Idempotency-Key` header.
-        :param expire_time: Required when `timeInForce` is `gtd`.
-        :param price: Limit price as an exact decimal string. Required for `limit` and `stop_limit`.
-        :param stop_px: Stop price as an exact decimal string. Required for `stop` and `stop_limit`.
+        :param account_id: The account whose working orders to cancel.
+        :param outcome: Cancel only this outcome's orders. Requires `symbol`.
+        :param symbol: Cancel only orders in this contract. Omit to cancel every working order on the account.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -499,26 +722,15 @@ class PredictionsOrders(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.PlacePredictionOrderRequest(
-            idempotency_key=idempotency_key,
-            pred_orders_place_order_request=models.PredOrdersPlaceOrderRequest(
-                account_id=account_id,
-                client_order_ref=client_order_ref,
-                expire_time=expire_time,
-                order_type=order_type,
-                outcome=outcome,
-                price=price,
-                quantity=quantity,
-                side=side,
-                stop_px=stop_px,
-                symbol=symbol,
-                time_in_force=time_in_force,
-            ),
+        request = models.PredOrdersMassCancelRequest(
+            account_id=account_id,
+            outcome=outcome,
+            symbol=symbol,
         )
 
         req = self._build_request_async(
             method="POST",
-            path="/v1/predictions/orders",
+            path="/v1/predictions/orders/mass-cancels",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -530,11 +742,7 @@ class PredictionsOrders(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.pred_orders_place_order_request,
-                False,
-                False,
-                "json",
-                models.PredOrdersPlaceOrderRequest,
+                request, False, False, "json", models.PredOrdersMassCancelRequest
             ),
             allow_empty_value=None,
             allowed_fields=["client_id"],
@@ -557,7 +765,7 @@ class PredictionsOrders(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="placePredictionOrder",
+                operation_id="massCancelPredictionOrders",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
                 tags=["Prediction Orders"],
@@ -570,9 +778,9 @@ class PredictionsOrders(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "202", "application/json"):
-            return models.PlacePredictionOrderResponse(
+            return models.MassCancelPredictionOrdersResponse(
                 object=unmarshal_json_response(
-                    Optional[models.PlacePredictionOrderResponseBody], http_res
+                    Optional[models.MassCancelPredictionOrdersResponseBody], http_res
                 ),
                 http_meta=models.HTTPMetadata(request=req, response=http_res),
             )
@@ -582,7 +790,7 @@ class PredictionsOrders(BaseSDK):
                 request=req, response=http_res
             )
             raise errors.Unauthorized(response_data, http_res)
-        if utils.match_response(http_res, ["400", "409", "429"], "application/json"):
+        if utils.match_response(http_res, ["400", "429"], "application/json"):
             response_data = unmarshal_json_response(
                 errors.PredOrdersErrorEnvelopeData, http_res
             )
@@ -607,22 +815,24 @@ class PredictionsOrders(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_prediction_order(
+    def get_prediction_mass_cancel(
         self,
         *,
-        order_id: str,
+        mass_cancel_id: str,
+        account_id: str,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetPredictionOrderResponse:
-        r"""Get prediction order
+    ) -> models.GetPredictionMassCancelResponse:
+        r"""Get prediction mass cancel
 
-        **Closed beta.** Available only to accounts enrolled in the prediction-market orders closed beta. Returns one of the authenticated user's prediction-market orders together with every venue execution report against it.
+        **Closed beta.** Available only to accounts enrolled in the prediction-market orders closed beta. Returns one mass cancel and the venue's answer to it. The orders it canceled carry its `massCancelId` in their events.
 
         If set, this operation will use `client_id` from the global security.
 
-        :param order_id: `orderId` returned by Place Prediction Order or List Prediction Orders.
+        :param mass_cancel_id:
+        :param account_id: The account the mass cancel was sent for.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -641,13 +851,14 @@ class PredictionsOrders(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.GetPredictionOrderRequest(
-            order_id=order_id,
+        request = models.GetPredictionMassCancelRequest(
+            mass_cancel_id=mass_cancel_id,
+            account_id=account_id,
         )
 
         req = self._build_request(
             method="GET",
-            path="/v1/predictions/orders/{orderId}",
+            path="/v1/predictions/orders/mass-cancels/{massCancelId}",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -679,7 +890,7 @@ class PredictionsOrders(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="getPredictionOrder",
+                operation_id="getPredictionMassCancel",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
                 tags=["Prediction Orders"],
@@ -692,9 +903,9 @@ class PredictionsOrders(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return models.GetPredictionOrderResponse(
+            return models.GetPredictionMassCancelResponse(
                 object=unmarshal_json_response(
-                    Optional[models.GetPredictionOrderResponseBody], http_res
+                    Optional[models.GetPredictionMassCancelResponseBody], http_res
                 ),
                 http_meta=models.HTTPMetadata(request=req, response=http_res),
             )
@@ -704,7 +915,7 @@ class PredictionsOrders(BaseSDK):
                 request=req, response=http_res
             )
             raise errors.Unauthorized(response_data, http_res)
-        if utils.match_response(http_res, "404", "application/json"):
+        if utils.match_response(http_res, ["400", "404"], "application/json"):
             response_data = unmarshal_json_response(
                 errors.PredOrdersErrorEnvelopeData, http_res
             )
@@ -729,22 +940,24 @@ class PredictionsOrders(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_prediction_order_async(
+    async def get_prediction_mass_cancel_async(
         self,
         *,
-        order_id: str,
+        mass_cancel_id: str,
+        account_id: str,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetPredictionOrderResponse:
-        r"""Get prediction order
+    ) -> models.GetPredictionMassCancelResponse:
+        r"""Get prediction mass cancel
 
-        **Closed beta.** Available only to accounts enrolled in the prediction-market orders closed beta. Returns one of the authenticated user's prediction-market orders together with every venue execution report against it.
+        **Closed beta.** Available only to accounts enrolled in the prediction-market orders closed beta. Returns one mass cancel and the venue's answer to it. The orders it canceled carry its `massCancelId` in their events.
 
         If set, this operation will use `client_id` from the global security.
 
-        :param order_id: `orderId` returned by Place Prediction Order or List Prediction Orders.
+        :param mass_cancel_id:
+        :param account_id: The account the mass cancel was sent for.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -763,13 +976,14 @@ class PredictionsOrders(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.GetPredictionOrderRequest(
-            order_id=order_id,
+        request = models.GetPredictionMassCancelRequest(
+            mass_cancel_id=mass_cancel_id,
+            account_id=account_id,
         )
 
         req = self._build_request_async(
             method="GET",
-            path="/v1/predictions/orders/{orderId}",
+            path="/v1/predictions/orders/mass-cancels/{massCancelId}",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -801,7 +1015,7 @@ class PredictionsOrders(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="getPredictionOrder",
+                operation_id="getPredictionMassCancel",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
                 tags=["Prediction Orders"],
@@ -814,9 +1028,9 @@ class PredictionsOrders(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return models.GetPredictionOrderResponse(
+            return models.GetPredictionMassCancelResponse(
                 object=unmarshal_json_response(
-                    Optional[models.GetPredictionOrderResponseBody], http_res
+                    Optional[models.GetPredictionMassCancelResponseBody], http_res
                 ),
                 http_meta=models.HTTPMetadata(request=req, response=http_res),
             )
@@ -826,7 +1040,7 @@ class PredictionsOrders(BaseSDK):
                 request=req, response=http_res
             )
             raise errors.Unauthorized(response_data, http_res)
-        if utils.match_response(http_res, "404", "application/json"):
+        if utils.match_response(http_res, ["400", "404"], "application/json"):
             response_data = unmarshal_json_response(
                 errors.PredOrdersErrorEnvelopeData, http_res
             )
@@ -835,6 +1049,580 @@ class PredictionsOrders(BaseSDK):
             )
             raise errors.PredOrdersErrorEnvelope(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
+            response_data = unmarshal_json_response(
+                errors.PredOrdersErrorEnvelopeData, http_res
+            )
+            response_data.http_meta = models.HTTPMetadata(
+                request=req, response=http_res
+            )
+            raise errors.PredOrdersErrorEnvelope(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.APIError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.APIError("API error occurred", http_res, http_res_text)
+
+        raise errors.APIError("Unexpected response received", http_res)
+
+    def replace_prediction_order(
+        self,
+        *,
+        order_id: str,
+        account_id: str,
+        expire_time: Optional[datetime] = None,
+        price: Optional[str] = None,
+        quantity: Optional[str] = None,
+        stop_px: Optional[str] = None,
+        time_in_force: Optional[models.PredOrdersReplaceOrderRequestTimeInForce] = None,
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> models.ReplacePredictionOrderResponse:
+        r"""Replace prediction order
+
+        **Closed beta.** Available only to accounts enrolled in the prediction-market orders closed beta. Amends a working order's terms. Returns `202` with the order and its amend outstanding (`pendingAction` `replace`). The order keeps its working terms until the venue confirms; if the venue refuses, they stay as they were and the reason is on the order.
+
+        If set, this operation will use `client_id` from the global security.
+
+        :param order_id: `orderId` returned by Place Prediction Order or List Prediction Orders.
+        :param account_id: The account the order is on.
+        :param expire_time: New expiry, for `gtd` orders.
+        :param price: New limit price as an exact decimal string.
+        :param quantity: New total quantity as an exact decimal string. Must be greater than zero.
+        :param stop_px: New stop price as an exact decimal string, for an order that has not triggered.
+        :param time_in_force:
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if timeout_ms is None:
+            timeout_ms = 30000
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = models.ReplacePredictionOrderRequest(
+            order_id=order_id,
+            pred_orders_replace_order_request=models.PredOrdersReplaceOrderRequest(
+                account_id=account_id,
+                expire_time=expire_time,
+                price=price,
+                quantity=quantity,
+                stop_px=stop_px,
+                time_in_force=time_in_force,
+            ),
+        )
+
+        req = self._build_request(
+            method="PATCH",
+            path="/v1/predictions/orders/{orderId}",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=True,
+            request_has_path_params=True,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request.pred_orders_replace_order_request,
+                False,
+                False,
+                "json",
+                models.PredOrdersReplaceOrderRequest,
+            ),
+            allow_empty_value=None,
+            allowed_fields=["client_id"],
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 8000, 1.5, 60000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["429", "500", "502", "503", "504"])
+
+        http_res = self.do_request(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="replacePredictionOrder",
+                oauth2_scopes=[],
+                security_source=self.sdk_configuration.security,
+                tags=["Prediction Orders"],
+                extensions=None,
+            ),
+            request=req,
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "202", "application/json"):
+            return models.ReplacePredictionOrderResponse(
+                object=unmarshal_json_response(
+                    Optional[models.ReplacePredictionOrderResponseBody], http_res
+                ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
+            )
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.UnauthorizedUnion, http_res)
+            response_data.http_meta = models.HTTPMetadata(
+                request=req, response=http_res
+            )
+            raise errors.Unauthorized(response_data, http_res)
+        if utils.match_response(
+            http_res, ["400", "404", "409", "429"], "application/json"
+        ):
+            response_data = unmarshal_json_response(
+                errors.PredOrdersErrorEnvelopeData, http_res
+            )
+            response_data.http_meta = models.HTTPMetadata(
+                request=req, response=http_res
+            )
+            raise errors.PredOrdersErrorEnvelope(response_data, http_res)
+        if utils.match_response(http_res, ["500", "503", "504"], "application/json"):
+            response_data = unmarshal_json_response(
+                errors.PredOrdersErrorEnvelopeData, http_res
+            )
+            response_data.http_meta = models.HTTPMetadata(
+                request=req, response=http_res
+            )
+            raise errors.PredOrdersErrorEnvelope(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.APIError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.APIError("API error occurred", http_res, http_res_text)
+
+        raise errors.APIError("Unexpected response received", http_res)
+
+    async def replace_prediction_order_async(
+        self,
+        *,
+        order_id: str,
+        account_id: str,
+        expire_time: Optional[datetime] = None,
+        price: Optional[str] = None,
+        quantity: Optional[str] = None,
+        stop_px: Optional[str] = None,
+        time_in_force: Optional[models.PredOrdersReplaceOrderRequestTimeInForce] = None,
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> models.ReplacePredictionOrderResponse:
+        r"""Replace prediction order
+
+        **Closed beta.** Available only to accounts enrolled in the prediction-market orders closed beta. Amends a working order's terms. Returns `202` with the order and its amend outstanding (`pendingAction` `replace`). The order keeps its working terms until the venue confirms; if the venue refuses, they stay as they were and the reason is on the order.
+
+        If set, this operation will use `client_id` from the global security.
+
+        :param order_id: `orderId` returned by Place Prediction Order or List Prediction Orders.
+        :param account_id: The account the order is on.
+        :param expire_time: New expiry, for `gtd` orders.
+        :param price: New limit price as an exact decimal string.
+        :param quantity: New total quantity as an exact decimal string. Must be greater than zero.
+        :param stop_px: New stop price as an exact decimal string, for an order that has not triggered.
+        :param time_in_force:
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if timeout_ms is None:
+            timeout_ms = 30000
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = models.ReplacePredictionOrderRequest(
+            order_id=order_id,
+            pred_orders_replace_order_request=models.PredOrdersReplaceOrderRequest(
+                account_id=account_id,
+                expire_time=expire_time,
+                price=price,
+                quantity=quantity,
+                stop_px=stop_px,
+                time_in_force=time_in_force,
+            ),
+        )
+
+        req = self._build_request_async(
+            method="PATCH",
+            path="/v1/predictions/orders/{orderId}",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=True,
+            request_has_path_params=True,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request.pred_orders_replace_order_request,
+                False,
+                False,
+                "json",
+                models.PredOrdersReplaceOrderRequest,
+            ),
+            allow_empty_value=None,
+            allowed_fields=["client_id"],
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 8000, 1.5, 60000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["429", "500", "502", "503", "504"])
+
+        http_res = await self.do_request_async(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="replacePredictionOrder",
+                oauth2_scopes=[],
+                security_source=self.sdk_configuration.security,
+                tags=["Prediction Orders"],
+                extensions=None,
+            ),
+            request=req,
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "202", "application/json"):
+            return models.ReplacePredictionOrderResponse(
+                object=unmarshal_json_response(
+                    Optional[models.ReplacePredictionOrderResponseBody], http_res
+                ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
+            )
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.UnauthorizedUnion, http_res)
+            response_data.http_meta = models.HTTPMetadata(
+                request=req, response=http_res
+            )
+            raise errors.Unauthorized(response_data, http_res)
+        if utils.match_response(
+            http_res, ["400", "404", "409", "429"], "application/json"
+        ):
+            response_data = unmarshal_json_response(
+                errors.PredOrdersErrorEnvelopeData, http_res
+            )
+            response_data.http_meta = models.HTTPMetadata(
+                request=req, response=http_res
+            )
+            raise errors.PredOrdersErrorEnvelope(response_data, http_res)
+        if utils.match_response(http_res, ["500", "503", "504"], "application/json"):
+            response_data = unmarshal_json_response(
+                errors.PredOrdersErrorEnvelopeData, http_res
+            )
+            response_data.http_meta = models.HTTPMetadata(
+                request=req, response=http_res
+            )
+            raise errors.PredOrdersErrorEnvelope(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.APIError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.APIError("API error occurred", http_res, http_res_text)
+
+        raise errors.APIError("Unexpected response received", http_res)
+
+    def cancel_prediction_order(
+        self,
+        *,
+        order_id: str,
+        account_id: str,
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> models.CancelPredictionOrderResponse:
+        r"""Cancel prediction order
+
+        **Closed beta.** Available only to accounts enrolled in the prediction-market orders closed beta. Cancels a working order in full; the venue has no partial cancel. Returns `202` with the order and its cancel outstanding (`pendingAction` `cancel`). Whether the venue canceled it arrives as an order update.
+
+        If set, this operation will use `client_id` from the global security.
+
+        :param order_id: `orderId` returned by Place Prediction Order or List Prediction Orders.
+        :param account_id: The account the order is on. Requests act on the account; you are recorded as who asked.
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if timeout_ms is None:
+            timeout_ms = 30000
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = models.CancelPredictionOrderRequest(
+            order_id=order_id,
+            pred_orders_cancel_order_request=models.PredOrdersCancelOrderRequest(
+                account_id=account_id,
+            ),
+        )
+
+        req = self._build_request(
+            method="POST",
+            path="/v1/predictions/orders/{orderId}/cancel",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=True,
+            request_has_path_params=True,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request.pred_orders_cancel_order_request,
+                False,
+                False,
+                "json",
+                models.PredOrdersCancelOrderRequest,
+            ),
+            allow_empty_value=None,
+            allowed_fields=["client_id"],
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 8000, 1.5, 60000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["429", "500", "502", "503", "504"])
+
+        http_res = self.do_request(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="cancelPredictionOrder",
+                oauth2_scopes=[],
+                security_source=self.sdk_configuration.security,
+                tags=["Prediction Orders"],
+                extensions=None,
+            ),
+            request=req,
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "202", "application/json"):
+            return models.CancelPredictionOrderResponse(
+                object=unmarshal_json_response(
+                    Optional[models.CancelPredictionOrderResponseBody], http_res
+                ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
+            )
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.UnauthorizedUnion, http_res)
+            response_data.http_meta = models.HTTPMetadata(
+                request=req, response=http_res
+            )
+            raise errors.Unauthorized(response_data, http_res)
+        if utils.match_response(
+            http_res, ["400", "404", "409", "429"], "application/json"
+        ):
+            response_data = unmarshal_json_response(
+                errors.PredOrdersErrorEnvelopeData, http_res
+            )
+            response_data.http_meta = models.HTTPMetadata(
+                request=req, response=http_res
+            )
+            raise errors.PredOrdersErrorEnvelope(response_data, http_res)
+        if utils.match_response(http_res, ["500", "503", "504"], "application/json"):
+            response_data = unmarshal_json_response(
+                errors.PredOrdersErrorEnvelopeData, http_res
+            )
+            response_data.http_meta = models.HTTPMetadata(
+                request=req, response=http_res
+            )
+            raise errors.PredOrdersErrorEnvelope(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.APIError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.APIError("API error occurred", http_res, http_res_text)
+
+        raise errors.APIError("Unexpected response received", http_res)
+
+    async def cancel_prediction_order_async(
+        self,
+        *,
+        order_id: str,
+        account_id: str,
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> models.CancelPredictionOrderResponse:
+        r"""Cancel prediction order
+
+        **Closed beta.** Available only to accounts enrolled in the prediction-market orders closed beta. Cancels a working order in full; the venue has no partial cancel. Returns `202` with the order and its cancel outstanding (`pendingAction` `cancel`). Whether the venue canceled it arrives as an order update.
+
+        If set, this operation will use `client_id` from the global security.
+
+        :param order_id: `orderId` returned by Place Prediction Order or List Prediction Orders.
+        :param account_id: The account the order is on. Requests act on the account; you are recorded as who asked.
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if timeout_ms is None:
+            timeout_ms = 30000
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = models.CancelPredictionOrderRequest(
+            order_id=order_id,
+            pred_orders_cancel_order_request=models.PredOrdersCancelOrderRequest(
+                account_id=account_id,
+            ),
+        )
+
+        req = self._build_request_async(
+            method="POST",
+            path="/v1/predictions/orders/{orderId}/cancel",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=True,
+            request_has_path_params=True,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request.pred_orders_cancel_order_request,
+                False,
+                False,
+                "json",
+                models.PredOrdersCancelOrderRequest,
+            ),
+            allow_empty_value=None,
+            allowed_fields=["client_id"],
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 8000, 1.5, 60000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["429", "500", "502", "503", "504"])
+
+        http_res = await self.do_request_async(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="cancelPredictionOrder",
+                oauth2_scopes=[],
+                security_source=self.sdk_configuration.security,
+                tags=["Prediction Orders"],
+                extensions=None,
+            ),
+            request=req,
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "202", "application/json"):
+            return models.CancelPredictionOrderResponse(
+                object=unmarshal_json_response(
+                    Optional[models.CancelPredictionOrderResponseBody], http_res
+                ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
+            )
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.UnauthorizedUnion, http_res)
+            response_data.http_meta = models.HTTPMetadata(
+                request=req, response=http_res
+            )
+            raise errors.Unauthorized(response_data, http_res)
+        if utils.match_response(
+            http_res, ["400", "404", "409", "429"], "application/json"
+        ):
+            response_data = unmarshal_json_response(
+                errors.PredOrdersErrorEnvelopeData, http_res
+            )
+            response_data.http_meta = models.HTTPMetadata(
+                request=req, response=http_res
+            )
+            raise errors.PredOrdersErrorEnvelope(response_data, http_res)
+        if utils.match_response(http_res, ["500", "503", "504"], "application/json"):
             response_data = unmarshal_json_response(
                 errors.PredOrdersErrorEnvelopeData, http_res
             )

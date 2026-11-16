@@ -2,19 +2,12 @@
 # @generated-id: ced83a40a9ad
 
 from __future__ import annotations
-from enum import Enum
-from finance_dev import models, utils
+from .instrumenttype import InstrumentType
+from finance_dev import models
 from finance_dev.types import BaseModel, UNSET_SENTINEL
 from pydantic import field_serializer, model_serializer
 from typing import Optional
 from typing_extensions import NotRequired, TypedDict
-
-
-class SearchSymbolResponseItemType(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Instrument class returned by symbol search."""
-
-    STOCK = "stock"
-    OPTION = "option"
 
 
 class SearchSymbolResponseItemTypedDict(TypedDict):
@@ -26,7 +19,7 @@ class SearchSymbolResponseItemTypedDict(TypedDict):
     r"""Symbol value to pass into quote, chart, research, or order endpoints. Use the exact case returned here."""
     tag: NotRequired[str]
     r"""Exchange or source tag, such as `XNAS` for Nasdaq or `OPRA` for options. Use it for display or filtering when multiple instruments share similar symbols."""
-    type: NotRequired[SearchSymbolResponseItemType]
+    type: NotRequired[InstrumentType]
     r"""Instrument class returned by symbol search."""
 
 
@@ -42,14 +35,14 @@ class SearchSymbolResponseItem(BaseModel):
     tag: Optional[str] = None
     r"""Exchange or source tag, such as `XNAS` for Nasdaq or `OPRA` for options. Use it for display or filtering when multiple instruments share similar symbols."""
 
-    type: Optional[SearchSymbolResponseItemType] = None
+    type: Optional[InstrumentType] = None
     r"""Instrument class returned by symbol search."""
 
     @field_serializer("type")
     def serialize_type(self, value):
         if isinstance(value, str):
             try:
-                return models.SearchSymbolResponseItemType(value)
+                return models.InstrumentType(value)
             except ValueError:
                 return value
         return value

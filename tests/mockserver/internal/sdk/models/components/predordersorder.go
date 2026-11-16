@@ -22,6 +22,119 @@ func (e Certainty) ToPointer() *Certainty {
 	return &e
 }
 
+// ResultOutcome - The winning outcome, when `settlementValue` is `1` or `0`. Only when `SETTLED`.
+type ResultOutcome string
+
+const (
+	ResultOutcomeYes ResultOutcome = "YES"
+	ResultOutcomeNo  ResultOutcome = "NO"
+)
+
+func (e ResultOutcome) ToPointer() *ResultOutcome {
+	return &e
+}
+
+// ContractState - `ACTIVE` while it trades, `CLOSED` once trading has ended and the result is not yet known, `SETTLED` once it is, and `DELETED` if the venue withdrew it. `CLOSED` and `SETTLED` are never left.
+type ContractState string
+
+const (
+	ContractStateActive  ContractState = "ACTIVE"
+	ContractStateClosed  ContractState = "CLOSED"
+	ContractStateSettled ContractState = "SETTLED"
+	ContractStateDeleted ContractState = "DELETED"
+)
+
+func (e ContractState) ToPointer() *ContractState {
+	return &e
+}
+
+// Contract - The contract's event, label, question and lifecycle. `null` when the event catalogue does not know `symbol`, or cannot be read; it never fails the request.
+type Contract struct {
+	// The contract's short readable label: its display name, else the venue's strike description, else its strike.
+	Description string `json:"description"`
+	// The event's readable title, for cards and position details.
+	EventDisplayName string `json:"eventDisplayName"`
+	// The event the contract belongs to, for navigation and grouping.
+	EventID string `json:"eventId"`
+	// The contract's full question.
+	Question string `json:"question"`
+	// The winning outcome, when `settlementValue` is `1` or `0`. Only when `SETTLED`.
+	ResultOutcome *ResultOutcome `json:"resultOutcome,omitempty"`
+	// When the contract settled. Only when `SETTLED`.
+	SettledAt *time.Time `json:"settledAt,omitempty"`
+	// What one YES contract pays, from 0 to 1, as an exact decimal string. One NO pays 1 less it. Only when `SETTLED`.
+	SettlementValue *string `json:"settlementValue,omitempty"`
+	// `ACTIVE` while it trades, `CLOSED` once trading has ended and the result is not yet known, `SETTLED` once it is, and `DELETED` if the venue withdrew it. `CLOSED` and `SETTLED` are never left.
+	State ContractState `json:"state"`
+}
+
+func (c Contract) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(c, "", false)
+}
+
+func (c *Contract) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &c, "", false, []string{"description", "eventDisplayName", "eventId", "question", "state"}); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (o *Contract) GetDescription() string {
+	if o == nil {
+		return ""
+	}
+	return o.Description
+}
+
+func (o *Contract) GetEventDisplayName() string {
+	if o == nil {
+		return ""
+	}
+	return o.EventDisplayName
+}
+
+func (o *Contract) GetEventID() string {
+	if o == nil {
+		return ""
+	}
+	return o.EventID
+}
+
+func (o *Contract) GetQuestion() string {
+	if o == nil {
+		return ""
+	}
+	return o.Question
+}
+
+func (o *Contract) GetResultOutcome() *ResultOutcome {
+	if o == nil {
+		return nil
+	}
+	return o.ResultOutcome
+}
+
+func (o *Contract) GetSettledAt() *time.Time {
+	if o == nil {
+		return nil
+	}
+	return o.SettledAt
+}
+
+func (o *Contract) GetSettlementValue() *string {
+	if o == nil {
+		return nil
+	}
+	return o.SettlementValue
+}
+
+func (o *Contract) GetState() ContractState {
+	if o == nil {
+		return ContractState("")
+	}
+	return o.State
+}
+
 type PredOrdersOrderOutcome string
 
 const (
@@ -76,7 +189,9 @@ type PredOrdersOrder struct {
 	ClOrdID        *string    `json:"clOrdId,omitempty"`
 	ClientOrderRef *string    `json:"clientOrderRef,omitempty"`
 	ClosedAt       *time.Time `json:"closedAt,omitempty"`
-	CreatedAt      time.Time  `json:"createdAt"`
+	// The contract's event, label, question and lifecycle. `null` when the event catalogue does not know `symbol`, or cannot be read; it never fails the request.
+	Contract  *Contract `json:"contract"`
+	CreatedAt time.Time `json:"createdAt"`
 	// Quantity filled so far. Exact decimal as a string.
 	CumQty     string     `json:"cumQty"`
 	ExpireTime *time.Time `json:"expireTime,omitempty"`
@@ -88,6 +203,8 @@ type PredOrdersOrder struct {
 	OrderType     string                 `json:"orderType"`
 	Outcome       PredOrdersOrderOutcome `json:"outcome"`
 	PendingAction *PendingAction         `json:"pendingAction,omitempty"`
+	// The user who placed the order.
+	PlacedBy *string `json:"placedBy,omitempty"`
 	// Exact decimal as a string.
 	Price *string `json:"price,omitempty"`
 	// Exact decimal as a string.
@@ -105,7 +222,9 @@ type PredOrdersOrder struct {
 	TimeInForce string    `json:"timeInForce"`
 	UpdatedAt   time.Time `json:"updatedAt"`
 	// Assigned by the venue on acknowledgement.
-	VenueOrderID     *string `json:"venueOrderId,omitempty"`
+	VenueOrderID *string `json:"venueOrderId,omitempty"`
+	// Rises with every change to the order. On the order stream, keep the highest version seen per orderId and ignore anything at or below it.
+	Version          *int64  `json:"version,omitempty"`
 	WorkingOrderType *string `json:"workingOrderType,omitempty"`
 	// Exact decimal as a string.
 	WorkingPrice *string `json:"workingPrice,omitempty"`
@@ -118,7 +237,7 @@ func (p PredOrdersOrder) MarshalJSON() ([]byte, error) {
 }
 
 func (p *PredOrdersOrder) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &p, "", false, []string{"accountId", "avgPx", "createdAt", "cumQty", "leavesQty", "orderId", "orderType", "outcome", "quantity", "side", "state", "symbol", "timeInForce", "updatedAt", "workingQuantity"}); err != nil {
+	if err := utils.UnmarshalJSON(data, &p, "", false, []string{"accountId", "avgPx", "contract", "createdAt", "cumQty", "leavesQty", "orderId", "orderType", "outcome", "quantity", "side", "state", "symbol", "timeInForce", "updatedAt", "workingQuantity"}); err != nil {
 		return err
 	}
 	return nil
@@ -171,6 +290,13 @@ func (o *PredOrdersOrder) GetClosedAt() *time.Time {
 		return nil
 	}
 	return o.ClosedAt
+}
+
+func (o *PredOrdersOrder) GetContract() *Contract {
+	if o == nil {
+		return nil
+	}
+	return o.Contract
 }
 
 func (o *PredOrdersOrder) GetCreatedAt() time.Time {
@@ -234,6 +360,13 @@ func (o *PredOrdersOrder) GetPendingAction() *PendingAction {
 		return nil
 	}
 	return o.PendingAction
+}
+
+func (o *PredOrdersOrder) GetPlacedBy() *string {
+	if o == nil {
+		return nil
+	}
+	return o.PlacedBy
 }
 
 func (o *PredOrdersOrder) GetPrice() *string {
@@ -318,6 +451,13 @@ func (o *PredOrdersOrder) GetVenueOrderID() *string {
 		return nil
 	}
 	return o.VenueOrderID
+}
+
+func (o *PredOrdersOrder) GetVersion() *int64 {
+	if o == nil {
+		return nil
+	}
+	return o.Version
 }
 
 func (o *PredOrdersOrder) GetWorkingOrderType() *string {

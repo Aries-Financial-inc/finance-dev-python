@@ -13,10 +13,12 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class ListPredictionOrdersRequestTypedDict(TypedDict):
+    account_id: str
+    r"""The account. Every order on it is covered, whoever placed it."""
     status: NotRequired[str]
     r"""Comma-separated order states, or `open` for every state an order can still rest or execute in (`pending_new`, `new`, `partially_filled`, `unknown`). An unknown state returns `400`."""
-    account_id: NotRequired[str]
-    r"""Only orders on this account."""
+    placed_by: NotRequired[str]
+    r"""Only orders this user placed."""
     symbol: NotRequired[str]
     r"""Only orders on this contract symbol."""
     limit: NotRequired[int]
@@ -26,18 +28,25 @@ class ListPredictionOrdersRequestTypedDict(TypedDict):
 
 
 class ListPredictionOrdersRequest(BaseModel):
+    account_id: Annotated[
+        str,
+        pydantic.Field(alias="accountId"),
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ]
+    r"""The account. Every order on it is covered, whoever placed it."""
+
     status: Annotated[
         Optional[str],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
     r"""Comma-separated order states, or `open` for every state an order can still rest or execute in (`pending_new`, `new`, `partially_filled`, `unknown`). An unknown state returns `400`."""
 
-    account_id: Annotated[
+    placed_by: Annotated[
         Optional[str],
-        pydantic.Field(alias="accountId"),
+        pydantic.Field(alias="placedBy"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Only orders on this account."""
+    r"""Only orders this user placed."""
 
     symbol: Annotated[
         Optional[str],
@@ -59,7 +68,7 @@ class ListPredictionOrdersRequest(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["status", "accountId", "symbol", "limit", "cursor"])
+        optional_fields = set(["status", "placedBy", "symbol", "limit", "cursor"])
         serialized = handler(self)
         m = {}
 

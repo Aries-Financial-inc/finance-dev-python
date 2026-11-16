@@ -10,19 +10,88 @@ import (
 	"time"
 )
 
+// PredMdContractParty - The candidate's party from the venue: `D` Democratic, `R` Republican, `I` independent, `O` any other. `null` on a contract that is not a candidate.
+type PredMdContractParty string
+
+const (
+	PredMdContractPartyD PredMdContractParty = "D"
+	PredMdContractPartyR PredMdContractParty = "R"
+	PredMdContractPartyI PredMdContractParty = "I"
+	PredMdContractPartyO PredMdContractParty = "O"
+)
+
+func (e PredMdContractParty) ToPointer() *PredMdContractParty {
+	return &e
+}
+
+// PredMdContractPhoto - The candidate's portrait, for an election contract that has one. `null` for every other contract.
+type PredMdContractPhoto struct {
+	Credit     string  `json:"credit"`
+	License    string  `json:"license"`
+	LicenseURL *string `json:"licenseUrl"`
+	SourceURL  string  `json:"sourceUrl"`
+	// 256×256 webp.
+	URL string `json:"url"`
+}
+
+func (o *PredMdContractPhoto) GetCredit() string {
+	if o == nil {
+		return ""
+	}
+	return o.Credit
+}
+
+func (o *PredMdContractPhoto) GetLicense() string {
+	if o == nil {
+		return ""
+	}
+	return o.License
+}
+
+func (o *PredMdContractPhoto) GetLicenseURL() *string {
+	if o == nil {
+		return nil
+	}
+	return o.LicenseURL
+}
+
+func (o *PredMdContractPhoto) GetSourceURL() string {
+	if o == nil {
+		return ""
+	}
+	return o.SourceURL
+}
+
+func (o *PredMdContractPhoto) GetURL() string {
+	if o == nil {
+		return ""
+	}
+	return o.URL
+}
+
 // PredMdContract - A single tradable event contract at a specific strike.
 type PredMdContract struct {
-	BaseCurrency   *string                                      `json:"baseCurrency,omitempty"`
-	BaseEventID    string                                       `json:"baseEventId"`
-	Description    *string                                      `json:"description,omitempty"`
-	EvaluationType *string                                      `json:"evaluationType,omitempty"`
-	EventID        string                                       `json:"eventId"`
-	ExpirationDate optionalnullable.OptionalNullable[time.Time] `json:"expirationDate,omitempty"`
-	LastSyncedAt   time.Time                                    `json:"lastSyncedAt"`
-	LastTradeDate  optionalnullable.OptionalNullable[time.Time] `json:"lastTradeDate,omitempty"`
-	MinTradeQty    *string                                      `json:"minTradeQty,omitempty"`
-	Multiplier     *int64                                       `json:"multiplier,omitempty"`
-	NonTradable    bool                                         `json:"nonTradable"`
+	BaseCurrency *string `json:"baseCurrency,omitempty"`
+	BaseEventID  string  `json:"baseEventId"`
+	// FEC-style status from the venue: `I` incumbent, `C` challenger, `O` open seat, `N` not running. `null` on a contract that is not a candidate.
+	CandidateStatus *string                                      `json:"candidateStatus"`
+	Description     *string                                      `json:"description,omitempty"`
+	EvaluationType  *string                                      `json:"evaluationType,omitempty"`
+	EventID         string                                       `json:"eventId"`
+	ExpirationDate  optionalnullable.OptionalNullable[time.Time] `json:"expirationDate,omitempty"`
+	// `true` for a nominee, a candidate who advanced, or a significant independent; `false` for one no longer in the race, such as a primary loser. `null` on a contract that is not a candidate.
+	FrontRunner *bool `json:"frontRunner"`
+	// Whether the candidate holds the seat. `null` on a contract that is not a candidate.
+	Incumbent     *bool                                        `json:"incumbent"`
+	LastSyncedAt  time.Time                                    `json:"lastSyncedAt"`
+	LastTradeDate optionalnullable.OptionalNullable[time.Time] `json:"lastTradeDate,omitempty"`
+	MinTradeQty   *string                                      `json:"minTradeQty,omitempty"`
+	Multiplier    *int64                                       `json:"multiplier,omitempty"`
+	NonTradable   bool                                         `json:"nonTradable"`
+	// The candidate's party from the venue: `D` Democratic, `R` Republican, `I` independent, `O` any other. `null` on a contract that is not a candidate.
+	Party *PredMdContractParty `json:"party"`
+	// The candidate's portrait, for an election contract that has one. `null` for every other contract.
+	Photo *PredMdContractPhoto `json:"photo"`
 	// Venue JSON payload (passthrough).
 	PriceLimit      any                                          `json:"priceLimit,omitempty"`
 	PriceScale      *string                                      `json:"priceScale,omitempty"`
@@ -46,7 +115,7 @@ func (p PredMdContract) MarshalJSON() ([]byte, error) {
 }
 
 func (p *PredMdContract) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &p, "", false, []string{"baseEventId", "eventId", "lastSyncedAt", "nonTradable", "state", "symbol", "symbolSubTypes", "tickSize", "tradable"}); err != nil {
+	if err := utils.UnmarshalJSON(data, &p, "", false, []string{"baseEventId", "candidateStatus", "eventId", "frontRunner", "incumbent", "lastSyncedAt", "nonTradable", "party", "photo", "state", "symbol", "symbolSubTypes", "tickSize", "tradable"}); err != nil {
 		return err
 	}
 	return nil
@@ -64,6 +133,13 @@ func (o *PredMdContract) GetBaseEventID() string {
 		return ""
 	}
 	return o.BaseEventID
+}
+
+func (o *PredMdContract) GetCandidateStatus() *string {
+	if o == nil {
+		return nil
+	}
+	return o.CandidateStatus
 }
 
 func (o *PredMdContract) GetDescription() *string {
@@ -92,6 +168,20 @@ func (o *PredMdContract) GetExpirationDate() optionalnullable.OptionalNullable[t
 		return nil
 	}
 	return o.ExpirationDate
+}
+
+func (o *PredMdContract) GetFrontRunner() *bool {
+	if o == nil {
+		return nil
+	}
+	return o.FrontRunner
+}
+
+func (o *PredMdContract) GetIncumbent() *bool {
+	if o == nil {
+		return nil
+	}
+	return o.Incumbent
 }
 
 func (o *PredMdContract) GetLastSyncedAt() time.Time {
@@ -127,6 +217,20 @@ func (o *PredMdContract) GetNonTradable() bool {
 		return false
 	}
 	return o.NonTradable
+}
+
+func (o *PredMdContract) GetParty() *PredMdContractParty {
+	if o == nil {
+		return nil
+	}
+	return o.Party
+}
+
+func (o *PredMdContract) GetPhoto() *PredMdContractPhoto {
+	if o == nil {
+		return nil
+	}
+	return o.Photo
 }
 
 func (o *PredMdContract) GetPriceLimit() any {

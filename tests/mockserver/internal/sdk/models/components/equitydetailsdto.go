@@ -40,8 +40,6 @@ type EquityDetailsDTO struct {
 	EPSLatest12Month *float64 `json:"EPSLatest12Month,omitempty"`
 	// Price-to-earnings ratio. Use it as a valuation metric, especially when comparing companies in the same industry.
 	Pe *float64 `json:"PE,omitempty"`
-	// Market breadth advancers (if present)
-	Advancers *int `json:"advancers,omitempty"`
 	// Annual yield, typically dividend yield when provided. Use it for income-oriented displays.
 	AnnualYield *float64 `json:"annualYield,omitempty"`
 	// Exchange or venue currently showing the best ask. Use it for quote detail or market-structure displays.
@@ -66,8 +64,6 @@ type EquityDetailsDTO struct {
 	ChangeStatus *string `json:"changeStatus,omitempty"`
 	// Previous or latest close price from the feed. Use it as the baseline for daily change calculations.
 	ClosePrice *float64 `json:"closePrice,omitempty"`
-	// Number of symbols declining in the related market-breadth snapshot.
-	Decliners *int `json:"decliners,omitempty"`
 	// Dividend amount when provided. Use it in income and yield displays.
 	Dividend *float64 `json:"dividend,omitempty"`
 	// Option expiration date. Present for option instruments and empty for normal equities.
@@ -102,20 +98,8 @@ type EquityDetailsDTO struct {
 	MidPrice *float64 `json:"midPrice,omitempty"`
 	// Company or instrument name
 	Name *string `json:"name,omitempty"`
-	// Reported Nasdaq buy-side volume. Use it only for advanced market-flow displays.
-	NasdaqBuyVolume *int64 `json:"nasdaqBuyVolume,omitempty"`
-	// Net buy versus sell flow for Nasdaq-listed activity when provided by the feed.
-	NasdaqNetInFlow *float64 `json:"nasdaqNetInFlow,omitempty"`
-	// Reported Nasdaq sell-side volume. Use it only for advanced market-flow displays.
-	NasdaqSellVolume *int64 `json:"nasdaqSellVolume,omitempty"`
 	// Price change versus the previous close. Use it for daily gain/loss displays.
 	NetChange *float64 `json:"netChange,omitempty"`
-	// Reported NYSE buy-side volume. Use it only for advanced market-flow displays.
-	NyseBuyVolume *int64 `json:"nyseBuyVolume,omitempty"`
-	// Net buy versus sell flow for NYSE-listed activity when provided by the feed.
-	NyseNetInflow *float64 `json:"nyseNetInflow,omitempty"`
-	// Reported NYSE sell-side volume. Use it only for advanced market-flow displays.
-	NyseSellVolume *int64 `json:"nyseSellVolume,omitempty"`
 	// Number of outstanding option contracts for this contract. Use it to gauge options liquidity.
 	OpenInterest *int64 `json:"openInterest,omitempty"`
 	// Price at the start of the current trading session. Use it to compare where the stock opened versus where it trades now.
@@ -148,8 +132,6 @@ type EquityDetailsDTO struct {
 	Symbol *string `json:"symbol,omitempty"`
 	// Feed tick direction or tick value when provided. Use it only when your UI needs trade direction indicators.
 	Tick *int64 `json:"tick,omitempty"`
-	// Total symbols counted in the market-breadth snapshot.
-	TotalSymbols *int `json:"totalSymbols,omitempty"`
 	// Total shares or contracts traded during the current session. Use it to show liquidity and activity.
 	TotalVolume *int64 `json:"totalVolume,omitempty"`
 	// Exchange or venue where the last trade was reported. Use it for advanced quote detail displays.
@@ -160,8 +142,6 @@ type EquityDetailsDTO struct {
 	TradeTimestamp *time.Time `json:"tradeTimestamp,omitempty"`
 	// Provider-supplied market data type for this snapshot. Treat this as a feed classification string rather than an order type.
 	Type *string `json:"type,omitempty"`
-	// Number of symbols unchanged in the related market-breadth snapshot.
-	Unchanged *int `json:"unchanged,omitempty"`
 	// Underlying symbol (options)
 	UnderlyingSymbol *string `json:"underlyingSymbol,omitempty"`
 	// Closing price at the prior year end when available. Use it for year-to-date comparisons.
@@ -234,13 +214,6 @@ func (o *EquityDetailsDTO) GetPe() *float64 {
 		return nil
 	}
 	return o.Pe
-}
-
-func (o *EquityDetailsDTO) GetAdvancers() *int {
-	if o == nil {
-		return nil
-	}
-	return o.Advancers
 }
 
 func (o *EquityDetailsDTO) GetAnnualYield() *float64 {
@@ -325,13 +298,6 @@ func (o *EquityDetailsDTO) GetClosePrice() *float64 {
 		return nil
 	}
 	return o.ClosePrice
-}
-
-func (o *EquityDetailsDTO) GetDecliners() *int {
-	if o == nil {
-		return nil
-	}
-	return o.Decliners
 }
 
 func (o *EquityDetailsDTO) GetDividend() *float64 {
@@ -453,53 +419,11 @@ func (o *EquityDetailsDTO) GetName() *string {
 	return o.Name
 }
 
-func (o *EquityDetailsDTO) GetNasdaqBuyVolume() *int64 {
-	if o == nil {
-		return nil
-	}
-	return o.NasdaqBuyVolume
-}
-
-func (o *EquityDetailsDTO) GetNasdaqNetInFlow() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.NasdaqNetInFlow
-}
-
-func (o *EquityDetailsDTO) GetNasdaqSellVolume() *int64 {
-	if o == nil {
-		return nil
-	}
-	return o.NasdaqSellVolume
-}
-
 func (o *EquityDetailsDTO) GetNetChange() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.NetChange
-}
-
-func (o *EquityDetailsDTO) GetNyseBuyVolume() *int64 {
-	if o == nil {
-		return nil
-	}
-	return o.NyseBuyVolume
-}
-
-func (o *EquityDetailsDTO) GetNyseNetInflow() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.NyseNetInflow
-}
-
-func (o *EquityDetailsDTO) GetNyseSellVolume() *int64 {
-	if o == nil {
-		return nil
-	}
-	return o.NyseSellVolume
 }
 
 func (o *EquityDetailsDTO) GetOpenInterest() *int64 {
@@ -607,13 +531,6 @@ func (o *EquityDetailsDTO) GetTick() *int64 {
 	return o.Tick
 }
 
-func (o *EquityDetailsDTO) GetTotalSymbols() *int {
-	if o == nil {
-		return nil
-	}
-	return o.TotalSymbols
-}
-
 func (o *EquityDetailsDTO) GetTotalVolume() *int64 {
 	if o == nil {
 		return nil
@@ -647,13 +564,6 @@ func (o *EquityDetailsDTO) GetType() *string {
 		return nil
 	}
 	return o.Type
-}
-
-func (o *EquityDetailsDTO) GetUnchanged() *int {
-	if o == nil {
-		return nil
-	}
-	return o.Unchanged
 }
 
 func (o *EquityDetailsDTO) GetUnderlyingSymbol() *string {

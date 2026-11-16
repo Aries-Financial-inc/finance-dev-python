@@ -109,43 +109,6 @@ def test_company_get_company_metrics_default():
         )
 
 
-def test_company_get_company_peers_default():
-    test_http_client = create_test_http_client("getCompanyPeers-default")
-
-    with FinanceDev(
-        server_url=os.getenv("TEST_SERVER_URL", "http://localhost:18080"),
-        client=test_http_client,
-        security=models.Security(
-            client_id="<YOUR_CLIENT_ID_HERE>",
-            client_secret="<YOUR_CLIENT_SECRET_HERE>",
-            token_url="/_mockserver/oauth2/token",
-        ),
-    ) as fd_client:
-        assert fd_client is not None
-
-        res = fd_client.company.get_peers(symbol="AAPL")
-        assert res.http_meta is not None
-        assert res.http_meta.response is not None
-        assert res.http_meta.response.status_code == 200
-        assert res.company_peers_response is not None
-        assert res.company_peers_response == models.CompanyPeersResponse(
-            peers=[
-                "AAPL",
-                "DELL",
-                "WDC",
-                "SNDK",
-                "HPE",
-                "PSTG",
-                "HPQ",
-                "NTAP",
-                "SMCI",
-                "IONQ",
-                "QUBT",
-                "CMPO",
-            ],
-        )
-
-
 def test_company_get_company_profile_default():
     test_http_client = create_test_http_client("getCompanyProfile-default")
 

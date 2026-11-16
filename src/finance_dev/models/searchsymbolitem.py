@@ -2,19 +2,12 @@
 # @generated-id: 930408cb76d8
 
 from __future__ import annotations
-from enum import Enum
-from finance_dev import models, utils
+from .instrumenttype import InstrumentType
+from finance_dev import models
 from finance_dev.types import BaseModel, UNSET_SENTINEL
 from pydantic import field_serializer, model_serializer
 from typing import Optional
 from typing_extensions import NotRequired, TypedDict
-
-
-class SearchSymbolItemType(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Instrument class returned by symbol search."""
-
-    STOCK = "stock"
-    OPTION = "option"
 
 
 class SearchSymbolItemTypedDict(TypedDict):
@@ -28,7 +21,7 @@ class SearchSymbolItemTypedDict(TypedDict):
     r"""Symbol identifier"""
     ticker: NotRequired[str]
     r"""Symbol ticker"""
-    type: NotRequired[SearchSymbolItemType]
+    type: NotRequired[InstrumentType]
     r"""Instrument class returned by symbol search."""
 
 
@@ -47,14 +40,14 @@ class SearchSymbolItem(BaseModel):
     ticker: Optional[str] = None
     r"""Symbol ticker"""
 
-    type: Optional[SearchSymbolItemType] = None
+    type: Optional[InstrumentType] = None
     r"""Instrument class returned by symbol search."""
 
     @field_serializer("type")
     def serialize_type(self, value):
         if isinstance(value, str):
             try:
-                return models.SearchSymbolItemType(value)
+                return models.InstrumentType(value)
             except ValueError:
                 return value
         return value

@@ -24,9 +24,9 @@ class GetConferenceCallsRequestTypedDict(TypedDict):
     tickers: NotRequired[str]
     r"""Comma-separated list of ticker symbols (max 50)"""
     page: NotRequired[int]
-    r"""Page number for pagination (0-indexed, max 100000)"""
+    r"""Zero-based page number (default: 0). page × pageSize must be less than 100,000; otherwise the API returns HTTP 400 with error code PAGINATION_LIMIT_EXCEEDED. To retrieve larger histories, narrow dateFrom and dateTo and restart at page 0 for each date window."""
     page_size: NotRequired[int]
-    r"""Number of results per page. Use this to control pagination size in list views. Enter a value from 1 to 1000 depending on how much data your UI can display."""
+    r"""Number of results per page (default: 100, maximum: 1000). page × pageSize must be less than 100,000."""
 
 
 class GetConferenceCallsRequest(BaseModel):
@@ -53,15 +53,15 @@ class GetConferenceCallsRequest(BaseModel):
     page: Annotated[
         Optional[int],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = None
-    r"""Page number for pagination (0-indexed, max 100000)"""
+    ] = 0
+    r"""Zero-based page number (default: 0). page × pageSize must be less than 100,000; otherwise the API returns HTTP 400 with error code PAGINATION_LIMIT_EXCEEDED. To retrieve larger histories, narrow dateFrom and dateTo and restart at page 0 for each date window."""
 
     page_size: Annotated[
         Optional[int],
         pydantic.Field(alias="pageSize"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = None
-    r"""Number of results per page. Use this to control pagination size in list views. Enter a value from 1 to 1000 depending on how much data your UI can display."""
+    ] = 100
+    r"""Number of results per page (default: 100, maximum: 1000). page × pageSize must be less than 100,000."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

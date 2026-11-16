@@ -12,10 +12,10 @@ import (
 type GetRatingsRequest struct {
 	// Comma-separated list of ticker symbols to filter by
 	Tickers *string `queryParam:"style=form,explode=true,name=tickers"`
-	// Page number for pagination (0-based)
-	Page *int64 `queryParam:"style=form,explode=true,name=page"`
-	// Number of results per page. Use this to control pagination size in list views.
-	PageSize *int64 `queryParam:"style=form,explode=true,name=pageSize"`
+	// Zero-based page number (default: 0). page × pageSize must be less than 100,000; otherwise the API returns HTTP 400 with error code PAGINATION_LIMIT_EXCEEDED. To retrieve larger histories, narrow dateFrom and dateTo and restart at page 0 for each date window.
+	Page *int64 `default:"0" queryParam:"style=form,explode=true,name=page"`
+	// Number of results per page (default: 100, maximum: 1000). page × pageSize must be less than 100,000.
+	PageSize *int64 `default:"100" queryParam:"style=form,explode=true,name=pageSize"`
 	// Filter by specific date (YYYY-MM-DD)
 	Date *types.Date `queryParam:"style=form,explode=true,name=date"`
 	// Start date for date range (YYYY-MM-DD)
