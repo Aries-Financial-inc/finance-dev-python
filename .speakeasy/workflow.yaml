@@ -20,7 +20,7 @@ targets:
         source: aries-prod-spec
         publish:
             pypi:
-                token: $pypi_token
+                useTrustedPublishing: true
         codeSamples:
             registry:
                 location: registry.speakeasyapi.dev/aries/aries/aries-prod-spec-python-code-samples

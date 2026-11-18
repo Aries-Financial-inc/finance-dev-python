@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
 uv build
-uv publish --token $PYPI_TOKEN
+uv publish --trusted-publishing always
